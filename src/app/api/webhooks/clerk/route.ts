@@ -59,7 +59,9 @@ function getPrimaryEmailVerified(data: ClerkUserEventData): boolean {
     );
     if (primary) return primary.verification?.status === "verified";
   }
-  return (data.email_addresses[0]?.verification?.status === "verified") || false;
+  return (
+    data.email_addresses[0]?.verification?.status === "verified" || false
+  );
 }
 
 function getPrimaryPhone(data: ClerkUserEventData): string | null {
@@ -81,6 +83,18 @@ function parseRole(metadata: Record<string, unknown>): UserRole {
     return role as UserRole;
   }
   return UserRole.CUSTOMER;
+}
+
+function buildUserData(data: ClerkUserEventData) {
+  return {
+    firstName: data.first_name ?? "",
+    lastName: data.last_name ?? "",
+    email: getPrimaryEmail(data),
+    phone: getPrimaryPhone(data),
+    profilePhotoUrl: data.image_url,
+    isEmailVerified: getPrimaryEmailVerified(data),
+    role: parseRole(data.public_metadata),
+  };
 }
 
 export async function POST(req: NextRequest) {
@@ -129,43 +143,21 @@ export async function POST(req: NextRequest) {
 
   try {
     switch (event.type) {
-      case "user.created": {
-        const data = event.data;
-
-        await db.user.create({
-          data: {
-            clerkId: data.id,
-            firstName: data.first_name ?? "",
-            lastName: data.last_name ?? "",
-            email: getPrimaryEmail(data),
-            phone: getPrimaryPhone(data),
-            profilePhotoUrl: data.image_url,
-            isEmailVerified: getPrimaryEmailVerified(data),
-            role: parseRole(data.public_metadata),
-          },
-        });
-
-        console.log(`User created: ${data.id}`);
-        break;
-      }
-
+      case "user.created":
       case "user.updated": {
         const data = event.data;
+        const userData = buildUserData(data);
 
-        await db.user.update({
+        // Use upsert for idempotency and out-of-order delivery safety
+        await db.user.upsert({
           where: { clerkId: data.id },
-          data: {
-            firstName: data.first_name ?? "",
-            lastName: data.last_name ?? "",
-            email: getPrimaryEmail(data),
-            phone: getPrimaryPhone(data),
-            profilePhotoUrl: data.image_url,
-            isEmailVerified: getPrimaryEmailVerified(data),
-            role: parseRole(data.public_metadata),
+          create: {
+            clerkId: data.id,
+            ...userData,
           },
+          update: userData,
         });
 
-        console.log(`User updated: ${data.id}`);
         break;
       }
 
@@ -173,39 +165,46 @@ export async function POST(req: NextRequest) {
         const data = event.data;
 
         // Soft-delete: preserve booking history by only deactivating
-        await db.user.update({
-          where: { clerkId: data.id },
-          data: { isActive: false },
-        });
+        try {
+          await db.user.update({
+            where: { clerkId: data.id },
+            data: { isActive: false },
+          });
+        } catch (err: unknown) {
+          // User might not exist yet — that's fine for a delete event
+          const prismaErr = err as { code?: string };
+          if (prismaErr.code === "P2025") {
+            break;
+          }
+          throw err;
+        }
 
-        console.log(`User soft-deleted: ${data.id}`);
         break;
       }
 
       case "session.created": {
         const data = event.data;
 
-        const user = await db.user.update({
-          where: { clerkId: data.user_id },
-          data: { lastLoginAt: new Date() },
-          select: { id: true, pendingReviewIntercept: true },
-        });
-
-        if (user.pendingReviewIntercept) {
-          console.log(
-            `User ${data.user_id} has pending review intercept on login`
-          );
-          // The pendingReviewIntercept flag remains true so the client
-          // can detect it and show the review prompt on next page load.
+        try {
+          await db.user.update({
+            where: { clerkId: data.user_id },
+            data: { lastLoginAt: new Date() },
+          });
+        } catch (err: unknown) {
+          // User might not exist yet if user.created hasn't been processed
+          const prismaErr = err as { code?: string };
+          if (prismaErr.code === "P2025") {
+            break;
+          }
+          throw err;
         }
 
-        console.log(`Session created for user: ${data.user_id}`);
         break;
       }
 
       default: {
         // Unhandled event type — acknowledge receipt
-        console.log(`Unhandled webhook event type: ${(event as { type: string }).type}`);
+        break;
       }
     }
 

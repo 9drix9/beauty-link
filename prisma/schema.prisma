@@ -268,6 +268,7 @@ model ProfessionalProfile {
   taxInfo      TaxInfo?
   savedBy      SavedProfessional[]
 
+  @@index([applicationStatus])
   @@map("professional_profiles")
 }
 
@@ -378,6 +379,9 @@ model Booking {
   @@index([customerId])
   @@index([professionalId])
   @@index([status])
+  @@index([appointmentListingId])
+  @@index([stripePaymentIntentId])
+  @@index([appointmentDate])
   @@map("bookings")
 }
 
@@ -601,5 +605,6 @@ model SlotHold {
   appointmentListing AppointmentListing @relation(fields: [appointmentListingId], references: [id])
   user               User               @relation(fields: [userId], references: [id])
 
+  @@index([expiresAt])
   @@map("slot_holds")
 }

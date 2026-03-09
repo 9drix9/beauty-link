@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
 import { CANCELLATION_WINDOW_HOURS } from "@/lib/constants";
+import Stripe from "stripe";
+
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY)
+  : null;
 
 export async function GET(
   _req: NextRequest,
@@ -63,8 +68,9 @@ export async function GET(
 
     const isCustomer = booking.customerId === user.id;
     const isPro = userProfile?.id === booking.professionalId;
+    const isAdmin = user.role === "ADMIN";
 
-    if (!isCustomer && !isPro) {
+    if (!isCustomer && !isPro && !isAdmin) {
       return NextResponse.json(
         { error: "Booking not found" },
         { status: 404 }
@@ -152,6 +158,23 @@ export async function PATCH(
       );
     }
 
+    // ── Issue Stripe refund ──
+    let refundId: string | null = null;
+    if (stripe && booking.stripePaymentIntentId) {
+      try {
+        const refund = await stripe.refunds.create({
+          payment_intent: booking.stripePaymentIntentId,
+        });
+        refundId = refund.id;
+      } catch (refundError) {
+        console.error("Stripe refund failed:", refundError);
+        return NextResponse.json(
+          { error: "Failed to process refund. Please contact support." },
+          { status: 500 }
+        );
+      }
+    }
+
     // Cancel the booking and update listing in a transaction
     const updatedBooking = await db.$transaction(async (tx) => {
       const cancelled = await tx.booking.update({
@@ -160,6 +183,8 @@ export async function PATCH(
           status: "CANCELLED_BY_CUSTOMER",
           cancellationReason: reason || null,
           cancelledAt: new Date(),
+          refundAmount: booking.totalCharged,
+          refundStripeId: refundId,
         },
       });
 
@@ -181,7 +206,7 @@ export async function PATCH(
           type: "BOOKING_CANCELLED_BY_CUSTOMER",
           title: "Booking Cancelled",
           body: `${user.firstName} ${user.lastName} cancelled their ${booking.serviceName} booking (${booking.bookingReference}).`,
-          link: `/pro/bookings/${booking.id}`,
+          link: `/pro/appointments`,
         },
       });
 

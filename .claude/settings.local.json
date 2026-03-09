@@ -22,7 +22,12 @@
       "Bash(npx tsc:*)",
       "Bash(npx next:*)",
       "Bash(wc:*)",
-      "Bash(npx vercel:*)"
+      "Bash(npx vercel:*)",
+      "Bash(DATABASE_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:6543/postgres?sslmode=require&supa=base-pooler.x\" npx prisma:*)",
+      "Bash(DATABASE_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require\" npx prisma:*)",
+      "Bash(npm i:*)",
+      "Bash(sudo npm:*)",
+      "Bash(DATABASE_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require\" DIRECT_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require\" npx prisma:*)"
     ]
   }
 }

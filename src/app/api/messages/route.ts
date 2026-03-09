@@ -24,6 +24,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Prevent self-messaging
+    if (recipientId === user.id) {
+      return NextResponse.json(
+        { error: "Cannot send a message to yourself" },
+        { status: 400 }
+      );
+    }
+
+    // Limit message length
+    const sanitizedBody = messageBody.trim().substring(0, 2000);
+
     // Verify recipient exists
     const recipient = await db.user.findUnique({
       where: { id: recipientId },
@@ -74,13 +85,13 @@ export async function POST(req: NextRequest) {
           senderId: user.id,
           recipientId,
           bookingId: bookingId || null,
-          body: messageBody.trim(),
+          body: sanitizedBody,
         },
       }),
       db.messageThread.update({
         where: { id: thread.id },
         data: {
-          lastMessagePreview: messageBody.trim().substring(0, 100),
+          lastMessagePreview: sanitizedBody.substring(0, 100),
           lastMessageAt: new Date(),
           ...(recipientIsP1
             ? { unreadCountP1: { increment: 1 } }

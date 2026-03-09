@@ -4,6 +4,7 @@ import { db } from "@/lib/db";
 import { reviewSchema } from "@/lib/validators";
 
 export async function POST(request: Request) {
+  try {
   const { userId: clerkId } = auth();
   if (!clerkId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -106,6 +107,13 @@ export async function POST(request: Request) {
   });
 
   return NextResponse.json(review, { status: 201 });
+  } catch (error) {
+    console.error("Error creating review:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function GET(request: NextRequest) {

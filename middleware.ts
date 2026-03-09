@@ -3,30 +3,41 @@ import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
   // Public routes that don't require authentication
   publicRoutes: [
+    // Marketing pages
     "/",
     "/browse",
     "/category/(.*)",
     "/appointment/(.*)",
-    "/pro/(.*)", // pro/join and pro/apply are public; pro/(dashboard) protected via layout
     "/how-it-works",
     "/faq",
     "/contact",
     "/terms",
     "/privacy",
+
+    // Pro public pages (join + apply only)
+    "/pro/join",
+    "/pro/apply",
+
+    // Auth pages
     "/login",
     "/signup",
     "/forgot-password",
     "/reset-password",
     "/verify-email",
-    "/api/webhooks/(.*)",
+
+    // Public API endpoints (read-only)
     "/api/appointments",
     "/api/appointments/(.*)",
-    "/api/providers/(.*)",
+    "/api/reviews",
+
+    // Webhooks (verified by their own signature checks)
+    "/api/webhooks/(.*)",
   ],
-  
-  // Routes that can be accessed by both logged in and logged out users
+
+  // Routes completely ignored by Clerk (no auth context injected)
   ignoredRoutes: [
     "/api/webhooks/stripe",
+    "/api/webhooks/clerk",
   ],
 });
 

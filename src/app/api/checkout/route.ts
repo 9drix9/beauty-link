@@ -32,7 +32,7 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { listingId } = body;
 
-    if (!listingId) {
+    if (!listingId || typeof listingId !== "string") {
       return NextResponse.json(
         { error: "listingId is required" },
         { status: 400 }
@@ -64,47 +64,63 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check for existing active SlotHold by another user
-    const existingHold = await db.slotHold.findUnique({
-      where: { appointmentListingId: listingId },
-    });
-
-    const now = new Date();
-
-    if (existingHold && existingHold.userId !== user.id && existingHold.expiresAt > now) {
+    // Check that the appointment is in the future
+    const [hours, minutes] = listing.appointmentTime.split(":").map(Number);
+    const apptDateTime = new Date(listing.appointmentDate);
+    apptDateTime.setHours(hours, minutes, 0, 0);
+    if (apptDateTime.getTime() < Date.now()) {
       return NextResponse.json(
-        { error: "This slot is temporarily held by another user. Please try again shortly." },
+        { error: "This appointment has already started" },
         { status: 409 }
       );
     }
 
-    // Create or update the SlotHold
-    const holdExpiresAt = new Date(now.getTime() + SLOT_HOLD_MINUTES * 60 * 1000);
+    // ── Atomic slot hold using a transaction ──
+    const now = new Date();
+    const holdExpiresAt = new Date(
+      now.getTime() + SLOT_HOLD_MINUTES * 60 * 1000
+    );
 
-    if (existingHold && existingHold.userId === user.id) {
-      // Extend existing hold
-      await db.slotHold.update({
-        where: { id: existingHold.id },
-        data: { expiresAt: holdExpiresAt },
+    const holdResult = await db.$transaction(async (tx) => {
+      const existingHold = await tx.slotHold.findUnique({
+        where: { appointmentListingId: listingId },
       });
-    } else if (existingHold) {
-      // Expired hold by another user — replace it
-      await db.slotHold.update({
-        where: { id: existingHold.id },
-        data: {
-          userId: user.id,
-          expiresAt: holdExpiresAt,
+
+      if (existingHold) {
+        // If held by another user and not expired, reject
+        if (
+          existingHold.userId !== user.id &&
+          existingHold.expiresAt > now
+        ) {
+          return { held: false as const };
+        }
+
+        // Replace expired hold or extend own hold
+        await tx.slotHold.update({
+          where: { id: existingHold.id },
+          data: { userId: user.id, expiresAt: holdExpiresAt },
+        });
+      } else {
+        await tx.slotHold.create({
+          data: {
+            appointmentListingId: listingId,
+            userId: user.id,
+            expiresAt: holdExpiresAt,
+          },
+        });
+      }
+
+      return { held: true as const };
+    });
+
+    if (!holdResult.held) {
+      return NextResponse.json(
+        {
+          error:
+            "This slot is temporarily held by another user. Please try again shortly.",
         },
-      });
-    } else {
-      // No existing hold — create new
-      await db.slotHold.create({
-        data: {
-          appointmentListingId: listingId,
-          userId: user.id,
-          expiresAt: holdExpiresAt,
-        },
-      });
+        { status: 409 }
+      );
     }
 
     // Calculate pricing

@@ -1,8 +1,9 @@
 import { z } from "zod";
+import { ServiceCategory } from "@prisma/client";
 
 export const createListingSchema = z
   .object({
-    serviceCategory: z.string(),
+    serviceCategory: z.nativeEnum(ServiceCategory),
     subCategory: z.string().optional(),
     title: z.string().min(5).max(100),
     description: z.string().min(20).max(1000),
@@ -24,6 +25,18 @@ export const createListingSchema = z
       message:
         "BeautyLink listings must be discounted at least 15% from your normal price.",
       path: ["discountedPriceCents"],
+    }
+  )
+  .refine(
+    (data) => {
+      const apptDate = new Date(data.appointmentDate + "T00:00:00");
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return apptDate >= today;
+    },
+    {
+      message: "Appointment date must be today or in the future.",
+      path: ["appointmentDate"],
     }
   );
 
