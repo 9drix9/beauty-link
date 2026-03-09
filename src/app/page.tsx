@@ -81,13 +81,17 @@ export default function HomePage() {
 
         <div className="relative mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 pt-12 pb-16 sm:pt-20 sm:pb-24 lg:pt-28 lg:pb-32">
           <div className="text-center max-w-3xl mx-auto">
+            <Badge variant="pink" className="mb-4 sm:mb-5">
+              <MapPin className="h-3 w-3 mr-1" />
+              Available in the Greater Los Angeles Area
+            </Badge>
             <h1 className="text-4xl sm:text-5xl lg:text-[64px] font-bold tracking-tight text-gray-900 leading-[1.08]">
               Book local beauty services,{" "}
               <span className="text-gradient">for less</span>
             </h1>
             <p className="mt-5 text-base sm:text-lg lg:text-xl text-gray-500 max-w-xl mx-auto">
               Discover discounted, last-minute appointments from verified beauty
-              professionals near you.
+              professionals across Los Angeles.
             </p>
 
             {/* Search bar */}
@@ -106,7 +110,7 @@ export default function HomePage() {
                   <MapPin className="h-4 w-4 text-gray-400 flex-shrink-0" />
                   <input
                     type="text"
-                    placeholder="West Los Angeles"
+                    placeholder="Greater Los Angeles"
                     className="w-full bg-transparent text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none"
                   />
                 </div>

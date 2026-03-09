@@ -19,6 +19,9 @@ export const LAUNCH_ZONES = [
   "UCLA / Westwood",
   "LMU / Westchester",
   "West Los Angeles",
+  "Santa Monica",
+  "Beverly Hills",
+  "Hollywood",
 ] as const;
 
 export const DEFAULT_TAKE_RATE = 0.15; // 15%

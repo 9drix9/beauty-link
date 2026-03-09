@@ -123,7 +123,7 @@ export default function AppointmentsPage() {
             Open appointments
           </h1>
           <p className="text-gray-400 mt-1.5 text-[15px]">
-            Discounted beauty slots from verified professionals in West LA
+            Discounted beauty slots from verified professionals across Greater Los Angeles
           </p>
         </div>
 
