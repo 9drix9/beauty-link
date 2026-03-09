@@ -5,11 +5,9 @@ import { useRouter } from "next/navigation";
 import {
   Search,
   SlidersHorizontal,
-  Calendar,
   X,
+  ChevronDown,
 } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import {
   AppointmentCard,
   type AppointmentCardProps,
@@ -43,31 +41,24 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
   const [searchValue, setSearchValue] = useState(searchParams.search || "");
   const [debouncedSearch, setDebouncedSearch] = useState(searchValue);
 
-  // Debounce search input – only propagate after 300ms of inactivity
+  // Debounce search input
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDebouncedSearch(searchValue);
-    }, 300);
+    const timer = setTimeout(() => setDebouncedSearch(searchValue), 300);
     return () => clearTimeout(timer);
   }, [searchValue]);
 
   // Active filter state
-  const [activeCategory, setActiveCategory] = useState(
-    searchParams.category || ""
-  );
-  const [activeSort, setActiveSort] = useState(
-    searchParams.sort || "recommended"
-  );
+  const [activeCategory, setActiveCategory] = useState(searchParams.category || "");
+  const [activeSort, setActiveSort] = useState(searchParams.sort || "recommended");
   const [activeDate, setActiveDate] = useState(searchParams.date || "any");
   const [activeZone, setActiveZone] = useState(searchParams.zone || "");
 
-  // Build query string and update URL
+  // Build query string
   const buildQueryString = useCallback(() => {
     const params = new URLSearchParams();
     if (activeCategory) params.set("category", activeCategory);
     if (debouncedSearch) params.set("search", debouncedSearch);
-    if (activeSort && activeSort !== "recommended")
-      params.set("sort", activeSort);
+    if (activeSort && activeSort !== "recommended") params.set("sort", activeSort);
     if (activeDate && activeDate !== "any") params.set("date", activeDate);
     if (activeZone) params.set("zone", activeZone);
     return params.toString();
@@ -83,7 +74,6 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
       const data = await res.json();
       setListings(data.listings || data || []);
     } catch {
-      // API may not exist yet -- show empty state gracefully
       setListings([]);
     } finally {
       setLoading(false);
@@ -101,13 +91,11 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
     router.replace(newUrl, { scroll: false });
   }, [activeCategory, activeSort, activeDate, activeZone, buildQueryString, router]);
 
-  // Handle search submit
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     fetchListings();
   }
 
-  // Clear all filters
   function clearFilters() {
     setActiveCategory("");
     setActiveSort("recommended");
@@ -119,180 +107,212 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
   const hasActiveFilters =
     activeCategory || activeSort !== "recommended" || activeDate !== "any" || activeZone || debouncedSearch;
 
+  const activeFilterCount = [
+    activeCategory,
+    activeSort !== "recommended" ? activeSort : "",
+    activeDate !== "any" ? activeDate : "",
+    activeZone,
+  ].filter(Boolean).length;
+
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
-        {/* Page Header */}
-        <div>
-          <h1 className="text-h2 text-dark">Browse Appointments</h1>
-          <p className="text-muted mt-1">
-            Discover discounted beauty services from top professionals
-          </p>
+      {/* Sticky search + filter bar */}
+      <div className="sticky top-0 z-30 bg-white border-b border-border shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          {/* Search row */}
+          <form onSubmit={handleSearch} className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" aria-hidden="true" />
+              <input
+                type="text"
+                placeholder="Search services, professionals..."
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-4 text-sm text-dark placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-purple-primary focus:border-transparent transition"
+              />
+              {searchValue && (
+                <button
+                  type="button"
+                  onClick={() => setSearchValue("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-body"
+                  aria-label="Clear search"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+            <button
+              type="button"
+              onClick={() => setFiltersOpen(!filtersOpen)}
+              className={cn(
+                "relative flex items-center gap-1.5 h-11 px-4 rounded-lg border text-sm font-medium transition-colors",
+                filtersOpen
+                  ? "bg-purple-primary text-white border-purple-primary"
+                  : "bg-white text-body border-border hover:bg-gray-50"
+              )}
+            >
+              <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
+              <span className="hidden sm:inline">Filters</span>
+              {activeFilterCount > 0 && !filtersOpen && (
+                <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-orange-primary text-[10px] font-bold text-white">
+                  {activeFilterCount}
+                </span>
+              )}
+            </button>
+          </form>
+
+          {/* Category pills — always visible, horizontal scroll */}
+          <div className="mt-3 flex gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4">
+            <button
+              onClick={() => setActiveCategory("")}
+              aria-pressed={!activeCategory}
+              className={cn(
+                "shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+                !activeCategory
+                  ? "bg-dark text-white"
+                  : "bg-gray-100 text-body hover:bg-gray-200"
+              )}
+            >
+              All
+            </button>
+            {SERVICE_CATEGORIES.filter(c => c.value !== "OTHER").map((cat) => (
+              <button
+                key={cat.value}
+                onClick={() => setActiveCategory(activeCategory === cat.value ? "" : cat.value)}
+                aria-pressed={activeCategory === cat.value}
+                className={cn(
+                  "shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
+                  activeCategory === cat.value
+                    ? "bg-dark text-white"
+                    : "bg-gray-100 text-body hover:bg-gray-200"
+                )}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Search Bar + Filter Toggle */}
-        <form onSubmit={handleSearch} className="flex gap-3">
-          <div className="flex-1">
-            <Input
-              placeholder="Search services, professionals..."
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-              startIcon={<Search className="h-4 w-4" aria-hidden="true" />}
-              inputSize="lg"
-            />
-          </div>
-          <Button
-            type="button"
-            variant={filtersOpen ? "primary" : "outline"}
-            size="lg"
-            onClick={() => setFiltersOpen(!filtersOpen)}
-            className="gap-2"
-          >
-            <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden md:inline">Filters</span>
-          </Button>
-        </form>
-
-        {/* Collapsible Filter Bar */}
+        {/* Expanded filter panel */}
         {filtersOpen && (
-          <div className="space-y-4 p-4 bg-white rounded-lg border border-border animate-fade-in">
-            {/* Category Pills */}
-            <div>
-              <p className="text-sm font-medium text-body mb-2">Category</p>
-              <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
-                <button
-                  onClick={() => setActiveCategory("")}
-                  aria-pressed={!activeCategory}
-                  className={cn(
-                    "shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                    !activeCategory
-                      ? "bg-purple-primary text-white"
-                      : "bg-gray-100 text-body hover:bg-gray-200"
-                  )}
-                >
-                  All
-                </button>
-                {SERVICE_CATEGORIES.map((cat) => (
-                  <button
-                    key={cat.value}
-                    onClick={() =>
-                      setActiveCategory(
-                        activeCategory === cat.value ? "" : cat.value
-                      )
-                    }
-                    aria-pressed={activeCategory === cat.value}
-                    className={cn(
-                      "shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
-                      activeCategory === cat.value
-                        ? "bg-purple-primary text-white"
-                        : "bg-gray-100 text-body hover:bg-gray-200"
-                    )}
-                  >
-                    {cat.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="border-t border-border bg-white animate-fade-in">
+            <div className="max-w-7xl mx-auto px-4 py-4">
+              <div className="flex flex-wrap gap-6">
+                {/* Date filter */}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-2">When</p>
+                  <div className="flex gap-1.5">
+                    {DATE_FILTERS.map((df) => (
+                      <button
+                        key={df.value}
+                        onClick={() => setActiveDate(df.value)}
+                        aria-pressed={activeDate === df.value}
+                        className={cn(
+                          "rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
+                          activeDate === df.value
+                            ? "bg-purple-primary text-white"
+                            : "bg-gray-100 text-body hover:bg-gray-200"
+                        )}
+                      >
+                        {df.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-            {/* Sort + Date + Zone Row */}
-            <div className="flex flex-wrap gap-4">
-              {/* Sort */}
-              <div>
-                <p className="text-sm font-medium text-body mb-2">Sort By</p>
-                <select
-                  value={activeSort}
-                  onChange={(e) => setActiveSort(e.target.value)}
-                  className="h-10 rounded-md border border-border bg-white px-3 text-sm text-body focus:outline-none focus:ring-2 focus:ring-purple-primary"
-                >
-                  {SORT_OPTIONS.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Date Filter */}
-              <div>
-                <p className="text-sm font-medium text-body mb-2">Date</p>
-                <div className="flex gap-2">
-                  {DATE_FILTERS.map((df) => (
-                    <button
-                      key={df.value}
-                      onClick={() => setActiveDate(df.value)}
-                      aria-pressed={activeDate === df.value}
-                      className={cn(
-                        "rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
-                        activeDate === df.value
-                          ? "bg-purple-primary text-white"
-                          : "bg-gray-100 text-body hover:bg-gray-200"
-                      )}
+                {/* Sort */}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-2">Sort by</p>
+                  <div className="relative">
+                    <select
+                      value={activeSort}
+                      onChange={(e) => setActiveSort(e.target.value)}
+                      className="appearance-none h-9 rounded-lg border border-border bg-white pl-3 pr-8 text-sm text-body focus:outline-none focus:ring-2 focus:ring-purple-primary cursor-pointer"
                     >
-                      {df.label}
-                    </button>
-                  ))}
+                      {SORT_OPTIONS.map((opt) => (
+                        <option key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted pointer-events-none" aria-hidden="true" />
+                  </div>
+                </div>
+
+                {/* Zone */}
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-2">Area</p>
+                  <div className="relative">
+                    <select
+                      value={activeZone}
+                      onChange={(e) => setActiveZone(e.target.value)}
+                      className="appearance-none h-9 rounded-lg border border-border bg-white pl-3 pr-8 text-sm text-body focus:outline-none focus:ring-2 focus:ring-purple-primary cursor-pointer"
+                    >
+                      <option value="">All areas</option>
+                      {LAUNCH_ZONES.map((zone) => (
+                        <option key={zone} value={zone}>{zone}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-muted pointer-events-none" aria-hidden="true" />
+                  </div>
                 </div>
               </div>
 
-              {/* Zone Filter */}
-              <div>
-                <p className="text-sm font-medium text-body mb-2">Zone</p>
-                <select
-                  value={activeZone}
-                  onChange={(e) => setActiveZone(e.target.value)}
-                  className="h-10 rounded-md border border-border bg-white px-3 text-sm text-body focus:outline-none focus:ring-2 focus:ring-purple-primary"
+              {/* Clear */}
+              {hasActiveFilters && (
+                <button
+                  onClick={clearFilters}
+                  className="mt-4 flex items-center gap-1 text-sm font-medium text-purple-primary hover:underline"
                 >
-                  <option value="">All Zones</option>
-                  {LAUNCH_ZONES.map((zone) => (
-                    <option key={zone} value={zone}>
-                      {zone}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                  <X className="h-3.5 w-3.5" aria-hidden="true" />
+                  Clear all filters
+                </button>
+              )}
             </div>
+          </div>
+        )}
+      </div>
 
-            {/* Clear Filters */}
+      {/* Results */}
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        {/* Results header */}
+        {!loading && (
+          <div className="flex items-center justify-between mb-5">
+            <p className="text-sm text-muted">
+              <span className="font-semibold text-dark">{listings.length}</span>{" "}
+              {listings.length === 1 ? "deal" : "deals"} available
+            </p>
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="flex items-center gap-1 text-sm text-purple-primary hover:underline"
+                className="text-sm font-medium text-purple-primary hover:underline"
               >
-                <X className="h-3.5 w-3.5" aria-hidden="true" />
-                Clear all filters
+                Reset
               </button>
             )}
           </div>
         )}
 
-        {/* Results Count */}
-        {!loading && (
-          <p className="text-sm text-muted">
-            {listings.length} appointment{listings.length !== 1 ? "s" : ""}{" "}
-            available
-          </p>
-        )}
-
-        {/* Results Grid */}
+        {/* Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Array.from({ length: 6 }).map((_, i) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {Array.from({ length: 9 }).map((_, i) => (
               <SkeletonCard key={i} />
             ))}
           </div>
         ) : listings.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {listings.map((listing) => (
               <AppointmentCard key={listing.id} {...listing} />
             ))}
           </div>
         ) : (
           <EmptyState
-            icon={Calendar}
-            title="No appointments found"
-            description="Try adjusting your filters or search terms to find available appointments."
+            icon={Search}
+            title="No deals found"
+            description="Try adjusting your filters or check back later — new appointments are added daily."
             action={{
-              label: "Browse All",
+              label: "Clear filters",
               href: "/browse",
             }}
           />

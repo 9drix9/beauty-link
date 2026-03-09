@@ -1,161 +1,203 @@
 import Link from "next/link";
-import { Scissors, Paintbrush, Sparkles, Eye, Droplets, PenTool, ChevronRight } from "lucide-react";
+import {
+  Scissors,
+  Paintbrush,
+  Sparkles,
+  Eye,
+  Droplets,
+  PenTool,
+  ArrowRight,
+  Shield,
+  Clock,
+  Percent,
+  MapPin,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { HeroSearch } from "@/components/shared/hero-search";
+import { LiveFeedPreview } from "@/components/shared/live-feed-preview";
 
 export const metadata = {
-  title: "BeautyLink — Book Beauty & Wellness Near You",
+  title: "BeautyLink — Discounted Beauty Appointments Near You",
+  description:
+    "Save 15–50% on last-minute beauty appointments from licensed professionals in Greater Los Angeles. Hair, nails, lashes, makeup, skincare — book instantly.",
 };
 
 const categories = [
-  { label: "Hair", value: "hair", icon: Scissors, bg: "bg-purple-light" },
-  { label: "Nails", value: "nails", icon: Paintbrush, bg: "bg-orange-light" },
-  { label: "Makeup", value: "makeup", icon: Sparkles, bg: "bg-pink-50" },
-  { label: "Lashes", value: "lashes", icon: Eye, bg: "bg-blue-50" },
-  { label: "Brows", value: "brows", icon: PenTool, bg: "bg-amber-50" },
-  { label: "Skincare", value: "skincare", icon: Droplets, bg: "bg-green-50" },
+  { label: "Hair", value: "hair", icon: Scissors, color: "text-purple-primary", bg: "bg-purple-light" },
+  { label: "Nails", value: "nails", icon: Paintbrush, color: "text-orange-primary", bg: "bg-orange-light" },
+  { label: "Makeup", value: "makeup", icon: Sparkles, color: "text-pink-600", bg: "bg-pink-50" },
+  { label: "Lashes", value: "lashes", icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
+  { label: "Brows", value: "brows", icon: PenTool, color: "text-amber-600", bg: "bg-amber-50" },
+  { label: "Skincare", value: "skincare", icon: Droplets, color: "text-green-600", bg: "bg-green-50" },
 ];
 
-const stats = [
-  { value: "15–50%", label: "Average Savings" },
-  { value: "100%", label: "Verified Professionals" },
-  { value: "5%", label: "Flat Service Fee" },
+const valueProps = [
+  {
+    icon: Percent,
+    title: "Save 15–50%",
+    body: "Every listing is a real discount on a real open slot. No inflated prices, no fake sales.",
+  },
+  {
+    icon: Shield,
+    title: "Verified pros only",
+    body: "Every professional is licensed, reviewed, and vetted before they can list on BeautyLink.",
+  },
+  {
+    icon: Clock,
+    title: "Book in seconds",
+    body: "See the price, pick your slot, pay securely. No DMs, no back-and-forth, no surprises.",
+  },
+  {
+    icon: MapPin,
+    title: "Hyperlocal",
+    body: "Appointments from professionals in your neighborhood. Currently live across Greater LA.",
+  },
 ];
 
 export default function HomePage() {
   return (
     <>
-      {/* Hero — Search First */}
-      <section className="bg-white pt-16 pb-20 md:pt-24 md:pb-28">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-dark tracking-tight leading-[1.1]">
-            Book beauty & wellness
-            <br className="hidden sm:block" />
-            near you
-          </h1>
-          <p className="mt-4 text-lg text-muted max-w-lg mx-auto">
-            Discounted last-minute appointments from licensed professionals in Greater Los Angeles.
-          </p>
-          <div className="mt-8">
-            <HeroSearch />
+      {/* ── Hero ── */}
+      <section className="relative bg-white pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
+        {/* Subtle background accent */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-light/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" aria-hidden="true" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-light/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none" aria-hidden="true" />
+
+        <div className="relative container mx-auto px-4">
+          <div className="max-w-2xl mx-auto text-center">
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-purple-light px-3 py-1 text-xs font-semibold text-purple-primary mb-6">
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-purple-primary opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-purple-primary" />
+              </span>
+              Live deals near you
+            </p>
+
+            <h1 className="text-[2.5rem] leading-[1.1] md:text-[3.5rem] font-bold text-dark tracking-tight">
+              Last-minute beauty,
+              <br />
+              <span className="text-purple-primary">first-class savings</span>
+            </h1>
+
+            <p className="mt-5 text-lg text-muted max-w-md mx-auto leading-relaxed">
+              Discounted appointments from licensed pros in Greater Los Angeles. Book open slots before they&apos;re gone.
+            </p>
+
+            <div className="mt-8">
+              <HeroSearch />
+            </div>
+
+            <div className="mt-5 flex items-center justify-center gap-4 text-sm text-muted">
+              <span className="flex items-center gap-1">
+                <Shield className="h-3.5 w-3.5 text-success" aria-hidden="true" />
+                Verified pros
+              </span>
+              <span className="hidden sm:inline text-border">|</span>
+              <span className="hidden sm:flex items-center gap-1">
+                <Percent className="h-3.5 w-3.5 text-orange-primary" aria-hidden="true" />
+                15–50% off
+              </span>
+              <span className="hidden sm:inline text-border">|</span>
+              <span className="hidden sm:flex items-center gap-1">
+                <Clock className="h-3.5 w-3.5 text-purple-primary" aria-hidden="true" />
+                Instant booking
+              </span>
+            </div>
           </div>
-          <p className="mt-4 text-sm text-muted">
-            <Link href="/browse" className="text-purple-primary hover:underline font-medium">
-              Browse all appointments
-            </Link>
-            {" · "}
-            <Link href="/pro/join" className="hover:underline">
-              For professionals
-            </Link>
-          </p>
         </div>
       </section>
 
-      {/* Categories */}
-      <section className="py-16 md:py-20 bg-gray-50">
+      {/* ── Live Feed Preview ── */}
+      <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-dark">
-              Explore by category
-            </h2>
+          <div className="flex items-end justify-between mb-8">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-orange-primary mb-1">Available now</p>
+              <h2 className="text-2xl md:text-3xl font-bold text-dark">
+                Deals going fast
+              </h2>
+            </div>
             <Link
               href="/browse"
-              className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-purple-primary hover:underline"
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-purple-primary hover:underline"
             >
-              View all
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              View all deals
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+
+          <LiveFeedPreview />
+
+          <div className="mt-8 text-center sm:hidden">
+            <Button asChild variant="primary" size="md">
+              <Link href="/browse">Browse all deals</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Categories ── */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-10">
+            What are you looking for?
+          </h2>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 md:gap-5 max-w-3xl mx-auto">
             {categories.map((cat) => (
               <Link
                 key={cat.value}
-                href={`/category/${cat.value}`}
-                className="group flex flex-col items-center gap-3 rounded-2xl border border-border bg-white p-6 text-center transition-all hover:shadow-card hover:-translate-y-0.5"
+                href={`/browse?category=${cat.value}`}
+                className="group flex flex-col items-center gap-2.5 rounded-2xl bg-background p-5 text-center transition-all hover:shadow-card hover:-translate-y-0.5"
               >
-                <div className={`flex h-12 w-12 items-center justify-center rounded-full ${cat.bg}`}>
-                  <cat.icon className="h-5 w-5 text-dark" aria-hidden="true" />
+                <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${cat.bg} transition-transform group-hover:scale-105`}>
+                  <cat.icon className={`h-6 w-6 ${cat.color}`} aria-hidden="true" />
                 </div>
                 <span className="text-sm font-medium text-dark">{cat.label}</span>
               </Link>
             ))}
           </div>
-          <div className="mt-6 text-center sm:hidden">
-            <Link
-              href="/browse"
-              className="text-sm font-medium text-purple-primary hover:underline"
-            >
-              View all categories →
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Trust Stats */}
-      <section className="py-14 bg-white border-y border-border">
+      {/* ── Value Props ── */}
+      <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
-            {stats.map((stat) => (
-              <div key={stat.label}>
-                <div className="text-3xl md:text-4xl font-bold text-dark">
-                  {stat.value}
-                </div>
-                <div className="mt-1 text-sm text-muted">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="py-16 md:py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-12">
-            How it works
+          <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-3">
+            Why BeautyLink
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {[
-              {
-                step: "1",
-                title: "Search",
-                description: "Find discounted appointments from verified beauty professionals near you.",
-              },
-              {
-                step: "2",
-                title: "Book instantly",
-                description: "Choose your time, pay securely online. No back-and-forth needed.",
-              },
-              {
-                step: "3",
-                title: "Save 15–50%",
-                description: "Enjoy premium beauty services at a fraction of the regular price.",
-              },
-            ].map((item) => (
-              <div key={item.step} className="text-center">
-                <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-full bg-purple-primary text-white text-sm font-bold">
-                  {item.step}
+          <p className="text-center text-muted mb-10 max-w-md mx-auto">
+            Real discounts. Real professionals. No gimmicks.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+            {valueProps.map((vp) => (
+              <div key={vp.title} className="text-center">
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-card">
+                  <vp.icon className="h-5 w-5 text-purple-primary" aria-hidden="true" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-dark">{item.title}</h3>
-                <p className="mt-2 text-sm text-muted">{item.description}</p>
+                <h3 className="text-base font-semibold text-dark">{vp.title}</h3>
+                <p className="mt-1.5 text-sm text-muted leading-relaxed">{vp.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Professional CTA */}
-      <section className="py-16 md:py-20 bg-white">
+      {/* ── Pro CTA ── */}
+      <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-dark">
-              Partner with BeautyLink
+          <div className="mx-auto max-w-3xl rounded-2xl bg-purple-primary px-6 py-12 md:px-12 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-white">
+              Fill your empty chair
             </h2>
-            <p className="mt-3 text-muted text-lg">
-              List your open slots, reach new clients, and keep 100% of your earnings. We only charge customers a small 5% service fee.
+            <p className="mt-3 text-purple-light/90 text-lg max-w-md mx-auto">
+              List your open slots, set your own discounted price, and reach new clients. You keep 100% of your earnings.
             </p>
-            <div className="mt-6">
-              <Button asChild variant="primary" size="lg">
-                <Link href="/pro/join">Learn more</Link>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button asChild variant="hero-primary" size="lg">
+                <Link href="/pro/join">Start listing</Link>
+              </Button>
+              <Button asChild variant="hero-outline" size="lg">
+                <Link href="/pro/join">How it works</Link>
               </Button>
             </div>
           </div>
