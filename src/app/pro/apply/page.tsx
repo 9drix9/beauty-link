@@ -35,8 +35,8 @@ export default async function ApplyPage() {
         <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
           <Card className="max-w-lg w-full text-center">
             <CardHeader>
-              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-purple-100">
-                <Clock className="h-8 w-8 text-purple-primary" />
+              <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent-light">
+                <Clock className="h-8 w-8 text-accent" />
               </div>
               <CardTitle className="text-2xl">Application Under Review</CardTitle>
             </CardHeader>

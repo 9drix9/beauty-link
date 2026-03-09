@@ -102,7 +102,7 @@ export function ReviewForm({ booking }: ReviewFormProps) {
       <div>
         <Link
           href="/my-bookings"
-          className="inline-flex items-center gap-1 text-sm text-purple-primary hover:underline"
+          className="inline-flex items-center gap-1 text-sm text-accent hover:underline"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           Back to My Bookings
@@ -136,14 +136,14 @@ export function ReviewForm({ booking }: ReviewFormProps) {
                       onClick={() => setRating(starValue)}
                       onMouseEnter={() => setHoveredRating(starValue)}
                       onMouseLeave={() => setHoveredRating(0)}
-                      className="p-1 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-primary rounded"
+                      className="p-1 transition-transform hover:scale-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded"
                       aria-label={`Rate ${starValue} star${starValue > 1 ? "s" : ""}`}
                     >
                       <Star
                         className={cn(
                           "h-8 w-8 transition-colors",
                           starValue <= displayRating
-                            ? "fill-orange-primary text-orange-primary"
+                            ? "fill-cta text-cta"
                             : "fill-none text-gray-300"
                         )}
                       />

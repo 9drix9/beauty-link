@@ -101,8 +101,8 @@ export function ProfileSettings(props: ProfileSettingsProps) {
             aria-checked={values[setting.key]}
             disabled={saving}
             onClick={() => handleToggle(setting.key)}
-            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2 disabled:opacity-50 ${
-              values[setting.key] ? "bg-purple-primary" : "bg-gray-200"
+            className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 disabled:opacity-50 ${
+              values[setting.key] ? "bg-accent" : "bg-gray-200"
             }`}
           >
             <span

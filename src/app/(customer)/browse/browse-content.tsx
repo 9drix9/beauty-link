@@ -128,7 +128,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
                 placeholder="Search services, professionals..."
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
-                className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-4 text-sm text-dark placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-purple-primary focus:border-transparent transition"
+                className="h-11 w-full rounded-lg border border-border bg-background pl-10 pr-4 text-sm text-dark placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition"
               />
               {searchValue && (
                 <button
@@ -147,14 +147,14 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
               className={cn(
                 "relative flex items-center gap-1.5 h-11 px-4 rounded-lg border text-sm font-medium transition-colors",
                 filtersOpen
-                  ? "bg-purple-primary text-white border-purple-primary"
+                  ? "bg-accent text-white border-accent"
                   : "bg-white text-body border-border hover:bg-gray-50"
               )}
             >
               <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
               <span className="hidden sm:inline">Filters</span>
               {activeFilterCount > 0 && !filtersOpen && (
-                <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-orange-primary text-[10px] font-bold text-white">
+                <span className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-cta text-[10px] font-bold text-white">
                   {activeFilterCount}
                 </span>
               )}
@@ -210,7 +210,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
                         className={cn(
                           "rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
                           activeDate === df.value
-                            ? "bg-purple-primary text-white"
+                            ? "bg-accent text-white"
                             : "bg-gray-100 text-body hover:bg-gray-200"
                         )}
                       >
@@ -227,7 +227,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
                     <select
                       value={activeSort}
                       onChange={(e) => setActiveSort(e.target.value)}
-                      className="appearance-none h-9 rounded-lg border border-border bg-white pl-3 pr-8 text-sm text-body focus:outline-none focus:ring-2 focus:ring-purple-primary cursor-pointer"
+                      className="appearance-none h-9 rounded-lg border border-border bg-white pl-3 pr-8 text-sm text-body focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
                     >
                       {SORT_OPTIONS.map((opt) => (
                         <option key={opt.value} value={opt.value}>
@@ -246,7 +246,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
                     <select
                       value={activeZone}
                       onChange={(e) => setActiveZone(e.target.value)}
-                      className="appearance-none h-9 rounded-lg border border-border bg-white pl-3 pr-8 text-sm text-body focus:outline-none focus:ring-2 focus:ring-purple-primary cursor-pointer"
+                      className="appearance-none h-9 rounded-lg border border-border bg-white pl-3 pr-8 text-sm text-body focus:outline-none focus:ring-2 focus:ring-accent cursor-pointer"
                     >
                       <option value="">All areas</option>
                       {LAUNCH_ZONES.map((zone) => (
@@ -262,7 +262,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="mt-4 flex items-center gap-1 text-sm font-medium text-purple-primary hover:underline"
+                  className="mt-4 flex items-center gap-1 text-sm font-medium text-accent hover:underline"
                 >
                   <X className="h-3.5 w-3.5" aria-hidden="true" />
                   Clear all filters
@@ -285,7 +285,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
-                className="text-sm font-medium text-purple-primary hover:underline"
+                className="text-sm font-medium text-accent hover:underline"
               >
                 Reset
               </button>

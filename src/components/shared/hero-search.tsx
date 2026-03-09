@@ -28,7 +28,7 @@ export function HeroSearch() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for services or professionals..."
-          className="h-14 w-full rounded-l-xl border border-r-0 border-border bg-white pl-12 pr-4 text-base text-dark placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-purple-primary focus:border-transparent"
+          className="h-14 w-full rounded-l-xl border border-r-0 border-border bg-white pl-12 pr-4 text-base text-dark placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
         />
       </div>
       <Button

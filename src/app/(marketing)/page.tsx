@@ -23,8 +23,8 @@ export const metadata = {
 };
 
 const categories = [
-  { label: "Hair", value: "hair", icon: Scissors, color: "text-purple-primary", bg: "bg-purple-light" },
-  { label: "Nails", value: "nails", icon: Paintbrush, color: "text-orange-primary", bg: "bg-orange-light" },
+  { label: "Hair", value: "hair", icon: Scissors, color: "text-accent", bg: "bg-accent-light" },
+  { label: "Nails", value: "nails", icon: Paintbrush, color: "text-cta", bg: "bg-cta-light" },
   { label: "Makeup", value: "makeup", icon: Sparkles, color: "text-pink-600", bg: "bg-pink-50" },
   { label: "Lashes", value: "lashes", icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
   { label: "Brows", value: "brows", icon: PenTool, color: "text-amber-600", bg: "bg-amber-50" },
@@ -60,15 +60,15 @@ export default function HomePage() {
       {/* ── Hero ── */}
       <section className="relative bg-white pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
         {/* Subtle background accent */}
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-purple-light/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" aria-hidden="true" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-orange-light/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none" aria-hidden="true" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent-light/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" aria-hidden="true" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cta-light/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none" aria-hidden="true" />
 
         <div className="relative container mx-auto px-4">
           <div className="max-w-2xl mx-auto text-center">
-            <p className="inline-flex items-center gap-1.5 rounded-full bg-purple-light px-3 py-1 text-xs font-semibold text-purple-primary mb-6">
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-accent-light px-3 py-1 text-xs font-semibold text-accent mb-6">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-purple-primary opacity-60" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-purple-primary" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
               </span>
               Live deals near you
             </p>
@@ -76,7 +76,7 @@ export default function HomePage() {
             <h1 className="text-[2.5rem] leading-[1.1] md:text-[3.5rem] font-bold text-dark tracking-tight">
               Last-minute beauty,
               <br />
-              <span className="text-purple-primary">first-class savings</span>
+              <span className="text-accent">first-class savings</span>
             </h1>
 
             <p className="mt-5 text-lg text-muted max-w-md mx-auto leading-relaxed">
@@ -94,12 +94,12 @@ export default function HomePage() {
               </span>
               <span className="hidden sm:inline text-border">|</span>
               <span className="hidden sm:flex items-center gap-1">
-                <Percent className="h-3.5 w-3.5 text-orange-primary" aria-hidden="true" />
+                <Percent className="h-3.5 w-3.5 text-cta" aria-hidden="true" />
                 15–50% off
               </span>
               <span className="hidden sm:inline text-border">|</span>
               <span className="hidden sm:flex items-center gap-1">
-                <Clock className="h-3.5 w-3.5 text-purple-primary" aria-hidden="true" />
+                <Clock className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
                 Instant booking
               </span>
             </div>
@@ -112,14 +112,14 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="flex items-end justify-between mb-8">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-orange-primary mb-1">Available now</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-cta mb-1">Available now</p>
               <h2 className="text-2xl md:text-3xl font-bold text-dark">
                 Deals going fast
               </h2>
             </div>
             <Link
               href="/browse"
-              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-purple-primary hover:underline"
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline"
             >
               View all deals
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -172,7 +172,7 @@ export default function HomePage() {
             {valueProps.map((vp) => (
               <div key={vp.title} className="text-center">
                 <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-card">
-                  <vp.icon className="h-5 w-5 text-purple-primary" aria-hidden="true" />
+                  <vp.icon className="h-5 w-5 text-accent" aria-hidden="true" />
                 </div>
                 <h3 className="text-base font-semibold text-dark">{vp.title}</h3>
                 <p className="mt-1.5 text-sm text-muted leading-relaxed">{vp.body}</p>
@@ -185,11 +185,11 @@ export default function HomePage() {
       {/* ── Pro CTA ── */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl rounded-2xl bg-purple-primary px-6 py-12 md:px-12 text-center">
+          <div className="mx-auto max-w-3xl rounded-2xl bg-accent px-6 py-12 md:px-12 text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white">
               Fill your empty chair
             </h2>
-            <p className="mt-3 text-purple-light/90 text-lg max-w-md mx-auto">
+            <p className="mt-3 text-accent-light/90 text-lg max-w-md mx-auto">
               List your open slots, set your own discounted price, and reach new clients. You keep 100% of your earnings.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">

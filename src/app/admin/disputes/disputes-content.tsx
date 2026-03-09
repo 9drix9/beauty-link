@@ -124,7 +124,7 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-purple-primary">
+        <h1 className="text-3xl font-bold text-accent">
           Dispute Management
         </h1>
         <p className="text-muted mt-1">
@@ -138,7 +138,7 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
           onClick={() => setActiveTab("open")}
           className={
             activeTab === "open"
-              ? "bg-purple-primary hover:bg-purple-mid"
+              ? "bg-accent hover:bg-accent-hover"
               : ""
           }
         >
@@ -150,7 +150,7 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
           onClick={() => setActiveTab("resolved")}
           className={
             activeTab === "resolved"
-              ? "bg-purple-primary hover:bg-purple-mid"
+              ? "bg-accent hover:bg-accent-hover"
               : ""
           }
         >
@@ -179,7 +179,7 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
                   {dispute.disputeOutcome ? (
                     getOutcomeBadge(dispute.disputeOutcome)
                   ) : (
-                    <Badge className="bg-orange-primary text-white">
+                    <Badge className="bg-cta text-white">
                       Open Dispute
                     </Badge>
                   )}
@@ -276,7 +276,7 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
                 {dispute.disputeOutcome && dispute.refundAmount !== null && (
                   <div className="text-sm">
                     <span className="font-medium">Refund Amount: </span>
-                    <span className="text-orange-primary font-semibold">
+                    <span className="text-cta font-semibold">
                       ${(dispute.refundAmount / 100).toFixed(2)}
                     </span>
                   </div>
@@ -316,7 +316,7 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="border-orange-primary text-orange-primary hover:bg-orange-light"
+                          className="border-cta text-cta hover:bg-cta-light"
                           disabled={
                             loadingId === dispute.id ||
                             !partialAmounts[dispute.id]

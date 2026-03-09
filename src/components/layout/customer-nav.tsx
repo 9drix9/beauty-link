@@ -22,7 +22,7 @@ export function CustomerNav() {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-white">
       <nav className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
         {/* Logo */}
-        <Link href="/" className="shrink-0 text-xl font-bold text-purple-primary">
+        <Link href="/" className="shrink-0 text-xl font-bold text-dark">
           BeautyLink
         </Link>
 
@@ -33,7 +33,7 @@ export function CustomerNav() {
             <input
               type="text"
               placeholder="Search services, salons..."
-              className="h-10 w-full rounded-lg border border-border bg-background pl-10 pr-4 text-sm text-body placeholder:text-muted transition-colors focus:border-purple-primary focus:outline-none focus:ring-2 focus:ring-purple-primary/20"
+              className="h-10 w-full rounded-lg border border-border bg-background pl-10 pr-4 text-sm text-body placeholder:text-muted transition-colors focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
             />
           </div>
         </div>
@@ -46,9 +46,9 @@ export function CustomerNav() {
                 href={link.href}
                 aria-current={pathname.startsWith(link.href) ? "page" : undefined}
                 className={cn(
-                  "text-sm font-medium transition-colors hover:text-purple-primary",
+                  "text-sm font-medium transition-colors hover:text-dark",
                   pathname.startsWith(link.href)
-                    ? "text-purple-primary"
+                    ? "text-accent"
                     : "text-body"
                 )}
               >
@@ -90,7 +90,7 @@ export function CustomerNav() {
                 <input
                   type="text"
                   placeholder="Search services, salons..."
-                  className="h-10 w-full rounded-lg border border-border bg-background pl-10 pr-4 text-sm text-body placeholder:text-muted focus:border-purple-primary focus:outline-none focus:ring-2 focus:ring-purple-primary/20"
+                  className="h-10 w-full rounded-lg border border-border bg-background pl-10 pr-4 text-sm text-body placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20"
                 />
               </div>
 
@@ -103,7 +103,7 @@ export function CustomerNav() {
                   className={cn(
                     "block rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100",
                     pathname.startsWith(link.href)
-                      ? "text-purple-primary"
+                      ? "text-accent"
                       : "text-body"
                   )}
                 >

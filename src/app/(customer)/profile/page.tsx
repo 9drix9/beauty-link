@@ -49,10 +49,10 @@ export default async function ProfilePage() {
               width={80}
               height={80}
               unoptimized
-              className="h-20 w-20 rounded-full object-cover ring-4 ring-purple-light"
+              className="h-20 w-20 rounded-full object-cover ring-4 ring-accent-light"
             />
           ) : (
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-purple-primary text-2xl font-bold text-white ring-4 ring-purple-light">
+            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-accent text-2xl font-bold text-white ring-4 ring-accent-light">
               {user.firstName?.[0]}
               {user.lastName?.[0]}
             </div>
@@ -72,12 +72,12 @@ export default async function ProfilePage() {
       {/* Saved Professionals */}
       <div className="mb-6 rounded-xl border border-border bg-white p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-4">
-          <Heart className="h-5 w-5 text-orange-primary" />
+          <Heart className="h-5 w-5 text-cta" />
           <h2 className="text-lg font-semibold text-dark">Saved Professionals</h2>
         </div>
         <p className="text-body">
           You have{" "}
-          <span className="font-semibold text-purple-primary">{savedCount}</span>{" "}
+          <span className="font-semibold text-accent">{savedCount}</span>{" "}
           saved professional{savedCount !== 1 ? "s" : ""}.
         </p>
       </div>
@@ -85,7 +85,7 @@ export default async function ProfilePage() {
       {/* Notification Preferences */}
       <div className="mb-6 rounded-xl border border-border bg-white p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-4">
-          <Settings className="h-5 w-5 text-purple-primary" />
+          <Settings className="h-5 w-5 text-accent" />
           <h2 className="text-lg font-semibold text-dark">Notification Preferences</h2>
         </div>
         <ProfileSettings
@@ -100,7 +100,7 @@ export default async function ProfilePage() {
       {/* Account */}
       <div className="rounded-xl border border-border bg-white p-6 shadow-sm">
         <div className="flex items-center gap-3 mb-4">
-          <UserIcon className="h-5 w-5 text-purple-primary" />
+          <UserIcon className="h-5 w-5 text-accent" />
           <h2 className="text-lg font-semibold text-dark">Account</h2>
         </div>
         <div className="space-y-4">
@@ -121,7 +121,7 @@ export default async function ProfilePage() {
           <div className="pt-2">
             <a
               href="/account"
-              className="inline-flex items-center gap-1.5 text-sm font-medium text-purple-primary hover:text-purple-mid"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-hover"
             >
               Manage account in Clerk
               <ExternalLink className="h-3.5 w-3.5" />

@@ -60,15 +60,15 @@ export default async function EarningsPage() {
       label: "Available Balance",
       value: formatPrice(profile.availableBalance),
       icon: Wallet,
-      color: "text-purple-600",
-      bg: "bg-purple-50",
+      color: "text-accent",
+      bg: "bg-accent-light",
     },
     {
       label: "Pending Balance",
       value: formatPrice(profile.pendingBalance),
       icon: Clock,
-      color: "text-orange-600",
-      bg: "bg-orange-50",
+      color: "text-cta",
+      bg: "bg-cta-light",
     },
   ];
 

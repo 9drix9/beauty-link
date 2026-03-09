@@ -59,7 +59,7 @@ export function ReviewCard({
               className={cn(
                 "h-4 w-4",
                 i < starRating
-                  ? "fill-orange-primary text-orange-primary"
+                  ? "fill-cta text-cta"
                   : "fill-none text-gray-300"
               )}
             />

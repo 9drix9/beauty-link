@@ -16,7 +16,7 @@ export function AppClerkProvider({ children }: { children: React.ReactNode }) {
           fontFamily: "Inter, sans-serif",
         },
         elements: {
-          formButtonPrimary: "bg-purple-primary hover:bg-purple-mid text-white",
+          formButtonPrimary: "bg-accent hover:bg-accent-hover text-white",
           card: "shadow-card rounded-xl",
           headerTitle: "text-dark font-bold",
           headerSubtitle: "text-muted",

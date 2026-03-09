@@ -17,7 +17,7 @@ export function PriceDisplay({
 
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-lg font-bold text-purple-primary">
+      <span className="text-lg font-bold text-accent">
         {formatPrice(discountedPrice)}
       </span>
       <span className="text-sm text-muted line-through">

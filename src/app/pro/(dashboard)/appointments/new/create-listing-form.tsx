@@ -388,13 +388,13 @@ export function CreateListingForm() {
 
           {/* Price preview */}
           {priceBreakdown && discountValidation?.valid && (
-            <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
-              <p className="text-sm font-medium text-purple-900">
+            <div className="rounded-lg border border-accent/20 bg-accent-light p-4">
+              <p className="text-sm font-medium text-accent">
                 Customer pays:{" "}
                 <span className="text-lg font-bold">
                   {formatPrice(priceBreakdown.totalCharged)}
                 </span>
-                <span className="ml-1 text-xs font-normal text-purple-600">
+                <span className="ml-1 text-xs font-normal text-accent">
                   (including {formatPrice(priceBreakdown.platformFee)} service
                   fee)
                 </span>

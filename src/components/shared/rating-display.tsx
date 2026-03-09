@@ -25,7 +25,7 @@ export function RatingDisplay({
             className={cn(
               starSize,
               i < Math.round(rating)
-                ? "fill-orange-primary text-orange-primary"
+                ? "fill-cta text-cta"
                 : "fill-none text-gray-300"
             )}
           />

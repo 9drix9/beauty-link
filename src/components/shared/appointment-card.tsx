@@ -107,8 +107,8 @@ export function AppointmentCard({
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-purple-light to-orange-light flex items-center justify-center">
-              <span className="text-4xl font-bold text-purple-primary/30">
+            <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+              <span className="text-4xl font-bold text-accent/30">
                 {serviceCategory.charAt(0).toUpperCase()}
               </span>
             </div>
@@ -116,7 +116,7 @@ export function AppointmentCard({
 
           {/* Savings pill — top-left, high contrast */}
           {savingsPercent > 0 && (
-            <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-orange-primary px-2.5 py-1 text-xs font-bold text-white shadow-md">
+            <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-cta px-2.5 py-1 text-xs font-bold text-white shadow-md">
               {savingsPercent}% OFF
             </span>
           )}
@@ -167,14 +167,14 @@ export function AppointmentCard({
                 className="rounded-full object-cover shrink-0"
               />
             ) : (
-              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-purple-light text-[10px] font-semibold text-purple-primary shrink-0">
+              <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent-light text-[10px] font-semibold text-accent shrink-0">
                 {professional.user.firstName.charAt(0)}
               </span>
             )}
             <span className="text-sm text-body truncate">{proName}</span>
             {professional.totalReviews > 0 && (
               <span className="flex items-center gap-0.5 text-sm text-body shrink-0">
-                <Star className="h-3.5 w-3.5 fill-orange-primary text-orange-primary" aria-hidden="true" />
+                <Star className="h-3.5 w-3.5 fill-cta text-cta" aria-hidden="true" />
                 {professional.avgRating.toFixed(1)}
                 <span className="text-muted">({professional.totalReviews})</span>
               </span>
@@ -200,7 +200,7 @@ export function AppointmentCard({
             <p className="mt-3 text-xs font-semibold text-error">Fully booked</p>
           )}
           {spotsLeft > 0 && spotsLeft <= 2 && (
-            <p className="mt-3 text-xs font-semibold text-orange-primary">
+            <p className="mt-3 text-xs font-semibold text-cta">
               Only {spotsLeft} {spotsLeft === 1 ? "spot" : "spots"} left
             </p>
           )}

@@ -200,8 +200,8 @@ export function ApplyForm() {
                 <div
                   className={cn(
                     "flex h-9 w-9 items-center justify-center rounded-full text-sm font-semibold transition-colors",
-                    isActive && "bg-purple-primary text-white",
-                    isCompleted && "bg-purple-primary text-white",
+                    isActive && "bg-accent text-white",
+                    isCompleted && "bg-accent text-white",
                     !isActive && !isCompleted && "bg-gray-200 text-gray-500"
                   )}
                 >
@@ -214,7 +214,7 @@ export function ApplyForm() {
                 <span
                   className={cn(
                     "text-xs mt-1 hidden sm:block",
-                    isActive ? "text-purple-primary font-medium" : "text-muted"
+                    isActive ? "text-accent font-medium" : "text-muted"
                   )}
                 >
                   {label}
@@ -224,7 +224,7 @@ export function ApplyForm() {
                 <div
                   className={cn(
                     "h-0.5 flex-1 mx-2",
-                    step > stepNum ? "bg-purple-primary" : "bg-gray-200"
+                    step > stepNum ? "bg-accent" : "bg-gray-200"
                   )}
                 />
               )}
@@ -299,7 +299,7 @@ export function ApplyForm() {
                       className={cn(
                         "flex items-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors",
                         isSelected
-                          ? "border-purple-primary bg-purple-50 text-purple-primary"
+                          ? "border-accent bg-accent-light text-accent"
                           : "border-gray-200 hover:border-gray-300 text-gray-700"
                       )}
                     >
@@ -447,7 +447,7 @@ export function ApplyForm() {
                 className={cn(
                   "flex flex-col items-center justify-center rounded-lg border-2 border-dashed px-6 py-10 transition-colors",
                   formData.licenseDoc
-                    ? "border-purple-primary bg-purple-50"
+                    ? "border-accent bg-accent-light"
                     : "border-gray-300 hover:border-gray-400"
                 )}
               >
@@ -461,7 +461,7 @@ export function ApplyForm() {
                   PDF, JPG, or PNG up to 10MB
                 </p>
                 <label className="cursor-pointer">
-                  <span className="text-sm font-medium text-purple-primary hover:underline">
+                  <span className="text-sm font-medium text-accent hover:underline">
                     Choose file
                   </span>
                   <input
@@ -483,7 +483,7 @@ export function ApplyForm() {
                 className={cn(
                   "flex flex-col items-center justify-center rounded-lg border-2 border-dashed px-6 py-10 transition-colors",
                   formData.selfie
-                    ? "border-purple-primary bg-purple-50"
+                    ? "border-accent bg-accent-light"
                     : "border-gray-300 hover:border-gray-400"
                 )}
               >
@@ -497,7 +497,7 @@ export function ApplyForm() {
                   JPG or PNG up to 10MB
                 </p>
                 <label className="cursor-pointer">
-                  <span className="text-sm font-medium text-purple-primary hover:underline">
+                  <span className="text-sm font-medium text-accent hover:underline">
                     Choose file
                   </span>
                   <input

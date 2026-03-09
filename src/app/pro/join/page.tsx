@@ -38,17 +38,17 @@ export default function JoinPage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-2xl mx-auto space-y-6">
           <div className="flex items-baseline gap-4">
-            <span className="text-sm font-semibold text-purple-primary shrink-0">Apply</span>
+            <span className="text-sm font-semibold text-accent shrink-0">Apply</span>
             <p className="text-body">Submit your license and portfolio. We verify within 48 hours.</p>
           </div>
           <div className="border-t border-border" />
           <div className="flex items-baseline gap-4">
-            <span className="text-sm font-semibold text-purple-primary shrink-0">List</span>
+            <span className="text-sm font-semibold text-accent shrink-0">List</span>
             <p className="text-body">Post discounted appointments anytime you have open slots.</p>
           </div>
           <div className="border-t border-border" />
           <div className="flex items-baseline gap-4">
-            <span className="text-sm font-semibold text-purple-primary shrink-0">Earn</span>
+            <span className="text-sm font-semibold text-accent shrink-0">Earn</span>
             <p className="text-body">Clients book instantly. You get paid within 24 hours after the appointment.</p>
           </div>
         </div>

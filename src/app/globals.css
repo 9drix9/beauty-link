@@ -5,18 +5,30 @@
 @tailwind utilities;
 
 :root {
-  --purple-primary: #6A1B9A;
-  --purple-mid: #8E24AA;
-  --purple-light: #F3E5F5;
-  --orange-primary: #E65100;
-  --orange-mid: #F57C00;
-  --orange-light: #FFF3E0;
-  --color-dark: #1A1A2E;
-  --color-body: #333333;
-  --color-muted: #888888;
+  --accent: #6A1B9A;
+  --accent-hover: #7B1FA2;
+  --accent-light: #F3E8FF;
+  --cta: #FF6A3D;
+  --cta-hover: #E5532C;
+  --cta-light: #FFF7ED;
+  --color-dark: #1F2933;
+  --color-body: #374151;
+  --color-muted: #6B7280;
   --color-background: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-border: #E5E7EB;
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+
+  /* Legacy aliases */
+  --purple-primary: #6A1B9A;
+  --purple-mid: #7B1FA2;
+  --purple-light: #F3E8FF;
+  --orange-primary: #FF6A3D;
+  --orange-mid: #E5532C;
+  --orange-light: #FFF7ED;
   --color-white: #FFFFFF;
-  --color-border: #E0E0E0;
 }
 
 @layer base {
@@ -33,26 +45,22 @@
   }
 
   ::selection {
-    background-color: rgba(106, 27, 154, 0.15);
-    color: #4A148C;
+    background-color: rgba(106, 27, 154, 0.12);
+    color: var(--color-dark);
   }
 
   *:focus-visible {
-    outline: 2px solid #6A1B9A;
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 }
 
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(135deg, #6A1B9A 0%, #E65100 100%);
+    background: linear-gradient(135deg, var(--accent) 0%, var(--cta) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-  }
-
-  .hero-gradient {
-    background: linear-gradient(135deg, #6A1B9A 0%, #8E24AA 50%, #E65100 100%);
   }
 
   .scrollbar-hide {

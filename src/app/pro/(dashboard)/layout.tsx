@@ -41,7 +41,7 @@ export default function ProDashboardLayout({
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          "hidden flex-col border-r border-border bg-purple-primary text-white transition-all duration-300 md:flex",
+          "hidden flex-col border-r border-border bg-accent text-white transition-all duration-300 md:flex",
           sidebarCollapsed ? "w-16" : "w-60"
         )}
       >
@@ -127,7 +127,7 @@ export default function ProDashboardLayout({
             <Menu className="h-5 w-5" />
           </button>
 
-          <Link href="/pro/dashboard" className="text-lg font-bold text-purple-primary">
+          <Link href="/pro/dashboard" className="text-lg font-bold text-accent">
             BeautyLink
           </Link>
 
@@ -151,7 +151,7 @@ export default function ProDashboardLayout({
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
                 transition={{ duration: 0.25, ease: "easeInOut" }}
-                className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-purple-primary text-white md:hidden"
+                className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-accent text-white md:hidden"
               >
                 <div className="flex h-14 items-center justify-between border-b border-white/10 px-4">
                   <span className="text-lg font-bold">BeautyLink</span>

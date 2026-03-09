@@ -138,7 +138,7 @@ export default async function AppointmentDetailPage({
       {/* Back link */}
       <Link
         href="/browse"
-        className="mb-4 inline-flex items-center gap-1 text-sm text-muted hover:text-purple-primary transition-colors"
+        className="mb-4 inline-flex items-center gap-1 text-sm text-muted hover:text-accent transition-colors"
       >
         <ChevronLeft className="h-4 w-4" aria-hidden="true" />
         Back to listings
@@ -187,8 +187,8 @@ export default async function AppointmentDetailPage({
                 )}
               </>
             ) : (
-              <div className="flex aspect-[16/10] w-full items-center justify-center rounded-xl bg-gradient-to-br from-purple-100 to-purple-200">
-                <span className="text-lg text-purple-primary/60">
+              <div className="flex aspect-[16/10] w-full items-center justify-center rounded-xl bg-gradient-to-br from-accent-light to-accent-light">
+                <span className="text-lg text-accent/60">
                   No photo available
                 </span>
               </div>
@@ -323,7 +323,7 @@ export default async function AppointmentDetailPage({
               {/* Price Display */}
               <div>
                 <div className="flex items-baseline gap-2 flex-wrap">
-                  <span className="text-3xl font-bold text-purple-primary">
+                  <span className="text-3xl font-bold text-accent">
                     {formatPrice(listing.discountedPrice)}
                   </span>
                   <span className="text-lg text-muted line-through">

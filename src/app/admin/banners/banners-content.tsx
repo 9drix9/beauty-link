@@ -172,7 +172,7 @@ export default function BannersContent({ banners }: BannersContentProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-purple-primary">
+        <h1 className="text-3xl font-bold text-accent">
           Banner Management
         </h1>
         <p className="text-muted mt-1">
@@ -270,7 +270,7 @@ export default function BannersContent({ banners }: BannersContentProps) {
           <Button
             onClick={handleCreate}
             disabled={loading || !message.trim()}
-            className="bg-purple-primary hover:bg-purple-mid"
+            className="bg-accent hover:bg-accent-hover"
           >
             <Plus className="mr-2 h-4 w-4" />
             Create Banner
@@ -282,7 +282,7 @@ export default function BannersContent({ banners }: BannersContentProps) {
 
       <div>
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-          <Megaphone className="h-5 w-5 text-orange-primary" />
+          <Megaphone className="h-5 w-5 text-cta" />
           Existing Banners ({banners.length})
         </h2>
 
@@ -363,7 +363,7 @@ export default function BannersContent({ banners }: BannersContentProps) {
                           size="sm"
                           onClick={() => handleSaveEdit(banner.id)}
                           disabled={loading}
-                          className="bg-purple-primary hover:bg-purple-mid"
+                          className="bg-accent hover:bg-accent-hover"
                         >
                           Save
                         </Button>

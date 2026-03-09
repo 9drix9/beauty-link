@@ -12,35 +12,54 @@ const config: Config = {
     },
     extend: {
       colors: {
-        purple: {
-          primary: "#6A1B9A",
-          mid: "#8E24AA",
-          light: "#F3E5F5",
+        // Brand accent — kept as the recognizable brand color
+        accent: {
+          DEFAULT: "#6A1B9A",
+          hover: "#7B1FA2",
+          light: "#F3E8FF",
+          muted: "#EDE9FE",
         },
-        orange: {
-          primary: "#E65100",
-          mid: "#F57C00",
-          light: "#FFF3E0",
+        // CTA — warm orange for high-conversion actions
+        cta: {
+          DEFAULT: "#FF6A3D",
+          hover: "#E5532C",
+          light: "#FFF7ED",
         },
-        dark: "#1A1A2E",
-        body: "#333333",
-        muted: "#888888",
+        // Neutrals — the backbone of the UI
+        dark: "#1F2933",
+        body: "#374151",
+        muted: "#6B7280",
         background: "#FAFAFA",
-        white: "#FFFFFF",
+        surface: "#FFFFFF",
+        border: "#E5E7EB",
+        // Semantic colors
         success: {
-          DEFAULT: "#2E7D32",
-          light: "#E8F5E9",
+          DEFAULT: "#10B981",
+          light: "#ECFDF5",
         },
         error: {
-          DEFAULT: "#C62828",
-          light: "#FFEBEE",
+          DEFAULT: "#EF4444",
+          light: "#FEF2F2",
         },
         warning: {
-          DEFAULT: "#F57F17",
-          light: "#FFF8E1",
+          DEFAULT: "#F59E0B",
+          light: "#FFFBEB",
         },
-        info: "#1565C0",
-        border: "#E0E0E0",
+        info: {
+          DEFAULT: "#3B82F6",
+          light: "#EFF6FF",
+        },
+        // Legacy aliases for smooth migration
+        purple: {
+          primary: "#6A1B9A",
+          mid: "#7B1FA2",
+          light: "#F3E8FF",
+        },
+        orange: {
+          primary: "#FF6A3D",
+          mid: "#E5532C",
+          light: "#FFF7ED",
+        },
       },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
@@ -61,8 +80,10 @@ const config: Config = {
         pill: "50px",
       },
       boxShadow: {
-        card: "0 2px 12px rgba(0,0,0,0.08)",
-        cardHover: "0 6px 24px rgba(0,0,0,0.14)",
+        card: "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
+        cardHover: "0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04)",
+        soft: "0 2px 8px rgba(0,0,0,0.06)",
+        elevated: "0 4px 16px rgba(0,0,0,0.08)",
       },
       transitionDuration: {
         DEFAULT: "200ms",

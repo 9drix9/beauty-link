@@ -34,7 +34,7 @@ export function MobileBottomTabs() {
               aria-current={active ? "page" : undefined}
               className={cn(
                 "flex flex-col items-center gap-0.5 px-3 py-1 text-xs font-medium transition-colors",
-                active ? "text-purple-primary" : "text-muted"
+                active ? "text-dark" : "text-muted"
               )}
             >
               <Icon className={cn("h-5 w-5", active && "stroke-[2.5]")} aria-hidden="true" />

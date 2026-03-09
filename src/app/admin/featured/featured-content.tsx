@@ -75,7 +75,7 @@ export default function FeaturedContent({
         <CardContent className="pt-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="h-12 w-12 rounded-full bg-purple-light flex items-center justify-center text-purple-primary font-semibold text-lg">
+              <div className="h-12 w-12 rounded-full bg-accent-light flex items-center justify-center text-accent font-semibold text-lg">
                 {pro.user.firstName?.[0]}
                 {pro.user.lastName?.[0]}
               </div>
@@ -92,7 +92,7 @@ export default function FeaturedContent({
 
             <div className="flex items-center gap-3">
               {pro.isFeatured && (
-                <Badge className="bg-orange-primary text-white">
+                <Badge className="bg-cta text-white">
                   <Award className="mr-1 h-3 w-3" />
                   Featured
                 </Badge>
@@ -129,7 +129,7 @@ export default function FeaturedContent({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-purple-primary">
+        <h1 className="text-3xl font-bold text-accent">
           Featured Professionals
         </h1>
         <p className="text-muted mt-1">
@@ -140,7 +140,7 @@ export default function FeaturedContent({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardContent className="pt-6 text-center">
-            <Award className="h-8 w-8 mx-auto text-orange-primary mb-2" />
+            <Award className="h-8 w-8 mx-auto text-cta mb-2" />
             <p className="text-2xl font-bold">{featured.length}</p>
             <p className="text-sm text-muted">
               Currently Featured
@@ -149,7 +149,7 @@ export default function FeaturedContent({
         </Card>
         <Card>
           <CardContent className="pt-6 text-center">
-            <Users className="h-8 w-8 mx-auto text-purple-primary mb-2" />
+            <Users className="h-8 w-8 mx-auto text-accent mb-2" />
             <p className="text-2xl font-bold">{professionals.length}</p>
             <p className="text-sm text-muted">
               Total Approved
@@ -175,7 +175,7 @@ export default function FeaturedContent({
       {featured.length > 0 && (
         <div>
           <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-            <Award className="h-5 w-5 text-orange-primary" />
+            <Award className="h-5 w-5 text-cta" />
             Currently Featured ({featured.length})
           </h2>
           <div className="space-y-3">
@@ -190,7 +190,7 @@ export default function FeaturedContent({
 
       <div>
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-          <Users className="h-5 w-5 text-purple-primary" />
+          <Users className="h-5 w-5 text-accent" />
           All Professionals ({notFeatured.length})
         </h2>
         {notFeatured.length === 0 ? (

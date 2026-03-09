@@ -127,7 +127,7 @@ export default async function BookingDetailPage({
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
       <Link
         href="/my-bookings"
-        className="mb-6 inline-flex items-center gap-1 text-sm text-muted hover:text-purple-primary transition-colors"
+        className="mb-6 inline-flex items-center gap-1 text-sm text-muted hover:text-accent transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to My Bookings
@@ -174,7 +174,7 @@ export default async function BookingDetailPage({
                 <p className="text-sm text-muted">Professional</p>
                 <Link
                   href={`/pro/${pro.id}`}
-                  className="font-semibold text-purple-primary hover:underline"
+                  className="font-semibold text-accent hover:underline"
                 >
                   {proName}
                 </Link>

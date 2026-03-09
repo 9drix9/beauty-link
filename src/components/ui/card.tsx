@@ -6,8 +6,8 @@ const cardVariants = cva("rounded-lg bg-white text-body", {
   variants: {
     variant: {
       default: "border border-border",
-      bordered: "border-2 border-purple-primary",
-      elevated: "shadow-lg border border-border/50",
+      bordered: "border-2 border-accent",
+      elevated: "shadow-card border border-border/50",
     },
     hover: {
       true: "transition-transform duration-200 hover:-translate-y-1 hover:shadow-md",

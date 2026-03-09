@@ -187,7 +187,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
                 key={thread.id}
                 onClick={() => openThread(thread.id)}
                 className={`flex w-full items-center gap-3 border-b border-gray-100 p-4 text-left transition-colors hover:bg-gray-50 ${
-                  isActive ? "bg-purple-50" : ""
+                  isActive ? "bg-accent-light" : ""
                 }`}
               >
                 {/* Avatar */}
@@ -201,7 +201,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
                     className="h-12 w-12 flex-shrink-0 rounded-full object-cover"
                   />
                 ) : (
-                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-purple-primary text-sm font-semibold text-white">
+                  <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-accent text-sm font-semibold text-white">
                     {getInitials(other)}
                   </div>
                 )}
@@ -223,7 +223,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
                       {thread.lastMessagePreview || "No messages yet"}
                     </p>
                     {unread > 0 && (
-                      <span className="ml-2 flex h-5 min-w-[1.25rem] flex-shrink-0 items-center justify-center rounded-full bg-purple-primary px-1.5 text-xs font-bold text-white">
+                      <span className="ml-2 flex h-5 min-w-[1.25rem] flex-shrink-0 items-center justify-center rounded-full bg-accent px-1.5 text-xs font-bold text-white">
                         {unread}
                       </span>
                     )}
@@ -268,7 +268,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
                       className="h-9 w-9 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-purple-primary text-xs font-semibold text-white">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-xs font-semibold text-white">
                       {getInitials(other)}
                     </div>
                   )}
@@ -284,7 +284,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
           <div className="flex-1 overflow-y-auto p-4">
             {loadingMessages ? (
               <div className="flex h-full items-center justify-center">
-                <div className="h-8 w-8 animate-spin rounded-full border-2 border-purple-primary border-t-transparent" />
+                <div className="h-8 w-8 animate-spin rounded-full border-2 border-accent border-t-transparent" />
               </div>
             ) : messages.length === 0 ? (
               <div className="flex h-full items-center justify-center text-muted">
@@ -302,7 +302,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
                       <div
                         className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${
                           isSent
-                            ? "bg-purple-primary text-white"
+                            ? "bg-accent text-white"
                             : "bg-gray-200 text-dark"
                         }`}
                       >
@@ -311,7 +311,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
                         </p>
                         <p
                           className={`mt-1 text-xs ${
-                            isSent ? "text-purple-200" : "text-muted"
+                            isSent ? "text-accent-light" : "text-muted"
                           }`}
                         >
                           {formatTime(msg.createdAt)}
@@ -335,12 +335,12 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
               value={messageBody}
               onChange={(e) => setMessageBody(e.target.value)}
               placeholder="Type a message..."
-              className="flex-1 min-w-0 rounded-full border border-gray-300 px-4 py-2.5 text-sm focus:border-purple-primary focus:outline-none focus:ring-1 focus:ring-purple-primary"
+              className="flex-1 min-w-0 rounded-full border border-gray-300 px-4 py-2.5 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
             />
             <button
               type="submit"
               disabled={!messageBody.trim() || sending}
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-purple-primary text-white transition-colors hover:bg-purple-mid disabled:opacity-50"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-accent text-white transition-colors hover:bg-accent-hover disabled:opacity-50"
             >
               <Send className="h-4 w-4" />
             </button>

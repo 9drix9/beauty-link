@@ -80,8 +80,8 @@ export default async function ProDashboardPage() {
       label: "Available Balance",
       value: formatPrice(profile.availableBalance),
       icon: Wallet,
-      color: "text-purple-600",
-      bg: "bg-purple-50",
+      color: "text-accent",
+      bg: "bg-accent-light",
     },
     {
       label: "Total Bookings",

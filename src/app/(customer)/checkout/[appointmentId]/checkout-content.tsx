@@ -212,7 +212,7 @@ export function CheckoutContent({
     <>
       <Link
         href={`/appointment/${listing.id}`}
-        className="mb-6 inline-flex items-center gap-1 text-sm text-muted hover:text-purple-primary transition-colors"
+        className="mb-6 inline-flex items-center gap-1 text-sm text-muted hover:text-accent transition-colors"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Back to listing
@@ -253,7 +253,7 @@ export function CheckoutContent({
             <Card>
               <CardContent className="p-8">
                 <div className="flex flex-col items-center gap-4">
-                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-purple-primary border-t-transparent" />
+                  <div className="h-8 w-8 animate-spin rounded-full border-4 border-accent border-t-transparent" />
                   <p className="text-sm text-muted">
                     Setting up secure payment...
                   </p>

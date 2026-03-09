@@ -4,26 +4,26 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-primary focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center whitespace-nowrap font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         primary:
-          "bg-purple-primary text-white hover:bg-purple-mid active:scale-[0.98] shadow-sm",
+          "bg-dark text-white hover:bg-gray-800 active:scale-[0.98] shadow-sm",
         cta:
-          "bg-orange-primary text-white hover:bg-orange-mid active:scale-[0.98] shadow-sm",
+          "bg-cta text-white hover:bg-cta-hover active:scale-[0.98] shadow-sm",
         secondary:
-          "border-2 border-purple-primary text-purple-primary bg-white hover:bg-purple-light",
+          "border border-border text-dark bg-white hover:bg-gray-50",
         ghost:
-          "text-purple-primary hover:underline bg-transparent",
+          "text-dark hover:bg-gray-50 bg-transparent",
         destructive:
-          "bg-error text-white hover:bg-red-700 active:scale-[0.98]",
+          "bg-error text-white hover:bg-red-600 active:scale-[0.98]",
         outline:
           "border border-border bg-white text-body hover:bg-gray-50",
         "hero-primary":
-          "bg-white text-purple-primary hover:bg-gray-100 active:scale-[0.98] shadow-sm font-semibold",
+          "bg-white text-dark hover:bg-gray-100 active:scale-[0.98] shadow-sm font-semibold",
         "hero-outline":
-          "border-2 border-white text-white bg-transparent hover:bg-white/10 active:scale-[0.98]",
+          "border-2 border-white/80 text-white bg-white/10 hover:bg-white/20 active:scale-[0.98] backdrop-blur-sm",
       },
       size: {
         sm: "h-9 px-4 text-sm rounded-lg",

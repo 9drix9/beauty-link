@@ -22,7 +22,7 @@ export function MarketingNav() {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-purple-primary">
+        <Link href="/" className="text-xl font-bold text-dark">
           BeautyLink
         </Link>
 
@@ -32,7 +32,7 @@ export function MarketingNav() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm font-medium text-body transition-colors hover:text-purple-primary"
+                className="text-sm font-medium text-body transition-colors hover:text-dark"
               >
                 {link.label}
               </Link>
@@ -87,7 +87,7 @@ export function MarketingNav() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-sm font-medium text-body transition-colors hover:bg-gray-100 hover:text-purple-primary"
+                  className="block rounded-lg px-3 py-2 text-sm font-medium text-body transition-colors hover:bg-gray-100 hover:text-dark"
                 >
                   {link.label}
                 </Link>
@@ -99,7 +99,7 @@ export function MarketingNav() {
                     <Link
                       href="/browse"
                       onClick={() => setMobileOpen(false)}
-                      className="text-sm font-medium text-purple-primary"
+                      className="text-sm font-medium text-accent"
                     >
                       Dashboard
                     </Link>
