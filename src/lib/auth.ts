@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 
@@ -7,9 +7,41 @@ export async function getCurrentUser() {
 
   if (!userId) return null;
 
-  const user = await db.user.findUnique({
+  // Try to find the user in the database
+  let user = await db.user.findUnique({
     where: { clerkId: userId },
   });
+
+  // If user doesn't exist in DB yet (webhook hasn't fired), create them
+  if (!user) {
+    const clerkUser = await currentUser();
+    if (!clerkUser) return null;
+
+    const email =
+      clerkUser.emailAddresses.find(
+        (e) => e.id === clerkUser.primaryEmailAddressId
+      )?.emailAddress ??
+      clerkUser.emailAddresses[0]?.emailAddress ??
+      "";
+
+    if (!email) return null;
+
+    user = await db.user.upsert({
+      where: { clerkId: userId },
+      create: {
+        clerkId: userId,
+        firstName: clerkUser.firstName ?? "",
+        lastName: clerkUser.lastName ?? "",
+        email,
+        profilePhotoUrl: clerkUser.imageUrl,
+        isEmailVerified:
+          clerkUser.emailAddresses.find(
+            (e) => e.id === clerkUser.primaryEmailAddressId
+          )?.verification?.status === "verified",
+      },
+      update: {},
+    });
+  }
 
   return user;
 }
@@ -25,14 +57,14 @@ export async function requireUser() {
 }
 
 export async function requirePro() {
-  const { userId } = auth();
+  const baseUser = await getCurrentUser();
 
-  if (!userId) {
+  if (!baseUser) {
     redirect("/login");
   }
 
   const user = await db.user.findUnique({
-    where: { clerkId: userId },
+    where: { id: baseUser.id },
     include: { professionalProfile: true },
   });
 
@@ -54,6 +86,51 @@ export async function requireAdmin() {
 
   if (user.role !== "ADMIN") {
     redirect("/");
+  }
+
+  return user;
+}
+
+/**
+ * For API routes: get or auto-create the DB user from Clerk auth.
+ * Returns the user or null (caller should return 401).
+ */
+export async function getApiUser() {
+  const { userId } = auth();
+  if (!userId) return null;
+
+  let user = await db.user.findUnique({
+    where: { clerkId: userId },
+  });
+
+  if (!user) {
+    const clerkUser = await currentUser();
+    if (!clerkUser) return null;
+
+    const email =
+      clerkUser.emailAddresses.find(
+        (e) => e.id === clerkUser.primaryEmailAddressId
+      )?.emailAddress ??
+      clerkUser.emailAddresses[0]?.emailAddress ??
+      "";
+
+    if (!email) return null;
+
+    user = await db.user.upsert({
+      where: { clerkId: userId },
+      create: {
+        clerkId: userId,
+        firstName: clerkUser.firstName ?? "",
+        lastName: clerkUser.lastName ?? "",
+        email,
+        profilePhotoUrl: clerkUser.imageUrl,
+        isEmailVerified:
+          clerkUser.emailAddresses.find(
+            (e) => e.id === clerkUser.primaryEmailAddressId
+          )?.verification?.status === "verified",
+      },
+      update: {},
+    });
   }
 
   return user;

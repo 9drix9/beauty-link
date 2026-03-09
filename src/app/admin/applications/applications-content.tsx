@@ -33,10 +33,12 @@ interface Application {
   approvedAt: string | null;
   rejectedAt: string | null;
   rejectionReason: string | null;
+  licenseStatus: string;
   licenseType: string | null;
   licenseNumber: string | null;
   licenseState: string | null;
-  licenseExpiry: string | null;
+  licenseExpiration: string | null;
+  licenseVerifiedAt: string | null;
   portfolioPhotos: string[];
   servicesOffered: string[];
   specialties: string[];
@@ -158,30 +160,53 @@ export default function ApplicationsContent({
 
           {/* License info */}
           <div className="rounded-lg border border-border p-3">
-            <div className="flex items-center gap-2 text-sm font-medium text-body">
-              <FileText className="h-4 w-4" />
-              License Information
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-sm font-medium text-body">
+                <FileText className="h-4 w-4" />
+                License Information
+              </div>
+              <Badge
+                variant={
+                  app.licenseStatus === "LICENSE_VERIFIED"
+                    ? "success"
+                    : app.licenseStatus === "LICENSE_DECLARED"
+                    ? "warning"
+                    : "default"
+                }
+              >
+                {app.licenseStatus === "LICENSE_VERIFIED"
+                  ? "Verified"
+                  : app.licenseStatus === "LICENSE_DECLARED"
+                  ? "Declared"
+                  : "Not Provided"}
+              </Badge>
             </div>
-            <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
-              <div>
-                <span className="text-muted">Type:</span>{" "}
-                <span className="font-medium">
-                  {app.licenseType?.replace(/_/g, " ") || "N/A"}
-                </span>
+            {app.licenseStatus !== "NOT_PROVIDED" ? (
+              <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm">
+                <div>
+                  <span className="text-muted">Type:</span>{" "}
+                  <span className="font-medium">
+                    {app.licenseType?.replace(/_/g, " ") || "N/A"}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-muted">Number:</span>{" "}
+                  <span className="font-medium">
+                    {app.licenseNumber || "N/A"}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-muted">State:</span>{" "}
+                  <span className="font-medium">
+                    {app.licenseState || "N/A"}
+                  </span>
+                </div>
               </div>
-              <div>
-                <span className="text-muted">Number:</span>{" "}
-                <span className="font-medium">
-                  {app.licenseNumber || "N/A"}
-                </span>
-              </div>
-              <div>
-                <span className="text-muted">State:</span>{" "}
-                <span className="font-medium">
-                  {app.licenseState || "N/A"}
-                </span>
-              </div>
-            </div>
+            ) : (
+              <p className="mt-2 text-sm text-muted">
+                No license information provided.
+              </p>
+            )}
           </div>
 
           {/* Bio */}

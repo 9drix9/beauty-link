@@ -1,17 +1,16 @@
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { getApiUser } from "@/lib/auth";
 import { proApplicationSchema } from "@/lib/validators";
-import type { LicenseType, WorkSetting, YearsExperience } from "@prisma/client";
+import type { WorkSetting, YearsExperience, LicenseStatus } from "@prisma/client";
 
 export async function POST(req: Request) {
-  const { userId } = auth();
-
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   try {
+    const user = await getApiUser();
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const body = await req.json();
     const parsed = proApplicationSchema.safeParse(body);
 
@@ -24,22 +23,23 @@ export async function POST(req: Request) {
 
     const data = parsed.data;
 
-    // Find user
-    const user = await db.user.findUnique({
-      where: { clerkId: userId },
-      include: { professionalProfile: true },
+    // Check if user already has a professional profile
+    const existingProfile = await db.professionalProfile.findUnique({
+      where: { userId: user.id },
     });
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found." }, { status: 404 });
-    }
-
-    if (user.professionalProfile) {
+    if (existingProfile) {
       return NextResponse.json(
         { error: "You already have a professional profile." },
         { status: 409 }
       );
     }
+
+    // Determine license status based on provided fields
+    const hasLicense = !!(data.licenseType && data.licenseNumber);
+    const licenseStatus: LicenseStatus = hasLicense
+      ? "LICENSE_DECLARED"
+      : "NOT_PROVIDED";
 
     // Create profile and update user role in a transaction
     const profile = await db.$transaction(async (tx) => {
@@ -51,9 +51,10 @@ export async function POST(req: Request) {
           servicesOffered: data.serviceCategories,
           yearsExperience: data.yearsExperience as YearsExperience,
           workSetting: data.workSetting as WorkSetting,
-          licenseType: data.licenseType as LicenseType,
-          licenseNumber: data.licenseNumber,
-          licenseState: data.licenseState,
+          licenseStatus,
+          licenseType: data.licenseType || null,
+          licenseNumber: data.licenseNumber || null,
+          licenseState: data.licenseState || null,
           instagramHandle: data.instagramUrl || null,
           applicationStatus: "PENDING",
           applicationSubmittedAt: new Date(),

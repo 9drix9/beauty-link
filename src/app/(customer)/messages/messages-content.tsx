@@ -335,7 +335,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
               value={messageBody}
               onChange={(e) => setMessageBody(e.target.value)}
               placeholder="Type a message..."
-              className="flex-1 rounded-full border border-gray-300 px-4 py-2.5 text-sm focus:border-purple-primary focus:outline-none focus:ring-1 focus:ring-purple-primary"
+              className="flex-1 min-w-0 rounded-full border border-gray-300 px-4 py-2.5 text-sm focus:border-purple-primary focus:outline-none focus:ring-1 focus:ring-purple-primary"
             />
             <button
               type="submit"
@@ -358,7 +358,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
   );
 
   return (
-    <div className="flex h-[calc(100vh-12rem)] overflow-hidden rounded-xl border border-border bg-white shadow-sm">
+    <div className="flex h-[calc(100dvh-8rem)] md:h-[calc(100dvh-12rem)] overflow-hidden rounded-xl border border-border bg-white shadow-sm">
       {threadListPanel}
       {conversationPanel}
     </div>

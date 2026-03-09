@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
+import { getApiUser } from "@/lib/auth";
 import { CANCELLATION_WINDOW_HOURS } from "@/lib/constants";
 import Stripe from "stripe";
 
@@ -13,14 +13,9 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { userId: clerkId } = auth();
-    if (!clerkId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await db.user.findUnique({ where: { clerkId } });
+    const user = await getApiUser();
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const booking = await db.booking.findUnique({
@@ -92,14 +87,9 @@ export async function PATCH(
   { params }: { params: { id: string } }
 ) {
   try {
-    const { userId: clerkId } = auth();
-    if (!clerkId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await db.user.findUnique({ where: { clerkId } });
+    const user = await getApiUser();
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();

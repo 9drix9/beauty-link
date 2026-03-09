@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/auth";
 import { MyBookingsContent } from "./my-bookings-content";
 
 export const metadata: Metadata = {
@@ -10,16 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MyBookingsPage() {
-  const { userId: clerkId } = auth();
-
-  if (!clerkId) {
-    redirect("/login");
-  }
-
-  const user = await db.user.findUnique({
-    where: { clerkId },
-    select: { id: true },
-  });
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect("/login");

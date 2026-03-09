@@ -1,18 +1,18 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
+import { getApiUser } from "@/lib/auth";
 import { ServiceCategory } from "@prisma/client";
 import { createListingSchema } from "@/lib/validators";
 import { validateDiscount } from "@/lib/pricing";
 
 export async function GET() {
-  const { userId } = auth();
-  if (!userId) {
+  const baseUser = await getApiUser();
+  if (!baseUser) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const user = await db.user.findUnique({
-    where: { clerkId: userId },
+    where: { id: baseUser.id },
     include: { professionalProfile: true },
   });
 
@@ -29,13 +29,13 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const { userId } = auth();
-  if (!userId) {
+  const baseUser = await getApiUser();
+  if (!baseUser) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const user = await db.user.findUnique({
-    where: { clerkId: userId },
+    where: { id: baseUser.id },
     include: { professionalProfile: true },
   });
 

@@ -1,20 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
+import { getApiUser } from "@/lib/auth";
 import { reviewSchema } from "@/lib/validators";
 
 export async function POST(request: Request) {
   try {
-  const { userId: clerkId } = auth();
-  if (!clerkId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const user = await db.user.findUnique({
-    where: { clerkId },
-    select: { id: true },
-  });
-
+  const user = await getApiUser();
   if (!user) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }

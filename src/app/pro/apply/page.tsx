@@ -1,6 +1,6 @@
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -11,15 +11,15 @@ import { ApplyForm } from "./apply-form";
 export const metadata = { title: "Apply as a Professional" };
 
 export default async function ApplyPage() {
-  const { userId } = auth();
+  const baseUser = await getCurrentUser();
 
-  if (!userId) {
+  if (!baseUser) {
     redirect("/signup");
   }
 
   // Check if user already has a professional profile
   const user = await db.user.findUnique({
-    where: { clerkId: userId },
+    where: { id: baseUser.id },
     include: { professionalProfile: true },
   });
 
@@ -66,10 +66,10 @@ export default async function ApplyPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12 px-4">
+    <main className="min-h-screen bg-gray-50 py-6 sm:py-12 px-4">
       <div className="max-w-2xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2">Apply as a Professional</h1>
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Apply as a Professional</h1>
           <p className="text-muted">
             Complete the form below to join BeautyLink as a verified professional.
           </p>

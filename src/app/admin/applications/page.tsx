@@ -29,7 +29,8 @@ export default async function ApplicationsPage() {
     applicationSubmittedAt: app.applicationSubmittedAt?.toISOString() ?? null,
     approvedAt: app.approvedAt?.toISOString() ?? null,
     rejectedAt: app.rejectedAt?.toISOString() ?? null,
-    licenseExpiry: app.licenseExpiry?.toISOString() ?? null,
+    licenseExpiration: app.licenseExpiration?.toISOString() ?? null,
+    licenseVerifiedAt: app.licenseVerifiedAt?.toISOString() ?? null,
   }));
 
   return <ApplicationsContent applications={serialized} />;

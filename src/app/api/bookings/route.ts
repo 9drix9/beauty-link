@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
+import { getApiUser } from "@/lib/auth";
 import { calculatePriceBreakdown } from "@/lib/pricing";
 import { generateBookingReference } from "@/lib/utils";
 import Stripe from "stripe";
@@ -11,14 +11,9 @@ const stripe = process.env.STRIPE_SECRET_KEY
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId: clerkId } = auth();
-    if (!clerkId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const user = await db.user.findUnique({ where: { clerkId } });
+    const user = await getApiUser();
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const body = await req.json();

@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
+import { getApiUser } from "@/lib/auth";
 import { validateDiscount } from "@/lib/pricing";
 
 async function getAuthenticatedPro() {
-  const { userId } = auth();
-  if (!userId) return null;
+  const baseUser = await getApiUser();
+  if (!baseUser) return null;
 
   const user = await db.user.findUnique({
-    where: { clerkId: userId },
+    where: { id: baseUser.id },
     include: { professionalProfile: true },
   });
 

@@ -58,9 +58,9 @@ export const proApplicationSchema = z.object({
   serviceCategories: z.array(z.string()).min(1),
   yearsExperience: z.string(),
   workSetting: z.string(),
-  licenseType: z.string(),
-  licenseNumber: z.string().min(3),
-  licenseState: z.string().length(2),
+  licenseType: z.string().optional().or(z.literal("")),
+  licenseNumber: z.string().optional().or(z.literal("")),
+  licenseState: z.string().max(2).optional().or(z.literal("")),
   instagramUrl: z.string().url().optional().or(z.literal("")),
   websiteUrl: z.string().url().optional().or(z.literal("")),
 });

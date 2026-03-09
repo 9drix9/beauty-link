@@ -95,11 +95,15 @@ export function ApplyForm() {
       if (!formData.workSetting) return "Work setting is required.";
     }
     if (s === 2) {
-      if (!formData.licenseType) return "License type is required.";
-      if (formData.licenseNumber.length < 3)
-        return "License number must be at least 3 characters.";
-      if (formData.licenseState.length !== 2)
-        return "License state must be 2 characters (e.g. CA).";
+      // License fields are optional, but if partially filled, validate completeness
+      const hasAnyLicense = formData.licenseType || formData.licenseNumber || formData.licenseState;
+      if (hasAnyLicense) {
+        if (!formData.licenseType) return "Please select a license type or clear all license fields.";
+        if (formData.licenseNumber.length < 3)
+          return "License number must be at least 3 characters.";
+        if (formData.licenseState.length !== 2)
+          return "License state must be 2 characters (e.g. CA).";
+      }
     }
     return null;
   }
@@ -382,8 +386,12 @@ export function ApplyForm() {
             <CardTitle>License & Verification</CardTitle>
           </CardHeader>
           <CardContent className="space-y-5">
+            <p className="text-sm text-muted">
+              License info is optional. If provided, it will be reviewed by our team.
+              Documents are stored privately and only visible to admins.
+            </p>
             <div className="space-y-2">
-              <Label>License Type *</Label>
+              <Label>License Type</Label>
               <Select
                 value={formData.licenseType}
                 onValueChange={(v) => updateField("licenseType", v)}
@@ -403,7 +411,7 @@ export function ApplyForm() {
 
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="licenseNumber">License Number *</Label>
+                <Label htmlFor="licenseNumber">License Number</Label>
                 <Input
                   id="licenseNumber"
                   placeholder="e.g. CO-123456"
@@ -414,7 +422,7 @@ export function ApplyForm() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="licenseState">License State *</Label>
+                <Label htmlFor="licenseState">License State</Label>
                 <Input
                   id="licenseState"
                   placeholder="CA"
@@ -520,18 +528,18 @@ export function ApplyForm() {
                 Business Information
               </h3>
               <dl className="space-y-2 text-sm">
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
                   <dt className="text-muted">Display Name</dt>
                   <dd className="font-medium">{formData.businessName}</dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
                   <dt className="text-muted">Bio</dt>
-                  <dd className="font-medium text-right max-w-xs truncate">
+                  <dd className="font-medium sm:text-right sm:max-w-xs truncate">
                     {formData.bio.slice(0, 80)}
                     {formData.bio.length > 80 ? "..." : ""}
                   </dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
                   <dt className="text-muted">Categories</dt>
                   <dd className="font-medium">
                     {formData.serviceCategories
@@ -542,7 +550,7 @@ export function ApplyForm() {
                       .join(", ")}
                   </dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
                   <dt className="text-muted">Experience</dt>
                   <dd className="font-medium">
                     {
@@ -552,7 +560,7 @@ export function ApplyForm() {
                     }
                   </dd>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
                   <dt className="text-muted">Work Setting</dt>
                   <dd className="font-medium">
                     {
@@ -563,13 +571,13 @@ export function ApplyForm() {
                   </dd>
                 </div>
                 {formData.instagramUrl && (
-                  <div className="flex justify-between">
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
                     <dt className="text-muted">Instagram</dt>
                     <dd className="font-medium">{formData.instagramUrl}</dd>
                   </div>
                 )}
                 {formData.websiteUrl && (
-                  <div className="flex justify-between">
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
                     <dt className="text-muted">Website</dt>
                     <dd className="font-medium">{formData.websiteUrl}</dd>
                   </div>
@@ -584,38 +592,42 @@ export function ApplyForm() {
               <h3 className="text-sm font-semibold text-muted uppercase tracking-wide mb-3">
                 License & Verification
               </h3>
-              <dl className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <dt className="text-muted">License Type</dt>
-                  <dd className="font-medium">
-                    {
-                      LICENSE_TYPES.find(
+              {formData.licenseType || formData.licenseNumber ? (
+                <dl className="space-y-2 text-sm">
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
+                    <dt className="text-muted">License Type</dt>
+                    <dd className="font-medium">
+                      {LICENSE_TYPES.find(
                         (o) => o.value === formData.licenseType
-                      )?.label
-                    }
-                  </dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-muted">License Number</dt>
-                  <dd className="font-medium">{formData.licenseNumber}</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-muted">License State</dt>
-                  <dd className="font-medium">{formData.licenseState}</dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-muted">License Document</dt>
-                  <dd className="font-medium">
-                    {formData.licenseDoc ? formData.licenseDoc.name : "Not uploaded"}
-                  </dd>
-                </div>
-                <div className="flex justify-between">
-                  <dt className="text-muted">Selfie</dt>
-                  <dd className="font-medium">
-                    {formData.selfie ? formData.selfie.name : "Not uploaded"}
-                  </dd>
-                </div>
-              </dl>
+                      )?.label || "Not provided"}
+                    </dd>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
+                    <dt className="text-muted">License Number</dt>
+                    <dd className="font-medium">
+                      {formData.licenseNumber || "Not provided"}
+                    </dd>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
+                    <dt className="text-muted">License State</dt>
+                    <dd className="font-medium">
+                      {formData.licenseState || "Not provided"}
+                    </dd>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:justify-between gap-0.5">
+                    <dt className="text-muted">License Document</dt>
+                    <dd className="font-medium">
+                      {formData.licenseDoc
+                        ? formData.licenseDoc.name
+                        : "Not uploaded"}
+                    </dd>
+                  </div>
+                </dl>
+              ) : (
+                <p className="text-sm text-muted">
+                  No license information provided. You can add this later.
+                </p>
+              )}
             </div>
 
             <Separator />

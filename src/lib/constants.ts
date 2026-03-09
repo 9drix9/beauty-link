@@ -81,7 +81,7 @@ export const YEARS_EXPERIENCE_OPTIONS = [
   { value: "TEN_PLUS", label: "10+ years" },
 ] as const;
 
-// License Types
+// License Types (free-text backed, kept as options for the form)
 export const LICENSE_TYPES = [
   { value: "COSMETOLOGY", label: "Cosmetology" },
   { value: "ESTHETICS", label: "Esthetics" },
@@ -90,6 +90,13 @@ export const LICENSE_TYPES = [
   { value: "BARBERING", label: "Barbering" },
   { value: "OTHER", label: "Other" },
 ] as const;
+
+// License Status labels
+export const LICENSE_STATUS_LABELS: Record<string, string> = {
+  LICENSE_VERIFIED: "Verified",
+  LICENSE_DECLARED: "Declared",
+  NOT_PROVIDED: "Not Provided",
+};
 
 // Duration options (for listing creation)
 export const DURATION_OPTIONS = [

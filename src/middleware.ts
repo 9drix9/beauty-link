@@ -13,6 +13,8 @@ export default authMiddleware({
     "/contact",
     "/terms",
     "/privacy",
+    "/cookies",
+    "/help",
 
     // Pro public pages (join + apply only)
     "/pro/join",

@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
+import { getCurrentUser } from "@/lib/auth";
 import { MessagesContent } from "./messages-content";
 
 export const metadata: Metadata = {
@@ -10,16 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MessagesPage() {
-  const { userId: clerkId } = auth();
-
-  if (!clerkId) {
-    redirect("/login");
-  }
-
-  const user = await db.user.findUnique({
-    where: { clerkId },
-    select: { id: true },
-  });
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect("/login");
@@ -66,8 +57,8 @@ export default async function MessagesPage() {
   }));
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
-      <h1 className="mb-6 text-2xl font-bold text-dark">Messages</h1>
+    <div className="mx-auto max-w-6xl px-2 py-3 sm:px-6 sm:py-6 lg:px-8">
+      <h1 className="mb-4 sm:mb-6 text-xl sm:text-2xl font-bold text-dark px-2 sm:px-0">Messages</h1>
       <MessagesContent threads={serializedThreads} currentUserId={user.id} />
     </div>
   );
