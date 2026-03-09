@@ -1,36 +1,108 @@
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { InputHTMLAttributes, forwardRef } from "react";
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+const inputVariants = cva(
+  "flex w-full rounded-md border bg-white text-body transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50",
+  {
+    variants: {
+      variant: {
+        default:
+          "border-border focus-visible:ring-purple-primary focus-visible:border-purple-primary",
+        error:
+          "border-error focus-visible:ring-error text-error",
+      },
+      inputSize: {
+        sm: "h-9 px-3 text-sm",
+        md: "h-10 px-3 text-sm",
+        lg: "h-12 px-4 text-base",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      inputSize: "md",
+    },
+  }
+);
+
+export interface InputProps
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
+    VariantProps<typeof inputVariants> {
   label?: string;
   error?: string;
+  startIcon?: React.ReactNode;
+  endIcon?: React.ReactNode;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, label, error, id, ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      className,
+      type,
+      variant,
+      inputSize,
+      label,
+      error,
+      startIcon,
+      endIcon,
+      id,
+      ...props
+    },
+    ref
+  ) => {
+    const generatedId = React.useId();
+    const inputId = id || generatedId;
+    const computedVariant = error ? "error" : variant;
+
     return (
-      <div className="space-y-1.5">
+      <div className="flex flex-col gap-1.5">
         {label && (
-          <label htmlFor={id} className="block text-[13px] font-medium text-gray-700">
+          <label
+            htmlFor={inputId}
+            className="text-sm font-medium text-body"
+          >
             {label}
           </label>
         )}
-        <input
-          ref={ref}
-          id={id}
-          className={cn(
-            "block w-full rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm shadow-sm transition-all duration-200 placeholder:text-gray-400 hover:border-gray-300 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20",
-            error && "border-red-400 focus:border-red-500 focus:ring-red-500/20",
-            className
+        <div className="relative">
+          {startIcon && (
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted">
+              {startIcon}
+            </span>
           )}
-          {...props}
-        />
-        {error && <p className="text-[13px] text-red-600">{error}</p>}
+          <input
+            type={type}
+            id={inputId}
+            className={cn(
+              inputVariants({ variant: computedVariant, inputSize }),
+              startIcon && "pl-10",
+              endIcon && "pr-10",
+              className
+            )}
+            ref={ref}
+            aria-invalid={!!error}
+            aria-describedby={error ? `${inputId}-error` : undefined}
+            {...props}
+          />
+          {endIcon && (
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted">
+              {endIcon}
+            </span>
+          )}
+        </div>
+        {error && (
+          <p
+            id={`${inputId}-error`}
+            className="text-sm text-error"
+            role="alert"
+          >
+            {error}
+          </p>
+        )}
       </div>
     );
   }
 );
-
 Input.displayName = "Input";
 
-export { Input };
+export { Input, inputVariants };

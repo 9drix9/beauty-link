@@ -1,60 +1,140 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { db } from "@/lib/db";
+import { ServiceCategory, ListingStatus } from "@prisma/client";
 
-export async function GET(request: NextRequest) {
-  const searchParams = request.nextUrl.searchParams;
-  const category = searchParams.get("category");
-  const zone = searchParams.get("zone");
-  const dateWindow = searchParams.get("dateWindow") || "week";
-
-  const now = new Date();
-  const endDate = new Date();
-
-  switch (dateWindow) {
-    case "today":
-      endDate.setHours(23, 59, 59, 999);
-      break;
-    case "3days":
-      endDate.setDate(endDate.getDate() + 3);
-      break;
-    case "week":
-    default:
-      endDate.setDate(endDate.getDate() + 7);
-      break;
-  }
-
+export async function GET(req: NextRequest) {
   try {
-    const appointments = await prisma.appointment.findMany({
-      where: {
-        status: "OPEN",
-        startAt: {
-          gte: now,
-          lte: endDate,
-        },
-        ...(category && {
-          service: { category: category as never },
-        }),
-        ...(zone && { launchZone: zone }),
-      },
+    const { searchParams } = req.nextUrl;
+
+    const category = searchParams.get("category");
+    const search = searchParams.get("search");
+    const sort = searchParams.get("sort");
+    const date = searchParams.get("date");
+    const minPrice = searchParams.get("minPrice");
+    const maxPrice = searchParams.get("maxPrice");
+    const zone = searchParams.get("zone");
+    const cursor = searchParams.get("cursor");
+    const limit = Math.min(
+      Math.max(parseInt(searchParams.get("limit") || "20", 10) || 20, 1),
+      100
+    );
+
+    // Build where clause
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const where: Record<string, unknown> = {
+      status: ListingStatus.LIVE,
+      appointmentDate: { gte: today },
+    };
+
+    // Category filter
+    if (category && Object.values(ServiceCategory).includes(category as ServiceCategory)) {
+      where.serviceCategory = category as ServiceCategory;
+    }
+
+    // Search filter
+    if (search) {
+      where.OR = [
+        { serviceName: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    // Date filter
+    if (date === "today") {
+      const endOfToday = new Date(today);
+      endOfToday.setHours(23, 59, 59, 999);
+      where.appointmentDate = { gte: today, lte: endOfToday };
+    } else if (date === "tomorrow") {
+      const tomorrow = new Date(today);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const endOfTomorrow = new Date(tomorrow);
+      endOfTomorrow.setHours(23, 59, 59, 999);
+      where.appointmentDate = { gte: tomorrow, lte: endOfTomorrow };
+    } else if (date === "weekend") {
+      const dayOfWeek = today.getDay(); // 0 = Sunday
+      const saturday = new Date(today);
+      saturday.setDate(today.getDate() + (6 - dayOfWeek));
+      saturday.setHours(0, 0, 0, 0);
+      const sunday = new Date(saturday);
+      sunday.setDate(saturday.getDate() + 1);
+      sunday.setHours(23, 59, 59, 999);
+      where.appointmentDate = { gte: saturday, lte: sunday };
+    }
+
+    // Price filters
+    if (minPrice || maxPrice) {
+      const priceFilter: Record<string, number> = {};
+      if (minPrice) priceFilter.gte = parseInt(minPrice, 10);
+      if (maxPrice) priceFilter.lte = parseInt(maxPrice, 10);
+      where.discountedPrice = priceFilter;
+    }
+
+    // Zone filter
+    if (zone) {
+      where.launchZone = zone;
+    }
+
+    // Build orderBy
+    let orderBy: Record<string, unknown> | Record<string, unknown>[];
+    switch (sort) {
+      case "price_asc":
+        orderBy = { discountedPrice: "asc" };
+        break;
+      case "price_desc":
+        orderBy = { discountedPrice: "desc" };
+        break;
+      case "soonest":
+        orderBy = [{ appointmentDate: "asc" }, { appointmentTime: "asc" }];
+        break;
+      case "rating":
+        orderBy = { professional: { avgRating: "desc" } };
+        break;
+      default:
+        // "recommended"
+        orderBy = [
+          { professional: { isFeatured: "desc" } },
+          { appointmentDate: "asc" },
+        ];
+        break;
+    }
+
+    // Cursor-based pagination
+    const paginationArgs: Record<string, unknown> = {};
+    if (cursor) {
+      paginationArgs.cursor = { id: cursor };
+      paginationArgs.skip = 1;
+    }
+
+    const listings = await db.appointmentListing.findMany({
+      where,
+      orderBy,
+      take: limit,
+      ...paginationArgs,
       include: {
-        service: true,
-        professionalProfile: {
+        professional: {
           include: {
             user: {
-              select: { name: true, profileImageUrl: true },
+              select: {
+                firstName: true,
+                lastName: true,
+                profilePhotoUrl: true,
+              },
             },
           },
         },
       },
-      orderBy: { startAt: "asc" },
-      take: 50,
     });
 
-    return NextResponse.json(appointments);
-  } catch (error) {
-    console.error("Failed to fetch appointments:", error);
+    const nextCursor =
+      listings.length === limit ? listings[listings.length - 1].id : null;
+
+    return NextResponse.json({ listings, nextCursor });
+  } catch (err) {
+    console.error("Error fetching appointments:", err);
     return NextResponse.json(
-      { error: "Failed to fetch appointments" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

@@ -13,7 +13,16 @@
       "Bash(gh api:*)",
       "Bash(gh repo:*)",
       "WebSearch",
-      "WebFetch(domain:www.fresha.com)"
+      "WebFetch(domain:www.fresha.com)",
+      "Bash(grep:*)",
+      "Bash(npm ls:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(/home/ricky/Desktop/beauty-link/.env.local:*)",
+      "Bash(ls:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx next:*)",
+      "Bash(wc:*)",
+      "Bash(npx vercel:*)"
     ]
   }
 }

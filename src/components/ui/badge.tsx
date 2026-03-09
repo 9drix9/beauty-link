@@ -1,28 +1,44 @@
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
-interface BadgeProps {
-  children: React.ReactNode;
-  variant?: "default" | "success" | "warning" | "danger" | "pink" | "premium";
-  className?: string;
-}
+const badgeVariants = cva(
+  "inline-flex items-center font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-purple-primary focus:ring-offset-2",
+  {
+    variants: {
+      variant: {
+        default: "bg-purple-light text-purple-primary",
+        success: "bg-success-light text-success",
+        warning: "bg-warning-light text-warning",
+        error: "bg-error-light text-error",
+        orange: "bg-orange-light text-orange-primary",
+        outline: "border border-border bg-transparent text-body",
+      },
+      size: {
+        sm: "rounded-md px-2 py-0.5 text-xs",
+        md: "rounded-md px-2.5 py-1 text-sm",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "sm",
+    },
+  }
+);
 
-export function Badge({ children, variant = "default", className }: BadgeProps) {
-  return (
+export interface BadgeProps
+  extends React.HTMLAttributes<HTMLSpanElement>,
+    VariantProps<typeof badgeVariants> {}
+
+const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ className, variant, size, ...props }, ref) => (
     <span
-      className={cn(
-        "inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wider",
-        {
-          "bg-gray-100 text-gray-600": variant === "default",
-          "bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-200": variant === "success",
-          "bg-amber-50 text-amber-700 ring-1 ring-inset ring-amber-200": variant === "warning",
-          "bg-red-50 text-red-700 ring-1 ring-inset ring-red-200": variant === "danger",
-          "bg-brand-50 text-brand-700 ring-1 ring-inset ring-brand-200": variant === "pink",
-          "bg-gradient-to-r from-brand-500 to-purple-500 text-white shadow-sm": variant === "premium",
-        },
-        className
-      )}
-    >
-      {children}
-    </span>
-  );
-}
+      ref={ref}
+      className={cn(badgeVariants({ variant, size }), className)}
+      {...props}
+    />
+  )
+);
+Badge.displayName = "Badge";
+
+export { Badge, badgeVariants };

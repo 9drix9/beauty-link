@@ -1,28 +1,56 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
+import { AppClerkProvider } from "@/components/providers/clerk-provider";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
+  display: "swap",
 });
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  maximumScale: 5,
   viewportFit: "cover",
-  themeColor: "#ec4899",
+  themeColor: "#6A1B9A",
 };
 
 export const metadata: Metadata = {
-  title: "BeautyLink - Discounted Beauty Appointments Near You",
+  title: {
+    default: "BeautyLink — Great Beauty. Better Prices.",
+    template: "%s | BeautyLink",
+  },
   description:
-    "Discover and book discounted, last-minute beauty appointments from verified professionals in West Los Angeles.",
+    "Book exclusive discounted appointments with beauty professionals near you — from lash techs and nail artists to stylists and skincare pros.",
+  keywords: [
+    "beauty appointments",
+    "discounted beauty",
+    "last minute beauty",
+    "hair salon deals",
+    "nail salon deals",
+    "lash extensions",
+    "Los Angeles beauty",
+    "beauty marketplace",
+  ],
+  authors: [{ name: "BeautyLink, Inc." }],
+  creator: "BeautyLink",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "BeautyLink",
+    title: "BeautyLink — Great Beauty. Better Prices.",
+    description:
+      "Book exclusive discounted appointments with beauty professionals near you.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BeautyLink — Great Beauty. Better Prices.",
+    description:
+      "Book exclusive discounted appointments with beauty professionals near you.",
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -39,13 +67,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} font-[family-name:var(--font-geist-sans)] antialiased overscroll-none`}
-      >
-        <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+    <html lang="en" className={inter.variable}>
+      <body className="font-sans antialiased bg-background text-body overscroll-none">
+        <AppClerkProvider>
+          {children}
+        </AppClerkProvider>
       </body>
     </html>
   );
