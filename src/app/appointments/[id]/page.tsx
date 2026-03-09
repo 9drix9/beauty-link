@@ -50,21 +50,21 @@ export default function AppointmentDetailPage({
   );
 
   return (
-    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8">
+    <div className="mx-auto max-w-5xl px-5 sm:px-6 lg:px-8 py-6 sm:py-8 pb-28 lg:pb-8">
       <Link
         href="/appointments"
-        className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-900 transition-colors mb-8"
+        className="inline-flex items-center gap-1.5 text-[13px] text-gray-400 hover:text-gray-900 transition-colors mb-6 sm:mb-8"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         Back to browse
       </Link>
 
-      <div className="grid lg:grid-cols-5 gap-10">
-        {/* Main content - 3 cols */}
-        <div className="lg:col-span-3 space-y-8 animate-fade-in-up">
+      <div className="grid lg:grid-cols-5 gap-6 lg:gap-10">
+        {/* Main content */}
+        <div className="lg:col-span-3 space-y-5 sm:space-y-8 animate-fade-in-up">
           {/* Image */}
-          <div className="aspect-[16/10] rounded-2xl bg-gradient-to-br from-rose-100 via-pink-50 to-fuchsia-100 flex items-center justify-center overflow-hidden">
-            <span className="text-7xl opacity-30">✂️</span>
+          <div className="aspect-[4/3] sm:aspect-[16/10] rounded-xl sm:rounded-2xl bg-gradient-to-br from-rose-100 via-pink-50 to-fuchsia-100 flex items-center justify-center overflow-hidden">
+            <span className="text-5xl sm:text-7xl opacity-30">✂️</span>
           </div>
 
           {/* Title */}
@@ -73,7 +73,7 @@ export default function AppointmentDetailPage({
               <Badge variant="premium">{discount}% off</Badge>
               <Badge>Hair</Badge>
             </div>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900">
               {appointment.serviceName}
             </h1>
             <p className="mt-3 text-[15px] text-gray-500 leading-relaxed">
@@ -166,8 +166,8 @@ export default function AppointmentDetailPage({
           </div>
         </div>
 
-        {/* Booking sidebar - 2 cols */}
-        <div className="lg:col-span-2">
+        {/* Booking sidebar - desktop only */}
+        <div className="hidden lg:block lg:col-span-2">
           <div className="sticky top-24">
             <Card className="shadow-premium-lg animate-fade-in">
               <CardContent className="space-y-6">
@@ -261,6 +261,28 @@ export default function AppointmentDetailPage({
               </CardContent>
             </Card>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile sticky bottom bar */}
+      <div className="fixed bottom-0 left-0 right-0 lg:hidden glass glass-border border-t border-gray-200/50 px-5 py-4 z-40 safe-bottom">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <div className="flex items-baseline gap-2">
+              <span className="text-xl font-bold text-gray-900">
+                ${(appointment.discountedPrice / 100).toFixed(2)}
+              </span>
+              <span className="text-sm text-gray-300 line-through">
+                ${(appointment.originalPrice / 100).toFixed(2)}
+              </span>
+            </div>
+            <p className="text-[11px] text-brand-600 font-semibold">
+              Save ${((appointment.originalPrice - appointment.discountedPrice) / 100).toFixed(2)}
+            </p>
+          </div>
+          <Button size="lg">
+            Book now
+          </Button>
         </div>
       </div>
     </div>

@@ -14,114 +14,73 @@ export function Hero3DScene() {
 
   return (
     <div className="relative w-full h-full perspective-2000 preserve-3d">
-      {/* Main morphing blob */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[320px] sm:w-[420px] sm:h-[420px]">
-        <div className="w-full h-full bg-gradient-to-br from-brand-300/40 via-purple-300/30 to-violet-300/40 animate-morph blur-sm" />
-      </div>
-
       {/* Orbiting ring */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] sm:w-[500px] sm:h-[500px]">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] lg:w-[380px] lg:h-[380px]">
         <div
-          className="w-full h-full rounded-full border border-brand-200/30 animate-spin-slow"
+          className="w-full h-full rounded-full border border-brand-200/25 animate-spin-slow"
           style={{ transform: "rotateX(70deg)" }}
         />
       </div>
 
-      {/* Second orbiting ring */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px]">
-        <div
-          className="w-full h-full rounded-full border border-purple-200/20 animate-spin-slow"
-          style={{
-            transform: "rotateX(70deg) rotateZ(60deg)",
-            animationDuration: "25s",
-            animationDirection: "reverse",
-          }}
-        />
-      </div>
-
-      {/* Floating service icons */}
-      <FloatingElement
-        className="absolute top-[10%] right-[15%]"
-        duration={7}
-        delay={0}
-        distance={25}
-        rotation={8}
-      >
-        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white shadow-premium-lg flex items-center justify-center backface-hidden">
-          <span className="text-2xl sm:text-3xl">✂️</span>
-        </div>
-      </FloatingElement>
-
-      <FloatingElement
-        className="absolute top-[25%] left-[10%]"
-        duration={8}
-        delay={1}
-        distance={18}
-        rotation={6}
-      >
-        <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-white shadow-premium-lg flex items-center justify-center backface-hidden">
-          <span className="text-xl sm:text-2xl">💅</span>
-        </div>
-      </FloatingElement>
-
-      <FloatingElement
-        className="absolute bottom-[20%] right-[10%]"
-        duration={6}
-        delay={2}
-        distance={22}
-        rotation={10}
-      >
-        <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-2xl bg-white shadow-premium-lg flex items-center justify-center backface-hidden">
-          <span className="text-xl sm:text-2xl">💄</span>
-        </div>
-      </FloatingElement>
-
-      <FloatingElement
-        className="absolute bottom-[30%] left-[15%]"
-        duration={9}
-        delay={0.5}
-        distance={15}
-        rotation={4}
-      >
-        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white shadow-premium-lg flex items-center justify-center backface-hidden">
-          <span className="text-lg sm:text-xl">✨</span>
-        </div>
-      </FloatingElement>
-
-      <FloatingElement
-        className="absolute top-[55%] right-[30%]"
-        duration={7.5}
-        delay={1.5}
-        distance={20}
-        rotation={7}
-      >
-        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-white shadow-premium-lg flex items-center justify-center backface-hidden">
-          <span className="text-lg sm:text-2xl">👁️</span>
-        </div>
-      </FloatingElement>
-
-      {/* Glowing dots on orbit */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] sm:w-[500px] sm:h-[500px]">
-        <div
-          className="w-full h-full animate-spin-slow"
-          style={{ transform: "rotateX(70deg)" }}
-        >
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-brand-400 shadow-glow animate-pulse-ring" />
-          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 rounded-full bg-purple-400 shadow-glow animate-pulse-ring" style={{ animationDelay: "2s" }} />
-          <div className="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-violet-400 shadow-glow animate-pulse-ring" style={{ animationDelay: "1s" }} />
-        </div>
-      </div>
-
-      {/* Center icon */}
+      {/* Center logo */}
       <FloatingElement
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-        duration={5}
+        duration={6}
         delay={0}
+        distance={8}
+        rotation={2}
+      >
+        <div className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 rounded-2xl lg:rounded-3xl bg-gradient-to-br from-brand-500 to-brand-600 shadow-glow-lg flex items-center justify-center">
+          <span className="text-white text-2xl sm:text-3xl lg:text-4xl font-bold">B</span>
+        </div>
+      </FloatingElement>
+
+      {/* 4 icons in corners - well spaced */}
+      <FloatingElement
+        className="absolute top-[6%] right-[10%] sm:top-[4%] sm:right-[8%]"
+        duration={7}
+        delay={0}
+        distance={12}
+        rotation={3}
+      >
+        <div className="w-11 h-11 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl sm:rounded-2xl bg-white shadow-premium-lg flex items-center justify-center">
+          <span className="text-lg sm:text-xl lg:text-2xl">✂️</span>
+        </div>
+      </FloatingElement>
+
+      <FloatingElement
+        className="absolute top-[6%] left-[10%] sm:top-[4%] sm:left-[8%]"
+        duration={8}
+        delay={1.5}
         distance={10}
         rotation={3}
       >
-        <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-brand-500 to-brand-600 shadow-glow-lg flex items-center justify-center">
-          <span className="text-white text-3xl sm:text-4xl font-bold">B</span>
+        <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl sm:rounded-2xl bg-white shadow-premium-lg flex items-center justify-center">
+          <span className="text-base sm:text-lg lg:text-xl">💅</span>
+        </div>
+      </FloatingElement>
+
+      <FloatingElement
+        className="absolute bottom-[6%] right-[10%] sm:bottom-[4%] sm:right-[8%]"
+        duration={6.5}
+        delay={0.8}
+        distance={14}
+        rotation={4}
+      >
+        <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-xl sm:rounded-2xl bg-white shadow-premium-lg flex items-center justify-center">
+          <span className="text-base sm:text-lg lg:text-xl">💄</span>
+        </div>
+      </FloatingElement>
+
+      <FloatingElement
+        className="absolute bottom-[6%] left-[10%] sm:bottom-[4%] sm:left-[8%]"
+        duration={9}
+        delay={2}
+        distance={10}
+        rotation={3}
+      >
+        <div className="w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 rounded-xl sm:rounded-2xl bg-white shadow-premium-lg flex items-center justify-center">
+          <span className="text-sm sm:text-base lg:text-lg">✨</span>
         </div>
       </FloatingElement>
     </div>

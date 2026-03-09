@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, MouseEvent, ReactNode } from "react";
+import { useRef, useState, useEffect, MouseEvent, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface TiltCardProps {
@@ -21,9 +21,14 @@ export function TiltCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const [transform, setTransform] = useState("");
   const [glareStyle, setGlareStyle] = useState({});
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+  useEffect(() => {
+    setIsTouchDevice("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (isTouchDevice || !cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -40,13 +45,14 @@ export function TiltCard({
       const glareX = (x / rect.width) * 100;
       const glareY = (y / rect.height) * 100;
       setGlareStyle({
-        background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.25) 0%, transparent 60%)`,
+        background: `radial-gradient(circle at ${glareX}% ${glareY}%, rgba(255,255,255,0.2) 0%, transparent 60%)`,
         opacity: 1,
       });
     }
   };
 
   const handleMouseLeave = () => {
+    if (isTouchDevice) return;
     setTransform(
       "perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)"
     );
@@ -58,15 +64,15 @@ export function TiltCard({
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={cn("relative will-change-transform", className)}
+      className={cn("relative", !isTouchDevice && "will-change-transform", className)}
       style={{
-        transform,
+        transform: isTouchDevice ? undefined : transform,
         transition: "transform 0.15s ease-out",
         transformStyle: "preserve-3d",
       }}
     >
       {children}
-      {glareEnabled && (
+      {glareEnabled && !isTouchDevice && (
         <div
           className="pointer-events-none absolute inset-0 rounded-2xl transition-opacity duration-300"
           style={glareStyle}
