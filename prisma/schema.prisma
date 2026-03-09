@@ -1,0 +1,264 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  CLIENT
+  PROFESSIONAL
+  ADMIN
+}
+
+enum VerificationStatus {
+  DRAFT
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+enum BusinessType {
+  SALON
+  SUITE
+  MOBILE
+  HOME
+}
+
+enum ServiceCategory {
+  HAIR
+  NAILS
+  LASHES
+  MAKEUP
+  SKINCARE_FACIALS
+}
+
+enum AppointmentStatus {
+  OPEN
+  BOOKED
+  COMPLETED
+  CANCELLED
+  EXPIRED
+}
+
+enum BookingStatus {
+  CONFIRMED
+  COMPLETED
+  CANCELLED_BY_CLIENT
+  CANCELLED_BY_PROVIDER
+  DISPUTED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  CAPTURED
+  REFUNDED
+  FAILED
+}
+
+enum PayoutStatus {
+  PENDING
+  HELD
+  RELEASED
+  REVERSED
+}
+
+model User {
+  id              String   @id @default(cuid())
+  role            UserRole @default(CLIENT)
+  name            String
+  email           String   @unique
+  phone           String?
+  profileImageUrl String?  @map("profile_image_url")
+  authProvider    String?  @map("auth_provider")
+  isActive        Boolean  @default(true) @map("is_active")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  professionalProfile ProfessionalProfile?
+  bookings            Booking[]
+  reviewsWritten      Review[]             @relation("ClientReviews")
+  sentMessages        Message[]            @relation("SentMessages")
+  receivedMessages    Message[]            @relation("ReceivedMessages")
+  notifications       Notification[]
+  adminActions        AdminAction[]
+
+  @@map("users")
+}
+
+model ProfessionalProfile {
+  id                   String             @id @default(cuid())
+  userId               String             @unique @map("user_id")
+  bio                  String?
+  instagramUrl         String?            @map("instagram_url")
+  yearsExperience      Int?               @map("years_experience")
+  licenseType          String?            @map("license_type")
+  licenseNumber        String?            @map("license_number")
+  licenseState         String?            @map("license_state")
+  licenseExpiration    DateTime?          @map("license_expiration")
+  verificationStatus   VerificationStatus @default(DRAFT) @map("verification_status")
+  verificationNotes    String?            @map("verification_notes")
+  businessType         BusinessType?      @map("business_type")
+  cancellationPolicy   String?            @map("cancellation_policy_text")
+  stripeAccountId      String?            @map("stripe_account_id")
+  ratingAverage        Float              @default(0) @map("rating_average")
+  ratingCount          Int                @default(0) @map("rating_count")
+  createdAt            DateTime           @default(now()) @map("created_at")
+  updatedAt            DateTime           @updatedAt @map("updated_at")
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  services     Service[]
+  portfolios   Portfolio[]
+  appointments Appointment[]
+  reviews      Review[]
+
+  @@map("professional_profiles")
+}
+
+model Service {
+  id                    String          @id @default(cuid())
+  professionalProfileId String          @map("professional_profile_id")
+  name                  String
+  category              ServiceCategory
+  description           String?
+  basePrice             Int             @map("base_price")
+  durationMinutes       Int             @map("duration_minutes")
+  isActive              Boolean         @default(true) @map("is_active")
+
+  professionalProfile ProfessionalProfile @relation(fields: [professionalProfileId], references: [id], onDelete: Cascade)
+  appointments        Appointment[]
+
+  @@map("services")
+}
+
+model Portfolio {
+  id                    String           @id @default(cuid())
+  professionalProfileId String           @map("professional_profile_id")
+  imageUrl              String           @map("image_url")
+  caption               String?
+  category              ServiceCategory?
+  sortOrder             Int              @default(0) @map("sort_order")
+
+  professionalProfile ProfessionalProfile @relation(fields: [professionalProfileId], references: [id], onDelete: Cascade)
+
+  @@map("portfolios")
+}
+
+model Appointment {
+  id                    String            @id @default(cuid())
+  professionalProfileId String            @map("professional_profile_id")
+  serviceId             String            @map("service_id")
+  originalPrice         Int               @map("original_price")
+  discountedPrice       Int               @map("discounted_price")
+  startAt               DateTime          @map("start_at")
+  endAt                 DateTime          @map("end_at")
+  locationAddress       String?           @map("location_address")
+  latitude              Float?
+  longitude             Float?
+  launchZone            String?           @map("launch_zone")
+  status                AppointmentStatus @default(OPEN)
+  thumbnailImageUrl     String?           @map("thumbnail_image_url")
+  capacity              Int               @default(1)
+  createdAt             DateTime          @default(now()) @map("created_at")
+  updatedAt             DateTime          @updatedAt @map("updated_at")
+
+  professionalProfile ProfessionalProfile @relation(fields: [professionalProfileId], references: [id], onDelete: Cascade)
+  service             Service             @relation(fields: [serviceId], references: [id])
+  bookings            Booking[]
+
+  @@index([status, startAt])
+  @@index([latitude, longitude])
+  @@index([professionalProfileId])
+  @@map("appointments")
+}
+
+model Booking {
+  id                   String        @id @default(cuid())
+  appointmentId        String        @map("appointment_id")
+  clientUserId         String        @map("client_user_id")
+  paymentIntentId      String?       @map("payment_intent_id")
+  paymentStatus        PaymentStatus @default(PENDING) @map("payment_status")
+  bookingStatus        BookingStatus @default(CONFIRMED) @map("booking_status")
+  platformFeeAmount    Int?          @map("platform_fee_amount")
+  providerPayoutAmount Int?          @map("provider_payout_amount")
+  payoutStatus         PayoutStatus  @default(PENDING) @map("payout_status")
+  refundStatus         String?       @map("refund_status")
+  cancellationReason   String?       @map("cancellation_reason")
+  createdAt            DateTime      @default(now()) @map("created_at")
+  updatedAt            DateTime      @updatedAt @map("updated_at")
+
+  appointment Appointment @relation(fields: [appointmentId], references: [id])
+  client      User        @relation(fields: [clientUserId], references: [id])
+  review      Review?
+  messages    Message[]
+
+  @@map("bookings")
+}
+
+model Review {
+  id                    String   @id @default(cuid())
+  bookingId             String   @unique @map("booking_id")
+  clientUserId          String   @map("client_user_id")
+  professionalProfileId String   @map("professional_profile_id")
+  rating                Int
+  comment               String?
+  providerResponse      String?  @map("provider_response")
+  createdAt             DateTime @default(now()) @map("created_at")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  booking             Booking             @relation(fields: [bookingId], references: [id])
+  client              User                @relation("ClientReviews", fields: [clientUserId], references: [id])
+  professionalProfile ProfessionalProfile @relation(fields: [professionalProfileId], references: [id])
+
+  @@map("reviews")
+}
+
+model Message {
+  id             String   @id @default(cuid())
+  threadId       String   @map("thread_id")
+  senderUserId   String   @map("sender_user_id")
+  receiverUserId String   @map("receiver_user_id")
+  bookingId      String?  @map("booking_id")
+  messageText    String   @map("message_text")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  sender   User     @relation("SentMessages", fields: [senderUserId], references: [id])
+  receiver User     @relation("ReceivedMessages", fields: [receiverUserId], references: [id])
+  booking  Booking? @relation(fields: [bookingId], references: [id])
+
+  @@index([threadId])
+  @@map("messages")
+}
+
+model Notification {
+  id        String    @id @default(cuid())
+  userId    String    @map("user_id")
+  type      String
+  title     String
+  body      String
+  readAt    DateTime? @map("read_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+  @@map("notifications")
+}
+
+model AdminAction {
+  id           String   @id @default(cuid())
+  adminUserId  String   @map("admin_user_id")
+  actionType   String   @map("action_type")
+  targetType   String   @map("target_type")
+  targetId     String   @map("target_id")
+  metadataJson String?  @map("metadata_json") @db.Text
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  admin User @relation(fields: [adminUserId], references: [id])
+
+  @@map("admin_actions")
+}
