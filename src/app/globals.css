@@ -56,6 +56,10 @@
 }
 
 @layer utilities {
+  .hero-gradient {
+    background: linear-gradient(135deg, #1F2933 0%, #374151 50%, #1F2933 100%);
+  }
+
   .text-gradient {
     background: linear-gradient(135deg, var(--accent) 0%, var(--cta) 100%);
     -webkit-background-clip: text;

@@ -187,7 +187,7 @@ export default async function AppointmentDetailPage({
                 )}
               </>
             ) : (
-              <div className="flex aspect-[16/10] w-full items-center justify-center rounded-xl bg-gradient-to-br from-accent-light to-accent-light">
+              <div className="flex aspect-[16/10] w-full items-center justify-center rounded-xl bg-gradient-to-br from-gray-100 to-gray-200">
                 <span className="text-lg text-accent/60">
                   No photo available
                 </span>
