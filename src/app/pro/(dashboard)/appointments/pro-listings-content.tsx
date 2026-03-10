@@ -144,7 +144,7 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
           {/* Header: Service name + badges */}
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-wrap items-center gap-2 min-w-0">
-              <h3 className="font-semibold text-dark truncate">
+              <h3 className="font-semibold text-dark">
                 {listing.serviceName}
               </h3>
               {getStatusBadge(listing.status)}

@@ -201,7 +201,7 @@ export default async function ProDashboardPage() {
                     />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs text-muted truncate">{stat.label}</p>
+                    <p className="text-xs text-muted">{stat.label}</p>
                     <p className="text-lg font-bold text-dark sm:text-xl">
                       {stat.value}
                     </p>
@@ -308,7 +308,7 @@ export default async function ProDashboardPage() {
                   className="flex items-center justify-between rounded-lg border border-border p-3 sm:p-4 transition-colors hover:bg-gray-50"
                 >
                   <div className="min-w-0 space-y-0.5">
-                    <p className="font-medium text-dark truncate">
+                    <p className="font-medium text-dark">
                       {booking.serviceName}
                     </p>
                     <p className="text-sm text-muted">
@@ -361,7 +361,7 @@ export default async function ProDashboardPage() {
                   className="flex items-center justify-between rounded-lg border border-border p-3 sm:p-4 transition-colors hover:bg-gray-50"
                 >
                   <div className="min-w-0 space-y-0.5">
-                    <p className="font-medium text-dark truncate">
+                    <p className="font-medium text-dark">
                       {listing.serviceName}
                     </p>
                     <p className="text-xs text-muted">
