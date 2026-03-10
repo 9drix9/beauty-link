@@ -212,6 +212,29 @@ export async function POST(req: NextRequest) {
         break;
       }
 
+      case "account.updated": {
+        // Stripe Connect account was updated (onboarding completed, etc.)
+        const account = event.data.object as Stripe.Account;
+        const connectAccountId = account.id;
+
+        const profile = await db.professionalProfile.findFirst({
+          where: { stripeConnectAccountId: connectAccountId },
+        });
+
+        if (profile) {
+          await db.professionalProfile.update({
+            where: { id: profile.id },
+            data: {
+              payoutEnabled: account.payouts_enabled ?? false,
+              bankAccountLast4:
+                account.external_accounts?.data?.[0]?.last4 ||
+                profile.bankAccountLast4,
+            },
+          });
+        }
+        break;
+      }
+
       default:
         // Unhandled event — acknowledge
         break;

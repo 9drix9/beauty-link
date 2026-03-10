@@ -1,5 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
+import { PAYOUT_HOLD_HOURS } from "@/lib/constants";
+import Stripe from "stripe";
+
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) return null;
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    httpClient: Stripe.createFetchHttpClient(),
+    timeout: 30000,
+  });
+}
 
 /**
  * Scheduled maintenance cron job (runs hourly via Vercel Cron).
@@ -7,7 +17,8 @@ import { db } from "@/lib/db";
  * 1. Expire past LIVE/PAUSED listings
  * 2. Complete bookings 48h after appointment
  * 3. Clean up expired slot holds
- * 4. Set pending review intercept for completed bookings
+ * 4. Notify for expired unbooked listings
+ * 5. Auto-release payouts for completed bookings (24h after completion)
  */
 export async function GET(req: NextRequest) {
   // Verify cron secret to prevent unauthorized access
@@ -137,6 +148,133 @@ export async function GET(req: NextRequest) {
       });
     }
     results.expiredNotifications = recentlyExpired.length;
+
+    // ── 5. Auto-release payouts for completed bookings ──
+    // Find completed bookings that haven't been paid out yet,
+    // where the booking was completed more than PAYOUT_HOLD_HOURS ago
+    const payoutThreshold = new Date(
+      now.getTime() - PAYOUT_HOLD_HOURS * 60 * 60 * 1000
+    );
+
+    const bookingsToPayOut = await db.booking.findMany({
+      where: {
+        status: "COMPLETED",
+        payoutReleased: false,
+        updatedAt: { lt: payoutThreshold },
+      },
+      include: {
+        professional: {
+          select: {
+            id: true,
+            userId: true,
+            stripeConnectAccountId: true,
+            payoutEnabled: true,
+          },
+        },
+      },
+    });
+
+    let autoPayoutsReleased = 0;
+    const stripe = getStripe();
+
+    for (const booking of bookingsToPayOut) {
+      const pro = booking.professional;
+
+      // Only auto-payout if the pro has Stripe Connect set up
+      if (!pro.stripeConnectAccountId || !pro.payoutEnabled || !stripe) {
+        // Still mark the payout as released (balance already accumulated)
+        // Pro can withdraw manually when they set up Stripe Connect
+        await db.booking.update({
+          where: { id: booking.id },
+          data: { payoutReleased: true, payoutReleasedAt: now },
+        });
+        autoPayoutsReleased++;
+        continue;
+      }
+
+      try {
+        // Create a Stripe Transfer to the connected account
+        const transfer = await stripe.transfers.create({
+          amount: booking.discountedPrice,
+          currency: "usd",
+          destination: pro.stripeConnectAccountId,
+          metadata: {
+            booking_id: booking.id,
+            booking_reference: booking.bookingReference,
+          },
+        });
+
+        // Record the payout
+        await db.payout.create({
+          data: {
+            professionalId: pro.id,
+            bookingId: booking.id,
+            amount: booking.discountedPrice,
+            payoutType: "STANDARD",
+            stripeTransferId: transfer.id,
+            status: "COMPLETED",
+            completedAt: now,
+          },
+        });
+
+        // Mark booking as paid out and reduce available balance
+        await db.booking.update({
+          where: { id: booking.id },
+          data: { payoutReleased: true, payoutReleasedAt: now },
+        });
+
+        await db.professionalProfile.update({
+          where: { id: pro.id },
+          data: {
+            availableBalance: { decrement: booking.discountedPrice },
+          },
+        });
+
+        // Notify the pro
+        await db.notification.create({
+          data: {
+            userId: pro.userId,
+            type: "PAYOUT_SENT",
+            title: "Payout Released",
+            body: `$${(booking.discountedPrice / 100).toFixed(2)} for "${booking.serviceName}" has been sent to your bank account.`,
+            link: "/pro/earnings",
+          },
+        });
+
+        autoPayoutsReleased++;
+      } catch (payoutError) {
+        console.error(
+          `Auto-payout failed for booking ${booking.id}:`,
+          payoutError
+        );
+
+        // Create a failed payout record
+        await db.payout.create({
+          data: {
+            professionalId: pro.id,
+            bookingId: booking.id,
+            amount: booking.discountedPrice,
+            payoutType: "STANDARD",
+            status: "FAILED",
+            failureReason:
+              payoutError instanceof Error
+                ? payoutError.message
+                : "Unknown error",
+          },
+        });
+
+        await db.notification.create({
+          data: {
+            userId: pro.userId,
+            type: "PAYOUT_FAILED",
+            title: "Payout Failed",
+            body: `Payout for "${booking.serviceName}" failed. Please check your payment settings.`,
+            link: "/pro/settings",
+          },
+        });
+      }
+    }
+    results.autoPayoutsReleased = autoPayoutsReleased;
 
     return NextResponse.json({
       success: true,

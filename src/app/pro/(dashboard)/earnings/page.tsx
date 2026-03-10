@@ -8,9 +8,11 @@ import {
   Clock,
   ArrowDownRight,
   CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { EarningsActions } from "./earnings-actions";
 
 export const metadata = { title: "Earnings" };
 
@@ -103,6 +105,34 @@ export default async function EarningsPage() {
         })}
       </div>
 
+      {/* Payout Actions */}
+      <EarningsActions
+        availableBalance={profile.availableBalance}
+        payoutEnabled={profile.payoutEnabled}
+        stripeConnected={!!profile.stripeConnectAccountId}
+        bankLast4={profile.bankAccountLast4}
+      />
+
+      {/* How Payouts Work */}
+      {!profile.payoutEnabled && (
+        <Card>
+          <CardContent className="p-5">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-cta shrink-0 mt-0.5" aria-hidden="true" />
+              <div>
+                <p className="font-medium text-dark">How payouts work</p>
+                <ul className="mt-2 space-y-1.5 text-sm text-muted">
+                  <li>1. Set up your bank account via Stripe Connect</li>
+                  <li>2. When a booking is completed, earnings are added to your balance</li>
+                  <li>3. After a 24-hour hold, payouts are automatically sent to your bank</li>
+                  <li>4. You can also request manual payouts anytime from this page</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Recent Payouts */}
       <Card>
         <CardHeader>
@@ -126,6 +156,11 @@ export default async function EarningsPage() {
                   <div className="space-y-1">
                     <p className="font-medium text-dark">
                       {formatPrice(payout.amount)}
+                      {payout.instantFee ? (
+                        <span className="ml-2 text-xs text-muted">
+                          (fee: {formatPrice(payout.instantFee)})
+                        </span>
+                      ) : null}
                     </p>
                     <p className="text-sm text-muted">
                       {format(new Date(payout.requestedAt), "MMM d, yyyy")}
@@ -191,7 +226,7 @@ export default async function EarningsPage() {
                       +{formatPrice(booking.discountedPrice)}
                     </p>
                     <p className="text-xs text-muted">
-                      Ref: {booking.bookingReference}
+                      {booking.payoutReleased ? "Paid out" : "Pending payout"}
                     </p>
                   </div>
                 </div>
