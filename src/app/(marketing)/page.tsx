@@ -24,7 +24,7 @@ export default function HomePage() {
         />
 
         <div className="relative max-w-7xl mx-auto">
-          <div className="max-w-2xl">
+          <div className="max-w-2xl text-center md:text-left mx-auto md:mx-0">
             {/* Location tag */}
             <div className="inline-flex items-center gap-1.5 text-sm text-body/70 mb-6">
               <MapPin className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
@@ -39,12 +39,12 @@ export default function HomePage() {
               </span>
             </h1>
 
-            <p className="mt-5 text-lg text-body/70 max-w-md leading-relaxed">
+            <p className="mt-5 text-lg text-body/70 max-w-md mx-auto md:mx-0 leading-relaxed">
               Last-minute appointments from verified pros.
               Hair, nails, lashes, makeup, skincare. 15-50% off.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row items-start gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
               <Link
                 href="/browse"
                 className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
@@ -61,7 +61,7 @@ export default function HomePage() {
             </div>
 
             {/* Proof points */}
-            <div className="mt-8 flex flex-col sm:flex-row gap-x-6 gap-y-2 text-sm text-body/60">
+            <div className="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-body/60">
               <span className="flex items-center gap-1.5">
                 <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Verified professionals
@@ -98,7 +98,7 @@ export default function HomePage() {
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-end justify-between mb-8">
-            <h2 className="text-xl md:text-2xl font-bold text-dark">
+            <h2 className="text-xl md:text-2xl font-bold text-dark w-full text-center sm:text-left sm:w-auto">
               Available now
             </h2>
             <Link
@@ -140,7 +140,7 @@ export default function HomePage() {
 
             {/* Right: copy */}
             <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-dark mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-dark mb-8 text-center md:text-left">
                 Book a discounted appointment in under a minute
               </h2>
               <div className="space-y-6">
@@ -188,7 +188,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
             {/* Left: copy */}
-            <div className="order-2 md:order-1">
+            <div className="order-2 md:order-1 text-center md:text-left">
               <p className="text-sm font-semibold text-accent mb-3">
                 For beauty professionals
               </p>
@@ -199,7 +199,7 @@ export default function HomePage() {
                 Had a cancellation? Slow afternoon? List your open time at a discounted rate and let new clients find you. You set the price, you keep every dollar.
               </p>
 
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-3 mb-8 inline-block text-left">
                 {[
                   "You keep 100% of your listed price",
                   "Payouts within 24 hours after service",
@@ -213,7 +213,7 @@ export default function HomePage() {
                 ))}
               </ul>
 
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-3">
                 <Link
                   href="/pro/apply"
                   className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"

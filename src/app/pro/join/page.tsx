@@ -13,7 +13,7 @@ export default function JoinPage() {
       {/* Hero — asymmetric, editorial */}
       <section className="gradient-hero-pro">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-10 px-4 py-16 md:py-24">
-          <div>
+          <div className="text-center md:text-left">
             <p className="text-sm font-semibold text-accent mb-4">
               For beauty professionals
             </p>
@@ -22,7 +22,7 @@ export default function JoinPage() {
               <br />
               Keep every dollar.
             </h1>
-            <p className="text-lg text-body/70 max-w-md mb-8">
+            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8">
               Had a cancellation? List your open slot at a discount and let new clients find you. You set the price. You keep 100%.
             </p>
             <Link
