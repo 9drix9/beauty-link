@@ -20,7 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const sidebarLinks = [
   { label: "Dashboard", href: "/pro/dashboard", icon: LayoutDashboard },
   { label: "Appointments", href: "/pro/appointments", icon: Calendar },
-  { label: "Messages", href: "/pro/messages", icon: MessageSquare },
+  { label: "Messages", href: "/messages", icon: MessageSquare },
   { label: "Earnings", href: "/pro/earnings", icon: DollarSign },
   { label: "Profile", href: "/pro/profile", icon: UserCircle },
 ];
