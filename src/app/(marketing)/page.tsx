@@ -111,12 +111,12 @@ export default function HomePage() {
       {/* ── Service Filter Navigation ── */}
       <section className="py-3 bg-white border-b border-border sticky top-[57px] z-40">
         <div className="overflow-x-auto scrollbar-hide">
-          <div className="flex items-center justify-center gap-2 px-4 min-w-max mx-auto">
+          <div className="flex items-center justify-start md:justify-center gap-3 px-4 min-w-max mx-auto max-w-4xl">
             {categories.map((cat) => (
               <Link
                 key={cat.label}
                 href={cat.value ? `/browse?category=${cat.value}` : "/browse"}
-                className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-border px-4 py-2 text-sm font-medium text-body transition-all hover:border-accent hover:text-accent hover:bg-accent-light/50"
+                className="flex items-center gap-2 whitespace-nowrap rounded-full border border-border px-5 py-2.5 text-sm font-medium text-body transition-all hover:border-accent hover:text-accent hover:bg-accent-light/50"
               >
                 <cat.icon className={`h-4 w-4 ${cat.color}`} aria-hidden="true" />
                 {cat.label}
