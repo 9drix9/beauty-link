@@ -8,31 +8,42 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
-
 const navLinks = [
-  { label: "Browse", href: "/browse" },
-  { label: "For Professionals", href: "/pro/join" },
+  { label: "Browse Appointments", href: "/browse" },
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "For Professionals", href: "/pro/join", accent: true },
+];
+
+const authedLinks = [
+  { label: "Dashboard", href: "/my-bookings" },
+  { label: "My Listings", href: "/pro/appointments" },
 ];
 
 export function MarketingNav() {
   const { isSignedIn } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const allLinks = isSignedIn ? [...navLinks, ...authedLinks] : navLinks;
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-white">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
+    <header className="sticky top-0 z-50 w-full bg-transparent">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-dark">
+        <Link href="/" className="text-xl font-bold text-dark shrink-0">
           BeautyLink
         </Link>
 
-        {/* Desktop nav links */}
-        <ul className="hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
+        {/* Desktop nav links — centered */}
+        <ul className="hidden items-center gap-8 lg:flex">
+          {allLinks.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="text-sm font-medium text-body transition-colors hover:text-dark"
+                className={`text-sm font-medium transition-colors hover:text-accent ${
+                  "accent" in link && link.accent
+                    ? "text-accent"
+                    : "text-body"
+                }`}
               >
                 {link.label}
               </Link>
@@ -41,14 +52,15 @@ export function MarketingNav() {
         </ul>
 
         {/* Desktop right side */}
-        <div className="hidden items-center gap-3 md:flex">
+        <div className="hidden items-center gap-3 lg:flex shrink-0">
           {isSignedIn ? (
-            <>
-              <Button variant="ghost" asChild>
-                <Link href="/my-bookings">Dashboard</Link>
-              </Button>
-              <UserButton />
-            </>
+            <UserButton
+              appearance={{
+                elements: {
+                  avatarBox: "h-9 w-9",
+                },
+              }}
+            />
           ) : (
             <>
               <Button variant="ghost" asChild>
@@ -63,11 +75,15 @@ export function MarketingNav() {
 
         {/* Mobile hamburger */}
         <button
-          className="inline-flex items-center justify-center rounded-lg p-2 text-body transition-colors hover:bg-gray-100 md:hidden"
+          className="inline-flex items-center justify-center rounded-lg p-2 text-body transition-colors hover:bg-white/50 lg:hidden"
           onClick={() => setMobileOpen((prev) => !prev)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
-          {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          {mobileOpen ? (
+            <X className="h-5 w-5" />
+          ) : (
+            <Menu className="h-5 w-5" />
+          )}
         </button>
       </nav>
 
@@ -79,41 +95,45 @@ export function MarketingNav() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="overflow-hidden border-t border-border bg-white md:hidden"
+            className="overflow-hidden border-t border-white/20 bg-white/90 backdrop-blur-lg lg:hidden"
           >
             <div className="mx-auto max-w-7xl space-y-1 px-4 py-4">
-              {navLinks.map((link) => (
+              {allLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-sm font-medium text-body transition-colors hover:bg-gray-100 hover:text-dark"
+                  className={`block rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-accent-light/50 ${
+                    "accent" in link && link.accent
+                      ? "text-accent"
+                      : "text-body hover:text-dark"
+                  }`}
                 >
                   {link.label}
                 </Link>
               ))}
 
-              <div className="border-t border-border pt-3">
+              <div className="border-t border-border pt-3 mt-2">
                 {isSignedIn ? (
                   <div className="flex items-center gap-3 px-3">
-                    <Link
-                      href="/my-bookings"
-                      onClick={() => setMobileOpen(false)}
-                      className="text-sm font-medium text-accent"
-                    >
-                      Dashboard
-                    </Link>
                     <UserButton />
+                    <span className="text-sm text-muted">Account</span>
                   </div>
                 ) : (
                   <div className="flex flex-col gap-2">
                     <Button variant="ghost" asChild className="justify-start">
-                      <Link href="/login" onClick={() => setMobileOpen(false)}>
+                      <Link
+                        href="/login"
+                        onClick={() => setMobileOpen(false)}
+                      >
                         Log In
                       </Link>
                     </Button>
                     <Button variant="primary" asChild>
-                      <Link href="/signup" onClick={() => setMobileOpen(false)}>
+                      <Link
+                        href="/signup"
+                        onClick={() => setMobileOpen(false)}
+                      >
                         Sign Up
                       </Link>
                     </Button>

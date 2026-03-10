@@ -105,12 +105,17 @@ const config: Config = {
           "0%": { opacity: "0", transform: "translateY(24px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-12px)" },
+        },
       },
       animation: {
         "fade-in": "fadeIn 0.4s ease-out forwards",
         "fade-in-up": "fadeInUp 0.5s ease-out forwards",
         "slide-in": "slideIn 0.3s ease-out forwards",
         "slide-up": "slideUp 0.4s ease-out forwards",
+        float: "float 6s ease-in-out infinite",
       },
     },
   },

@@ -1,58 +1,63 @@
 import Link from "next/link";
 import {
   Scissors,
-  Paintbrush,
-  Sparkles,
-  Eye,
-  PenTool,
-  Droplets,
-  Grid,
   ArrowRight,
   Shield,
-  Clock,
   Percent,
   MapPin,
+  Star,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { HeroSearch } from "@/components/shared/hero-search";
 import { LiveFeedPreview } from "@/components/shared/live-feed-preview";
 
 export const metadata = {
-  title: "BeautyLink — Discounted Beauty Appointments Near You",
+  title: "BeautyLink — Premium Beauty. Fraction of the Price.",
   description:
-    "Save 15–50% on last-minute beauty appointments from beauty professionals in Greater Los Angeles. Hair, nails, lashes, makeup, skincare — book instantly.",
+    "Save 15–50% on last-minute beauty appointments from verified professionals in Greater Los Angeles. Hair, nails, lashes, makeup, skincare — book instantly.",
 };
 
-const categories = [
-  { label: "Hair", value: "HAIR", icon: Scissors, color: "text-accent", bg: "bg-accent-light" },
-  { label: "Nails", value: "NAILS", icon: Paintbrush, color: "text-cta", bg: "bg-cta-light" },
-  { label: "Makeup", value: "MAKEUP", icon: Sparkles, color: "text-pink-600", bg: "bg-pink-50" },
-  { label: "Lashes", value: "LASHES", icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
-  { label: "Brows", value: "BROWS", icon: PenTool, color: "text-amber-600", bg: "bg-amber-50" },
-  { label: "Spa", value: "SKINCARE", icon: Droplets, color: "text-green-600", bg: "bg-green-50" },
-  { label: "All Services", value: "", icon: Grid, color: "text-gray-600", bg: "bg-gray-100" },
-];
-
-const valueProps = [
+/* ── Floating cards that orbit the hero ── */
+const floatingCards = [
   {
-    icon: Percent,
-    title: "Save 15–50%",
-    body: "Every listing is a real discount on a real open slot. No inflated prices, no fake sales.",
+    title: "Gel Manicure",
+    pro: "Jessica C.",
+    detail: "Los Angeles",
+    save: 27,
+    color: "bg-pink-100",
+    emoji: "💅",
+    position: "top-[18%] left-[3%] md:left-[6%]",
+    delay: "0s",
   },
   {
-    icon: Shield,
-    title: "Reviewed pros",
-    body: "Every professional is reviewed and approved before they can list on BeautyLink. Licensed providers earn a verified badge.",
+    title: "Hybrid Lash Set",
+    pro: "Sofia R.",
+    detail: "Today 2PM",
+    save: 31,
+    color: "bg-purple-100",
+    emoji: "✨",
+    position: "top-[12%] right-[3%] md:right-[5%]",
+    delay: "1s",
   },
   {
-    icon: Clock,
-    title: "Book in seconds",
-    body: "See the price, pick your slot, pay securely. No DMs, no back-and-forth, no surprises.",
+    title: "Full Color + Style",
+    pro: "Marcus W.",
+    detail: "Tomorrow",
+    save: 28,
+    color: "bg-orange-100",
+    emoji: "💇",
+    position: "bottom-[28%] left-[2%] md:left-[4%]",
+    delay: "2s",
   },
   {
-    icon: MapPin,
-    title: "Hyperlocal",
-    body: "Appointments from professionals in your neighborhood. Currently live across Greater LA.",
+    title: "5.0 · 62 reviews",
+    pro: "Verified Pro",
+    detail: "LA",
+    save: 0,
+    color: "bg-green-100",
+    emoji: "⭐",
+    position: "bottom-[24%] right-[2%] md:right-[4%]",
+    delay: "3s",
+    isReview: true,
   },
 ];
 
@@ -60,78 +65,133 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative bg-white pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent-light/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" aria-hidden="true" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cta-light/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none" aria-hidden="true" />
+      <section className="relative min-h-[calc(100vh-64px)] flex flex-col items-center justify-center overflow-hidden px-4 py-16 md:py-24">
+        {/* Warm gradient background */}
+        <div
+          className="absolute inset-0 -z-10"
+          style={{
+            background:
+              "linear-gradient(135deg, #fdf2f8 0%, #fce7f3 20%, #f5e6ff 40%, #ede9fe 60%, #fef3e2 80%, #fdf2f8 100%)",
+          }}
+          aria-hidden="true"
+        />
+        {/* Subtle radial glow */}
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full -z-10 opacity-40"
+          style={{
+            background:
+              "radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%)",
+          }}
+          aria-hidden="true"
+        />
 
-        <div className="relative container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center">
-            <p className="inline-flex items-center gap-1.5 rounded-full bg-accent-light px-3 py-1 text-xs font-semibold text-accent mb-6">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-              </span>
-              Live deals near you
-            </p>
-
-            <h1 className="text-[2.5rem] leading-[1.1] md:text-[3.5rem] font-bold text-dark tracking-tight">
-              Last-minute beauty,
-              <br />
-              <span className="text-accent">first-class savings</span>
-            </h1>
-
-            <p className="mt-5 text-lg text-muted max-w-md mx-auto leading-relaxed">
-              Discounted appointments from beauty pros in Greater Los Angeles. Book open slots before they&apos;re gone.
-            </p>
-
-            <div className="mt-8">
-              <HeroSearch />
+        {/* Floating appointment cards — hidden on small mobile */}
+        {floatingCards.map((card) => (
+          <div
+            key={card.title}
+            className={`absolute ${card.position} hidden sm:flex items-center gap-3 rounded-2xl bg-white/90 backdrop-blur-sm px-4 py-3 shadow-card border border-white/60`}
+            style={{
+              animation: `float 6s ease-in-out infinite`,
+              animationDelay: card.delay,
+            }}
+          >
+            <div
+              className={`flex h-10 w-10 items-center justify-center rounded-xl ${card.color} text-lg`}
+            >
+              {card.emoji}
             </div>
-
-            <div className="mt-5 flex items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted">
-              <span className="flex items-center gap-1">
-                <Shield className="h-3.5 w-3.5 text-success" aria-hidden="true" />
-                Reviewed pros
-              </span>
-              <span className="text-border">|</span>
-              <span className="flex items-center gap-1">
-                <Percent className="h-3.5 w-3.5 text-cta" aria-hidden="true" />
-                15–50% off
-              </span>
-              <span className="text-border">|</span>
-              <span className="flex items-center gap-1">
-                <Clock className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-                Instant booking
-              </span>
+            <div className="min-w-0">
+              <p className="text-sm font-semibold text-dark leading-tight">
+                {card.title}
+              </p>
+              <p className="text-xs text-muted">
+                {card.pro} &middot; {card.detail}
+              </p>
             </div>
+            {card.save > 0 && (
+              <span className="ml-1 rounded-full bg-green-500 px-2.5 py-0.5 text-[11px] font-bold text-white whitespace-nowrap">
+                Save {card.save}%
+              </span>
+            )}
           </div>
+        ))}
+
+        {/* Center content */}
+        <div className="relative max-w-3xl mx-auto text-center z-10">
+          {/* Location pill */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white/70 backdrop-blur-sm px-4 py-2 text-sm text-body mb-8 shadow-sm">
+            <MapPin className="h-4 w-4 text-accent" aria-hidden="true" />
+            Now Serving the Greater Los Angeles Area
+          </div>
+
+          {/* Heading — serif italic style */}
+          <h1 className="text-[2.5rem] leading-[1.05] md:text-[4rem] lg:text-[4.5rem] font-bold tracking-tight text-dark">
+            Premium Beauty.
+            <br />
+            <span
+              className="text-accent italic"
+              style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+            >
+              Fraction of the Price.
+            </span>
+          </h1>
+
+          {/* Subheadline */}
+          <p className="mt-6 text-base md:text-lg text-muted max-w-xl mx-auto leading-relaxed">
+            BeautyLink connects you with verified beauty professionals who have
+            last-minute availability — so you get premium services at discounted
+            rates, and they fill their calendar. Everybody wins.
+          </p>
+
+          {/* CTA */}
+          <div className="mt-10">
+            <Link
+              href="/browse"
+              className="inline-flex items-center gap-2.5 rounded-full bg-dark px-8 py-4 text-base font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:shadow-cardHover hover:-translate-y-0.5"
+            >
+              Browse Available Appointments
+              <ArrowRight className="h-4.5 w-4.5" aria-hidden="true" />
+            </Link>
+          </div>
+
+          {/* Secondary link */}
+          <p className="mt-5">
+            <Link
+              href="/pro/join"
+              className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
+            >
+              Are you a beauty pro? Join free &rarr;
+            </Link>
+          </p>
         </div>
-      </section>
 
-      {/* ── Service Filter Navigation ── */}
-      <section className="py-3 md:py-5 bg-white border-b border-border sticky top-[57px] z-40">
-        <div className="overflow-x-auto scrollbar-hide">
-          <div className="flex items-center justify-start md:justify-center gap-3 px-4 min-w-max mx-auto max-w-4xl">
-            {categories.map((cat) => (
-              <Link
-                key={cat.label}
-                href={cat.value ? `/browse?category=${cat.value}` : "/browse"}
-                className="flex items-center gap-1.5 md:gap-2 whitespace-nowrap rounded-full border border-border px-3.5 py-2 md:px-5 md:py-2.5 text-xs md:text-sm font-medium text-body transition-all hover:border-accent hover:text-accent hover:bg-accent-light/50"
-              >
-                <cat.icon className={`h-4 w-4 ${cat.color}`} aria-hidden="true" />
-                {cat.label}
-              </Link>
-            ))}
-          </div>
+        {/* Trust indicators */}
+        <div className="relative z-10 mt-16 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-muted">
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            Verified professionals only
+          </span>
+          <span className="hidden sm:block h-5 w-px bg-border" />
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-success" />
+            Up to 50% off standard rates
+          </span>
+          <span className="hidden sm:block h-5 w-px bg-border" />
+          <span className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-cta" />
+            Pros keep 100% of their price
+          </span>
         </div>
       </section>
 
       {/* ── Live Feed Preview ── */}
-      <section className="py-12 md:py-16 bg-background">
+      <section className="py-14 md:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="flex items-end justify-between mb-8">
+          <div className="flex items-end justify-between mb-10">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-cta mb-1">Available now</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-accent mb-1">
+                Available now
+              </p>
               <h2 className="text-2xl md:text-3xl font-bold text-dark">
                 Deals going fast
               </h2>
@@ -156,22 +216,50 @@ export default function HomePage() {
       </section>
 
       {/* ── Value Props ── */}
-      <section className="py-12 md:py-16 bg-background">
+      <section className="py-14 md:py-20 bg-background">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-3">
             Why BeautyLink
           </h2>
-          <p className="text-center text-muted mb-10 max-w-md mx-auto">
+          <p className="text-center text-muted mb-12 max-w-md mx-auto">
             Real discounts. Real professionals. No gimmicks.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-            {valueProps.map((vp) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+            {[
+              {
+                icon: Percent,
+                title: "Save 15–50%",
+                body: "Every listing is a real discount on a real open slot. No inflated prices, no fake sales.",
+              },
+              {
+                icon: Shield,
+                title: "Reviewed pros",
+                body: "Every professional is reviewed and approved. Licensed providers earn a verified badge.",
+              },
+              {
+                icon: Star,
+                title: "Book in seconds",
+                body: "See the price, pick your slot, pay securely. No DMs, no back-and-forth.",
+              },
+              {
+                icon: MapPin,
+                title: "Hyperlocal",
+                body: "Appointments from professionals in your neighborhood. Currently live across Greater LA.",
+              },
+            ].map((vp) => (
               <div key={vp.title} className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-card">
-                  <vp.icon className="h-5 w-5 text-accent" aria-hidden="true" />
+                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-light">
+                  <vp.icon
+                    className="h-5 w-5 text-accent"
+                    aria-hidden="true"
+                  />
                 </div>
-                <h3 className="text-base font-semibold text-dark">{vp.title}</h3>
-                <p className="mt-1.5 text-sm text-muted leading-relaxed">{vp.body}</p>
+                <h3 className="text-base font-semibold text-dark">
+                  {vp.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted leading-relaxed">
+                  {vp.body}
+                </p>
               </div>
             ))}
           </div>
@@ -179,55 +267,77 @@ export default function HomePage() {
       </section>
 
       {/* ── Stylist Promo Banner ── */}
-      <section className="py-12 md:py-16 bg-white border-t border-border">
+      <section className="py-14 md:py-20 bg-white">
         <div className="container mx-auto px-4">
-          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-2xl bg-gradient-to-br from-accent-light via-white to-cta-light border border-border/60 shadow-card">
-            {/* Decorative blobs */}
-            <div className="absolute -top-20 -right-20 h-56 w-56 rounded-full bg-accent/5 blur-2xl pointer-events-none" aria-hidden="true" />
-            <div className="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-cta/5 blur-2xl pointer-events-none" aria-hidden="true" />
+          <div
+            className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl px-6 py-14 md:px-16 md:py-20 text-center"
+            style={{
+              background:
+                "linear-gradient(135deg, #fdf2f8 0%, #f5e6ff 50%, #fef3e2 100%)",
+            }}
+          >
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-white/70 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-accent mb-6">
+              <Scissors className="h-3 w-3" aria-hidden="true" />
+              For Professionals
+            </p>
+            <h2 className="text-2xl md:text-4xl font-bold text-dark leading-tight">
+              Fill your empty chair.
+              <br />
+              <span
+                className="text-accent italic"
+                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+              >
+                Keep every dollar.
+              </span>
+            </h2>
+            <p className="mt-4 text-muted leading-relaxed max-w-lg mx-auto">
+              List open slots at a discount, reach new clients nearby, and keep
+              100% of your listed price. We only charge customers a 5% service
+              fee.
+            </p>
+            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href="/pro/apply"
+                className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
+              >
+                Apply Now
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <Link
+                href="/pro/join"
+                className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 backdrop-blur-sm px-7 py-3.5 text-sm font-semibold text-body transition-all hover:bg-white hover:-translate-y-0.5"
+              >
+                Learn More
+              </Link>
+            </div>
 
-            <div className="relative grid md:grid-cols-5 items-center gap-6 md:gap-0">
-              {/* Content */}
-              <div className="md:col-span-3 px-6 pt-10 pb-6 md:px-10 md:py-12">
-                <p className="inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent mb-4">
-                  <Scissors className="h-3 w-3" aria-hidden="true" />
-                  For Professionals
+            {/* Stats row */}
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-6 md:gap-12">
+              <div className="text-center">
+                <p className="text-2xl md:text-3xl font-bold text-accent">
+                  100%
                 </p>
-                <h2 className="text-2xl md:text-3xl font-bold text-dark leading-tight">
-                  Fill your empty chair.
-                  <br />
-                  <span className="text-accent">Keep every dollar.</span>
-                </h2>
-                <p className="mt-3 text-muted leading-relaxed max-w-md">
-                  List open slots at a discount, reach new clients nearby, and keep 100% of your listed price. We only charge customers a 5% service fee.
+                <p className="text-xs text-muted mt-0.5">
+                  Your price, your earnings
                 </p>
-                <div className="mt-6 flex flex-col sm:flex-row items-start gap-3">
-                  <Button asChild variant="cta" size="lg">
-                    <Link href="/pro/apply">
-                      Apply Now
-                      <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                    </Link>
-                  </Button>
-                  <Button asChild variant="outline" size="lg">
-                    <Link href="/pro/join">Learn More</Link>
-                  </Button>
-                </div>
               </div>
-
-              {/* Stats side */}
-              <div className="md:col-span-2 flex md:flex-col items-center justify-center gap-4 px-6 pb-8 md:px-8 md:py-12 md:border-l md:border-border/60">
-                <div className="flex-1 md:flex-none text-center rounded-xl bg-white/80 shadow-soft px-5 py-4 w-full">
-                  <p className="text-2xl md:text-3xl font-bold text-accent">100%</p>
-                  <p className="text-xs text-muted mt-0.5">Your price, your earnings</p>
-                </div>
-                <div className="flex-1 md:flex-none text-center rounded-xl bg-white/80 shadow-soft px-5 py-4 w-full">
-                  <p className="text-2xl md:text-3xl font-bold text-cta">24hr</p>
-                  <p className="text-xs text-muted mt-0.5">Fast payouts after service</p>
-                </div>
-                <div className="hidden sm:block flex-1 md:flex-none text-center rounded-xl bg-white/80 shadow-soft px-5 py-4 w-full">
-                  <p className="text-2xl md:text-3xl font-bold text-success">60s</p>
-                  <p className="text-xs text-muted mt-0.5">List a deal in seconds</p>
-                </div>
+              <div className="h-8 w-px bg-border hidden sm:block" />
+              <div className="text-center">
+                <p className="text-2xl md:text-3xl font-bold text-accent">
+                  24hr
+                </p>
+                <p className="text-xs text-muted mt-0.5">
+                  Fast payouts after service
+                </p>
+              </div>
+              <div className="h-8 w-px bg-border hidden sm:block" />
+              <div className="text-center">
+                <p className="text-2xl md:text-3xl font-bold text-accent">
+                  60s
+                </p>
+                <p className="text-xs text-muted mt-0.5">
+                  List a deal in seconds
+                </p>
               </div>
             </div>
           </div>
