@@ -23,6 +23,7 @@ export default authMiddleware({
     // Auth pages
     "/login",
     "/signup",
+    "/auth-redirect",
     "/forgot-password",
     "/reset-password",
     "/verify-email",
