@@ -146,7 +146,7 @@ export default function JoinPage() {
           </h2>
           <ul className="space-y-3">
             {[
-              "Licensed beauty professional (cosmetology, esthetics, nail tech, barbering) — recommended but not required",
+              "Licensed beauty professional (cosmetology, esthetics, nail tech, barbering). Recommended but not required.",
               "At least 3 portfolio photos showcasing your work",
               "Professional workspace (salon, suite, home studio, or mobile)",
               "Located in Greater Los Angeles (expanding soon)",

@@ -41,7 +41,7 @@ export default function HomePage() {
 
             <p className="mt-5 text-lg text-body/70 max-w-md leading-relaxed">
               Last-minute appointments from verified pros.
-              Hair, nails, lashes, makeup, skincare — 15-50% off.
+              Hair, nails, lashes, makeup, skincare. 15-50% off.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-start gap-3">

@@ -182,7 +182,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     if (error instanceof Error && error.message === "NO_SPOTS_AVAILABLE") {
       return NextResponse.json(
-        { error: "No spots available — this listing is fully booked" },
+        { error: "No spots available. This listing is fully booked." },
         { status: 409 }
       );
     }
