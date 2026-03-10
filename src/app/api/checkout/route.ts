@@ -16,10 +16,14 @@ function getStripe() {
 
 export async function POST(req: NextRequest) {
   try {
+    const stripeKeyExists = !!process.env.STRIPE_SECRET_KEY;
+    const stripeKeyPrefix = process.env.STRIPE_SECRET_KEY?.substring(0, 12) || "NOT_SET";
+    console.log("[CHECKOUT] STRIPE_SECRET_KEY exists:", stripeKeyExists, "prefix:", stripeKeyPrefix);
+
     const stripe = getStripe();
     if (!stripe) {
       return NextResponse.json(
-        { error: "Payment processing is not configured. STRIPE_SECRET_KEY is missing." },
+        { error: `Payment not configured. Key exists: ${stripeKeyExists}, prefix: ${stripeKeyPrefix}` },
         { status: 503 }
       );
     }
