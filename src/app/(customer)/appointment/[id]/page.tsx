@@ -31,6 +31,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { RatingDisplay } from "@/components/shared/rating-display";
 import { VerificationBadges } from "@/components/shared/verification-badges";
+import { MessageButton } from "@/components/shared/message-button";
 
 interface AppointmentPageProps {
   params: { id: string };
@@ -51,6 +52,7 @@ async function getListing(id: string) {
         include: {
           user: {
             select: {
+              id: true,
               firstName: true,
               lastName: true,
               profilePhotoUrl: true,
@@ -193,6 +195,12 @@ export default async function AppointmentDetailPage({
                 licenseVerified={professional.licenseStatus === "LICENSE_VERIFIED"}
               />
             </div>
+            <MessageButton
+              recipientId={user.id}
+              recipientName={proName}
+              variant="outline"
+              size="sm"
+            />
           </div>
 
           <Separator />

@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { RatingDisplay } from "@/components/shared/rating-display";
 import { VerificationBadges } from "@/components/shared/verification-badges";
+import { MessageButton } from "@/components/shared/message-button";
 
 interface ProProfilePageProps {
   params: { id: string };
@@ -31,6 +32,7 @@ async function getProfile(id: string) {
     include: {
       user: {
         select: {
+          id: true,
           firstName: true,
           lastName: true,
           profilePhotoUrl: true,
@@ -172,6 +174,15 @@ export default async function ProProfilePage({
                     {profile.totalBookings !== 1 ? "s" : ""}
                   </span>
                 )}
+              </div>
+
+              <div className="mt-4">
+                <MessageButton
+                  recipientId={user.id}
+                  recipientName={proName}
+                  variant="primary"
+                  size="sm"
+                />
               </div>
             </div>
           </div>

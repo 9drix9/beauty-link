@@ -83,7 +83,7 @@ export function ListingGallery({
 
       {/* Thumbnails */}
       {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1">
+        <div className="flex gap-2 overflow-x-auto p-1">
           {images.slice(0, 6).map((src, idx) => (
             <button
               key={idx}

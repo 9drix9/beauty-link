@@ -87,11 +87,18 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ url: accountLink.url });
   } catch (error) {
-    console.error("Stripe Connect error:", error);
-    return NextResponse.json(
-      { error: "Failed to set up payment account" },
-      { status: 500 }
-    );
+    console.error("Stripe Connect error:", JSON.stringify({
+      message: error instanceof Error ? error.message : String(error),
+      type: error instanceof Stripe.errors.StripeError ? error.type : "unknown",
+      code: error instanceof Stripe.errors.StripeError ? error.code : undefined,
+    }));
+
+    const message =
+      error instanceof Stripe.errors.StripeError
+        ? error.message
+        : "Failed to set up payment account";
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 
