@@ -21,7 +21,7 @@ export function MobileBottomTabs() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-white md:hidden safe-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-[9999] border-t border-border bg-white md:hidden safe-bottom" style={{ WebkitTransform: "translateZ(0)" }}>
       <div className="flex items-center justify-around py-2">
         {tabs.map((tab) => {
           const active = isActive(tab.href);
