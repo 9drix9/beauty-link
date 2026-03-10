@@ -76,11 +76,14 @@ export default async function EarningsPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-bold text-dark">Earnings</h1>
-        <p className="mt-1 text-sm text-muted">
-          Track your earnings, balances, and payouts.
-        </p>
+      <div className="flex items-center gap-3">
+        <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">Earnings</span>
+        <div>
+          <h1 className="text-2xl font-bold text-dark">Earnings</h1>
+          <p className="mt-1 text-sm text-muted">
+            Track your earnings, balances, and payouts.
+          </p>
+        </div>
       </div>
 
       {/* Stats */}
@@ -88,9 +91,9 @@ export default async function EarningsPage() {
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label}>
+            <Card key={stat.label} variant="elevated">
               <CardContent className="flex items-center gap-4 p-5">
-                <div className={`rounded-lg p-3 ${stat.bg}`}>
+                <div className={`rounded-xl p-3 ${stat.bg}`}>
                   <Icon className={`h-5 w-5 ${stat.color}`} aria-hidden="true" />
                 </div>
                 <div>

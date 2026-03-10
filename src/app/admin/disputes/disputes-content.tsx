@@ -22,6 +22,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 interface Dispute {
   id: string;
@@ -62,7 +63,6 @@ interface DisputesContentProps {
 
 export default function DisputesContent({ disputes }: DisputesContentProps) {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"open" | "resolved">("open");
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [partialAmounts, setPartialAmounts] = useState<
     Record<string, string>
@@ -72,9 +72,6 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
     (d) => d.status === "DISPUTED" && !d.disputeOutcome
   );
   const resolvedDisputes = disputes.filter((d) => !!d.disputeOutcome);
-
-  const currentDisputes =
-    activeTab === "open" ? openDisputes : resolvedDisputes;
 
   async function handleResolve(
     disputeId: string,
@@ -121,10 +118,201 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
     }
   }
 
+  function renderDisputeCard(dispute: Dispute) {
+    return (
+      <Card key={dispute.id} variant="elevated">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-lg">
+              #{dispute.bookingReference}
+            </CardTitle>
+            {dispute.disputeOutcome ? (
+              getOutcomeBadge(dispute.disputeOutcome)
+            ) : (
+              <Badge className="bg-cta text-white">
+                Open Dispute
+              </Badge>
+            )}
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex items-start gap-2">
+              <User className="h-4 w-4 mt-1 text-muted" />
+              <div>
+                <p className="text-sm font-medium">Customer</p>
+                <p className="text-sm text-muted">
+                  {dispute.customer.firstName}{" "}
+                  {dispute.customer.lastName}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-start gap-2">
+              <Briefcase className="h-4 w-4 mt-1 text-muted" />
+              <div>
+                <p className="text-sm font-medium">Professional</p>
+                <p className="text-sm text-muted">
+                  {dispute.professional.user.firstName}{" "}
+                  {dispute.professional.user.lastName}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <Separator />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+            <div>
+              <p className="font-medium">Service</p>
+              <p className="text-muted">
+                {dispute.serviceName}
+              </p>
+            </div>
+            <div>
+              <p className="font-medium">Date</p>
+              <p className="text-muted">
+                {format(
+                  new Date(dispute.appointmentDate),
+                  "MMM d, yyyy"
+                )}{" "}
+                at {dispute.appointmentTime}
+              </p>
+            </div>
+            <div>
+              <p className="font-medium">Amount Charged</p>
+              <p className="text-muted font-semibold">
+                ${(dispute.totalCharged / 100).toFixed(2)}
+              </p>
+            </div>
+          </div>
+
+          {dispute.disputeReason && (
+            <>
+              <Separator />
+              <div>
+                <p className="text-sm font-medium mb-1">
+                  Dispute Reason
+                </p>
+                <p className="text-sm text-body bg-amber-50 border border-amber-200/50 p-3 rounded-md">
+                  {dispute.disputeReason}
+                </p>
+              </div>
+            </>
+          )}
+
+          <div className="flex items-center gap-4 text-xs text-muted">
+            <div className="flex items-center gap-1">
+              <Clock className="h-3 w-3" />
+              Opened:{" "}
+              {dispute.disputeOpenedAt
+                ? format(
+                    new Date(dispute.disputeOpenedAt),
+                    "MMM d, yyyy 'at' h:mm a"
+                  )
+                : "N/A"}
+            </div>
+            {dispute.disputeResolvedAt && (
+              <div className="flex items-center gap-1">
+                <CheckCircle className="h-3 w-3" />
+                Resolved:{" "}
+                {format(
+                  new Date(dispute.disputeResolvedAt),
+                  "MMM d, yyyy 'at' h:mm a"
+                )}
+              </div>
+            )}
+          </div>
+
+          {dispute.disputeOutcome && dispute.refundAmount !== null && (
+            <div className="text-sm">
+              <span className="font-medium">Refund Amount: </span>
+              <span className="text-cta font-semibold">
+                ${(dispute.refundAmount / 100).toFixed(2)}
+              </span>
+            </div>
+          )}
+
+          {!dispute.disputeOutcome && (
+            <>
+              <Separator />
+              <div className="flex flex-wrap items-center gap-3">
+                <Button
+                  size="sm"
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                  disabled={loadingId === dispute.id}
+                  onClick={() =>
+                    handleResolve(dispute.id, "FULL_REFUND")
+                  }
+                >
+                  <DollarSign className="mr-1 h-4 w-4" />
+                  Full Refund
+                </Button>
+
+                <div className="flex items-center gap-2">
+                  <Input
+                    type="number"
+                    placeholder="Amount"
+                    className="w-28 h-9"
+                    min={0}
+                    step={0.01}
+                    value={partialAmounts[dispute.id] || ""}
+                    onChange={(e) =>
+                      setPartialAmounts((prev) => ({
+                        ...prev,
+                        [dispute.id]: e.target.value,
+                      }))
+                    }
+                  />
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="border-cta text-cta hover:bg-cta-light"
+                    disabled={
+                      loadingId === dispute.id ||
+                      !partialAmounts[dispute.id]
+                    }
+                    onClick={() => {
+                      const amount = parseFloat(
+                        partialAmounts[dispute.id]
+                      );
+                      if (isNaN(amount) || amount <= 0) {
+                        alert("Please enter a valid refund amount.");
+                        return;
+                      }
+                      handleResolve(
+                        dispute.id,
+                        "PARTIAL_REFUND",
+                        Math.round(amount * 100)
+                      );
+                    }}
+                  >
+                    Partial Refund
+                  </Button>
+                </div>
+
+                <Button
+                  size="sm"
+                  variant="outline"
+                  disabled={loadingId === dispute.id}
+                  onClick={() =>
+                    handleResolve(dispute.id, "NO_ACTION")
+                  }
+                >
+                  <XCircle className="mr-1 h-4 w-4" />
+                  No Action
+                </Button>
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-accent">
+        <h1 className="text-3xl font-bold text-dark">
           Dispute Management
         </h1>
         <p className="text-muted mt-1">
@@ -132,233 +320,46 @@ export default function DisputesContent({ disputes }: DisputesContentProps) {
         </p>
       </div>
 
-      <div className="flex gap-2">
-        <Button
-          variant={activeTab === "open" ? "primary" : "outline"}
-          onClick={() => setActiveTab("open")}
-          className={
-            activeTab === "open"
-              ? "bg-accent hover:bg-accent-hover"
-              : ""
-          }
-        >
-          <AlertTriangle className="mr-2 h-4 w-4" />
-          Open ({openDisputes.length})
-        </Button>
-        <Button
-          variant={activeTab === "resolved" ? "primary" : "outline"}
-          onClick={() => setActiveTab("resolved")}
-          className={
-            activeTab === "resolved"
-              ? "bg-accent hover:bg-accent-hover"
-              : ""
-          }
-        >
-          <CheckCircle className="mr-2 h-4 w-4" />
-          Resolved ({resolvedDisputes.length})
-        </Button>
-      </div>
+      <Tabs defaultValue="open">
+        <TabsList>
+          <TabsTrigger value="open">
+            <AlertTriangle className="mr-2 h-4 w-4" />
+            Open ({openDisputes.length})
+          </TabsTrigger>
+          <TabsTrigger value="resolved">
+            <CheckCircle className="mr-2 h-4 w-4" />
+            Resolved ({resolvedDisputes.length})
+          </TabsTrigger>
+        </TabsList>
 
-      {currentDisputes.length === 0 ? (
-        <Card>
-          <CardContent className="py-12 text-center text-muted">
-            {activeTab === "open"
-              ? "No open disputes. All clear!"
-              : "No resolved disputes yet."}
-          </CardContent>
-        </Card>
-      ) : (
-        <div className="space-y-4">
-          {currentDisputes.map((dispute) => (
-            <Card key={dispute.id}>
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">
-                    #{dispute.bookingReference}
-                  </CardTitle>
-                  {dispute.disputeOutcome ? (
-                    getOutcomeBadge(dispute.disputeOutcome)
-                  ) : (
-                    <Badge className="bg-cta text-white">
-                      Open Dispute
-                    </Badge>
-                  )}
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="flex items-start gap-2">
-                    <User className="h-4 w-4 mt-1 text-muted" />
-                    <div>
-                      <p className="text-sm font-medium">Customer</p>
-                      <p className="text-sm text-muted">
-                        {dispute.customer.firstName}{" "}
-                        {dispute.customer.lastName}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Briefcase className="h-4 w-4 mt-1 text-muted" />
-                    <div>
-                      <p className="text-sm font-medium">Professional</p>
-                      <p className="text-sm text-muted">
-                        {dispute.professional.user.firstName}{" "}
-                        {dispute.professional.user.lastName}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <Separator />
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                  <div>
-                    <p className="font-medium">Service</p>
-                    <p className="text-muted">
-                      {dispute.serviceName}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-medium">Date</p>
-                    <p className="text-muted">
-                      {format(
-                        new Date(dispute.appointmentDate),
-                        "MMM d, yyyy"
-                      )}{" "}
-                      at {dispute.appointmentTime}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-medium">Amount Charged</p>
-                    <p className="text-muted font-semibold">
-                      ${(dispute.totalCharged / 100).toFixed(2)}
-                    </p>
-                  </div>
-                </div>
-
-                {dispute.disputeReason && (
-                  <>
-                    <Separator />
-                    <div>
-                      <p className="text-sm font-medium mb-1">
-                        Dispute Reason
-                      </p>
-                      <p className="text-sm text-muted bg-muted p-3 rounded-md">
-                        {dispute.disputeReason}
-                      </p>
-                    </div>
-                  </>
-                )}
-
-                <div className="flex items-center gap-4 text-xs text-muted">
-                  <div className="flex items-center gap-1">
-                    <Clock className="h-3 w-3" />
-                    Opened:{" "}
-                    {dispute.disputeOpenedAt
-                      ? format(
-                          new Date(dispute.disputeOpenedAt),
-                          "MMM d, yyyy 'at' h:mm a"
-                        )
-                      : "N/A"}
-                  </div>
-                  {dispute.disputeResolvedAt && (
-                    <div className="flex items-center gap-1">
-                      <CheckCircle className="h-3 w-3" />
-                      Resolved:{" "}
-                      {format(
-                        new Date(dispute.disputeResolvedAt),
-                        "MMM d, yyyy 'at' h:mm a"
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {dispute.disputeOutcome && dispute.refundAmount !== null && (
-                  <div className="text-sm">
-                    <span className="font-medium">Refund Amount: </span>
-                    <span className="text-cta font-semibold">
-                      ${(dispute.refundAmount / 100).toFixed(2)}
-                    </span>
-                  </div>
-                )}
-
-                {!dispute.disputeOutcome && (
-                  <>
-                    <Separator />
-                    <div className="flex flex-wrap items-center gap-3">
-                      <Button
-                        size="sm"
-                        className="bg-red-600 hover:bg-red-700 text-white"
-                        disabled={loadingId === dispute.id}
-                        onClick={() =>
-                          handleResolve(dispute.id, "FULL_REFUND")
-                        }
-                      >
-                        <DollarSign className="mr-1 h-4 w-4" />
-                        Full Refund
-                      </Button>
-
-                      <div className="flex items-center gap-2">
-                        <Input
-                          type="number"
-                          placeholder="Amount"
-                          className="w-28 h-9"
-                          min={0}
-                          step={0.01}
-                          value={partialAmounts[dispute.id] || ""}
-                          onChange={(e) =>
-                            setPartialAmounts((prev) => ({
-                              ...prev,
-                              [dispute.id]: e.target.value,
-                            }))
-                          }
-                        />
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-cta text-cta hover:bg-cta-light"
-                          disabled={
-                            loadingId === dispute.id ||
-                            !partialAmounts[dispute.id]
-                          }
-                          onClick={() => {
-                            const amount = parseFloat(
-                              partialAmounts[dispute.id]
-                            );
-                            if (isNaN(amount) || amount <= 0) {
-                              alert("Please enter a valid refund amount.");
-                              return;
-                            }
-                            handleResolve(
-                              dispute.id,
-                              "PARTIAL_REFUND",
-                              Math.round(amount * 100)
-                            );
-                          }}
-                        >
-                          Partial Refund
-                        </Button>
-                      </div>
-
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        disabled={loadingId === dispute.id}
-                        onClick={() =>
-                          handleResolve(dispute.id, "NO_ACTION")
-                        }
-                      >
-                        <XCircle className="mr-1 h-4 w-4" />
-                        No Action
-                      </Button>
-                    </div>
-                  </>
-                )}
+        <TabsContent value="open" className="mt-4">
+          {openDisputes.length === 0 ? (
+            <Card variant="elevated">
+              <CardContent className="py-12 text-center text-muted">
+                No open disputes. All clear!
               </CardContent>
             </Card>
-          ))}
-        </div>
-      )}
+          ) : (
+            <div className="space-y-4">
+              {openDisputes.map(renderDisputeCard)}
+            </div>
+          )}
+        </TabsContent>
+
+        <TabsContent value="resolved" className="mt-4">
+          {resolvedDisputes.length === 0 ? (
+            <Card variant="elevated">
+              <CardContent className="py-12 text-center text-muted">
+                No resolved disputes yet.
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-4">
+              {resolvedDisputes.map(renderDisputeCard)}
+            </div>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

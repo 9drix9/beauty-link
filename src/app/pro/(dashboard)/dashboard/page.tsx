@@ -169,29 +169,35 @@ export default async function ProDashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-dark">
-            Welcome back, {user.firstName}
-          </h1>
-          <p className="mt-1 text-sm text-muted">
-            Here&apos;s your BeautyLink overview.
-          </p>
+      <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-accent-light/40 via-white to-cta-light/30 p-6 sm:p-8">
+        {/* Decorative blob */}
+        <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-accent/5 blur-3xl" />
+        <div className="pointer-events-none absolute -left-8 bottom-0 h-32 w-32 rounded-full bg-cta/5 blur-2xl" />
+        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-dark">
+              Welcome back, {user.firstName}
+            </h1>
+            <p className="mt-1 text-sm text-muted">
+              Here&apos;s your BeautyLink overview.
+            </p>
+          </div>
+          <Button variant="cta" asChild>
+            <Link href="/pro/appointments/new">
+              <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
+              Post New Deal
+            </Link>
+          </Button>
         </div>
-        <Button variant="cta" asChild>
-          <Link href="/pro/appointments/new">
-            <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-            Post New Deal
-          </Link>
-        </Button>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        {stats.map((stat) => {
+        {stats.map((stat, i) => {
           const Icon = stat.icon;
+          const borderColors = ["border-t-accent", "border-t-blue-500", "border-t-green-500", "border-t-orange-500"];
           return (
-            <Card key={stat.label}>
+            <Card key={stat.label} variant="elevated" className={`border-t-2 ${borderColors[i]}`}>
               <CardContent className="p-4 sm:p-5">
                 <div className="flex items-center gap-3">
                   <div className={`rounded-lg p-2.5 ${stat.bg}`}>
@@ -232,9 +238,9 @@ export default async function ProDashboardPage() {
 
       {/* Performance + Quick Stats */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Card>
+        <Card variant="elevated">
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="rounded-lg bg-gray-100 p-2.5">
+            <div className="rounded-lg bg-yellow-50 p-2.5">
               <Star className="h-5 w-5 text-yellow-500" aria-hidden="true" />
             </div>
             <div>
@@ -247,10 +253,10 @@ export default async function ProDashboardPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card variant="elevated">
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="rounded-lg bg-gray-100 p-2.5">
-              <Eye className="h-5 w-5 text-muted" aria-hidden="true" />
+            <div className="rounded-lg bg-blue-50 p-2.5">
+              <Eye className="h-5 w-5 text-blue-500" aria-hidden="true" />
             </div>
             <div>
               <p className="text-xs text-muted">Total Views</p>
@@ -258,10 +264,10 @@ export default async function ProDashboardPage() {
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card variant="elevated">
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="rounded-lg bg-gray-100 p-2.5">
-              <BarChart3 className="h-5 w-5 text-muted" aria-hidden="true" />
+            <div className="rounded-lg bg-accent-light p-2.5">
+              <BarChart3 className="h-5 w-5 text-accent" aria-hidden="true" />
             </div>
             <div>
               <p className="text-xs text-muted">Conversion Rate</p>
@@ -272,7 +278,7 @@ export default async function ProDashboardPage() {
       </div>
 
       {/* Upcoming Appointments */}
-      <Card>
+      <Card variant="elevated">
         <CardHeader className="flex flex-row items-center justify-between pb-3">
           <CardTitle className="text-lg">Upcoming Appointments</CardTitle>
           <Button variant="ghost" size="sm" asChild>
@@ -337,7 +343,7 @@ export default async function ProDashboardPage() {
       </Card>
 
       {/* Recent Listings */}
-      <Card>
+      <Card variant="elevated">
         <CardHeader className="flex flex-row items-center justify-between pb-3">
           <CardTitle className="text-lg">Recent Listings</CardTitle>
           <Button variant="ghost" size="sm" asChild>
@@ -392,7 +398,7 @@ export default async function ProDashboardPage() {
       </Card>
 
       {/* Lifetime Stats Footer */}
-      <div className="rounded-xl border border-border bg-white p-4 sm:p-5">
+      <div className="rounded-xl border border-border/50 bg-gradient-to-r from-accent-light/30 via-white to-cta-light/30 p-4 sm:p-5 shadow-card">
         <p className="text-xs font-medium uppercase tracking-wider text-muted mb-3">
           Lifetime
         </p>

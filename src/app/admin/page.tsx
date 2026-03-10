@@ -55,6 +55,7 @@ export default async function AdminDashboardPage() {
       icon: Users,
       color: "text-blue-600",
       bg: "bg-blue-50",
+      borderColor: "border-blue-400",
     },
     {
       label: "Total Professionals",
@@ -62,6 +63,7 @@ export default async function AdminDashboardPage() {
       icon: Briefcase,
       color: "text-accent",
       bg: "bg-accent-light",
+      borderColor: "border-accent",
     },
     {
       label: "Pending Applications",
@@ -69,6 +71,7 @@ export default async function AdminDashboardPage() {
       icon: FileText,
       color: "text-cta",
       bg: "bg-cta-light",
+      borderColor: "border-cta",
     },
     {
       label: "Total Bookings",
@@ -76,6 +79,7 @@ export default async function AdminDashboardPage() {
       icon: Calendar,
       color: "text-green-600",
       bg: "bg-green-50",
+      borderColor: "border-green-400",
     },
     {
       label: "Revenue",
@@ -85,12 +89,14 @@ export default async function AdminDashboardPage() {
       icon: DollarSign,
       color: "text-emerald-600",
       bg: "bg-emerald-50",
+      borderColor: "border-emerald-400",
     },
   ];
 
   return (
     <div className="space-y-8">
-      <div>
+      {/* Welcome header */}
+      <div className="rounded-2xl bg-gradient-to-r from-accent-light/40 to-cta-light/30 p-6">
         <h1 className="text-3xl font-bold text-dark">Dashboard</h1>
         <p className="mt-1 text-muted">
           Welcome back, {admin.firstName}. Here is your overview.
@@ -102,7 +108,7 @@ export default async function AdminDashboardPage() {
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.label}>
+            <Card key={stat.label} variant="elevated" className={`border-t-2 ${stat.borderColor}`}>
               <CardContent className="p-5">
                 <div className="flex items-center justify-between">
                   <div>
@@ -127,7 +133,7 @@ export default async function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         {/* Recent activity */}
-        <Card className="lg:col-span-2">
+        <Card variant="elevated" className="lg:col-span-2">
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
@@ -168,7 +174,7 @@ export default async function AdminDashboardPage() {
         </Card>
 
         {/* Quick links */}
-        <Card>
+        <Card variant="elevated">
           <CardHeader>
             <CardTitle>Quick Links</CardTitle>
           </CardHeader>
@@ -176,7 +182,7 @@ export default async function AdminDashboardPage() {
             <Link href="/admin/applications">
               <Button
                 variant="outline"
-                className="w-full justify-between"
+                className="w-full justify-between hover:bg-accent-light/30 hover:text-accent hover:border-accent/30"
               >
                 Review Applications
                 <ArrowRight className="h-4 w-4" />
@@ -185,7 +191,7 @@ export default async function AdminDashboardPage() {
             <Link href="/admin/users">
               <Button
                 variant="outline"
-                className="w-full justify-between"
+                className="w-full justify-between hover:bg-accent-light/30 hover:text-accent hover:border-accent/30"
               >
                 Manage Users
                 <ArrowRight className="h-4 w-4" />
@@ -194,7 +200,7 @@ export default async function AdminDashboardPage() {
             <Link href="/admin/disputes">
               <Button
                 variant="outline"
-                className="w-full justify-between"
+                className="w-full justify-between hover:bg-accent-light/30 hover:text-accent hover:border-accent/30"
               >
                 View Disputes
                 <ArrowRight className="h-4 w-4" />
@@ -203,7 +209,7 @@ export default async function AdminDashboardPage() {
             <Link href="/admin/banners">
               <Button
                 variant="outline"
-                className="w-full justify-between"
+                className="w-full justify-between hover:bg-accent-light/30 hover:text-accent hover:border-accent/30"
               >
                 Manage Banners
                 <ArrowRight className="h-4 w-4" />

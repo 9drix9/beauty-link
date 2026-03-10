@@ -138,12 +138,12 @@ export default function UsersContent({
       </div>
 
       {/* Users table */}
-      <Card>
+      <Card variant="elevated">
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
-                <tr className="border-b border-border bg-gray-50 text-left text-sm font-medium text-muted">
+                <tr className="border-b border-border bg-accent-light/30 text-left text-sm font-medium text-muted">
                   <th className="px-6 py-3">Name</th>
                   <th className="px-6 py-3">Email</th>
                   <th className="px-6 py-3">Role</th>
@@ -156,7 +156,7 @@ export default function UsersContent({
                 {filtered.map((user) => {
                   const isLoading = loadingId === user.id;
                   return (
-                    <tr key={user.id} className="hover:bg-gray-50">
+                    <tr key={user.id} className="hover:bg-gray-50/80 transition-colors">
                       <td className="px-6 py-4 text-sm font-medium text-dark">
                         {user.firstName} {user.lastName}
                       </td>

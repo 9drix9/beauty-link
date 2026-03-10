@@ -139,7 +139,12 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
     const spotsLeft = listing.maxClients - listing.bookedCount;
 
     return (
-      <Card key={listing.id} className="overflow-hidden">
+      <Card key={listing.id} variant="elevated" className={`overflow-hidden border-l-[3px] ${
+        listing.status === "LIVE" ? "border-l-green-500" :
+        listing.status === "DRAFT" || listing.status === "PAUSED" ? "border-l-yellow-400" :
+        listing.status === "CANCELLED" ? "border-l-red-400" :
+        "border-l-gray-300"
+      }`}>
         <CardContent className="p-4 sm:p-5 space-y-4">
           {/* Header: Service name + badges */}
           <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">

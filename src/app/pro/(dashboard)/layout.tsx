@@ -41,20 +41,21 @@ export default function ProDashboardLayout({
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          "hidden flex-col border-r border-border bg-accent text-white transition-all duration-300 md:flex",
+          "hidden flex-col border-r border-border bg-white transition-all duration-300 md:flex",
           sidebarCollapsed ? "w-16" : "w-60"
         )}
       >
         {/* Sidebar header */}
-        <div className="flex h-16 items-center justify-between border-b border-white/10 px-4">
+        <div className="flex h-16 items-center justify-between border-b border-border px-4">
           {!sidebarCollapsed && (
-            <Link href="/pro/dashboard" className="text-lg font-bold">
-              BeautyLink
+            <Link href="/pro/dashboard" className="flex items-center gap-2">
+              <span className="text-lg font-bold text-accent">BeautyLink</span>
+              <span className="rounded-md bg-accent-light px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">Pro</span>
             </Link>
           )}
           <button
             onClick={() => setSidebarCollapsed((prev) => !prev)}
-            className="rounded-lg p-1.5 transition-colors hover:bg-white/10"
+            className="rounded-lg p-1.5 text-muted transition-colors hover:bg-gray-50 hover:text-dark"
             aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             <ChevronLeft
@@ -77,14 +78,17 @@ export default function ProDashboardLayout({
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                  "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                   active
-                    ? "bg-white/20 text-white"
-                    : "text-white/70 hover:bg-white/10 hover:text-white",
+                    ? "bg-accent-light text-accent"
+                    : "text-muted hover:bg-gray-50 hover:text-dark",
                   sidebarCollapsed && "justify-center px-0"
                 )}
                 title={sidebarCollapsed ? link.label : undefined}
               >
+                {active && (
+                  <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-[3px] rounded-r-full bg-accent" />
+                )}
                 <Icon className="h-5 w-5 shrink-0" />
                 {!sidebarCollapsed && <span>{link.label}</span>}
               </Link>
@@ -93,7 +97,7 @@ export default function ProDashboardLayout({
         </nav>
 
         {/* Sidebar footer */}
-        <div className="border-t border-white/10 p-4">
+        <div className="border-t border-border p-4">
           <div
             className={cn(
               "flex items-center gap-3",
@@ -108,7 +112,7 @@ export default function ProDashboardLayout({
               }}
             />
             {!sidebarCollapsed && (
-              <span className="text-sm text-white/70">Account</span>
+              <span className="text-sm text-muted">Account</span>
             )}
           </div>
         </div>
@@ -150,13 +154,16 @@ export default function ProDashboardLayout({
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
                 transition={{ duration: 0.25, ease: "easeInOut" }}
-                className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-accent text-white md:hidden"
+                className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white md:hidden"
               >
-                <div className="flex h-14 items-center justify-between border-b border-white/10 px-4">
-                  <span className="text-lg font-bold">BeautyLink</span>
+                <div className="flex h-14 items-center justify-between border-b border-border px-4">
+                  <span className="flex items-center gap-2">
+                    <span className="text-lg font-bold text-accent">BeautyLink</span>
+                    <span className="rounded-md bg-accent-light px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">Pro</span>
+                  </span>
                   <button
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-lg p-1.5 transition-colors hover:bg-white/10"
+                    className="rounded-lg p-1.5 text-muted transition-colors hover:bg-gray-50 hover:text-dark"
                     aria-label="Close menu"
                   >
                     <X className="h-5 w-5" />
@@ -174,12 +181,15 @@ export default function ProDashboardLayout({
                         href={link.href}
                         onClick={() => setMobileOpen(false)}
                         className={cn(
-                          "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
+                          "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                           active
-                            ? "bg-white/20 text-white"
-                            : "text-white/70 hover:bg-white/10 hover:text-white"
+                            ? "bg-accent-light text-accent"
+                            : "text-muted hover:bg-gray-50 hover:text-dark"
                         )}
                       >
+                        {active && (
+                          <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-[3px] rounded-r-full bg-accent" />
+                        )}
                         <Icon className="h-5 w-5 shrink-0" />
                         <span>{link.label}</span>
                       </Link>
@@ -187,7 +197,7 @@ export default function ProDashboardLayout({
                   })}
                 </nav>
 
-                <div className="border-t border-white/10 p-4">
+                <div className="border-t border-border p-4">
                   <div className="flex items-center gap-3">
                     <UserButton
                                            appearance={{
@@ -196,7 +206,7 @@ export default function ProDashboardLayout({
                         },
                       }}
                     />
-                    <span className="text-sm text-white/70">Account</span>
+                    <span className="text-sm text-muted">Account</span>
                   </div>
                 </div>
               </motion.aside>

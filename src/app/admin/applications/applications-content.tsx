@@ -123,7 +123,7 @@ export default function ApplicationsContent({
     const isLoading = loadingId === app.id;
 
     return (
-      <Card key={app.id} className="mb-4">
+      <Card key={app.id} variant="elevated" className="mb-4">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between">
             <div>
@@ -159,7 +159,7 @@ export default function ApplicationsContent({
           )}
 
           {/* License info */}
-          <div className="rounded-lg border border-border p-3">
+          <div className="rounded-lg bg-gray-50 border border-border/50 p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2 text-sm font-medium text-body">
                 <FileText className="h-4 w-4" />
@@ -395,7 +395,7 @@ export default function ApplicationsContent({
 
         <TabsContent value="pending" className="mt-4">
           {pending.length === 0 ? (
-            <Card>
+            <Card variant="elevated">
               <CardContent className="py-10 text-center text-muted">
                 No pending applications.
               </CardContent>
@@ -407,7 +407,7 @@ export default function ApplicationsContent({
 
         <TabsContent value="approved" className="mt-4">
           {approved.length === 0 ? (
-            <Card>
+            <Card variant="elevated">
               <CardContent className="py-10 text-center text-muted">
                 No approved applications.
               </CardContent>
@@ -419,7 +419,7 @@ export default function ApplicationsContent({
 
         <TabsContent value="rejected" className="mt-4">
           {rejected.length === 0 ? (
-            <Card>
+            <Card variant="elevated">
               <CardContent className="py-10 text-center text-muted">
                 No rejected applications.
               </CardContent>

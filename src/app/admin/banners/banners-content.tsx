@@ -172,7 +172,7 @@ export default function BannersContent({ banners }: BannersContentProps) {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-accent">
+        <h1 className="text-3xl font-bold text-dark">
           Banner Management
         </h1>
         <p className="text-muted mt-1">
@@ -180,10 +180,10 @@ export default function BannersContent({ banners }: BannersContentProps) {
         </p>
       </div>
 
-      <Card>
+      <Card variant="elevated">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg">
-            <Plus className="h-5 w-5" />
+            <Plus className="h-5 w-5 text-accent" />
             Create New Banner
           </CardTitle>
         </CardHeader>
@@ -287,7 +287,7 @@ export default function BannersContent({ banners }: BannersContentProps) {
         </h2>
 
         {banners.length === 0 ? (
-          <Card>
+          <Card variant="elevated">
             <CardContent className="py-12 text-center text-muted">
               No banners created yet.
             </CardContent>
@@ -295,7 +295,7 @@ export default function BannersContent({ banners }: BannersContentProps) {
         ) : (
           <div className="space-y-4">
             {banners.map((banner) => (
-              <Card key={banner.id}>
+              <Card key={banner.id} variant="elevated">
                 <CardContent className="pt-6 space-y-4">
                   <div
                     className="rounded-md px-4 py-3 text-center text-sm font-medium"
@@ -314,7 +314,7 @@ export default function BannersContent({ banners }: BannersContentProps) {
                   </div>
 
                   {editingId === banner.id ? (
-                    <div className="space-y-3 border rounded-md p-4">
+                    <div className="space-y-3 border border-border/50 rounded-md p-4 bg-gray-50">
                       <div className="space-y-2">
                         <Label>Message</Label>
                         <Input
