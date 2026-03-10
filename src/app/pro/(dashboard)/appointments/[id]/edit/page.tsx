@@ -39,9 +39,9 @@ function getStatusBadge(status: string) {
     case "BOOKED":
       return <Badge variant="outline">Fully Booked</Badge>;
     case "EXPIRED":
-      return <Badge variant="destructive">Expired</Badge>;
+      return <Badge variant="error">Expired</Badge>;
     case "CANCELLED":
-      return <Badge variant="destructive">Cancelled</Badge>;
+      return <Badge variant="error">Cancelled</Badge>;
     default:
       return <Badge variant="outline">{status}</Badge>;
   }

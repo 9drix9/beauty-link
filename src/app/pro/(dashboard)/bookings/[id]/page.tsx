@@ -38,7 +38,7 @@ function getStatusBadge(status: string) {
     case "COMPLETED":
       return <Badge variant="default">Completed</Badge>;
     case "CANCELLED":
-      return <Badge variant="destructive">Cancelled</Badge>;
+      return <Badge variant="error">Cancelled</Badge>;
     case "NO_SHOW":
       return <Badge variant="warning">No Show</Badge>;
     case "DISPUTED":
