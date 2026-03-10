@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { UserButton } from "@clerk/nextjs";
-import { Menu, X, Search } from "lucide-react";
+import { useAuth, UserButton } from "@clerk/nextjs";
+import { Menu, X, Search, Briefcase } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,20 @@ const navLinks = [
 
 export function CustomerNav() {
   const pathname = usePathname();
+  const { isSignedIn } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isPro, setIsPro] = useState(false);
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      setIsPro(false);
+      return;
+    }
+    fetch("/api/user/pro-status")
+      .then((r) => r.json())
+      .then((d) => setIsPro(d.isPro))
+      .catch(() => {});
+  }, [isSignedIn]);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-white">
@@ -56,6 +69,17 @@ export function CustomerNav() {
               </Link>
             </li>
           ))}
+          {isPro && (
+            <li>
+              <Link
+                href="/pro/dashboard"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-accent-light px-3 py-1.5 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-white"
+              >
+                <Briefcase className="h-3.5 w-3.5" aria-hidden="true" />
+                Pro Dashboard
+              </Link>
+            </li>
+          )}
         </ul>
 
         {/* Desktop user button */}
@@ -110,6 +134,17 @@ export function CustomerNav() {
                   {link.label}
                 </Link>
               ))}
+
+              {isPro && (
+                <Link
+                  href="/pro/dashboard"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-2 rounded-lg bg-accent-light px-3 py-2 text-sm font-medium text-accent transition-colors hover:bg-accent hover:text-white"
+                >
+                  <Briefcase className="h-4 w-4" aria-hidden="true" />
+                  Pro Dashboard
+                </Link>
+              )}
 
               <div className="border-t border-border pt-3">
                 <div className="flex items-center gap-3 px-3">

@@ -3,9 +3,11 @@ import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { format } from "date-fns";
 import Image from "next/image";
-import { User as UserIcon, Mail, Phone, Heart, Settings, ExternalLink } from "lucide-react";
+import Link from "next/link";
+import { User as UserIcon, Mail, Phone, Heart, Settings, ExternalLink, Briefcase, ArrowRight } from "lucide-react";
 
 import { db } from "@/lib/db";
+import { Button } from "@/components/ui/button";
 import { ProfileSettings } from "./profile-settings";
 import { SignOutButton } from "./sign-out-button";
 
@@ -22,11 +24,18 @@ export default async function ProfilePage() {
 
   const user = await db.user.findUnique({
     where: { clerkId },
+    include: {
+      professionalProfile: {
+        select: { applicationStatus: true },
+      },
+    },
   });
 
   if (!user) {
     redirect("/login");
   }
+
+  const isApprovedPro = user.professionalProfile?.applicationStatus === "APPROVED";
 
   const savedCount = await db.savedProfessional.count({
     where: { customerId: user.id },
@@ -69,6 +78,29 @@ export default async function ProfilePage() {
           </div>
         </div>
       </div>
+
+      {/* Pro Dashboard Link */}
+      {isApprovedPro && (
+        <div className="mb-6 rounded-xl border border-accent/20 bg-accent-light p-5 shadow-sm">
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent">
+                <Briefcase className="h-5 w-5 text-white" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="font-semibold text-dark">Pro Dashboard</p>
+                <p className="text-sm text-muted">Manage your listings & bookings</p>
+              </div>
+            </div>
+            <Button variant="primary" size="sm" asChild>
+              <Link href="/pro/dashboard">
+                Open
+                <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Saved Professionals */}
       <div className="mb-6 rounded-xl border border-border bg-white p-6 shadow-sm">
