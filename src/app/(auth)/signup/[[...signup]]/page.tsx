@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function SignUpPage() {
   return (
-    <div className="w-full max-w-md">
+    <div className="w-full max-w-md flex flex-col items-center">
       <SignUpForm />
       <p className="mt-4 text-center text-xs text-muted">
         By signing up, you agree to our{" "}
