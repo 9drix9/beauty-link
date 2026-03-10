@@ -5,9 +5,9 @@
 @tailwind utilities;
 
 :root {
-  --accent: #6D28D9;
-  --accent-hover: #5B21B6;
-  --accent-light: #F5F3FF;
+  --accent: #6B179F;
+  --accent-hover: #5A1288;
+  --accent-light: #F8F0FF;
   --cta: #F06449;
   --cta-hover: #DC4F35;
   --cta-light: #FFF4F0;
@@ -22,9 +22,9 @@
   --color-error: #EF4444;
 
   /* Legacy aliases */
-  --purple-primary: #6D28D9;
-  --purple-mid: #5B21B6;
-  --purple-light: #F5F3FF;
+  --purple-primary: #6B179F;
+  --purple-mid: #5A1288;
+  --purple-light: #F8F0FF;
   --orange-primary: #F06449;
   --orange-mid: #DC4F35;
   --orange-light: #FFF4F0;
@@ -45,7 +45,7 @@
   }
 
   ::selection {
-    background-color: rgba(109, 40, 217, 0.12);
+    background-color: rgba(107, 23, 159, 0.12);
     color: var(--color-dark);
   }
 
@@ -82,15 +82,15 @@
   }
 
   .gradient-card-warm {
-    background: linear-gradient(160deg, #F5F3FF 0%, #F0C8DA 40%, #FAE4CE 100%);
+    background: linear-gradient(160deg, #F8F0FF 0%, #F0C8DA 40%, #FAE4CE 100%);
   }
 
   .gradient-dashboard {
-    background: linear-gradient(160deg, #F5F3FF 0%, #F0C8DA 50%, #FAE4CE 100%);
+    background: linear-gradient(160deg, #F8F0FF 0%, #F0C8DA 50%, #FAE4CE 100%);
   }
 
   .gradient-welcome-banner {
-    background: linear-gradient(135deg, #6D28D9 0%, #7C3AED 40%, #F06449 100%);
+    background: linear-gradient(135deg, #6B179F 0%, #8B3AB8 40%, #F06449 100%);
   }
 
   .text-gradient {
