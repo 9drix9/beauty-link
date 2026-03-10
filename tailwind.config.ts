@@ -14,8 +14,8 @@ const config: Config = {
       colors: {
         // Brand accent — modern violet
         accent: {
-          DEFAULT: "#7C3AED",
-          hover: "#6D28D9",
+          DEFAULT: "#6D28D9",
+          hover: "#5B21B6",
           light: "#F5F3FF",
           muted: "#EDE9FE",
         },
@@ -51,8 +51,8 @@ const config: Config = {
         },
         // Legacy aliases
         purple: {
-          primary: "#7C3AED",
-          mid: "#6D28D9",
+          primary: "#6D28D9",
+          mid: "#5B21B6",
           light: "#F5F3FF",
         },
         orange: {
@@ -85,7 +85,7 @@ const config: Config = {
         cardHover: "0 8px 30px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)",
         soft: "0 2px 8px rgba(0,0,0,0.04)",
         elevated: "0 4px 20px rgba(0,0,0,0.06)",
-        glow: "0 0 0 1px rgba(124,58,237,0.1), 0 4px 16px rgba(124,58,237,0.08)",
+        glow: "0 0 0 1px rgba(109,40,217,0.1), 0 4px 16px rgba(109,40,217,0.08)",
       },
       transitionDuration: {
         DEFAULT: "200ms",
