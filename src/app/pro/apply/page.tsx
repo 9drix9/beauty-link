@@ -32,7 +32,7 @@ export default async function ApplyPage() {
 
     if (applicationStatus === "PENDING") {
       return (
-        <main className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        <main className="min-h-screen bg-background flex items-center justify-center px-4">
           <Card className="max-w-lg w-full text-center">
             <CardHeader>
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-accent-light">
@@ -66,7 +66,7 @@ export default async function ApplyPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 py-6 sm:py-12 px-4">
+    <main className="min-h-screen bg-background py-6 sm:py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">Apply as a Professional</h1>

@@ -21,6 +21,7 @@ import {
   FileText,
   Image,
   Loader2,
+  ChevronDown,
 } from "lucide-react";
 
 interface Application {
@@ -46,6 +47,18 @@ interface Application {
   workSetting: string | null;
   city: string | null;
   state: string | null;
+  applicationCity: string | null;
+  applicationState: string | null;
+  applicationServiceRadius: string | null;
+  applicationPricingRange: string | null;
+  applicationAvailabilityType: string | null;
+  applicationCurrentPlatform: string | null;
+  applicationClientVolume: string | null;
+  applicationIsStudent: boolean;
+  applicationSchool: string | null;
+  applicationWebsiteUrl: string | null;
+  instagramHandle: string | null;
+  neighborhood: string | null;
   user: {
     id: string;
     firstName: string;
@@ -83,6 +96,16 @@ export default function ApplicationsContent({
   const [rejectReasons, setRejectReasons] = useState<Record<string, string>>(
     {}
   );
+  const [expandedApps, setExpandedApps] = useState<Set<string>>(new Set());
+
+  function toggleExpanded(id: string) {
+    setExpandedApps(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
 
   const pending = applications.filter((a) => a.applicationStatus === "PENDING");
   const approved = applications.filter(
@@ -265,6 +288,124 @@ export default function ApplicationsContent({
               Location: {[app.city, app.state].filter(Boolean).join(", ")}
             </p>
           )}
+
+          {/* Full Application Details */}
+          <div className="border-t border-border pt-3">
+            <button
+              type="button"
+              onClick={() => toggleExpanded(app.id)}
+              className="flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+            >
+              {expandedApps.has(app.id) ? "Hide" : "View"} Full Application
+              <ChevronDown className={`h-4 w-4 transition-transform ${expandedApps.has(app.id) ? "rotate-180" : ""}`} />
+            </button>
+
+            {expandedApps.has(app.id) && (
+              <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                {/* Full bio */}
+                {app.bio && (
+                  <div className="sm:col-span-2">
+                    <span className="font-medium text-body">Bio:</span>
+                    <p className="mt-1 text-body whitespace-pre-line">{app.bio}</p>
+                  </div>
+                )}
+
+                {/* Services */}
+                <div>
+                  <span className="font-medium text-body">Services:</span>{" "}
+                  <span className="text-body">{app.servicesOffered.map(s => s.replace(/_/g, " ")).join(", ") || "N/A"}</span>
+                </div>
+
+                {/* Experience */}
+                <div>
+                  <span className="font-medium text-body">Experience:</span>{" "}
+                  <span className="text-body">{experienceLabels[app.yearsExperience || ""] || app.yearsExperience || "N/A"}</span>
+                </div>
+
+                {/* Work Setting */}
+                <div>
+                  <span className="font-medium text-body">Work Setting:</span>{" "}
+                  <span className="text-body">{workSettingLabels[app.workSetting || ""] || app.workSetting || "N/A"}</span>
+                </div>
+
+                {/* Location */}
+                <div>
+                  <span className="font-medium text-body">Location:</span>{" "}
+                  <span className="text-body">{[app.applicationCity || app.city, app.applicationState || app.state].filter(Boolean).join(", ") || "N/A"}</span>
+                </div>
+
+                {/* Service Radius */}
+                <div>
+                  <span className="font-medium text-body">Service Radius:</span>{" "}
+                  <span className="text-body">{app.applicationServiceRadius?.replace(/_/g, " ") || "N/A"}</span>
+                </div>
+
+                {/* Pricing Range */}
+                <div>
+                  <span className="font-medium text-body">Pricing Range:</span>{" "}
+                  <span className="text-body">{app.applicationPricingRange?.replace(/_/g, " ") || "N/A"}</span>
+                </div>
+
+                {/* Availability */}
+                <div>
+                  <span className="font-medium text-body">Availability:</span>{" "}
+                  <span className="text-body">{app.applicationAvailabilityType?.replace(/_/g, " ") || "N/A"}</span>
+                </div>
+
+                {/* Current Platform */}
+                <div>
+                  <span className="font-medium text-body">Current Platform:</span>{" "}
+                  <span className="text-body">{app.applicationCurrentPlatform || "N/A"}</span>
+                </div>
+
+                {/* Client Volume */}
+                <div>
+                  <span className="font-medium text-body">Client Volume:</span>{" "}
+                  <span className="text-body">{app.applicationClientVolume || "N/A"}</span>
+                </div>
+
+                {/* Student Status */}
+                <div>
+                  <span className="font-medium text-body">Student:</span>{" "}
+                  <span className="text-body">{app.applicationIsStudent ? `Yes${app.applicationSchool ? ` - ${app.applicationSchool}` : ""}` : "No"}</span>
+                </div>
+
+                {/* Instagram */}
+                <div>
+                  <span className="font-medium text-body">Instagram:</span>{" "}
+                  <span className="text-body">{app.instagramHandle || "N/A"}</span>
+                </div>
+
+                {/* Website */}
+                <div>
+                  <span className="font-medium text-body">Website:</span>{" "}
+                  <span className="text-body">{app.applicationWebsiteUrl || "N/A"}</span>
+                </div>
+
+                {/* Specialties */}
+                {app.specialties.length > 0 && (
+                  <div className="sm:col-span-2">
+                    <span className="font-medium text-body">Specialties:</span>{" "}
+                    <span className="text-body">{app.specialties.join(", ")}</span>
+                  </div>
+                )}
+
+                {/* Portfolio Photos */}
+                {app.portfolioPhotos.length > 0 && (
+                  <div className="sm:col-span-2">
+                    <span className="font-medium text-body">Portfolio ({app.portfolioPhotos.length} photos):</span>
+                    <div className="mt-2 grid grid-cols-3 sm:grid-cols-4 gap-2">
+                      {app.portfolioPhotos.map((url, i) => (
+                        <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="aspect-square relative rounded-lg overflow-hidden border border-border hover:opacity-80 transition-opacity">
+                          <img src={url} alt={`Portfolio ${i + 1}`} className="w-full h-full object-cover" />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
 
           {/* Rejection reason (for rejected) */}
           {app.applicationStatus === "REJECTED" && app.rejectionReason && (

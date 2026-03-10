@@ -33,9 +33,11 @@ export default async function ProSettingsPage() {
             bio: profile.bio || "",
             city: profile.city || "",
             state: profile.state || "",
+            neighborhood: profile.neighborhood || "",
             instagramHandle: profile.instagramHandle || "",
             specialties: profile.specialties || [],
             workSetting: profile.workSetting || "",
+            portfolioPhotos: profile.portfolioPhotos || [],
           }}
         />
       </div>

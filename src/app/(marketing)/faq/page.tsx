@@ -34,7 +34,7 @@ const faqs = [
   {
     question: "How much can I save?",
     answer:
-      "Professionals set their own discounted prices — typically 15–50% below their regular rate. A small 5% service fee is added at checkout. The total price is always shown upfront.",
+      "Professionals set their own discounted prices — typically 15–50% below their regular rate. The total price is always shown upfront before you pay.",
   },
 ];
 

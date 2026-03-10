@@ -92,8 +92,8 @@ export function ProfileSettings(props: ProfileSettingsProps) {
           className="flex items-center justify-between gap-4"
         >
           <div>
-            <p className="text-sm font-medium text-gray-900">{setting.label}</p>
-            <p className="text-xs text-gray-500">{setting.description}</p>
+            <p className="text-sm font-medium text-dark">{setting.label}</p>
+            <p className="text-xs text-muted">{setting.description}</p>
           </div>
           <button
             type="button"
@@ -102,7 +102,7 @@ export function ProfileSettings(props: ProfileSettingsProps) {
             disabled={saving}
             onClick={() => handleToggle(setting.key)}
             className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 disabled:opacity-50 ${
-              values[setting.key] ? "bg-accent" : "bg-gray-200"
+              values[setting.key] ? "bg-accent" : "bg-border"
             }`}
           >
             <span

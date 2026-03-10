@@ -169,7 +169,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
 
       {threadList.length === 0 ? (
         <div className="flex flex-1 flex-col items-center justify-center p-8 text-center">
-          <MessageSquare className="mb-4 h-12 w-12 text-gray-300" aria-hidden="true" />
+          <MessageSquare className="mb-4 h-12 w-12 text-border" aria-hidden="true" />
           <p className="text-lg font-medium text-muted">No messages yet</p>
           <p className="mt-1 text-sm text-muted">
             Start a conversation by messaging a professional from their listing.
@@ -303,7 +303,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
                         className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${
                           isSent
                             ? "bg-accent text-white"
-                            : "bg-gray-200 text-dark"
+                            : "bg-border text-dark"
                         }`}
                       >
                         <p className="whitespace-pre-wrap break-words text-sm">
@@ -348,7 +348,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
         </>
       ) : (
         <div className="flex flex-1 flex-col items-center justify-center p-8 text-center">
-          <MessageSquare className="mb-4 h-16 w-16 text-gray-200" aria-hidden="true" />
+          <MessageSquare className="mb-4 h-16 w-16 text-border" aria-hidden="true" />
           <p className="text-lg font-medium text-muted">
             Select a conversation to start messaging
           </p>

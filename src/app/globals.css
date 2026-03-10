@@ -14,9 +14,9 @@
   --color-dark: #1F2933;
   --color-body: #374151;
   --color-muted: #6B7280;
-  --color-background: #FAFAFA;
+  --color-background: #F0E6EF;
   --color-surface: #FFFFFF;
-  --color-border: #E5E7EB;
+  --color-border: #E3D5E1;
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
@@ -67,6 +67,30 @@
 @layer utilities {
   .hero-gradient {
     background: linear-gradient(135deg, #1F2933 0%, #374151 50%, #1F2933 100%);
+  }
+
+  .gradient-hero-page {
+    background: linear-gradient(180deg, #E8DBE7 0%, #F0E6EF 40%, #F0E6EF 100%);
+  }
+
+  .gradient-hero-soft {
+    background: linear-gradient(180deg, #E8DBE7 0%, #F0E6EF 100%);
+  }
+
+  .gradient-hero-pro {
+    background: linear-gradient(180deg, #E0D2DF 0%, #EBE0EA 50%, #F0E6EF 100%);
+  }
+
+  .gradient-card-warm {
+    background: linear-gradient(135deg, #E4D6E3 0%, #EBE0EA 50%, #F0E6EF 100%);
+  }
+
+  .gradient-dashboard {
+    background: linear-gradient(135deg, #E8DBE7 0%, #F0E6EF 50%, #F4ECF3 100%);
+  }
+
+  .gradient-welcome-banner {
+    background: linear-gradient(135deg, #6A1B9A 0%, #9C27B0 40%, #FF6A3D 100%);
   }
 
   .text-gradient {

@@ -130,6 +130,18 @@ export async function GET(req: NextRequest) {
     const nextCursor =
       listings.length === limit ? listings[listings.length - 1].id : null;
 
+    // Log search query for analytics (non-blocking)
+    if (search || category) {
+      db.searchQuery.create({
+        data: {
+          query: search || "",
+          category: category || null,
+          zone: zone || null,
+          resultCount: listings.length,
+        },
+      }).catch(() => {}); // Fire and forget
+    }
+
     return NextResponse.json({ listings, nextCursor });
   } catch (err) {
     console.error("Error fetching appointments:", err);

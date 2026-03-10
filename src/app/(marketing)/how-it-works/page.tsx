@@ -97,11 +97,7 @@ export default function HowItWorksPage() {
     <>
       {/* Hero header with gradient */}
       <section
-        className="py-16 md:py-24 text-center"
-        style={{
-          background:
-            "linear-gradient(135deg, #fdf2f8 0%, #fce7f3 20%, #f5e6ff 40%, #ede9fe 60%, #fef3e2 80%, #fdf2f8 100%)",
-        }}
+        className="py-16 md:py-24 text-center gradient-hero-soft"
       >
         <div className="container mx-auto px-4 max-w-2xl">
           <h1 className="text-3xl md:text-5xl font-bold text-dark">

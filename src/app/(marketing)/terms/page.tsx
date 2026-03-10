@@ -52,7 +52,7 @@ export default function TermsPage() {
             4. Bookings & Payments
           </h2>
           <p>
-            All payments are processed through Stripe. A 5% service fee is added
+            All payments are processed through Stripe. A service fee is added
             to each booking. Prices shown on listings are set by professionals
             and include the discounted rate. Full payment is required at the time
             of booking.

@@ -81,10 +81,10 @@ const BOOKING_PLATFORMS = [
 ];
 
 const CLIENT_VOLUME = [
-  { value: "building", label: "Just getting started — building my clientele" },
-  { value: "growing", label: "Growing — I have some regulars but want more" },
-  { value: "steady", label: "Steady — I mostly want to fill gaps" },
-  { value: "full", label: "Fully booked — occasional openings only" },
+  { value: "building", label: "Just getting started, building my clientele" },
+  { value: "growing", label: "Growing, I have some regulars but want more" },
+  { value: "steady", label: "Steady, I mostly want to fill gaps" },
+  { value: "full", label: "Fully booked, occasional openings only" },
 ];
 
 interface FormData {
@@ -181,6 +181,9 @@ export function ApplyForm() {
         if (!formData.yearsExperience) return "Please select your experience level.";
         if (!formData.workSetting) return "Please select your work setting.";
         return null;
+      case 5:
+        if (formData.portfolioPhotos.length < 3) return "Please upload at least 3 portfolio photos to showcase your work.";
+        return null;
       case 12:
         if (!formData.agreedToTerms) return "You must agree to the terms to continue.";
         return null;
@@ -229,6 +232,15 @@ export function ApplyForm() {
         instagramUrl: formData.instagramUrl.trim() || "",
         websiteUrl: formData.websiteUrl.trim() || "",
         portfolioPhotos: formData.portfolioPhotos,
+        city: formData.city.trim(),
+        state: formData.state.trim().toUpperCase(),
+        serviceRadius: formData.serviceRadius,
+        pricingRange: formData.pricingRange,
+        availabilityType: formData.availabilityType,
+        currentPlatform: formData.currentPlatform,
+        clientVolume: formData.clientVolume,
+        isStudent: formData.isStudent,
+        school: formData.school.trim(),
       };
 
       const res = await fetch("/api/providers/apply", {
@@ -283,7 +295,7 @@ export function ApplyForm() {
             {STEPS[step - 1].label}
           </span>
         </div>
-        <div className="h-2 w-full rounded-full bg-gray-200 overflow-hidden">
+        <div className="h-2 w-full rounded-full bg-border overflow-hidden">
           <div
             className="h-full rounded-full bg-accent transition-all duration-300"
             style={{ width: `${progress}%` }}
@@ -312,7 +324,7 @@ export function ApplyForm() {
                 "flex items-center gap-1 whitespace-nowrap rounded-full px-2.5 py-1 text-xs font-medium transition-colors",
                 isActive && "bg-accent text-white",
                 isCompleted && "bg-accent-light text-accent cursor-pointer hover:bg-accent hover:text-white",
-                !isActive && !isCompleted && "bg-gray-100 text-gray-400 cursor-not-allowed"
+                !isActive && !isCompleted && "bg-background text-muted cursor-not-allowed"
               )}
             >
               <Icon className="h-3 w-3" aria-hidden="true" />
@@ -386,7 +398,7 @@ export function ApplyForm() {
                       "flex items-center gap-2 rounded-lg border px-3 py-3 text-sm font-medium transition-colors",
                       isSelected
                         ? "border-accent bg-accent-light text-accent"
-                        : "border-gray-200 hover:border-gray-300 text-gray-700"
+                        : "border-border hover:border-accent/30 text-body"
                     )}
                   >
                     <Checkbox checked={isSelected} className="pointer-events-none" />
@@ -595,7 +607,7 @@ export function ApplyForm() {
                     "w-full rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors",
                     formData.pricingRange === range.value
                       ? "border-accent bg-accent-light text-accent"
-                      : "border-gray-200 hover:border-gray-300 text-gray-700"
+                      : "border-border hover:border-accent/30 text-body"
                   )}
                 >
                   {range.label}
@@ -624,7 +636,7 @@ export function ApplyForm() {
                     "w-full rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors",
                     formData.availabilityType === type.value
                       ? "border-accent bg-accent-light text-accent"
-                      : "border-gray-200 hover:border-gray-300 text-gray-700"
+                      : "border-border hover:border-accent/30 text-body"
                   )}
                 >
                   {type.label}
@@ -653,7 +665,7 @@ export function ApplyForm() {
                     "w-full rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors",
                     formData.currentPlatform === platform.value
                       ? "border-accent bg-accent-light text-accent"
-                      : "border-gray-200 hover:border-gray-300 text-gray-700"
+                      : "border-border hover:border-accent/30 text-body"
                   )}
                 >
                   {platform.label}
@@ -682,7 +694,7 @@ export function ApplyForm() {
                     "w-full rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors",
                     formData.clientVolume === volume.value
                       ? "border-accent bg-accent-light text-accent"
-                      : "border-gray-200 hover:border-gray-300 text-gray-700"
+                      : "border-border hover:border-accent/30 text-body"
                   )}
                 >
                   {volume.label}
@@ -709,7 +721,7 @@ export function ApplyForm() {
                   "w-full rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors",
                   formData.isStudent
                     ? "border-accent bg-accent-light text-accent"
-                    : "border-gray-200 hover:border-gray-300 text-gray-700"
+                    : "border-border hover:border-accent/30 text-body"
                 )}
               >
                 Yes, I&apos;m a student
@@ -721,7 +733,7 @@ export function ApplyForm() {
                   "w-full rounded-lg border px-4 py-3 text-left text-sm font-medium transition-colors",
                   !formData.isStudent
                     ? "border-accent bg-accent-light text-accent"
-                    : "border-gray-200 hover:border-gray-300 text-gray-700"
+                    : "border-border hover:border-accent/30 text-body"
                 )}
               >
                 No, I&apos;m not a student

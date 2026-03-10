@@ -26,7 +26,7 @@ export function RatingDisplay({
               starSize,
               i < Math.round(rating)
                 ? "fill-cta text-cta"
-                : "fill-none text-gray-300"
+                : "fill-none text-border"
             )}
           />
         ))}

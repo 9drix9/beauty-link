@@ -10,6 +10,7 @@ import {
   Shield,
   CheckCircle,
   ArrowLeft,
+  CalendarPlus,
 } from "lucide-react";
 
 import { db } from "@/lib/db";
@@ -123,6 +124,23 @@ export default async function BookingDetailPage({
   const isCompleted = booking.status === "COMPLETED";
   const hasReview = !!booking.review;
 
+  // Build calendar URLs
+  const apptDate = new Date(booking.appointmentDate);
+  const [apptHours, apptMinutes] = booking.appointmentTime.split(":").map(Number);
+  const startDate = new Date(apptDate);
+  startDate.setHours(apptHours, apptMinutes, 0, 0);
+  const endDate = new Date(startDate.getTime() + booking.durationMinutes * 60000);
+
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  const toICSDate = (d: Date) =>
+    `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}T${pad(d.getHours())}${pad(d.getMinutes())}00`;
+
+  const googleCalUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(
+    `${booking.serviceName} with ${proName}`
+  )}&dates=${toICSDate(startDate)}/${toICSDate(endDate)}&details=${encodeURIComponent(
+    `BeautyLink booking: ${booking.serviceName}\nProfessional: ${proName}\nRef: ${booking.bookingReference}`
+  )}${booking.locationAddress ? `&location=${encodeURIComponent(booking.locationAddress)}` : ""}`;
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 lg:px-8">
       <Link
@@ -217,6 +235,18 @@ export default async function BookingDetailPage({
           </CardContent>
         </Card>
 
+        {/* Add to Calendar */}
+        {booking.status === "CONFIRMED" && (
+          <div className="flex gap-3">
+            <Button variant="outline" size="sm" asChild>
+              <a href={googleCalUrl} target="_blank" rel="noopener noreferrer">
+                <CalendarPlus className="mr-2 h-4 w-4" />
+                Add to Google Calendar
+              </a>
+            </Button>
+          </div>
+        )}
+
         {/* Price Breakdown */}
         <Card>
           <CardHeader>
@@ -244,7 +274,7 @@ export default async function BookingDetailPage({
               </div>
             )}
             <div className="flex justify-between">
-              <span className="text-muted">Service fee (5%)</span>
+              <span className="text-muted">Service fee</span>
               <span>{formatPrice(priceBreakdown.platformFee)}</span>
             </div>
             <Separator />

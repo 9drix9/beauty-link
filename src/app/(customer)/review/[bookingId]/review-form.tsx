@@ -144,7 +144,7 @@ export function ReviewForm({ booking }: ReviewFormProps) {
                           "h-8 w-8 transition-colors",
                           starValue <= displayRating
                             ? "fill-cta text-cta"
-                            : "fill-none text-gray-300"
+                            : "fill-none text-border"
                         )}
                       />
                     </button>

@@ -30,7 +30,7 @@ const helpTopics = [
     title: "Payments & Refunds",
     items: [
       "All payments are processed securely through Stripe",
-      "A 5% service fee is added at checkout",
+      "A small service fee is added at checkout",
       "Full refund if you cancel more than 24 hours in advance",
       "Cancellations within 24 hours are non-refundable",
     ],

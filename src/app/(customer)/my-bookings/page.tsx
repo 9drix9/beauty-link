@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 
 import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
+import { formatPrice } from "@/lib/utils";
 import { MyBookingsContent } from "./my-bookings-content";
 
 export const metadata: Metadata = {
@@ -38,6 +39,15 @@ export default async function MyBookingsPage() {
     },
   });
 
+  // Calculate total savings
+  const completedBookings = bookings.filter(
+    (b) => b.status === "CONFIRMED" || b.status === "COMPLETED"
+  );
+  const totalSaved = completedBookings.reduce(
+    (sum, b) => sum + (b.originalPrice - b.discountedPrice),
+    0
+  );
+
   const serializedBookings = bookings.map((booking) => ({
     id: booking.id,
     bookingReference: booking.bookingReference,
@@ -71,6 +81,26 @@ export default async function MyBookingsPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8">
       <h1 className="mb-6 text-2xl font-bold text-dark">My Bookings</h1>
+
+      {/* Savings Banner */}
+      {totalSaved > 0 && (
+        <div className="mb-6 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 px-5 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm text-green-700 font-medium">
+                Total Saved with BeautyLink
+              </p>
+              <p className="text-2xl font-bold text-green-700 mt-0.5">
+                {formatPrice(totalSaved)}
+              </p>
+            </div>
+            <div className="text-sm text-green-600">
+              Across {completedBookings.length} booking{completedBookings.length !== 1 ? "s" : ""}
+            </div>
+          </div>
+        </div>
+      )}
+
       <MyBookingsContent bookings={serializedBookings} />
     </div>
   );

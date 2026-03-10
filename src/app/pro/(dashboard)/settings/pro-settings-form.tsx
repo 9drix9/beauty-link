@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ImageUpload } from "@/components/shared/image-upload";
 import { WORK_SETTINGS } from "@/lib/constants";
 import { Loader2, Check } from "lucide-react";
 
@@ -23,9 +24,11 @@ interface ProSettingsFormProps {
     bio: string;
     city: string;
     state: string;
+    neighborhood: string;
     instagramHandle: string;
     specialties: string[];
     workSetting: string;
+    portfolioPhotos: string[];
   };
 }
 
@@ -39,6 +42,7 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
   const [bio, setBio] = useState(profile.bio);
   const [city, setCity] = useState(profile.city);
   const [state, setState] = useState(profile.state);
+  const [neighborhood, setNeighborhood] = useState(profile.neighborhood);
   const [instagramHandle, setInstagramHandle] = useState(
     profile.instagramHandle
   );
@@ -46,6 +50,9 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
     profile.specialties.join(", ")
   );
   const [workSetting, setWorkSetting] = useState(profile.workSetting);
+  const [portfolioPhotos, setPortfolioPhotos] = useState<string[]>(
+    profile.portfolioPhotos
+  );
 
   async function handleSave() {
     if (!displayName.trim() || displayName.trim().length < 2) {
@@ -71,9 +78,11 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
           bio: bio.trim(),
           city: city.trim(),
           state: state.trim(),
+          neighborhood: neighborhood.trim(),
           instagramHandle: instagramHandle.trim(),
           specialties,
           workSetting,
+          portfolioPhotos,
         }),
       });
 
@@ -164,6 +173,19 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
           </div>
 
           <div className="space-y-2">
+            <Label htmlFor="neighborhood">Neighborhood</Label>
+            <Input
+              id="neighborhood"
+              value={neighborhood}
+              onChange={(e) => setNeighborhood(e.target.value)}
+              placeholder="e.g. Westwood, Beverly Hills, Santa Monica"
+            />
+            <p className="text-xs text-muted">
+              This is shown to clients instead of your full address for safety.
+            </p>
+          </div>
+
+          <div className="space-y-2">
             <Label>Work Setting</Label>
             <Select value={workSetting} onValueChange={setWorkSetting}>
               <SelectTrigger>
@@ -178,6 +200,26 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
               </SelectContent>
             </Select>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Portfolio Photos */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Portfolio Photos</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted mb-4">
+            Showcase your best work. Upload up to 10 photos that will appear on your profile.
+          </p>
+          <ImageUpload
+            value={portfolioPhotos}
+            onChange={(val) => setPortfolioPhotos(val as string[])}
+            multiple
+            maxImages={10}
+            folder="portfolio"
+            placeholder="Add portfolio photo"
+          />
         </CardContent>
       </Card>
 

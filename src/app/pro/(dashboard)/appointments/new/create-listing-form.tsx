@@ -269,7 +269,7 @@ export function CreateListingForm() {
               rows={4}
               maxLength={1000}
             />
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-muted">
               {description.length}/1000 characters
             </p>
           </div>
@@ -291,7 +291,7 @@ export function CreateListingForm() {
                       size="icon"
                       onClick={() => removeIncludedItem(index)}
                     >
-                      <Trash2 className="h-4 w-4 text-gray-400" />
+                      <Trash2 className="h-4 w-4 text-muted" />
                     </Button>
                   )}
                 </div>
@@ -402,8 +402,8 @@ export function CreateListingForm() {
             </div>
           )}
 
-          <p className="text-xs text-gray-500">
-            Customers will also pay a 5% service fee on top of your discounted
+          <p className="text-xs text-muted">
+            Customers will also pay a small service fee on top of your discounted
             price.
           </p>
 

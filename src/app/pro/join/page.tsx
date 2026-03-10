@@ -25,7 +25,7 @@ const benefits = [
   {
     icon: DollarSign,
     title: "Keep 100% of your price",
-    body: "You set your discounted rate. We charge customers a 5% service fee — your earnings stay yours.",
+    body: "You set your discounted rate. Your earnings stay yours — we never take a cut from professionals.",
   },
   {
     icon: Calendar,
@@ -58,22 +58,22 @@ export default function JoinPage() {
   return (
     <main className="min-h-screen">
       {/* Hero */}
-      <section className="hero-gradient text-white">
+      <section className="gradient-hero-pro">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-8 px-4 py-16 md:py-24">
           <div className="text-center md:text-left">
-            <p className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white mb-6 backdrop-blur-sm">
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-white/70 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-accent mb-6">
               For Beauty Professionals
             </p>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-dark mb-4">
               Fill your empty chair.
               <br />
               Keep every dollar.
             </h1>
-            <p className="text-base sm:text-lg text-white/85 max-w-xl mx-auto md:mx-0 mb-8">
-              List your open slots at a discount. Reach new clients in your area. You keep 100% of your listed price — we only charge customers a 5% service fee.
+            <p className="text-base sm:text-lg text-muted max-w-xl mx-auto md:mx-0 mb-8">
+              List your open slots at a discount. Reach new clients in your area. You keep 100% of your listed price — every dollar is yours.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
-              <Button variant="cta" size="xl" asChild>
+              <Button variant="primary" size="xl" asChild>
                 <Link href="/pro/apply">
                   Apply Now
                   <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />

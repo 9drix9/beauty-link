@@ -325,7 +325,17 @@ export default async function AppointmentDetailPage({
                 {listing.locationAddress && (
                   <div className="flex items-start gap-3 text-sm min-w-0">
                     <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted" aria-hidden="true" />
-                    <span className="break-words">{listing.locationAddress}</span>
+                    <div>
+                      <span className="break-words">
+                        {listing.professional.neighborhood ||
+                          listing.professional.city
+                            ? `${listing.professional.neighborhood || listing.professional.city}${listing.professional.state ? `, ${listing.professional.state}` : ""}`
+                            : listing.launchZone || "Los Angeles Area"}
+                      </span>
+                      <p className="text-xs text-muted mt-0.5">
+                        Exact address provided after booking
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>

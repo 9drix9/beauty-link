@@ -96,7 +96,7 @@ export default async function ProDashboardPage() {
     <div className="space-y-8">
       {/* Approval / Welcome Banner */}
       {isNewPro && (
-        <div className="relative overflow-hidden rounded-2xl text-white px-6 py-5 sm:px-8 sm:py-6" style={{ background: "linear-gradient(135deg, #6A1B9A 0%, #9C27B0 40%, #FF6A3D 100%)" }}>
+        <div className="relative overflow-hidden rounded-2xl text-white px-6 py-5 sm:px-8 sm:py-6 gradient-welcome-banner">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 shrink-0">
@@ -124,11 +124,7 @@ export default async function ProDashboardPage() {
 
       {/* Welcome Header */}
       <div
-        className="rounded-2xl px-6 py-8 sm:px-8"
-        style={{
-          background:
-            "linear-gradient(135deg, #fdf2f8 0%, #fce7f3 30%, #f5e6ff 60%, #fef3e2 100%)",
-        }}
+        className="rounded-2xl px-6 py-8 sm:px-8 gradient-dashboard"
       >
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
           <div className="flex items-center gap-4">
@@ -209,7 +205,7 @@ export default async function ProDashboardPage() {
               {completionPercent}%
             </span>
           </div>
-          <div className="h-2 rounded-full bg-gray-200 overflow-hidden">
+          <div className="h-2 rounded-full bg-border overflow-hidden">
             <div
               className="h-full rounded-full bg-accent transition-all"
               style={{ width: `${completionPercent}%` }}
@@ -245,7 +241,7 @@ export default async function ProDashboardPage() {
           {upcomingBookings.length === 0 ? (
             <div className="rounded-xl border border-border bg-white py-16 text-center">
               <Calendar
-                className="mx-auto h-10 w-10 text-gray-300"
+                className="mx-auto h-10 w-10 text-border"
                 aria-hidden="true"
               />
               <p className="mt-3 text-muted">No upcoming appointments</p>

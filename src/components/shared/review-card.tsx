@@ -60,7 +60,7 @@ export function ReviewCard({
                 "h-4 w-4",
                 i < starRating
                   ? "fill-cta text-cta"
-                  : "fill-none text-gray-300"
+                  : "fill-none text-border"
               )}
             />
           ))}

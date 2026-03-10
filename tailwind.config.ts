@@ -29,9 +29,9 @@ const config: Config = {
         dark: "#1F2933",
         body: "#374151",
         muted: "#6B7280",
-        background: "#FAFAFA",
+        background: "#F0E6EF",
         surface: "#FFFFFF",
-        border: "#E5E7EB",
+        border: "#E3D5E1",
         // Semantic colors
         success: {
           DEFAULT: "#10B981",
@@ -63,6 +63,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
+        serif: ["Georgia", "'Times New Roman'", "serif"],
       },
       fontSize: {
         h1: ["48px", { lineHeight: "1.15", fontWeight: "700" }],

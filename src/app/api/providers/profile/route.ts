@@ -33,6 +33,9 @@ export async function PATCH(req: Request) {
     if (typeof body.state === "string") {
       allowedFields.state = body.state.trim().toUpperCase().slice(0, 2);
     }
+    if (typeof body.neighborhood === "string") {
+      allowedFields.neighborhood = body.neighborhood.trim().slice(0, 100);
+    }
     if (typeof body.instagramHandle === "string") {
       allowedFields.instagramHandle = body.instagramHandle.trim().slice(0, 100);
     }
@@ -44,6 +47,11 @@ export async function PATCH(req: Request) {
     }
     if (typeof body.workSetting === "string") {
       allowedFields.workSetting = body.workSetting;
+    }
+    if (Array.isArray(body.portfolioPhotos)) {
+      allowedFields.portfolioPhotos = body.portfolioPhotos
+        .filter((url: unknown) => typeof url === "string" && url.length > 0)
+        .slice(0, 10);
     }
 
     const updated = await db.professionalProfile.update({

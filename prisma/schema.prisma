@@ -248,8 +248,20 @@ model ProfessionalProfile {
   selfieUrl                String?           @map("selfie_url")
   idDocUrl                 String?           @map("id_doc_url")
   portfolioPhotos          String[]          @map("portfolio_photos") @default([])
+  applicationCity          String?           @map("application_city")
+  applicationState         String?           @map("application_state")
+  applicationServiceRadius String?           @map("application_service_radius")
+  applicationPricingRange  String?           @map("application_pricing_range")
+  applicationAvailabilityType String?        @map("application_availability_type")
+  applicationCurrentPlatform String?         @map("application_current_platform")
+  applicationClientVolume  String?           @map("application_client_volume")
+  applicationIsStudent     Boolean           @default(false) @map("application_is_student")
+  applicationSchool        String?           @map("application_school")
+  applicationWebsiteUrl    String?           @map("application_website_url")
   applicationStatus        ApplicationStatus @default(PENDING) @map("application_status")
   applicationSubmittedAt   DateTime?         @map("application_submitted_at")
+  neighborhood             String?           @map("neighborhood")
+  hideAddressUntilBooked   Boolean           @default(true) @map("hide_address_until_booked")
   approvedAt               DateTime?         @map("approved_at")
   rejectedAt               DateTime?         @map("rejected_at")
   rejectionReason          String?           @map("rejection_reason")
@@ -619,4 +631,18 @@ model SlotHold {
 
   @@index([expiresAt])
   @@map("slot_holds")
+}
+
+model SearchQuery {
+  id        String   @id @default(cuid())
+  query     String
+  category  String?
+  zone      String?
+  userId    String?  @map("user_id")
+  resultCount Int    @default(0) @map("result_count")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([query])
+  @@index([createdAt])
+  @@map("search_queries")
 }

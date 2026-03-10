@@ -68,11 +68,7 @@ export default function HomePage() {
       <section className="relative min-h-[calc(100vh-64px)] flex flex-col items-center justify-center overflow-hidden px-4 py-16 md:py-24">
         {/* Warm gradient background */}
         <div
-          className="absolute inset-0 -z-10"
-          style={{
-            background:
-              "linear-gradient(135deg, #fdf2f8 0%, #fce7f3 20%, #f5e6ff 40%, #ede9fe 60%, #fef3e2 80%, #fdf2f8 100%)",
-          }}
+          className="absolute inset-0 -z-10 gradient-hero-page"
           aria-hidden="true"
         />
         {/* Subtle radial glow */}
@@ -126,21 +122,19 @@ export default function HomePage() {
 
           {/* Heading — serif italic style */}
           <h1 className="text-[2.5rem] leading-[1.05] md:text-[4rem] lg:text-[4.5rem] font-bold tracking-tight text-dark">
-            Premium Beauty.
+            Great Beauty.
             <br />
             <span
-              className="text-accent italic"
-              style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+              className="text-accent italic font-serif"
             >
-              Fraction of the Price.
+              Better Prices.
             </span>
           </h1>
 
           {/* Subheadline */}
           <p className="mt-6 text-base md:text-lg text-muted max-w-xl mx-auto leading-relaxed">
-            BeautyLink connects you with verified beauty professionals who have
-            last-minute availability — so you get premium services at discounted
-            rates, and they fill their calendar. Everybody wins.
+            Book exclusive discounted appointments from trusted beauty
+            professionals near you.
           </p>
 
           {/* CTA */}
@@ -270,37 +264,32 @@ export default function HomePage() {
       <section className="py-14 md:py-20 bg-white">
         <div className="container mx-auto px-4">
           <div
-            className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl px-6 py-14 md:px-16 md:py-20 text-center"
-            style={{
-              background:
-                "linear-gradient(135deg, #fdf2f8 0%, #f5e6ff 50%, #fef3e2 100%)",
-            }}
+            className="relative mx-auto max-w-4xl overflow-hidden rounded-3xl px-6 py-14 md:px-16 md:py-20 text-center gradient-card-warm"
           >
             <p className="inline-flex items-center gap-1.5 rounded-full bg-white/70 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-accent mb-6">
               <Scissors className="h-3 w-3" aria-hidden="true" />
-              For Professionals
+              For Beauty Professionals
             </p>
             <h2 className="text-2xl md:text-4xl font-bold text-dark leading-tight">
-              Fill your empty chair.
+              Your talent deserves
               <br />
               <span
-                className="text-accent italic"
-                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                className="text-accent italic font-serif"
               >
-                Keep every dollar.
+                a full calendar.
               </span>
             </h2>
             <p className="mt-4 text-muted leading-relaxed max-w-lg mx-auto">
-              List open slots at a discount, reach new clients nearby, and keep
-              100% of your listed price. We only charge customers a 5% service
-              fee.
+              Turn empty slots into income. List your open appointments at a
+              discounted rate, attract new clients in your area, and keep 100%
+              of what you charge.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
                 href="/pro/apply"
                 className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
               >
-                Apply Now
+                Start Listing Appointments
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link

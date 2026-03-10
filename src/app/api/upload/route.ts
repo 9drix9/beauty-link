@@ -64,8 +64,18 @@ export async function POST(req: NextRequest) {
       url: blob.url,
       pathname: blob.pathname,
     });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Upload error:", error);
+
+    // If public access fails on a private store, suggest fix
+    const errMsg = error instanceof Error ? error.message : "Failed to upload image";
+    if (errMsg.includes("private") || errMsg.includes("public access")) {
+      return NextResponse.json(
+        { error: "Storage configuration error. Please contact support." },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
       { error: "Failed to upload image" },
       { status: 500 }
