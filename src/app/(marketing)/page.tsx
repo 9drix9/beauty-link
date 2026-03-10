@@ -24,12 +24,12 @@ export const metadata = {
 };
 
 const categories = [
-  { label: "Hair", value: "hair", icon: Scissors, color: "text-accent", bg: "bg-accent-light" },
-  { label: "Nails", value: "nails", icon: Paintbrush, color: "text-cta", bg: "bg-cta-light" },
-  { label: "Makeup", value: "makeup", icon: Sparkles, color: "text-pink-600", bg: "bg-pink-50" },
-  { label: "Lashes", value: "lashes", icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
-  { label: "Brows", value: "brows", icon: PenTool, color: "text-amber-600", bg: "bg-amber-50" },
-  { label: "Spa", value: "skincare", icon: Droplets, color: "text-green-600", bg: "bg-green-50" },
+  { label: "Hair", value: "HAIR", icon: Scissors, color: "text-accent", bg: "bg-accent-light" },
+  { label: "Nails", value: "NAILS", icon: Paintbrush, color: "text-cta", bg: "bg-cta-light" },
+  { label: "Makeup", value: "MAKEUP", icon: Sparkles, color: "text-pink-600", bg: "bg-pink-50" },
+  { label: "Lashes", value: "LASHES", icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
+  { label: "Brows", value: "BROWS", icon: PenTool, color: "text-amber-600", bg: "bg-amber-50" },
+  { label: "Spa", value: "SKINCARE", icon: Droplets, color: "text-green-600", bg: "bg-green-50" },
   { label: "All Services", value: "", icon: Grid, color: "text-gray-600", bg: "bg-gray-100" },
 ];
 
