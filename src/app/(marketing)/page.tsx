@@ -61,7 +61,7 @@ export default function HomePage() {
             </div>
 
             {/* Proof points */}
-            <div className="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-body/60">
+            <div className="mt-8 flex flex-col items-center sm:flex-row sm:items-start justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-body/60">
               <span className="flex items-center gap-1.5">
                 <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Verified professionals
