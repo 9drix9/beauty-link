@@ -13,6 +13,7 @@ import {
   Menu,
   X,
   ChevronLeft,
+  ExternalLink,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -97,7 +98,18 @@ export default function ProDashboardLayout({
         </nav>
 
         {/* Sidebar footer */}
-        <div className="border-t border-border p-4">
+        <div className="border-t border-border p-4 space-y-3">
+          <Link
+            href="/"
+            className={cn(
+              "flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-background hover:text-dark",
+              sidebarCollapsed && "justify-center px-0"
+            )}
+            title={sidebarCollapsed ? "Back to main site" : undefined}
+          >
+            <ExternalLink className="h-4 w-4 shrink-0" />
+            {!sidebarCollapsed && <span>Back to main site</span>}
+          </Link>
           <div
             className={cn(
               "flex items-center gap-3",
@@ -197,7 +209,15 @@ export default function ProDashboardLayout({
                   })}
                 </nav>
 
-                <div className="border-t border-border p-4">
+                <div className="border-t border-border p-4 space-y-3">
+                  <Link
+                    href="/"
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-background hover:text-dark"
+                  >
+                    <ExternalLink className="h-4 w-4 shrink-0" />
+                    <span>Back to main site</span>
+                  </Link>
                   <div className="flex items-center gap-3">
                     <UserButton
                                            appearance={{

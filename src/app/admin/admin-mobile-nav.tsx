@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface AdminMobileNavProps {
@@ -63,6 +63,16 @@ export function AdminMobileNav({ links }: AdminMobileNavProps) {
                 </Link>
               );
             })}
+            <div className="border-t border-border pt-2 mt-2">
+              <Link
+                href="/"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium text-muted transition-colors hover:bg-gray-50 hover:text-dark"
+              >
+                <ExternalLink className="h-4 w-4 shrink-0" />
+                Back to main site
+              </Link>
+            </div>
           </nav>
         </>
       )}

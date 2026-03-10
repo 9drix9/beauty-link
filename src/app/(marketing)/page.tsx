@@ -124,9 +124,7 @@ export default function HomePage() {
           <h1 className="text-[2.5rem] leading-[1.05] md:text-[4rem] lg:text-[4.5rem] font-bold tracking-tight text-dark">
             Great Beauty.
             <br />
-            <span
-              className="text-accent italic font-serif"
-            >
+            <span className="text-accent">
               Better Prices.
             </span>
           </h1>
@@ -280,9 +278,7 @@ export default function HomePage() {
             <h2 className="text-2xl md:text-4xl font-bold text-dark leading-tight">
               Your talent deserves
               <br />
-              <span
-                className="text-accent italic font-serif"
-              >
+              <span className="text-accent">
                 a full calendar.
               </span>
             </h2>

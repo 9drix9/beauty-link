@@ -7,6 +7,7 @@ import {
   AlertTriangle,
   Megaphone,
   Star,
+  ExternalLink,
 } from "lucide-react";
 import { AdminMobileNav } from "./admin-mobile-nav";
 
@@ -59,8 +60,15 @@ export default async function AdminLayout({
         </nav>
 
         {/* Footer */}
-        <div className="border-t border-border px-6 py-4">
-          <p className="text-xs text-muted">BeautyLink Admin Panel</p>
+        <div className="border-t border-border px-3 py-4 space-y-2">
+          <Link
+            href="/"
+            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium text-muted transition-colors hover:bg-gray-50 hover:text-dark"
+          >
+            <ExternalLink className="h-4 w-4 shrink-0" />
+            <span>Back to main site</span>
+          </Link>
+          <p className="px-3 text-xs text-muted">BeautyLink Admin Panel</p>
         </div>
       </aside>
 
