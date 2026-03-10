@@ -12,6 +12,7 @@ const navLinks = [
   { label: "Browse", href: "/browse" },
   { label: "My Bookings", href: "/my-bookings" },
   { label: "Messages", href: "/messages" },
+  { label: "Profile", href: "/profile" },
 ];
 
 export function CustomerNav() {
