@@ -186,7 +186,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
               <button
                 key={thread.id}
                 onClick={() => openThread(thread.id)}
-                className={`flex w-full items-center gap-3 border-b border-gray-100 p-4 text-left transition-colors hover:bg-gray-50 ${
+                className={`flex w-full items-center gap-3 border-b border-border p-4 text-left transition-colors hover:bg-background ${
                   isActive ? "bg-accent-light" : ""
                 }`}
               >
@@ -240,7 +240,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
   // Conversation panel
   const conversationPanel = (
     <div
-      className={`flex flex-1 flex-col bg-gray-50 ${
+      className={`flex flex-1 flex-col bg-background ${
         activeThreadId ? "flex" : "hidden md:flex"
       }`}
     >
@@ -250,7 +250,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
           <div className="flex items-center gap-3 border-b border-border bg-white px-4 py-3">
             <button
               onClick={() => setActiveThreadId(null)}
-              className="rounded-lg p-2 text-muted hover:bg-gray-100 md:hidden"
+              className="rounded-lg p-2 text-muted hover:bg-background md:hidden"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
@@ -335,7 +335,7 @@ export function MessagesContent({ threads, currentUserId }: MessagesContentProps
               value={messageBody}
               onChange={(e) => setMessageBody(e.target.value)}
               placeholder="Type a message..."
-              className="flex-1 min-w-0 rounded-full border border-gray-300 px-4 py-2.5 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
+              className="flex-1 min-w-0 rounded-full border border-border px-4 py-2.5 text-sm focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent"
             />
             <button
               type="submit"

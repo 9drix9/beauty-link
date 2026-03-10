@@ -90,7 +90,7 @@ export function CustomerNav() {
 
         {/* Mobile hamburger */}
         <button
-          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-body transition-colors hover:bg-gray-100 md:hidden"
+          className="ml-auto inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-body transition-colors hover:bg-background md:hidden"
           onClick={() => setMobileOpen((prev) => !prev)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
@@ -126,7 +126,7 @@ export function CustomerNav() {
                   onClick={() => setMobileOpen(false)}
                   aria-current={pathname.startsWith(link.href) ? "page" : undefined}
                   className={cn(
-                    "block rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-gray-100",
+                    "block rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-background",
                     pathname.startsWith(link.href)
                       ? "text-accent"
                       : "text-body"

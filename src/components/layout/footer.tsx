@@ -44,7 +44,7 @@ function SocialIcon({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-gray-100 hover:text-dark"
+      className="inline-flex h-9 w-9 items-center justify-center rounded-full text-muted transition-colors hover:bg-background hover:text-dark"
     >
       {children}
     </a>

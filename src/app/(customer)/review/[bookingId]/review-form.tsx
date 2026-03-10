@@ -193,7 +193,7 @@ export function ReviewForm({ booking }: ReviewFormProps) {
                     "inline-flex items-center gap-2 rounded-lg border-2 px-4 py-2 text-sm font-medium transition-colors",
                     wouldRebook === true
                       ? "border-success bg-success-light text-success"
-                      : "border-border bg-white text-body hover:bg-gray-50"
+                      : "border-border bg-white text-body hover:bg-background"
                   )}
                 >
                   <ThumbsUp className="h-4 w-4" aria-hidden="true" />
@@ -207,7 +207,7 @@ export function ReviewForm({ booking }: ReviewFormProps) {
                     "inline-flex items-center gap-2 rounded-lg border-2 px-4 py-2 text-sm font-medium transition-colors",
                     wouldRebook === false
                       ? "border-error bg-error-light text-error"
-                      : "border-border bg-white text-body hover:bg-gray-50"
+                      : "border-border bg-white text-body hover:bg-background"
                   )}
                 >
                   <ThumbsDown className="h-4 w-4" aria-hidden="true" />

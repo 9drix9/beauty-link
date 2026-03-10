@@ -85,7 +85,7 @@ export default function HomePage() {
         {floatingCards.map((card) => (
           <div
             key={card.title}
-            className={`absolute ${card.position} hidden sm:flex items-center gap-3 rounded-2xl bg-white/90 backdrop-blur-sm px-4 py-3 shadow-card border border-white/60`}
+            className={`absolute ${card.position} hidden sm:flex items-center gap-3 rounded-xl bg-white/95 backdrop-blur-md px-4 py-3 shadow-elevated border border-white/80`}
             style={{
               animation: `float 6s ease-in-out infinite`,
               animationDelay: card.delay,
@@ -115,7 +115,7 @@ export default function HomePage() {
         {/* Center content */}
         <div className="relative max-w-3xl mx-auto text-center z-10">
           {/* Location pill */}
-          <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-white/70 backdrop-blur-sm px-4 py-2 text-sm text-body mb-8 shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-white/80 backdrop-blur-md px-4 py-2 text-sm text-body mb-8 shadow-card">
             <MapPin className="h-4 w-4 text-accent" aria-hidden="true" />
             Now Serving the Greater Los Angeles Area
           </div>
@@ -218,7 +218,7 @@ export default function HomePage() {
           <p className="text-center text-muted mb-12 max-w-md mx-auto">
             Real discounts. Real professionals. No gimmicks.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-5xl mx-auto">
             {[
               {
                 icon: Percent,
@@ -241,8 +241,8 @@ export default function HomePage() {
                 body: "Appointments from professionals in your neighborhood. Currently live across Greater LA.",
               },
             ].map((vp) => (
-              <div key={vp.title} className="text-center">
-                <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-light">
+              <div key={vp.title} className="rounded-xl bg-white border border-border p-6 text-center shadow-card">
+                <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-accent-light">
                   <vp.icon
                     className="h-5 w-5 text-accent"
                     aria-hidden="true"

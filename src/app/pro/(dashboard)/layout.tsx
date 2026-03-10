@@ -55,7 +55,7 @@ export default function ProDashboardLayout({
           )}
           <button
             onClick={() => setSidebarCollapsed((prev) => !prev)}
-            className="rounded-lg p-1.5 text-muted transition-colors hover:bg-gray-50 hover:text-dark"
+            className="rounded-lg p-1.5 text-muted transition-colors hover:bg-background hover:text-dark"
             aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             <ChevronLeft
@@ -81,7 +81,7 @@ export default function ProDashboardLayout({
                   "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                   active
                     ? "bg-accent-light text-accent"
-                    : "text-muted hover:bg-gray-50 hover:text-dark",
+                    : "text-muted hover:bg-background hover:text-dark",
                   sidebarCollapsed && "justify-center px-0"
                 )}
                 title={sidebarCollapsed ? link.label : undefined}
@@ -124,7 +124,7 @@ export default function ProDashboardLayout({
         <header className="flex h-14 items-center justify-between border-b border-border bg-white px-4 md:hidden">
           <button
             onClick={() => setMobileOpen(true)}
-            className="rounded-lg p-2 text-body transition-colors hover:bg-gray-100"
+            className="rounded-lg p-2 text-body transition-colors hover:bg-background"
             aria-label="Open menu"
           >
             <Menu className="h-5 w-5" />
@@ -163,7 +163,7 @@ export default function ProDashboardLayout({
                   </span>
                   <button
                     onClick={() => setMobileOpen(false)}
-                    className="rounded-lg p-1.5 text-muted transition-colors hover:bg-gray-50 hover:text-dark"
+                    className="rounded-lg p-1.5 text-muted transition-colors hover:bg-background hover:text-dark"
                     aria-label="Close menu"
                   >
                     <X className="h-5 w-5" />
@@ -184,7 +184,7 @@ export default function ProDashboardLayout({
                           "relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors",
                           active
                             ? "bg-accent-light text-accent"
-                            : "text-muted hover:bg-gray-50 hover:text-dark"
+                            : "text-muted hover:bg-background hover:text-dark"
                         )}
                       >
                         {active && (

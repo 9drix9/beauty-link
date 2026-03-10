@@ -100,8 +100,8 @@ export default async function ListingDetailPage({
       <div className="grid grid-cols-3 gap-4">
         <Card>
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="rounded-lg bg-blue-50 p-2">
-              <Eye className="h-4 w-4 text-blue-600" />
+            <div className="rounded-lg bg-info-light p-2">
+              <Eye className="h-4 w-4 text-info" />
             </div>
             <div>
               <p className="text-xs text-muted">Views</p>
@@ -156,8 +156,8 @@ export default async function ListingDetailPage({
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-blue-50 p-2">
-                <Clock className="h-4 w-4 text-blue-600" />
+              <div className="rounded-lg bg-info-light p-2">
+                <Clock className="h-4 w-4 text-info" />
               </div>
               <div>
                 <p className="text-xs text-muted">Time & Duration</p>
@@ -246,7 +246,7 @@ export default async function ListingDetailPage({
                 <Link
                   key={booking.id}
                   href={`/pro/bookings/${booking.id}`}
-                  className="flex items-center justify-between rounded-lg border border-border p-3 transition-colors hover:bg-gray-50"
+                  className="flex items-center justify-between rounded-lg border border-border p-3 transition-colors hover:bg-background"
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">

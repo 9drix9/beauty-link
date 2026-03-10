@@ -12,26 +12,26 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Brand accent — kept as the recognizable brand color
+        // Brand accent — modern violet
         accent: {
-          DEFAULT: "#6A1B9A",
-          hover: "#7B1FA2",
-          light: "#F3E8FF",
+          DEFAULT: "#7C3AED",
+          hover: "#6D28D9",
+          light: "#F5F3FF",
           muted: "#EDE9FE",
         },
-        // CTA — warm orange for high-conversion actions
+        // CTA — warm coral for high-conversion actions
         cta: {
-          DEFAULT: "#FF6A3D",
-          hover: "#E5532C",
-          light: "#FFF7ED",
+          DEFAULT: "#F06449",
+          hover: "#DC4F35",
+          light: "#FFF4F0",
         },
-        // Neutrals — the backbone of the UI
-        dark: "#1F2933",
-        body: "#374151",
-        muted: "#6B7280",
-        background: "#F9F0F5",
+        // Neutrals — clean, warm-neutral backbone
+        dark: "#18181B",
+        body: "#3F3F46",
+        muted: "#71717A",
+        background: "#FAFAF8",
         surface: "#FFFFFF",
-        border: "#E8DDE6",
+        border: "#E4E4E7",
         // Semantic colors
         success: {
           DEFAULT: "#10B981",
@@ -49,16 +49,16 @@ const config: Config = {
           DEFAULT: "#3B82F6",
           light: "#EFF6FF",
         },
-        // Legacy aliases for smooth migration
+        // Legacy aliases
         purple: {
-          primary: "#6A1B9A",
-          mid: "#7B1FA2",
-          light: "#F3E8FF",
+          primary: "#7C3AED",
+          mid: "#6D28D9",
+          light: "#F5F3FF",
         },
         orange: {
-          primary: "#FF6A3D",
-          mid: "#E5532C",
-          light: "#FFF7ED",
+          primary: "#F06449",
+          mid: "#DC4F35",
+          light: "#FFF4F0",
         },
       },
       fontFamily: {
@@ -81,10 +81,11 @@ const config: Config = {
         pill: "50px",
       },
       boxShadow: {
-        card: "0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
-        cardHover: "0 10px 25px rgba(0,0,0,0.08), 0 4px 10px rgba(0,0,0,0.04)",
-        soft: "0 2px 8px rgba(0,0,0,0.06)",
-        elevated: "0 4px 16px rgba(0,0,0,0.08)",
+        card: "0 1px 2px rgba(0,0,0,0.03), 0 1px 6px rgba(0,0,0,0.02)",
+        cardHover: "0 8px 30px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)",
+        soft: "0 2px 8px rgba(0,0,0,0.04)",
+        elevated: "0 4px 20px rgba(0,0,0,0.06)",
+        glow: "0 0 0 1px rgba(124,58,237,0.1), 0 4px 16px rgba(124,58,237,0.08)",
       },
       transitionDuration: {
         DEFAULT: "200ms",

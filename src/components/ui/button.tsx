@@ -9,19 +9,19 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-dark text-white hover:bg-gray-800 active:scale-[0.98] shadow-sm",
+          "bg-dark text-white hover:bg-dark/90 active:scale-[0.98] shadow-sm",
         cta:
           "bg-cta text-white hover:bg-cta-hover active:scale-[0.98] shadow-sm",
         secondary:
-          "border border-border text-dark bg-white hover:bg-gray-50",
+          "border border-border text-dark bg-white hover:bg-background",
         ghost:
-          "text-dark hover:bg-gray-50 bg-transparent",
+          "text-dark hover:bg-background bg-transparent",
         destructive:
-          "bg-error text-white hover:bg-red-600 active:scale-[0.98]",
+          "bg-error text-white hover:bg-error/90 active:scale-[0.98]",
         outline:
-          "border border-border bg-white text-body hover:bg-gray-50",
+          "border border-border bg-white text-body hover:bg-background",
         "hero-primary":
-          "bg-white text-dark hover:bg-gray-100 active:scale-[0.98] shadow-sm font-semibold",
+          "bg-white text-dark hover:bg-white/90 active:scale-[0.98] shadow-sm font-semibold",
         "hero-outline":
           "border-2 border-white/80 text-white bg-white/10 hover:bg-white/20 active:scale-[0.98] backdrop-blur-sm",
       },

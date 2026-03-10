@@ -57,7 +57,7 @@ function getStatusIcon(status: string) {
     case "CANCELLED":
       return <XCircle className="h-5 w-5 text-error" />;
     default:
-      return <AlertCircle className="h-5 w-5 text-yellow-500" />;
+      return <AlertCircle className="h-5 w-5 text-warning" />;
   }
 }
 
@@ -131,8 +131,8 @@ export default async function ProBookingDetailPage({
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-blue-50 p-2">
-                <Clock className="h-4 w-4 text-blue-600" />
+              <div className="rounded-lg bg-info-light p-2">
+                <Clock className="h-4 w-4 text-info" />
               </div>
               <div>
                 <p className="text-xs text-muted">Time</p>
@@ -234,7 +234,7 @@ export default async function ProBookingDetailPage({
               </div>
             )}
             {!booking.payoutReleased && booking.status === "CONFIRMED" && !isPast && (
-              <div className="flex items-center gap-2 rounded-lg bg-blue-50 px-3 py-2 text-sm text-blue-700">
+              <div className="flex items-center gap-2 rounded-lg bg-info-light px-3 py-2 text-sm text-info">
                 <CreditCard className="h-4 w-4" />
                 Payout will be released 24 hours after the appointment
               </div>

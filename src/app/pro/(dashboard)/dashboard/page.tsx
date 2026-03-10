@@ -151,7 +151,7 @@ export default async function ProDashboardPage() {
             </Link>
             <Link
               href={`/pro/${profile.id}`}
-              className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-medium text-body hover:bg-gray-50 transition-colors"
+              className="inline-flex items-center gap-2 rounded-full border border-border bg-white px-4 py-2.5 text-sm font-medium text-body hover:bg-background transition-colors"
             >
               <Copy className="h-4 w-4" aria-hidden="true" />
               Copy Link
@@ -321,7 +321,7 @@ export default async function ProDashboardPage() {
                 <Link
                   key={action.label}
                   href={action.href}
-                  className="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-3 text-sm font-medium text-body hover:bg-gray-50 transition-colors"
+                  className="flex items-center gap-3 rounded-xl border border-border bg-white px-4 py-3 text-sm font-medium text-body hover:bg-background transition-colors"
                 >
                   <action.icon className="h-4 w-4 text-muted" aria-hidden="true" />
                   {action.label}
@@ -351,7 +351,7 @@ export default async function ProDashboardPage() {
                   <Link
                     key={listing.id}
                     href={`/pro/appointments/${listing.id}/edit`}
-                    className="flex items-center justify-between rounded-xl border border-border bg-white px-4 py-3 hover:bg-gray-50 transition-colors"
+                    className="flex items-center justify-between rounded-xl border border-border bg-white px-4 py-3 hover:bg-background transition-colors"
                   >
                     <span className="text-sm font-medium text-dark truncate">
                       {listing.serviceName}

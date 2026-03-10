@@ -140,10 +140,10 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
 
     return (
       <Card key={listing.id} variant="elevated" className={`overflow-hidden border-l-[3px] ${
-        listing.status === "LIVE" ? "border-l-green-500" :
-        listing.status === "DRAFT" || listing.status === "PAUSED" ? "border-l-yellow-400" :
-        listing.status === "CANCELLED" ? "border-l-red-400" :
-        "border-l-gray-300"
+        listing.status === "LIVE" ? "border-l-success" :
+        listing.status === "DRAFT" || listing.status === "PAUSED" ? "border-l-warning" :
+        listing.status === "CANCELLED" ? "border-l-error" :
+        "border-l-border"
       }`}>
         <CardContent className="p-4 sm:p-5 space-y-4">
           {/* Header: Service name + badges */}

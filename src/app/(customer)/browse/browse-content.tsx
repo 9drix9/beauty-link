@@ -148,7 +148,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
                 "relative flex items-center gap-1.5 h-11 px-4 rounded-lg border text-sm font-medium transition-colors",
                 filtersOpen
                   ? "bg-accent text-white border-accent"
-                  : "bg-white text-body border-border hover:bg-gray-50"
+                  : "bg-white text-body border-border hover:bg-background"
               )}
             >
               <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
