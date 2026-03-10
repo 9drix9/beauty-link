@@ -6,28 +6,19 @@ import { generateBookingReference } from "@/lib/utils";
 import { SLOT_HOLD_MINUTES } from "@/lib/constants";
 import Stripe from "stripe";
 
-function getStripe() {
-  if (!process.env.STRIPE_SECRET_KEY) return null;
-  return new Stripe(process.env.STRIPE_SECRET_KEY, {
-    httpClient: Stripe.createFetchHttpClient(),
-    maxNetworkRetries: 3,
-    timeout: 10000,
-  });
-}
-
 export async function POST(req: NextRequest) {
   try {
-    const stripeKeyExists = !!process.env.STRIPE_SECRET_KEY;
-    const stripeKeyPrefix = process.env.STRIPE_SECRET_KEY?.substring(0, 12) || "NOT_SET";
-    console.log("[CHECKOUT] STRIPE_SECRET_KEY exists:", stripeKeyExists, "prefix:", stripeKeyPrefix);
-
-    const stripe = getStripe();
-    if (!stripe) {
+    if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json(
-        { error: `Payment not configured. Key exists: ${stripeKeyExists}, prefix: ${stripeKeyPrefix}` },
+        { error: "Payment processing is not configured" },
         { status: 503 }
       );
     }
+
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      httpClient: Stripe.createFetchHttpClient(),
+      timeout: 30000,
+    });
 
     const user = await getApiUser();
     if (!user) {
@@ -169,7 +160,7 @@ export async function POST(req: NextRequest) {
     const errMsg = error instanceof Error ? error.message : String(error);
     console.error("Error initializing checkout:", errMsg, error);
     return NextResponse.json(
-      { error: `Checkout failed: ${errMsg}` },
+      { error: "Something went wrong during checkout. Please try again." },
       { status: 500 }
     );
   }
