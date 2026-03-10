@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   CheckCircle,
@@ -57,26 +58,57 @@ export default function JoinPage() {
   return (
     <main className="min-h-screen">
       {/* Hero */}
-      <section className="hero-gradient text-white py-20 md:py-28 px-4">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white mb-6 backdrop-blur-sm">
-            For Beauty Professionals
-          </p>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
-            Fill your empty chair.
-            <br />
-            Keep every dollar.
-          </h1>
-          <p className="text-lg text-white/85 max-w-xl mx-auto mb-8">
-            List your open slots at a discount. Reach new clients in your area. You keep 100% of your listed price — we only charge customers a 5% service fee.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Button variant="cta" size="xl" asChild>
-              <Link href="/pro/apply">
-                Apply Now
-                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-              </Link>
-            </Button>
+      <section className="hero-gradient text-white">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-8 px-4 py-16 md:py-24">
+          <div className="text-center md:text-left">
+            <p className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white mb-6 backdrop-blur-sm">
+              For Beauty Professionals
+            </p>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
+              Fill your empty chair.
+              <br />
+              Keep every dollar.
+            </h1>
+            <p className="text-base sm:text-lg text-white/85 max-w-xl mx-auto md:mx-0 mb-8">
+              List your open slots at a discount. Reach new clients in your area. You keep 100% of your listed price — we only charge customers a 5% service fee.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
+              <Button variant="cta" size="xl" asChild>
+                <Link href="/pro/apply">
+                  Apply Now
+                  <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+          <div className="relative hidden md:block">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl shadow-2xl">
+              <Image
+                src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80&auto=format&fit=crop"
+                alt="Beauty professional styling a client's hair in a modern salon"
+                fill
+                unoptimized
+                className="object-cover"
+                priority
+              />
+            </div>
+            {/* Floating stat card */}
+            <div className="absolute -bottom-4 -left-4 rounded-xl bg-white px-5 py-3 shadow-lg">
+              <p className="text-xs text-muted">Average pro earnings</p>
+              <p className="text-xl font-bold text-dark">$800+<span className="text-sm font-normal text-muted">/mo</span></p>
+            </div>
+          </div>
+        </div>
+        {/* Mobile image — shown only on small screens */}
+        <div className="px-4 pb-10 md:hidden">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-2xl shadow-lg">
+            <Image
+              src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80&auto=format&fit=crop"
+              alt="Beauty professional styling a client's hair in a modern salon"
+              fill
+              unoptimized
+              className="object-cover"
+            />
           </div>
         </div>
       </section>
