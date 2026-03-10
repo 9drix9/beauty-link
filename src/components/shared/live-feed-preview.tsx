@@ -36,9 +36,9 @@ export function LiveFeedPreview() {
 
   if (listings.length === 0) {
     return (
-      <div className="rounded-2xl border-2 border-dashed border-border py-16 text-center">
-        <p className="text-lg font-semibold text-dark">Deals dropping soon</p>
-        <p className="mt-1 text-sm text-muted">
+      <div className="rounded-2xl border-2 border-dashed border-border px-4 py-10 sm:py-16 text-center">
+        <p className="text-base sm:text-lg font-semibold text-dark">Deals dropping soon</p>
+        <p className="mt-1 text-xs sm:text-sm text-muted max-w-xs mx-auto">
           New discounted appointments are added daily. Check back shortly.
         </p>
       </div>
