@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getApiUser } from "@/lib/auth";
 import { reviewSchema } from "@/lib/validators";
+import { logger } from "@/lib/logger";
 
 export async function POST(request: Request) {
   try {
@@ -97,9 +98,17 @@ export async function POST(request: Request) {
     return newReview;
   });
 
+  logger.info("REVIEW_SUBMITTED", {
+    reviewId: review.id,
+    bookingId,
+    customerId: user.id,
+    professionalId: booking.professionalId,
+    rating,
+  });
+
   return NextResponse.json(review, { status: 201 });
   } catch (error) {
-    console.error("Error creating review:", error);
+    logger.error("REVIEW_SUBMIT_FAILED", { error: error instanceof Error ? error.message : "Unknown error" });
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
@@ -108,67 +117,75 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: NextRequest) {
-  const { searchParams } = request.nextUrl;
-  const professionalId = searchParams.get("professionalId");
+  try {
+    const { searchParams } = request.nextUrl;
+    const professionalId = searchParams.get("professionalId");
 
-  if (!professionalId) {
-    return NextResponse.json(
-      { error: "professionalId is required" },
-      { status: 400 }
+    if (!professionalId) {
+      return NextResponse.json(
+        { error: "professionalId is required" },
+        { status: 400 }
+      );
+    }
+
+    const limit = Math.min(
+      Math.max(parseInt(searchParams.get("limit") || "10", 10), 1),
+      50
     );
-  }
+    const cursor = searchParams.get("cursor");
 
-  const limit = Math.min(
-    Math.max(parseInt(searchParams.get("limit") || "10", 10), 1),
-    50
-  );
-  const cursor = searchParams.get("cursor");
-
-  const reviews = await db.review.findMany({
-    where: {
-      professionalId,
-      isHidden: false,
-    },
-    orderBy: { createdAt: "desc" },
-    take: limit + 1,
-    ...(cursor
-      ? {
-          cursor: { id: cursor },
-          skip: 1,
-        }
-      : {}),
-    include: {
-      customer: {
-        select: {
-          firstName: true,
-          lastName: true,
-          profilePhotoUrl: true,
+    const reviews = await db.review.findMany({
+      where: {
+        professionalId,
+        isHidden: false,
+      },
+      orderBy: { createdAt: "desc" },
+      take: limit + 1,
+      ...(cursor
+        ? {
+            cursor: { id: cursor },
+            skip: 1,
+          }
+        : {}),
+      include: {
+        customer: {
+          select: {
+            firstName: true,
+            lastName: true,
+            profilePhotoUrl: true,
+          },
         },
       },
-    },
-  });
+    });
 
-  let nextCursor: string | null = null;
-  if (reviews.length > limit) {
-    const lastItem = reviews.pop();
-    nextCursor = lastItem!.id;
+    let nextCursor: string | null = null;
+    if (reviews.length > limit) {
+      const lastItem = reviews.pop();
+      nextCursor = lastItem!.id;
+    }
+
+    const serializedReviews = reviews.map((review) => ({
+      id: review.id,
+      starRating: review.starRating,
+      comment: review.comment,
+      wouldRebook: review.wouldRebook,
+      createdAt: review.createdAt.toISOString(),
+      customer: {
+        firstName: review.customer.firstName,
+        lastName: review.customer.lastName,
+        profilePhotoUrl: review.customer.profilePhotoUrl,
+      },
+    }));
+
+    return NextResponse.json({
+      reviews: serializedReviews,
+      nextCursor,
+    });
+  } catch (error) {
+    logger.error("REVIEWS_FETCH_FAILED", { error: error instanceof Error ? error.message : "Unknown error" });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
   }
-
-  const serializedReviews = reviews.map((review) => ({
-    id: review.id,
-    starRating: review.starRating,
-    comment: review.comment,
-    wouldRebook: review.wouldRebook,
-    createdAt: review.createdAt.toISOString(),
-    customer: {
-      firstName: review.customer.firstName,
-      lastName: review.customer.lastName,
-      profilePhotoUrl: review.customer.profilePhotoUrl,
-    },
-  }));
-
-  return NextResponse.json({
-    reviews: serializedReviews,
-    nextCursor,
-  });
 }

@@ -262,6 +262,8 @@ export default async function BookingDetailPage({
           canCancel={canCancel}
           isCompleted={isCompleted}
           hasReview={hasReview}
+          appointmentDate={booking.appointmentDate.toISOString()}
+          appointmentTime={booking.appointmentTime}
         />
 
         {/* Security Note */}

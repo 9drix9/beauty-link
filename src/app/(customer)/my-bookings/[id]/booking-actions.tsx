@@ -12,6 +12,8 @@ interface BookingActionsProps {
   canCancel: boolean;
   isCompleted: boolean;
   hasReview: boolean;
+  appointmentDate?: string;
+  appointmentTime?: string;
 }
 
 export function BookingActions({
@@ -20,12 +22,28 @@ export function BookingActions({
   canCancel,
   isCompleted,
   hasReview,
+  appointmentDate,
+  appointmentTime,
 }: BookingActionsProps) {
   const router = useRouter();
   const [isCancelling, setIsCancelling] = useState(false);
 
   const handleCancel = async () => {
-    if (!confirm("Are you sure you want to cancel this booking? You will receive a full refund.")) {
+    // Check if more than 24 hours before appointment
+    let isRefundEligible = true;
+    if (appointmentDate && appointmentTime) {
+      const [hours, minutes] = appointmentTime.split(":").map(Number);
+      const apptDate = new Date(appointmentDate);
+      apptDate.setHours(hours, minutes, 0, 0);
+      const hoursUntil = (apptDate.getTime() - Date.now()) / (1000 * 60 * 60);
+      isRefundEligible = hoursUntil > 24;
+    }
+
+    const message = isRefundEligible
+      ? "Are you sure you want to cancel this booking? You will receive a full refund."
+      : "Are you sure you want to cancel this booking? Cancellations within 24 hours of the appointment are non-refundable.";
+
+    if (!confirm(message)) {
       return;
     }
 

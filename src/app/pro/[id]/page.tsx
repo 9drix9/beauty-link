@@ -148,6 +148,7 @@ export default async function ProProfilePage({
                 <VerificationBadges
                   isVerified={true}
                   isTopRated={profile.isFeatured}
+                  licenseVerified={profile.licenseStatus === "LICENSE_VERIFIED"}
                 />
               </div>
 

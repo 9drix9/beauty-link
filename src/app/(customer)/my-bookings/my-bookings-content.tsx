@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import { Clock, MapPin, Calendar, AlertCircle } from "lucide-react";
+import { Clock, MapPin, Calendar, CalendarSearch, CalendarCheck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -179,6 +179,7 @@ export function MyBookingsContent({ bookings }: MyBookingsContentProps) {
           <EmptyState
             title="No past bookings"
             description="Your completed and cancelled bookings will appear here."
+            icon={CalendarCheck}
           />
         ) : (
           <div className="space-y-4">
@@ -282,17 +283,21 @@ function EmptyState({
   description,
   actionLabel,
   actionHref,
+  icon: Icon = CalendarSearch,
 }: {
   title: string;
   description: string;
   actionLabel?: string;
   actionHref?: string;
+  icon?: typeof CalendarSearch;
 }) {
   return (
     <div className="py-16 text-center">
-      <AlertCircle className="mx-auto h-10 w-10 text-muted/50" aria-hidden="true" />
-      <h3 className="mt-4 text-lg font-semibold text-dark">{title}</h3>
-      <p className="mt-1 text-sm text-muted">{description}</p>
+      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+        <Icon className="h-8 w-8 text-muted/60" aria-hidden="true" />
+      </div>
+      <h3 className="text-lg font-semibold text-dark">{title}</h3>
+      <p className="mt-1 text-sm text-muted max-w-sm mx-auto">{description}</p>
       {actionLabel && actionHref && (
         <Button variant="primary" size="md" className="mt-4" asChild>
           <Link href={actionHref}>{actionLabel}</Link>

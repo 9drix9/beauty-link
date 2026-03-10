@@ -389,8 +389,11 @@ export function CheckoutContent({
                   </div>
                 )}
                 <div className="flex justify-between">
-                  <span className="text-muted">
+                  <span className="text-muted group relative cursor-help">
                     Service fee (5%)
+                    <span className="invisible group-hover:visible absolute bottom-full left-0 mb-1 w-56 rounded-lg bg-dark px-3 py-2 text-xs text-white shadow-lg z-10">
+                      This fee helps keep BeautyLink running and does not reduce the professional&apos;s earnings.
+                    </span>
                   </span>
                   <span>{formatPrice(priceBreakdown.platformFee)}</span>
                 </div>

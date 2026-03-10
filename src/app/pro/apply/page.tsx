@@ -71,7 +71,7 @@ export default async function ApplyPage() {
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">Apply as a Professional</h1>
           <p className="text-muted">
-            Complete the form below to join BeautyLink as a verified professional.
+            Complete the form below to apply to BeautyLink.
           </p>
         </div>
         <ApplyForm />

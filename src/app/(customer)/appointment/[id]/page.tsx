@@ -190,6 +190,7 @@ export default async function AppointmentDetailPage({
                   professional.applicationStatus === "APPROVED"
                 }
                 isTopRated={professional.isFeatured}
+                licenseVerified={professional.licenseStatus === "LICENSE_VERIFIED"}
               />
             </div>
           </div>
@@ -370,7 +371,7 @@ export default async function AppointmentDetailPage({
               )}
 
               <p className="text-center text-xs text-muted">
-                Free cancellation up to 24 hours before
+                Free cancellation up to 24 hours before appointment
               </p>
             </CardContent>
           </Card>

@@ -8,7 +8,7 @@ const faqs = [
   {
     question: "What is BeautyLink?",
     answer:
-      "BeautyLink is a marketplace for discounted beauty appointments. Licensed beauty professionals list their open time slots at reduced prices, and clients book them at significant savings — everyone wins.",
+      "BeautyLink is a marketplace for discounted beauty appointments. Beauty professionals list their open time slots at reduced prices, and clients book them at significant savings — everyone wins.",
   },
   {
     question: "How does pricing work?",
@@ -43,7 +43,7 @@ const faqs = [
   {
     question: "Are the professionals verified?",
     answer:
-      "Yes. Every professional on BeautyLink is reviewed before they can list. We verify license information, review portfolios, and monitor ratings. You can also read reviews from other clients before booking.",
+      "Yes. Every professional on BeautyLink is reviewed and approved before they can list. We review portfolios, monitor ratings, and verify license information when provided. You can also read reviews from other clients before booking.",
   },
   {
     question: "What types of services are available?",

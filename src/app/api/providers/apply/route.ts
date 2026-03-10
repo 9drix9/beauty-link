@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getApiUser } from "@/lib/auth";
 import { proApplicationSchema } from "@/lib/validators";
+import { logger } from "@/lib/logger";
 import type { WorkSetting, YearsExperience, LicenseStatus } from "@prisma/client";
 
 export async function POST(req: Request) {
@@ -70,9 +71,15 @@ export async function POST(req: Request) {
       return professionalProfile;
     });
 
+    logger.info("PROVIDER_APPLICATION_SUBMITTED", {
+      profileId: profile.id,
+      userId: user.id,
+      displayName: profile.displayName,
+    });
+
     return NextResponse.json(profile, { status: 201 });
   } catch (error) {
-    console.error("[PROVIDERS_APPLY]", error);
+    logger.error("PROVIDER_APPLICATION_FAILED", { error: error instanceof Error ? error.message : "Unknown error" });
     return NextResponse.json(
       { error: "Internal server error." },
       { status: 500 }

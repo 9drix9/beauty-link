@@ -15,7 +15,7 @@ import {
 export const metadata = { title: "For Professionals — BeautyLink" };
 
 const requirements = [
-  "Valid professional license (cosmetology, esthetics, nail tech, barbering, etc.)",
+  "Professional license recommended but not required (cosmetology, esthetics, nail tech, barbering, etc.)",
   "At least 3 portfolio photos showcasing your work",
   "Professional workspace (salon, suite, home studio, or mobile)",
   "Located in Greater Los Angeles (expanding soon)",
@@ -94,8 +94,8 @@ export default function JoinPage() {
             </div>
             {/* Floating stat card */}
             <div className="absolute -bottom-4 -left-4 rounded-xl bg-white px-5 py-3 shadow-lg">
-              <p className="text-xs text-muted">Average pro earnings</p>
-              <p className="text-xl font-bold text-dark">$800+<span className="text-sm font-normal text-muted">/mo</span></p>
+              <p className="text-xs text-muted">Turn open slots into</p>
+              <p className="text-xl font-bold text-dark">Extra income</p>
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function JoinPage() {
               </div>
               <div>
                 <h3 className="text-base font-semibold text-dark">Apply</h3>
-                <p className="text-body mt-0.5">Submit your info and license details. We review applications within 48 hours.</p>
+                <p className="text-body mt-0.5">Submit your info and portfolio. We review applications within 48 hours.</p>
               </div>
             </div>
             <div className="border-l-2 border-accent/20 ml-5 h-4" />

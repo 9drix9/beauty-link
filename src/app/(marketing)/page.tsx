@@ -20,7 +20,7 @@ import { LiveFeedPreview } from "@/components/shared/live-feed-preview";
 export const metadata = {
   title: "BeautyLink — Discounted Beauty Appointments Near You",
   description:
-    "Save 15–50% on last-minute beauty appointments from licensed professionals in Greater Los Angeles. Hair, nails, lashes, makeup, skincare — book instantly.",
+    "Save 15–50% on last-minute beauty appointments from beauty professionals in Greater Los Angeles. Hair, nails, lashes, makeup, skincare — book instantly.",
 };
 
 const categories = [
@@ -41,8 +41,8 @@ const valueProps = [
   },
   {
     icon: Shield,
-    title: "Verified pros only",
-    body: "Every professional is licensed, reviewed, and vetted before they can list on BeautyLink.",
+    title: "Reviewed pros",
+    body: "Every professional is reviewed and approved before they can list on BeautyLink. Licensed providers earn a verified badge.",
   },
   {
     icon: Clock,
@@ -81,7 +81,7 @@ export default function HomePage() {
             </h1>
 
             <p className="mt-5 text-lg text-muted max-w-md mx-auto leading-relaxed">
-              Discounted appointments from licensed pros in Greater Los Angeles. Book open slots before they&apos;re gone.
+              Discounted appointments from beauty pros in Greater Los Angeles. Book open slots before they&apos;re gone.
             </p>
 
             <div className="mt-8">
@@ -91,7 +91,7 @@ export default function HomePage() {
             <div className="mt-5 flex items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted">
               <span className="flex items-center gap-1">
                 <Shield className="h-3.5 w-3.5 text-success" aria-hidden="true" />
-                Verified pros
+                Reviewed pros
               </span>
               <span className="text-border">|</span>
               <span className="flex items-center gap-1">

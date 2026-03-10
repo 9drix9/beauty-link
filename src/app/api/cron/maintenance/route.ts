@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { PAYOUT_HOLD_HOURS } from "@/lib/constants";
+import { logger } from "@/lib/logger";
 import Stripe from "stripe";
 
 function getStripe() {
@@ -276,13 +277,15 @@ export async function GET(req: NextRequest) {
     }
     results.autoPayoutsReleased = autoPayoutsReleased;
 
+    logger.info("CRON_MAINTENANCE_COMPLETED", results);
+
     return NextResponse.json({
       success: true,
       timestamp: now.toISOString(),
       results,
     });
   } catch (error) {
-    console.error("Cron maintenance error:", error);
+    logger.error("CRON_MAINTENANCE_FAILED", { error: error instanceof Error ? error.message : "Unknown error" });
     return NextResponse.json(
       { error: "Maintenance job failed" },
       { status: 500 }

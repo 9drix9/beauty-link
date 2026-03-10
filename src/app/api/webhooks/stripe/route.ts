@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { db } from "@/lib/db";
 import { calculatePriceBreakdown } from "@/lib/pricing";
 import { generateBookingReference } from "@/lib/utils";
+import { logger } from "@/lib/logger";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
@@ -26,7 +27,7 @@ export async function POST(req: NextRequest) {
     );
   } catch (err) {
     const message = err instanceof Error ? err.message : "Unknown error";
-    console.error("Stripe webhook signature verification failed:", message);
+    logger.error("WEBHOOK_SIGNATURE_FAILED", { error: message });
     return NextResponse.json(
       { error: "Invalid signature" },
       { status: 400 }
@@ -40,7 +41,7 @@ export async function POST(req: NextRequest) {
         const { listingId, userId, bookingReference } = pi.metadata;
 
         if (!listingId || !userId) {
-          console.error("Stripe PI missing metadata:", pi.id);
+          logger.error("WEBHOOK_MISSING_METADATA", { paymentIntentId: pi.id });
           break;
         }
 
@@ -49,7 +50,7 @@ export async function POST(req: NextRequest) {
           where: { stripePaymentIntentId: pi.id },
         });
         if (existing) {
-          console.log(`Booking already exists for PI ${pi.id}, skipping`);
+          logger.info("WEBHOOK_IDEMPOTENT_SKIP", { paymentIntentId: pi.id, existingBookingId: existing.id });
           break;
         }
 
@@ -81,18 +82,14 @@ export async function POST(req: NextRequest) {
             `;
 
             if (!listing || listing.booked_count >= listing.max_clients) {
-              console.error(
-                `Listing ${listingId} unavailable for PI ${pi.id} — issuing refund`
-              );
+              logger.warn("WEBHOOK_LISTING_UNAVAILABLE", { listingId, paymentIntentId: pi.id, action: "refund" });
               // Refund the payment since we can't fulfill it
               await stripe.refunds.create({ payment_intent: pi.id });
               return;
             }
 
             if (listing.status !== "LIVE" && listing.status !== "BOOKED") {
-              console.error(
-                `Listing ${listingId} status is ${listing.status} — issuing refund`
-              );
+              logger.warn("WEBHOOK_LISTING_WRONG_STATUS", { listingId, status: listing.status, paymentIntentId: pi.id, action: "refund" });
               await stripe.refunds.create({ payment_intent: pi.id });
               return;
             }
@@ -170,6 +167,13 @@ export async function POST(req: NextRequest) {
           { isolationLevel: "Serializable" }
         );
 
+        logger.info("BOOKING_CREATED", {
+          paymentIntentId: pi.id,
+          listingId,
+          customerId: userId,
+          bookingReference: bookingReference || "generated",
+        });
+
         break;
       }
 
@@ -184,7 +188,7 @@ export async function POST(req: NextRequest) {
           });
         }
 
-        console.log(`Payment failed for PI ${pi.id}`);
+        logger.warn("PAYMENT_FAILED", { paymentIntentId: pi.id, listingId });
         break;
       }
 
@@ -242,7 +246,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ received: true });
   } catch (err) {
-    console.error(`Error processing Stripe webhook ${event.type}:`, err);
+    logger.error("WEBHOOK_HANDLER_ERROR", { eventType: event.type, error: err instanceof Error ? err.message : "Unknown error" });
     return NextResponse.json(
       { error: "Webhook handler error" },
       { status: 500 }

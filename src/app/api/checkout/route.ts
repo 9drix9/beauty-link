@@ -4,6 +4,7 @@ import { getApiUser } from "@/lib/auth";
 import { calculatePriceBreakdown } from "@/lib/pricing";
 import { generateBookingReference } from "@/lib/utils";
 import { SLOT_HOLD_MINUTES } from "@/lib/constants";
+import { logger } from "@/lib/logger";
 import Stripe from "stripe";
 
 export async function POST(req: NextRequest) {
@@ -142,6 +143,13 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    logger.info("CHECKOUT_STARTED", {
+      listingId,
+      customerId: user.id,
+      paymentIntentId: paymentIntent.id,
+      amount: pricing.totalCharged,
+    });
+
     return NextResponse.json({
       clientSecret: paymentIntent.client_secret,
       holdExpiresAt: holdExpiresAt.toISOString(),
@@ -158,7 +166,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error);
-    console.error("Error initializing checkout:", errMsg, error);
+    logger.error("CHECKOUT_FAILED", { error: errMsg });
     return NextResponse.json(
       { error: "Something went wrong during checkout. Please try again." },
       { status: 500 }

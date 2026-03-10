@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getApiUser } from "@/lib/auth";
 import { CANCELLATION_WINDOW_HOURS } from "@/lib/constants";
+import { logger } from "@/lib/logger";
 import Stripe from "stripe";
 
 const stripe = process.env.STRIPE_SECRET_KEY
@@ -157,7 +158,7 @@ export async function PATCH(
         });
         refundId = refund.id;
       } catch (refundError) {
-        console.error("Stripe refund failed:", refundError);
+        logger.error("STRIPE_REFUND_FAILED", { bookingId: params.id, paymentIntentId: booking.stripePaymentIntentId, error: refundError instanceof Error ? refundError.message : "Unknown error" });
         return NextResponse.json(
           { error: "Failed to process refund. Please contact support." },
           { status: 500 }
@@ -203,9 +204,16 @@ export async function PATCH(
       return cancelled;
     });
 
+    logger.info("BOOKING_CANCELLED", {
+      bookingId: params.id,
+      customerId: user.id,
+      bookingReference: booking.bookingReference,
+      refundId,
+    });
+
     return NextResponse.json({ booking: updatedBooking });
   } catch (error) {
-    console.error("Error cancelling booking:", error);
+    logger.error("BOOKING_CANCEL_FAILED", { bookingId: params.id, error: error instanceof Error ? error.message : "Unknown error" });
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

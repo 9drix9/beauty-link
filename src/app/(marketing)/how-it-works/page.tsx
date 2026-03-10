@@ -19,7 +19,7 @@ export default function HowItWorksPage() {
         <div>
           <h2 className="text-lg font-semibold text-dark">Search</h2>
           <p className="mt-2 text-body leading-relaxed">
-            Browse discounted appointments from verified beauty professionals near you. Filter by category, date, price, and location to find exactly what you need.
+            Browse discounted appointments from approved beauty professionals near you. Filter by category, date, price, and location to find exactly what you need.
           </p>
         </div>
         <div className="border-t border-border" />
@@ -33,7 +33,7 @@ export default function HowItWorksPage() {
         <div>
           <h2 className="text-lg font-semibold text-dark">Save 15–50%</h2>
           <p className="mt-2 text-body leading-relaxed">
-            Show up at your appointment, get pampered by a licensed professional, and save big on regular prices. After your visit, leave a review to help the community.
+            Show up at your appointment, get pampered by a beauty professional, and save big on regular prices. After your visit, leave a review to help the community.
           </p>
         </div>
       </div>

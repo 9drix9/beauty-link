@@ -248,7 +248,7 @@ export default async function ProDashboardPage() {
               <p className="text-lg font-bold text-dark">
                 {profile.avgRating > 0
                   ? `${profile.avgRating.toFixed(1)} / 5`
-                  : "No reviews"}
+                  : "Not rated yet"}
               </p>
             </div>
           </CardContent>
@@ -355,9 +355,21 @@ export default async function ProDashboardPage() {
         </CardHeader>
         <CardContent>
           {recentListings.length === 0 ? (
-            <p className="py-6 text-center text-sm text-muted">
-              You haven&apos;t created any listings yet.
-            </p>
+            <div className="py-8 text-center">
+              <CalendarCheck
+                className="mx-auto h-8 w-8 text-muted/50"
+                aria-hidden="true"
+              />
+              <p className="mt-2 text-sm text-muted">
+                No listings yet. Post your first deal to attract new clients.
+              </p>
+              <Button variant="cta" size="sm" className="mt-3" asChild>
+                <Link href="/pro/appointments/new">
+                  <Plus className="mr-1 h-4 w-4" aria-hidden="true" />
+                  Post a Deal
+                </Link>
+              </Button>
+            </div>
           ) : (
             <div className="space-y-2">
               {recentListings.map((listing) => (
