@@ -8,6 +8,7 @@ import {
   Megaphone,
   Star,
 } from "lucide-react";
+import { AdminMobileNav } from "./admin-mobile-nav";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -27,8 +28,8 @@ export default async function AdminLayout({
 
   return (
     <div className="flex h-screen overflow-hidden">
-      {/* Sidebar */}
-      <aside className="flex w-64 flex-col bg-gray-900 text-white">
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex w-64 flex-col bg-gray-900 text-white shrink-0">
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-white/10 px-6">
           <Link href="/admin" className="text-xl font-bold tracking-tight">
@@ -63,8 +64,13 @@ export default async function AdminLayout({
         </div>
       </aside>
 
+      {/* Mobile Header + Nav */}
+      <AdminMobileNav links={sidebarLinks.map(({ label, href }) => ({ label, href }))} />
+
       {/* Main content */}
-      <main className="flex-1 overflow-y-auto bg-gray-50 p-8">{children}</main>
+      <main className="flex-1 overflow-y-auto bg-gray-50 p-4 pt-16 md:pt-8 md:p-8">
+        {children}
+      </main>
     </div>
   );
 }

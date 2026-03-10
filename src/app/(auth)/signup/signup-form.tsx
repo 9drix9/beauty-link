@@ -8,7 +8,7 @@ export function SignUpForm() {
       path="/signup"
       routing="path"
       signInUrl="/login"
-      redirectUrl="/browse"
+      afterSignUpUrl="/browse"
     />
   );
 }
