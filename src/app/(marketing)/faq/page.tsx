@@ -50,7 +50,7 @@ function FaqItem({
   return (
     <button
       onClick={() => setIsOpen(!isOpen)}
-      className="w-full rounded-xl border border-border bg-white px-6 py-5 text-left transition-all hover:border-accent/30 hover:shadow-sm"
+      className="w-full rounded-xl border border-border bg-white px-5 py-4 text-left transition-all hover:border-accent/30 hover:shadow-sm"
     >
       <div className="flex items-center justify-between">
         <span className="text-base font-medium text-dark pr-4">
@@ -83,7 +83,7 @@ export default function FAQPage() {
         Frequently Asked Questions
       </h1>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         {faqs.map((faq) => (
           <FaqItem
             key={faq.question}
