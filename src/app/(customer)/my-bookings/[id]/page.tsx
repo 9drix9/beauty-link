@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -54,7 +54,7 @@ export default async function BookingDetailPage({
   params,
   searchParams,
 }: BookingDetailPageProps) {
-  const { userId: clerkId } = auth();
+  const { userId: clerkId } = await auth();
 
   if (!clerkId) {
     redirect("/login");

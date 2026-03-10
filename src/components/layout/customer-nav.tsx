@@ -84,7 +84,7 @@ export function CustomerNav() {
 
         {/* Desktop user button */}
         <div className="hidden md:block">
-          <UserButton afterSignOutUrl="/" />
+          <UserButton />
         </div>
 
         {/* Mobile hamburger */}
@@ -148,7 +148,7 @@ export function CustomerNav() {
 
               <div className="border-t border-border pt-3">
                 <div className="flex items-center gap-3 px-3">
-                  <UserButton afterSignOutUrl="/" />
+                  <UserButton />
                   <span className="text-sm text-muted">Account</span>
                 </div>
               </div>

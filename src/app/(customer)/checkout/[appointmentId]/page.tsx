@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { AlertCircle, ArrowLeft } from "lucide-react";
@@ -18,7 +18,7 @@ interface CheckoutPageProps {
 }
 
 export default async function CheckoutPage({ params }: CheckoutPageProps) {
-  const { userId: clerkId } = auth();
+  const { userId: clerkId } = await auth();
 
   if (!clerkId) {
     redirect("/login");

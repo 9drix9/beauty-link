@@ -1,18 +1,16 @@
-import { auth, currentUser } from "@clerk/nextjs";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 
 export async function getCurrentUser() {
-  const { userId } = auth();
+  const { userId } = await auth();
 
   if (!userId) return null;
 
-  // Try to find the user in the database
   let user = await db.user.findUnique({
     where: { clerkId: userId },
   });
 
-  // If user doesn't exist in DB yet (webhook hasn't fired), create them
   if (!user) {
     const clerkUser = await currentUser();
     if (!clerkUser) return null;
@@ -96,7 +94,7 @@ export async function requireAdmin() {
  * Returns the user or null (caller should return 401).
  */
 export async function getApiUser() {
-  const { userId } = auth();
+  const { userId } = await auth();
   if (!userId) return null;
 
   let user = await db.user.findUnique({

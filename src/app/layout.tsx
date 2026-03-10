@@ -67,8 +67,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable} style={{ backgroundColor: "#FAFAFA" }}>
-      <body className="font-sans antialiased bg-background text-body overscroll-none" style={{ backgroundColor: "#FAFAFA" }}>
+    <html lang="en" className={inter.variable}>
+      <body className="font-sans antialiased bg-background text-body overscroll-none">
         <AppClerkProvider>
           {children}
         </AppClerkProvider>

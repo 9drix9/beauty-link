@@ -8,7 +8,7 @@ export function LoginForm() {
       path="/login"
       routing="path"
       signUpUrl="/signup"
-      afterSignInUrl="/browse"
+      fallbackRedirectUrl="/browse"
     />
   );
 }

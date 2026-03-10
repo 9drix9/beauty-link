@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth, clerkClient } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { UserRole } from "@prisma/client";
 
@@ -7,7 +7,7 @@ const VALID_ROLES = Object.values(UserRole);
 
 export async function POST(req: NextRequest) {
   try {
-    const { userId } = auth();
+    const { userId } = await auth();
 
     if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -48,7 +48,8 @@ export async function POST(req: NextRequest) {
     });
 
     // Sync role to Clerk's publicMetadata so it's available in the JWT
-    await clerkClient.users.updateUser(userId, {
+    const client = await clerkClient();
+    await client.users.updateUser(userId, {
       publicMetadata: { role },
     });
 

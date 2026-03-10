@@ -27,7 +27,13 @@
       "Bash(DATABASE_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require\" npx prisma:*)",
       "Bash(npm i:*)",
       "Bash(sudo npm:*)",
-      "Bash(DATABASE_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require\" DIRECT_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require\" npx prisma:*)"
+      "Bash(DATABASE_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require\" DIRECT_URL=\"postgres://postgres.khvmfuogluxtykfevgob:KVJ3w8Xex17QwP8n@aws-1-us-east-1.pooler.supabase.com:5432/postgres?sslmode=require\" npx prisma:*)",
+      "Bash(npx dotenv:*)",
+      "WebFetch(domain:beautylinknetwork.com)",
+      "Bash(curl:*)",
+      "Bash(git add:*)",
+      "Bash(npm info:*)",
+      "Bash(npm list:*)"
     ]
   }
 }

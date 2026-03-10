@@ -47,7 +47,7 @@ export function MarketingNav() {
               <Button variant="ghost" asChild>
                 <Link href="/browse">Dashboard</Link>
               </Button>
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
             </>
           ) : (
             <>
@@ -103,7 +103,7 @@ export function MarketingNav() {
                     >
                       Dashboard
                     </Link>
-                    <UserButton afterSignOutUrl="/" />
+                    <UserButton />
                   </div>
                 ) : (
                   <div className="flex flex-col gap-2">

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfilePage() {
-  const { userId: clerkId } = auth();
+  const { userId: clerkId } = await auth();
 
   if (!clerkId) {
     redirect("/login");

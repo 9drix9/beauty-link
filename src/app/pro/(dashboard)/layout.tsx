@@ -101,8 +101,7 @@ export default function ProDashboardLayout({
             )}
           >
             <UserButton
-              afterSignOutUrl="/"
-              appearance={{
+                           appearance={{
                 elements: {
                   avatarBox: "h-8 w-8",
                 },
@@ -131,7 +130,7 @@ export default function ProDashboardLayout({
             BeautyLink
           </Link>
 
-          <UserButton afterSignOutUrl="/" />
+          <UserButton />
         </header>
 
         {/* Mobile sidebar overlay */}
@@ -191,8 +190,7 @@ export default function ProDashboardLayout({
                 <div className="border-t border-white/10 p-4">
                   <div className="flex items-center gap-3">
                     <UserButton
-                      afterSignOutUrl="/"
-                      appearance={{
+                                           appearance={{
                         elements: {
                           avatarBox: "h-8 w-8",
                         },

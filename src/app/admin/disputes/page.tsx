@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import DisputesContent from "./disputes-content";
@@ -6,7 +6,7 @@ import DisputesContent from "./disputes-content";
 export const metadata = { title: "Disputes" };
 
 export default async function DisputesPage() {
-  const { userId: clerkId } = auth();
+  const { userId: clerkId } = await auth();
   if (!clerkId) redirect("/sign-in");
 
   const user = await db.user.findUnique({ where: { clerkId } });
