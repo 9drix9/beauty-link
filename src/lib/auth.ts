@@ -3,45 +3,66 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 
 export async function getCurrentUser() {
-  const { userId } = await auth();
+  try {
+    const { userId } = await auth();
 
-  if (!userId) return null;
+    if (!userId) return null;
 
-  let user = await db.user.findUnique({
-    where: { clerkId: userId },
-  });
-
-  if (!user) {
-    const clerkUser = await currentUser();
-    if (!clerkUser) return null;
-
-    const email =
-      clerkUser.emailAddresses.find(
-        (e) => e.id === clerkUser.primaryEmailAddressId
-      )?.emailAddress ??
-      clerkUser.emailAddresses[0]?.emailAddress ??
-      "";
-
-    if (!email) return null;
-
-    user = await db.user.upsert({
+    let user = await db.user.findUnique({
       where: { clerkId: userId },
-      create: {
-        clerkId: userId,
-        firstName: clerkUser.firstName ?? "",
-        lastName: clerkUser.lastName ?? "",
-        email,
-        profilePhotoUrl: clerkUser.imageUrl,
-        isEmailVerified:
-          clerkUser.emailAddresses.find(
-            (e) => e.id === clerkUser.primaryEmailAddressId
-          )?.verification?.status === "verified",
-      },
-      update: {},
     });
-  }
 
-  return user;
+    if (!user) {
+      const clerkUser = await currentUser();
+      if (!clerkUser) return null;
+
+      const email =
+        clerkUser.emailAddresses.find(
+          (e) => e.id === clerkUser.primaryEmailAddressId
+        )?.emailAddress ??
+        clerkUser.emailAddresses[0]?.emailAddress ??
+        "";
+
+      if (!email) return null;
+
+      // Try to find by email first (user may exist from a different auth provider)
+      const existingByEmail = await db.user.findUnique({
+        where: { email },
+      });
+
+      if (existingByEmail) {
+        // Update existing user with new clerkId
+        user = await db.user.update({
+          where: { id: existingByEmail.id },
+          data: {
+            clerkId: userId,
+            firstName: clerkUser.firstName ?? existingByEmail.firstName,
+            lastName: clerkUser.lastName ?? existingByEmail.lastName,
+            profilePhotoUrl: clerkUser.imageUrl ?? existingByEmail.profilePhotoUrl,
+          },
+        });
+      } else {
+        user = await db.user.create({
+          data: {
+            clerkId: userId,
+            firstName: clerkUser.firstName ?? "",
+            lastName: clerkUser.lastName ?? "",
+            email,
+            profilePhotoUrl: clerkUser.imageUrl,
+            isEmailVerified:
+              clerkUser.emailAddresses.find(
+                (e) => e.id === clerkUser.primaryEmailAddressId
+              )?.verification?.status === "verified",
+          },
+        });
+      }
+    }
+
+    return user;
+  } catch (error) {
+    console.error("getCurrentUser error:", error);
+    return null;
+  }
 }
 
 export async function requireUser() {
