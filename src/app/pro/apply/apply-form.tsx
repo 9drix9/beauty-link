@@ -59,15 +59,15 @@ const STEPS = [
 
 const PRICING_RANGES = [
   { value: "under_50", label: "Under $50" },
-  { value: "50_100", label: "$50 – $100" },
-  { value: "100_200", label: "$100 – $200" },
+  { value: "50_100", label: "$50 to $100" },
+  { value: "100_200", label: "$100 to $200" },
   { value: "200_plus", label: "$200+" },
 ];
 
 const AVAILABILITY_TYPES = [
   { value: "last_minute", label: "Last-minute / same-day openings" },
   { value: "weekly", label: "Weekly recurring open slots" },
-  { value: "flexible", label: "Flexible — I'll post when I have availability" },
+  { value: "flexible", label: "Flexible: I'll post when I have availability" },
 ];
 
 const BOOKING_PLATFORMS = [
@@ -594,7 +594,7 @@ export function ApplyForm() {
             <div>
               <h2 className="text-xl font-bold text-dark">Typical Service Pricing</h2>
               <p className="text-sm text-muted mt-1">
-                What&apos;s your typical price range? On BeautyLink, you&apos;ll list at a discounted rate — at least 15% off your regular price.
+                What&apos;s your typical price range? On BeautyLink, you&apos;ll list at a discounted rate, at least 15% off your regular price.
               </p>
             </div>
             <div className="space-y-3">
@@ -793,7 +793,7 @@ export function ApplyForm() {
                 <div className="flex justify-between">
                   <span className="text-muted">License</span>
                   <span className="font-medium">
-                    {LICENSE_TYPES.find((o) => o.value === formData.licenseType)?.label} — {formData.licenseNumber || "No #"}
+                    {LICENSE_TYPES.find((o) => o.value === formData.licenseType)?.label}: {formData.licenseNumber || "No #"}
                   </span>
                 </div>
               )}

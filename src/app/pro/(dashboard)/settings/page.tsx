@@ -2,7 +2,7 @@ import { requirePro } from "@/lib/auth";
 import { ProSettingsForm } from "./pro-settings-form";
 import { PaymentSetup } from "./payment-setup";
 
-export const metadata = { title: "Edit Profile — BeautyLink Pro" };
+export const metadata = { title: "Edit Profile | BeautyLink Pro" };
 
 export default async function ProSettingsPage() {
   const user = await requirePro();

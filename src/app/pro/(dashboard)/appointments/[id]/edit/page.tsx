@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-export const metadata = { title: "Listing Details — BeautyLink Pro" };
+export const metadata = { title: "Listing Details | BeautyLink Pro" };
 
 function formatTime(time24: string): string {
   const [hours, minutes] = time24.split(":").map(Number);

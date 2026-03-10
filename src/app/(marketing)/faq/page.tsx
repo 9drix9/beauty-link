@@ -9,7 +9,7 @@ const faqs = [
   {
     question: "How do I book an appointment?",
     answer:
-      "Browse available deals near you, pick a service you like, and book instantly with secure payment. No DMs, no back-and-forth — just tap, pay, and show up.",
+      "Browse available deals near you, pick a service you like, and book instantly with secure payment. No DMs, no back-and-forth. Just tap, pay, and show up.",
   },
   {
     question: "Are all professionals verified?",
@@ -34,7 +34,7 @@ const faqs = [
   {
     question: "How much can I save?",
     answer:
-      "Professionals set their own discounted prices — typically 15–50% below their regular rate. The total price is always shown upfront before you pay.",
+      "Professionals set their own discounted prices, typically 15 to 50% below their regular rate. The total price is always shown upfront before you pay.",
   },
 ];
 

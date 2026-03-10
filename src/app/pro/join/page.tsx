@@ -12,7 +12,7 @@ import {
   Zap,
 } from "lucide-react";
 
-export const metadata = { title: "For Professionals — BeautyLink" };
+export const metadata = { title: "For Professionals | BeautyLink" };
 
 const requirements = [
   "Professional license recommended but not required (cosmetology, esthetics, nail tech, barbering, etc.)",
@@ -25,7 +25,7 @@ const benefits = [
   {
     icon: DollarSign,
     title: "Keep 100% of your price",
-    body: "You set your discounted rate. Your earnings stay yours — we never take a cut from professionals.",
+    body: "You set your discounted rate. Your earnings stay yours. We never take a cut from professionals.",
   },
   {
     icon: Calendar,
@@ -35,7 +35,7 @@ const benefits = [
   {
     icon: Users,
     title: "Reach new clients",
-    body: "Get discovered by clients in your area who are ready to book right now — no marketing budget needed.",
+    body: "Get discovered by clients in your area who are ready to book right now. No marketing budget needed.",
   },
   {
     icon: Shield,
@@ -70,7 +70,7 @@ export default function JoinPage() {
               Keep every dollar.
             </h1>
             <p className="text-base sm:text-lg text-muted max-w-xl mx-auto md:mx-0 mb-8">
-              List your open slots at a discount. Reach new clients in your area. You keep 100% of your listed price — every dollar is yours.
+              List your open slots at a discount. Reach new clients in your area. You keep 100% of your listed price. Every dollar is yours.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
               <Button variant="primary" size="xl" asChild>
@@ -136,7 +136,7 @@ export default function JoinPage() {
               </div>
               <div>
                 <h3 className="text-base font-semibold text-dark">List your deals</h3>
-                <p className="text-body mt-0.5">Post discounted appointments anytime you have open slots. Set your own price — minimum 15% off your regular rate.</p>
+                <p className="text-body mt-0.5">Post discounted appointments anytime you have open slots. Set your own price, minimum 15% off your regular rate.</p>
               </div>
             </div>
             <div className="border-l-2 border-accent/20 ml-5 h-4" />

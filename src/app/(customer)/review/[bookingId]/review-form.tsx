@@ -114,7 +114,7 @@ export function ReviewForm({ booking }: ReviewFormProps) {
           <CardTitle>Leave a Review</CardTitle>
           <p className="text-sm text-muted">
             {booking.serviceName} with {booking.professionalName}
-            {" — "}
+            {" · "}
             {format(new Date(booking.appointmentDate), "MMM d, yyyy")}
           </p>
         </CardHeader>

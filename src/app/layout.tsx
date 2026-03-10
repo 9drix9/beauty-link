@@ -20,11 +20,11 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "BeautyLink — Great Beauty. Better Prices.",
+    default: "BeautyLink | Great Beauty. Better Prices.",
     template: "%s | BeautyLink",
   },
   description:
-    "Book exclusive discounted appointments with beauty professionals near you — from lash techs and nail artists to stylists and skincare pros.",
+    "Book exclusive discounted appointments with beauty professionals near you, from lash techs and nail artists to stylists and skincare pros.",
   keywords: [
     "beauty appointments",
     "discounted beauty",
@@ -41,13 +41,13 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "BeautyLink",
-    title: "BeautyLink — Great Beauty. Better Prices.",
+    title: "BeautyLink | Great Beauty. Better Prices.",
     description:
       "Book exclusive discounted appointments with beauty professionals near you.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "BeautyLink — Great Beauty. Better Prices.",
+    title: "BeautyLink | Great Beauty. Better Prices.",
     description:
       "Book exclusive discounted appointments with beauty professionals near you.",
   },

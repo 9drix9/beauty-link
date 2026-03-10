@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 import { MessagesContent } from "@/app/(customer)/messages/messages-content";
 
 export const metadata: Metadata = {
-  title: "Messages — BeautyLink Pro",
+  title: "Messages | BeautyLink Pro",
 };
 
 export default async function ProMessagesPage() {

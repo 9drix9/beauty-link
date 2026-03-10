@@ -35,7 +35,7 @@ const customerSteps = [
     icon: Sparkles,
     title: "Experience",
     description:
-      "Show up, enjoy your service, and leave feeling amazing — all at a great price.",
+      "Show up, enjoy your service, and leave feeling amazing, all at a great price.",
   },
 ];
 

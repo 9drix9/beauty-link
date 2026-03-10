@@ -310,7 +310,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
           <EmptyState
             icon={Search}
             title="No deals found"
-            description="Try adjusting your filters or check back later — new appointments are added daily."
+            description="Try adjusting your filters or check back later. New appointments are added daily."
             action={{
               label: "Clear filters",
               href: "/browse",

@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
-export const metadata = { title: "Dashboard — BeautyLink Pro" };
+export const metadata = { title: "Dashboard | BeautyLink Pro" };
 
 function formatTime(time24: string): string {
   const [hours, minutes] = time24.split(":").map(Number);

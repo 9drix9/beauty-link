@@ -397,7 +397,7 @@ export function CreateListingForm() {
             <div className="flex items-start gap-2 rounded-lg border border-success/20 bg-success-light p-3">
               <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-success" />
               <p className="text-sm text-success">
-                {savingsPercent}% discount — great value for customers!
+                {savingsPercent}% discount. Great value for customers!
               </p>
             </div>
           )}

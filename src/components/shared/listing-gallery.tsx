@@ -33,7 +33,7 @@ export function ListingGallery({
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl">
         <Image
           src={images[activeIndex]}
-          alt={`${serviceName} — photo ${activeIndex + 1}`}
+          alt={`${serviceName} photo ${activeIndex + 1}`}
           fill
           className="object-cover transition-opacity duration-300"
           priority={activeIndex === 0}

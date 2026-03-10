@@ -11,9 +11,9 @@ import { Button } from "@/components/ui/button";
 import { LiveFeedPreview } from "@/components/shared/live-feed-preview";
 
 export const metadata = {
-  title: "BeautyLink — Premium Beauty. Fraction of the Price.",
+  title: "BeautyLink | Premium Beauty. Fraction of the Price.",
   description:
-    "Save 15–50% on last-minute beauty appointments from verified professionals in Greater Los Angeles. Hair, nails, lashes, makeup, skincare — book instantly.",
+    "Save 15 to 50% on last-minute beauty appointments from verified professionals in Greater Los Angeles. Hair, nails, lashes, makeup, skincare. Book instantly.",
 };
 
 /* ── Floating cards that orbit the hero ── */
@@ -222,7 +222,7 @@ export default function HomePage() {
             {[
               {
                 icon: Percent,
-                title: "Save 15–50%",
+                title: "Save 15 to 50%",
                 body: "Every listing is a real discount on a real open slot. No inflated prices, no fake sales.",
               },
               {

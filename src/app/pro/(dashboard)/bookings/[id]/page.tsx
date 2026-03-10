@@ -22,7 +22,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
-export const metadata = { title: "Booking Details — BeautyLink Pro" };
+export const metadata = { title: "Booking Details | BeautyLink Pro" };
 
 function formatTime(time24: string): string {
   const [hours, minutes] = time24.split(":").map(Number);
@@ -249,7 +249,7 @@ export default async function ProBookingDetailPage({
         {booking.cancelledAt && (
           <p className="mt-1">
             Cancelled on {format(new Date(booking.cancelledAt), "MMM d, yyyy 'at' h:mm a")}
-            {booking.cancellationReason && ` — ${booking.cancellationReason}`}
+            {booking.cancellationReason && `: ${booking.cancellationReason}`}
           </p>
         )}
       </div>

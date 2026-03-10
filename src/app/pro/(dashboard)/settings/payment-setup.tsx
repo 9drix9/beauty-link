@@ -148,7 +148,7 @@ export function PaymentSetup({
         <div className="rounded-lg bg-cta-light p-4">
           <p className="font-medium text-dark">
             {connected
-              ? "Almost there — complete your payment setup"
+              ? "Almost there! Complete your payment setup"
               : "Set up payouts to get paid for your bookings"}
           </p>
           <p className="mt-1 text-sm text-muted">

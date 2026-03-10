@@ -37,7 +37,10 @@
       "Bash(python3:*)",
       "Bash(mkdir:*)",
       "Bash(mv:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(vercel:*)",
+      "WebFetch(domain:svgmaker.io)",
+      "WebFetch(domain:furry-beauty-link-pro.base44.app)"
     ]
   }
 }
