@@ -59,12 +59,11 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-8 md:grid-cols-4">
           {/* Brand column */}
           <div>
-            <Link href="/" className="text-xl font-bold text-gradient">
-              BeautyLink
+            <Link href="/" className="text-xl font-bold text-dark">
+              Beauty<span className="text-accent">Link</span>
             </Link>
             <p className="mt-3 text-sm text-muted leading-relaxed">
-              Great beauty. Better prices. Book discounted appointments from
-              verified pros near you.
+              Last-minute beauty appointments at 15-50% off from verified professionals in Greater Los Angeles.
             </p>
           </div>
 

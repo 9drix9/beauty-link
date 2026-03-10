@@ -29,8 +29,8 @@ export function MarketingNav() {
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-lg border-b border-border/40">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold shrink-0 text-gradient">
-          BeautyLink
+        <Link href="/" className="text-xl font-bold shrink-0 text-dark">
+          Beauty<span className="text-accent">Link</span>
         </Link>
 
         {/* Desktop nav links — centered */}
