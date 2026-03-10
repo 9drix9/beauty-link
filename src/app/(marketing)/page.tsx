@@ -87,18 +87,18 @@ export default function HomePage() {
               <HeroSearch />
             </div>
 
-            <div className="mt-5 flex items-center justify-center gap-4 text-sm text-muted">
+            <div className="mt-5 flex items-center justify-center gap-3 sm:gap-4 text-xs sm:text-sm text-muted">
               <span className="flex items-center gap-1">
                 <Shield className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Verified pros
               </span>
-              <span className="hidden sm:inline text-border">|</span>
-              <span className="hidden sm:flex items-center gap-1">
+              <span className="text-border">|</span>
+              <span className="flex items-center gap-1">
                 <Percent className="h-3.5 w-3.5 text-cta" aria-hidden="true" />
                 15–50% off
               </span>
-              <span className="hidden sm:inline text-border">|</span>
-              <span className="hidden sm:flex items-center gap-1">
+              <span className="text-border">|</span>
+              <span className="flex items-center gap-1">
                 <Clock className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
                 Instant booking
               </span>
