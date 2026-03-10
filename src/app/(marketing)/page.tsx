@@ -116,7 +116,7 @@ export default function HomePage() {
               <Link
                 key={cat.label}
                 href={cat.value ? `/browse?category=${cat.value}` : "/browse"}
-                className="flex items-center gap-2 whitespace-nowrap rounded-full border border-border px-5 py-2.5 text-sm font-medium text-body transition-all hover:border-accent hover:text-accent hover:bg-accent-light/50"
+                className="flex items-center gap-1.5 md:gap-2 whitespace-nowrap rounded-full border border-border px-3.5 py-2 md:px-5 md:py-2.5 text-xs md:text-sm font-medium text-body transition-all hover:border-accent hover:text-accent hover:bg-accent-light/50"
               >
                 <cat.icon className={`h-4 w-4 ${cat.color}`} aria-hidden="true" />
                 {cat.label}
