@@ -61,8 +61,8 @@ export const proApplicationSchema = z.object({
   licenseType: z.string().optional().or(z.literal("")),
   licenseNumber: z.string().optional().or(z.literal("")),
   licenseState: z.string().max(2).optional().or(z.literal("")),
-  instagramUrl: z.string().url().optional().or(z.literal("")),
-  websiteUrl: z.string().url().optional().or(z.literal("")),
+  instagramUrl: z.string().optional().or(z.literal("")),
+  websiteUrl: z.string().optional().or(z.literal("")),
 });
 
 export const contactSchema = z.object({
