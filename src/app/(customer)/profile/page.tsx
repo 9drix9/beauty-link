@@ -7,6 +7,7 @@ import { User as UserIcon, Mail, Phone, Heart, Settings, ExternalLink } from "lu
 
 import { db } from "@/lib/db";
 import { ProfileSettings } from "./profile-settings";
+import { SignOutButton } from "./sign-out-button";
 
 export const metadata: Metadata = {
   title: "My Profile",
@@ -128,6 +129,11 @@ export default async function ProfilePage() {
             </a>
           </div>
         </div>
+      </div>
+
+      {/* Sign Out */}
+      <div className="mt-6 rounded-xl border border-border bg-white p-6 shadow-sm">
+        <SignOutButton />
       </div>
     </div>
   );
