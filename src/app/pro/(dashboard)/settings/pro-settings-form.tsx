@@ -105,14 +105,14 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
     <div className="space-y-6 max-w-2xl">
       {/* Error */}
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-lg border border-error/20 bg-error-light px-4 py-3 text-sm text-error">
           {error}
         </div>
       )}
 
       {/* Success */}
       {saved && (
-        <div className="rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700 flex items-center gap-2">
+        <div className="rounded-lg border border-success/20 bg-success-light px-4 py-3 text-sm text-success flex items-center gap-2">
           <Check className="h-4 w-4" aria-hidden="true" />
           Profile saved successfully.
         </div>

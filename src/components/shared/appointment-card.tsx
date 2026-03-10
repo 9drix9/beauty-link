@@ -97,7 +97,7 @@ export function AppointmentCard({
     <Link href={`/appointment/${id}`} className="block group">
       <div className="relative rounded-xl bg-white border border-border overflow-hidden transition-all duration-200 group-hover:shadow-cardHover group-hover:-translate-y-0.5">
         {/* Image */}
-        <div className="relative aspect-[3/2] overflow-hidden bg-gray-100">
+        <div className="relative aspect-[3/2] overflow-hidden bg-background">
           {imageSrc ? (
             <Image
               src={imageSrc}
@@ -107,7 +107,7 @@ export function AppointmentCard({
               sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             />
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+            <div className="absolute inset-0 bg-gradient-to-br from-background to-border flex items-center justify-center">
               <span className="text-4xl font-bold text-accent/30">
                 {serviceCategory.charAt(0).toUpperCase()}
               </span>
@@ -125,8 +125,8 @@ export function AppointmentCard({
           {isUrgent && (
             <span className="absolute top-3 right-3 inline-flex items-center gap-1 rounded-full bg-dark/80 backdrop-blur-sm px-2.5 py-1 text-xs font-semibold text-white shadow-md">
               <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-red-500" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-error/75" />
+                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-error" />
               </span>
               {timeUntil}
             </span>

@@ -73,7 +73,7 @@ export function ReviewCard({
 
         {/* Would Rebook */}
         {wouldRebook === true && (
-          <p className="inline-flex items-center gap-1.5 text-xs font-medium text-green-600">
+          <p className="inline-flex items-center gap-1.5 text-xs font-medium text-success">
             <ThumbsUp className="h-3.5 w-3.5" aria-hidden="true" />
             Would rebook
           </p>

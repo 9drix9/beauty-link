@@ -24,13 +24,13 @@ export function UrgencyBadge({ appointmentDate, spotsLeft }: UrgencyBadgeProps) 
     if (diffMs < 0) return null;
 
     if (diffHours < 0.001) {
-      return { text: "Starting now!", className: "bg-red-100 text-red-700 animate-pulse" };
+      return { text: "Starting now!", className: "bg-error-light text-error animate-pulse" };
     }
     if (diffHours < 6) {
       const h = Math.floor(diffHours);
       const m = diffMins % 60;
       const countdown = h > 0 ? `${h}h ${m}m left` : `${m}m left`;
-      return { text: countdown, className: "bg-red-100 text-red-700 animate-pulse" };
+      return { text: countdown, className: "bg-error-light text-error animate-pulse" };
     }
 
     const today = new Date(now);
@@ -42,10 +42,10 @@ export function UrgencyBadge({ appointmentDate, spotsLeft }: UrgencyBadgeProps) 
     );
 
     if (dayDiff === 0) {
-      return { text: "Today!", className: "bg-red-100 text-red-700 animate-pulse" };
+      return { text: "Today!", className: "bg-error-light text-error animate-pulse" };
     }
     if (dayDiff === 1) {
-      return { text: "Tomorrow", className: "bg-orange-100 text-orange-700" };
+      return { text: "Tomorrow", className: "bg-warning-light text-warning" };
     }
     return null;
   }

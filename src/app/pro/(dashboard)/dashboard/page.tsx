@@ -136,7 +136,7 @@ export default async function ProDashboardPage() {
                 Welcome back, {user.firstName}!
               </h1>
               <div className="flex items-center gap-1.5 mt-1">
-                <CheckCircle className="h-4 w-4 text-green-600" aria-hidden="true" />
+                <CheckCircle className="h-4 w-4 text-success" aria-hidden="true" />
                 <span className="text-sm text-muted">Accepted Stylist</span>
               </div>
             </div>
@@ -170,7 +170,7 @@ export default async function ProDashboardPage() {
             {
               value: completedCount.toString(),
               label: "Completed",
-              color: "text-green-600",
+              color: "text-success",
             },
             {
               value: formatPrice(thisMonthEarnings),

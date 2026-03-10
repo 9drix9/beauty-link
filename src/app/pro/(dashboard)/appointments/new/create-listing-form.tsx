@@ -192,9 +192,9 @@ export function CreateListingForm() {
   return (
     <div className="space-y-6">
       {error && (
-        <div className="flex items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4">
-          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-red-600" />
-          <p className="text-sm text-red-700">{error}</p>
+        <div className="flex items-start gap-3 rounded-lg border border-error/20 bg-error-light p-4">
+          <AlertCircle className="mt-0.5 h-5 w-5 shrink-0 text-error" />
+          <p className="text-sm text-error">{error}</p>
         </div>
       )}
 
@@ -385,18 +385,18 @@ export function CreateListingForm() {
 
           {/* Discount validation feedback */}
           {discountValidation && !discountValidation.valid && (
-            <div className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3">
-              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-red-600" />
-              <p className="text-sm text-red-700">
+            <div className="flex items-start gap-2 rounded-lg border border-error/20 bg-error-light p-3">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-error" />
+              <p className="text-sm text-error">
                 {discountValidation.error}
               </p>
             </div>
           )}
 
           {discountValidation && discountValidation.valid && savingsPercent > 0 && (
-            <div className="flex items-start gap-2 rounded-lg border border-green-200 bg-green-50 p-3">
-              <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-green-600" />
-              <p className="text-sm text-green-700">
+            <div className="flex items-start gap-2 rounded-lg border border-success/20 bg-success-light p-3">
+              <CheckCircle className="mt-0.5 h-4 w-4 shrink-0 text-success" />
+              <p className="text-sm text-success">
                 {savingsPercent}% discount — great value for customers!
               </p>
             </div>

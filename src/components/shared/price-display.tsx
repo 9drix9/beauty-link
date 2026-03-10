@@ -24,7 +24,7 @@ export function PriceDisplay({
         {formatPrice(originalPrice)}
       </span>
       {showSavings && savingsPercent > 0 && (
-        <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+        <span className="inline-flex items-center rounded-full bg-success-light px-2 py-0.5 text-xs font-medium text-success">
           Save {savingsPercent}%
         </span>
       )}

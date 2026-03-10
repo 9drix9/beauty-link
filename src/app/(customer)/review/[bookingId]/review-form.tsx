@@ -81,7 +81,7 @@ export function ReviewForm({ booking }: ReviewFormProps) {
     return (
       <Card variant="default">
         <CardContent className="p-8 text-center space-y-4">
-          <CheckCircle className="mx-auto h-16 w-16 text-green-500" aria-hidden="true" />
+          <CheckCircle className="mx-auto h-16 w-16 text-success" aria-hidden="true" />
           <h2 className="text-2xl font-bold text-dark">Thank you for your review!</h2>
           <p className="text-muted">
             Your feedback helps other customers and supports {booking.professionalName}.
@@ -192,7 +192,7 @@ export function ReviewForm({ booking }: ReviewFormProps) {
                   className={cn(
                     "inline-flex items-center gap-2 rounded-lg border-2 px-4 py-2 text-sm font-medium transition-colors",
                     wouldRebook === true
-                      ? "border-green-500 bg-green-50 text-green-700"
+                      ? "border-success bg-success-light text-success"
                       : "border-border bg-white text-body hover:bg-gray-50"
                   )}
                 >
@@ -206,7 +206,7 @@ export function ReviewForm({ booking }: ReviewFormProps) {
                   className={cn(
                     "inline-flex items-center gap-2 rounded-lg border-2 px-4 py-2 text-sm font-medium transition-colors",
                     wouldRebook === false
-                      ? "border-red-500 bg-red-50 text-red-700"
+                      ? "border-error bg-error-light text-error"
                       : "border-border bg-white text-body hover:bg-gray-50"
                   )}
                 >

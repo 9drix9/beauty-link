@@ -97,13 +97,13 @@ export function PaymentSetup({
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center gap-3 rounded-lg bg-green-50 p-4">
-            <CheckCircle className="h-5 w-5 text-green-600 shrink-0" aria-hidden="true" />
+          <div className="flex items-center gap-3 rounded-lg bg-success-light p-4">
+            <CheckCircle className="h-5 w-5 text-success shrink-0" aria-hidden="true" />
             <div>
-              <p className="font-medium text-green-800">
+              <p className="font-medium text-success">
                 Payouts enabled
               </p>
-              <p className="text-sm text-green-700">
+              <p className="text-sm text-success">
                 {bankLast4
                   ? `Bank account ending in ${bankLast4}`
                   : "Your bank account is connected"}
@@ -159,7 +159,7 @@ export function PaymentSetup({
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div className="flex items-center gap-2 rounded-lg bg-error-light px-4 py-3 text-sm text-error">
             <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
             {error}
           </div>
@@ -185,15 +185,15 @@ export function PaymentSetup({
 
         <ul className="space-y-2 text-sm text-muted">
           <li className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-green-600 shrink-0" aria-hidden="true" />
+            <CheckCircle className="h-4 w-4 text-success shrink-0" aria-hidden="true" />
             Secure bank account linking via Stripe
           </li>
           <li className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-green-600 shrink-0" aria-hidden="true" />
+            <CheckCircle className="h-4 w-4 text-success shrink-0" aria-hidden="true" />
             Automatic payouts 24h after completed bookings
           </li>
           <li className="flex items-center gap-2">
-            <CheckCircle className="h-4 w-4 text-green-600 shrink-0" aria-hidden="true" />
+            <CheckCircle className="h-4 w-4 text-success shrink-0" aria-hidden="true" />
             Instant payout option available (1.5% fee)
           </li>
         </ul>

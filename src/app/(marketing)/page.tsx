@@ -23,7 +23,7 @@ const floatingCards = [
     pro: "Jessica C.",
     detail: "Los Angeles",
     save: 27,
-    color: "bg-pink-100",
+    color: "bg-accent-light",
     emoji: "💅",
     position: "top-[18%] left-[3%] md:left-[6%]",
     delay: "0s",
@@ -33,7 +33,7 @@ const floatingCards = [
     pro: "Sofia R.",
     detail: "Today 2PM",
     save: 31,
-    color: "bg-purple-100",
+    color: "bg-accent-muted",
     emoji: "✨",
     position: "top-[12%] right-[3%] md:right-[5%]",
     delay: "1s",
@@ -43,7 +43,7 @@ const floatingCards = [
     pro: "Marcus W.",
     detail: "Tomorrow",
     save: 28,
-    color: "bg-orange-100",
+    color: "bg-cta-light",
     emoji: "💇",
     position: "bottom-[28%] left-[2%] md:left-[4%]",
     delay: "2s",
@@ -53,7 +53,7 @@ const floatingCards = [
     pro: "Verified Pro",
     detail: "LA",
     save: 0,
-    color: "bg-green-100",
+    color: "bg-success-light",
     emoji: "⭐",
     position: "bottom-[24%] right-[2%] md:right-[4%]",
     delay: "3s",
@@ -105,7 +105,7 @@ export default function HomePage() {
               </p>
             </div>
             {card.save > 0 && (
-              <span className="ml-1 rounded-full bg-green-500 px-2.5 py-0.5 text-[11px] font-bold text-white whitespace-nowrap">
+              <span className="ml-1 rounded-full bg-success px-2.5 py-0.5 text-[11px] font-bold text-white whitespace-nowrap">
                 Save {card.save}%
               </span>
             )}

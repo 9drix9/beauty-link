@@ -118,8 +118,8 @@ export function ProfileSettings(props: ProfileSettingsProps) {
         <p
           className={`text-xs font-medium ${
             savedMessage === "Preferences saved"
-              ? "text-green-600"
-              : "text-red-500"
+              ? "text-success"
+              : "text-error"
           }`}
         >
           {savedMessage}

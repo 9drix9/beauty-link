@@ -266,8 +266,8 @@ export function ApplyForm() {
     return (
       <Card className="text-center">
         <CardContent className="py-12 space-y-4">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
-            <CheckCircle className="h-8 w-8 text-green-600" aria-hidden="true" />
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-success-light">
+            <CheckCircle className="h-8 w-8 text-success" aria-hidden="true" />
           </div>
           <h2 className="text-2xl font-bold">Application Submitted!</h2>
           <p className="text-muted max-w-md mx-auto">
@@ -337,7 +337,7 @@ export function ApplyForm() {
 
       {/* Error Display */}
       {error && (
-        <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div className="rounded-lg border border-error/20 bg-error-light px-4 py-3 text-sm text-error">
           {error}
         </div>
       )}
@@ -370,7 +370,7 @@ export function ApplyForm() {
                 rows={4}
                 maxLength={500}
               />
-              <p className={cn("text-xs text-right", formData.bio.length < 50 ? "text-muted" : "text-green-600")}>
+              <p className={cn("text-xs text-right", formData.bio.length < 50 ? "text-muted" : "text-success")}>
                 {formData.bio.length}/500{formData.bio.length < 50 && " (min 50)"}
               </p>
             </div>

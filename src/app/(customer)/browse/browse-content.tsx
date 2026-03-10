@@ -170,7 +170,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
                 "shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
                 !activeCategory
                   ? "bg-dark text-white"
-                  : "bg-gray-100 text-body hover:bg-gray-200"
+                  : "bg-background text-body hover:bg-border"
               )}
             >
               All
@@ -184,7 +184,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
                   "shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors",
                   activeCategory === cat.value
                     ? "bg-dark text-white"
-                    : "bg-gray-100 text-body hover:bg-gray-200"
+                    : "bg-background text-body hover:bg-border"
                 )}
               >
                 {cat.label}
@@ -211,7 +211,7 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
                           "rounded-full px-3 py-1.5 text-sm font-medium transition-colors",
                           activeDate === df.value
                             ? "bg-accent text-white"
-                            : "bg-gray-100 text-body hover:bg-gray-200"
+                            : "bg-background text-body hover:bg-border"
                         )}
                       >
                         {df.label}

@@ -199,14 +199,14 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
                   : "Full"}
               </span>
             </div>
-            <div className="h-1.5 w-full rounded-full bg-gray-100 overflow-hidden">
+            <div className="h-1.5 w-full rounded-full bg-background overflow-hidden">
               <div
                 className={`h-full rounded-full transition-all ${
                   spotsLeft === 0
-                    ? "bg-green-500"
+                    ? "bg-success"
                     : listing.bookedCount > 0
                       ? "bg-accent"
-                      : "bg-gray-200"
+                      : "bg-border"
                 }`}
                 style={{
                   width: `${
@@ -306,7 +306,7 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
   function renderEmptyState(type: "active" | "completed") {
     return (
       <div className="py-16 text-center">
-        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-gray-100">
+        <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-background">
           <Calendar className="h-7 w-7 text-muted" aria-hidden="true" />
         </div>
         <h3 className="font-semibold text-dark">

@@ -55,8 +55,8 @@ export default async function EarningsPage() {
       label: "Lifetime Earnings",
       value: formatPrice(profile.lifetimeEarnings),
       icon: DollarSign,
-      color: "text-green-600",
-      bg: "bg-green-50",
+      color: "text-success",
+      bg: "bg-success-light",
     },
     {
       label: "Available Balance",
@@ -77,7 +77,7 @@ export default async function EarningsPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-center gap-3">
-        <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">Earnings</span>
+        <span className="rounded-full bg-success-light px-3 py-1 text-xs font-semibold text-success">Earnings</span>
         <div>
           <h1 className="text-2xl font-bold text-dark">Earnings</h1>
           <p className="mt-1 text-sm text-muted">
@@ -225,7 +225,7 @@ export default async function EarningsPage() {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="font-semibold text-green-700">
+                    <p className="font-semibold text-success">
                       +{formatPrice(booking.discountedPrice)}
                     </p>
                     <p className="text-xs text-muted">

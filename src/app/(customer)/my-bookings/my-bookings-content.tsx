@@ -293,7 +293,7 @@ function EmptyState({
 }) {
   return (
     <div className="py-16 text-center">
-      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+      <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-background">
         <Icon className="h-8 w-8 text-muted/60" aria-hidden="true" />
       </div>
       <h3 className="text-lg font-semibold text-dark">{title}</h3>

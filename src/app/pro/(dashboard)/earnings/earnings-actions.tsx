@@ -112,7 +112,7 @@ export function EarningsActions({
             </Button>
           </div>
           {error && (
-            <div className="mt-4 flex items-center gap-2 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+            <div className="mt-4 flex items-center gap-2 rounded-lg bg-error-light px-4 py-3 text-sm text-error">
               <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
               {error}
             </div>
@@ -143,14 +143,14 @@ export function EarningsActions({
         </div>
 
         {error && (
-          <div className="flex items-center gap-2 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
+          <div className="flex items-center gap-2 rounded-lg bg-error-light px-4 py-3 text-sm text-error">
             <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden="true" />
             {error}
           </div>
         )}
 
         {success && (
-          <div className="flex items-center gap-2 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">
+          <div className="flex items-center gap-2 rounded-lg bg-success-light px-4 py-3 text-sm text-success">
             <CheckCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
             {success}
           </div>

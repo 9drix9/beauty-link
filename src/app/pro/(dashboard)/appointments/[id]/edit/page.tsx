@@ -111,8 +111,8 @@ export default async function ListingDetailPage({
         </Card>
         <Card>
           <CardContent className="flex items-center gap-3 p-4">
-            <div className="rounded-lg bg-green-50 p-2">
-              <Users className="h-4 w-4 text-green-600" />
+            <div className="rounded-lg bg-success-light p-2">
+              <Users className="h-4 w-4 text-success" />
             </div>
             <div>
               <p className="text-xs text-muted">Booked</p>
@@ -169,8 +169,8 @@ export default async function ListingDetailPage({
           </div>
           {listing.locationAddress && (
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-green-50 p-2">
-                <MapPin className="h-4 w-4 text-green-600" />
+              <div className="rounded-lg bg-success-light p-2">
+                <MapPin className="h-4 w-4 text-success" />
               </div>
               <div>
                 <p className="text-xs text-muted">Location</p>
@@ -190,7 +190,7 @@ export default async function ListingDetailPage({
               <ul className="space-y-1.5">
                 {listing.whatsIncluded.map((item, i) => (
                   <li key={i} className="flex items-center gap-2 text-sm text-body">
-                    <CheckCircle2 className="h-3.5 w-3.5 text-green-600 shrink-0" />
+                    <CheckCircle2 className="h-3.5 w-3.5 text-success shrink-0" />
                     {item}
                   </li>
                 ))}

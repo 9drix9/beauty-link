@@ -51,11 +51,11 @@ function getStatusBadge(status: string) {
 function getStatusIcon(status: string) {
   switch (status) {
     case "CONFIRMED":
-      return <CheckCircle2 className="h-5 w-5 text-green-600" />;
+      return <CheckCircle2 className="h-5 w-5 text-success" />;
     case "COMPLETED":
       return <CheckCircle2 className="h-5 w-5 text-accent" />;
     case "CANCELLED":
-      return <XCircle className="h-5 w-5 text-red-500" />;
+      return <XCircle className="h-5 w-5 text-error" />;
     default:
       return <AlertCircle className="h-5 w-5 text-yellow-500" />;
   }
@@ -144,8 +144,8 @@ export default async function ProBookingDetailPage({
           </div>
           {booking.locationAddress && (
             <div className="flex items-center gap-3">
-              <div className="rounded-lg bg-green-50 p-2">
-                <MapPin className="h-4 w-4 text-green-600" />
+              <div className="rounded-lg bg-success-light p-2">
+                <MapPin className="h-4 w-4 text-success" />
               </div>
               <div>
                 <p className="text-xs text-muted">Location</p>
@@ -220,12 +220,12 @@ export default async function ProBookingDetailPage({
             </div>
             <div className="border-t border-border pt-3 flex items-center justify-between">
               <span className="font-medium text-dark">Your Payout</span>
-              <span className="text-lg font-bold text-green-600">
+              <span className="text-lg font-bold text-success">
                 {formatPrice(booking.discountedPrice - booking.platformFee)}
               </span>
             </div>
             {booking.payoutReleased && (
-              <div className="flex items-center gap-2 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-700">
+              <div className="flex items-center gap-2 rounded-lg bg-success-light px-3 py-2 text-sm text-success">
                 <DollarSign className="h-4 w-4" />
                 Payout released{" "}
                 {booking.payoutReleasedAt

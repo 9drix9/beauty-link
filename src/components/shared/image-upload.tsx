@@ -226,7 +226,7 @@ export function ImageUpload({
         />
 
         {error && (
-          <div className="flex items-center gap-2 text-sm text-red-600">
+          <div className="flex items-center gap-2 text-sm text-error">
             <AlertTriangle className="h-4 w-4 shrink-0" />
             {error}
           </div>
@@ -316,7 +316,7 @@ export function ImageUpload({
       />
 
       {error && (
-        <div className="flex items-center gap-2 text-sm text-red-600">
+        <div className="flex items-center gap-2 text-sm text-error">
           <AlertTriangle className="h-4 w-4 shrink-0" />
           {error}
         </div>

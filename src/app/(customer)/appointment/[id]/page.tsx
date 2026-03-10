@@ -226,7 +226,7 @@ export default async function AppointmentDetailPage({
               <ul className="space-y-2">
                 {listing.whatsIncluded.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-green-600" aria-hidden="true" />
+                    <CheckCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-success" aria-hidden="true" />
                     <span className="text-body">{item}</span>
                   </li>
                 ))}
