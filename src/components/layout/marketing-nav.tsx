@@ -45,7 +45,7 @@ export function MarketingNav() {
           {isSignedIn ? (
             <>
               <Button variant="ghost" asChild>
-                <Link href="/browse">Dashboard</Link>
+                <Link href="/my-bookings">Dashboard</Link>
               </Button>
               <UserButton />
             </>
@@ -97,7 +97,7 @@ export function MarketingNav() {
                 {isSignedIn ? (
                   <div className="flex items-center gap-3 px-3">
                     <Link
-                      href="/browse"
+                      href="/my-bookings"
                       onClick={() => setMobileOpen(false)}
                       className="text-sm font-medium text-accent"
                     >

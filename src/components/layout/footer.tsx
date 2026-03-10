@@ -16,7 +16,7 @@ const footerColumns = [
     links: [
       { label: "Join", href: "/pro/join" },
       { label: "Apply", href: "/pro/apply" },
-      { label: "Resources", href: "/pro/resources" },
+      { label: "FAQ", href: "/faq" },
     ],
   },
   {

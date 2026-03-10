@@ -89,10 +89,10 @@ export function ListingGallery({
               key={idx}
               onClick={() => setActiveIndex(idx)}
               className={cn(
-                "relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg ring-2 transition-all",
+                "relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg ring-2 transition-all focus:outline-none focus-visible:ring-accent",
                 idx === activeIndex
-                  ? "ring-accent"
-                  : "ring-transparent hover:ring-border"
+                  ? "ring-accent opacity-100"
+                  : "ring-transparent opacity-60 hover:opacity-100 hover:ring-border"
               )}
             >
               <Image
