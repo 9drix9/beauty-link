@@ -1,59 +1,40 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const faqs = [
-  {
-    question: "What is BeautyLink?",
-    answer:
-      "BeautyLink is a marketplace for discounted beauty appointments. Beauty professionals list their open time slots at reduced prices, and clients book them at significant savings — everyone wins.",
-  },
-  {
-    question: "How does pricing work?",
-    answer:
-      "Professionals set their own discounted price — at least 15% below their regular rate. A small 5% service fee is added at checkout to keep the platform running. The total price is always shown upfront — no surprises.",
-  },
   {
     question: "How do I book an appointment?",
     answer:
       "Browse available deals near you, pick a service you like, and book instantly with secure payment. No DMs, no back-and-forth — just tap, pay, and show up.",
   },
   {
-    question: "Is there a cancellation policy?",
+    question: "Are all professionals verified?",
+    answer:
+      "Yes. Every professional on BeautyLink is reviewed and approved before they can list. We review portfolios, monitor ratings, and verify license information when provided.",
+  },
+  {
+    question: "What if I need to cancel?",
     answer:
       "You can cancel for free up to 24 hours before your appointment. Cancellations within 24 hours of the appointment time are non-refundable to protect our professionals' time.",
-  },
-  {
-    question: "How do professionals get paid?",
-    answer:
-      "Professionals keep 100% of their listed price. Payouts are released 24 hours after the appointment is completed. Instant payouts are available for a small 1.5% fee.",
-  },
-  {
-    question: "How do I become a provider on BeautyLink?",
-    answer:
-      "Apply through our stylist application page. You'll need to provide your professional details, service information, and license info. Once approved, you can start listing discounted appointments right away.",
-  },
-  {
-    question: "What areas do you serve?",
-    answer:
-      "We currently serve the Greater Los Angeles area, including West LA, Santa Monica, Beverly Hills, Hollywood, Westwood, and Westchester. We're expanding to new areas soon.",
-  },
-  {
-    question: "Are the professionals verified?",
-    answer:
-      "Yes. Every professional on BeautyLink is reviewed and approved before they can list. We review portfolios, monitor ratings, and verify license information when provided. You can also read reviews from other clients before booking.",
-  },
-  {
-    question: "What types of services are available?",
-    answer:
-      "BeautyLink covers Hair, Nails, Makeup, Lashes, Brows, Spa & Skincare services, and more. Each category includes a range of specific treatments — from blowouts and balayage to gel manicures and hydrafacials.",
   },
   {
     question: "Is my payment secure?",
     answer:
       "Absolutely. All payments are processed securely through Stripe. Your payment information is never stored on our servers. Funds are held safely until after your appointment is completed.",
+  },
+  {
+    question: "Have more questions?",
+    answer:
+      "Reach out to our support team at support@beautylinknetwork.com and we'll get back to you within 24 hours.",
+  },
+  {
+    question: "How much can I save?",
+    answer:
+      "Professionals set their own discounted prices — typically 15–50% below their regular rate. A small 5% service fee is added at checkout. The total price is always shown upfront.",
   },
 ];
 
@@ -67,12 +48,12 @@ function FaqItem({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-border">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between py-5 text-left transition-colors hover:text-accent"
-      >
-        <span className="text-base font-semibold text-dark pr-4">
+    <button
+      onClick={() => setIsOpen(!isOpen)}
+      className="w-full rounded-xl border border-border bg-white px-6 py-5 text-left transition-all hover:border-accent/30 hover:shadow-sm"
+    >
+      <div className="flex items-center justify-between">
+        <span className="text-base font-medium text-dark pr-4">
           {question}
         </span>
         <ChevronDown
@@ -82,50 +63,51 @@ function FaqItem({
           )}
           aria-hidden="true"
         />
-      </button>
+      </div>
       <div
         className={cn(
           "overflow-hidden transition-all duration-200",
-          isOpen ? "max-h-96 pb-5" : "max-h-0"
+          isOpen ? "max-h-96 mt-3" : "max-h-0"
         )}
       >
-        <p className="text-body leading-relaxed">{answer}</p>
+        <p className="text-sm text-muted leading-relaxed">{answer}</p>
       </div>
-    </div>
+    </button>
   );
 }
 
 export default function FAQPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-3xl">
-      <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold text-dark">
-          Frequently Asked Questions
-        </h1>
-        <p className="mt-3 text-muted text-lg">
-          Everything you need to know about BeautyLink.
-        </p>
-      </div>
+    <div className="container mx-auto px-4 py-16 md:py-24 max-w-2xl">
+      <h1 className="text-2xl md:text-4xl font-bold text-dark text-center mb-12">
+        Frequently Asked Questions
+      </h1>
 
-      <div className="divide-y-0">
+      <div className="space-y-3">
         {faqs.map((faq) => (
-          <FaqItem key={faq.question} question={faq.question} answer={faq.answer} />
+          <FaqItem
+            key={faq.question}
+            question={faq.question}
+            answer={faq.answer}
+          />
         ))}
       </div>
 
-      <div className="mt-12 text-center rounded-2xl bg-background p-8">
-        <h2 className="text-xl font-bold text-dark mb-2">
-          Still have questions?
-        </h2>
-        <p className="text-muted mb-4">
-          Reach out to our support team and we&apos;ll get back to you within 24 hours.
-        </p>
-        <a
-          href="mailto:support@beautylinknetwork.com"
-          className="inline-flex items-center text-sm font-semibold text-accent hover:underline"
+      <div className="mt-14 text-center">
+        <Link
+          href="/browse"
+          className="inline-flex items-center gap-2 rounded-full bg-dark px-8 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
         >
-          support@beautylinknetwork.com
-        </a>
+          Browse Appointments
+        </Link>
+        <p className="mt-4">
+          <Link
+            href="/pro/join"
+            className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
+          >
+            Are you a beauty pro? Learn more &rarr;
+          </Link>
+        </p>
       </div>
     </div>
   );
