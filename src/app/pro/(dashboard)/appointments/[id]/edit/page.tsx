@@ -9,7 +9,6 @@ import {
   Eye,
   Users,
   DollarSign,
-  Tag,
   CheckCircle2,
 } from "lucide-react";
 
