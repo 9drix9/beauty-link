@@ -1,29 +1,27 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { ClerkProvider, useAuth } from "@clerk/nextjs";
 
 function AuthWatcher({ children }: { children: React.ReactNode }) {
   const { isLoaded, isSignedIn } = useAuth();
-  const wasSignedOut = useRef(true);
 
   useEffect(() => {
     if (!isLoaded) return;
 
-    // If we transition from signed-out to signed-in, force a hard reload
-    // to ensure server components get fresh auth context
-    if (isSignedIn && wasSignedOut.current) {
-      wasSignedOut.current = false;
-      // Only reload if we're not already on the auth pages
-      const path = window.location.pathname;
-      if (path !== "/login" && path !== "/signup" && path !== "/auth-redirect") {
+    if (isSignedIn) {
+      // Check if we just completed sign-in and need a hard reload
+      const needsReload = sessionStorage.getItem("clerk_needs_reload");
+      if (needsReload === "1") {
+        sessionStorage.removeItem("clerk_needs_reload");
         window.location.reload();
         return;
       }
     }
 
     if (!isSignedIn) {
-      wasSignedOut.current = true;
+      // Mark that the next sign-in should trigger a reload
+      sessionStorage.setItem("clerk_needs_reload", "1");
     }
   }, [isLoaded, isSignedIn]);
 
