@@ -14,9 +14,9 @@
   --color-dark: #1F2933;
   --color-body: #374151;
   --color-muted: #6B7280;
-  --color-background: #F0E6EF;
+  --color-background: #F9F0F5;
   --color-surface: #FFFFFF;
-  --color-border: #E3D5E1;
+  --color-border: #E8DDE6;
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
@@ -70,23 +70,23 @@
   }
 
   .gradient-hero-page {
-    background: linear-gradient(180deg, #E8DBE7 0%, #F0E6EF 40%, #F0E6EF 100%);
+    background: linear-gradient(135deg, #F2C6D8 0%, #F6D9D0 40%, #FBE8D4 100%);
   }
 
   .gradient-hero-soft {
-    background: linear-gradient(180deg, #E8DBE7 0%, #F0E6EF 100%);
+    background: linear-gradient(135deg, #F2C6D8 0%, #FBE8D4 100%);
   }
 
   .gradient-hero-pro {
-    background: linear-gradient(180deg, #E0D2DF 0%, #EBE0EA 50%, #F0E6EF 100%);
+    background: linear-gradient(135deg, #F2C6D8 0%, #F6D5CC 50%, #FBE8D4 100%);
   }
 
   .gradient-card-warm {
-    background: linear-gradient(135deg, #E4D6E3 0%, #EBE0EA 50%, #F0E6EF 100%);
+    background: linear-gradient(135deg, #F2C6D8 0%, #F6D5CC 50%, #FBE8D4 100%);
   }
 
   .gradient-dashboard {
-    background: linear-gradient(135deg, #E8DBE7 0%, #F0E6EF 50%, #F4ECF3 100%);
+    background: linear-gradient(135deg, #F2C6D8 0%, #F6D5CC 50%, #FBE8D4 100%);
   }
 
   .gradient-welcome-banner {

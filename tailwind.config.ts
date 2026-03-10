@@ -29,9 +29,9 @@ const config: Config = {
         dark: "#1F2933",
         body: "#374151",
         muted: "#6B7280",
-        background: "#F0E6EF",
+        background: "#F9F0F5",
         surface: "#FFFFFF",
-        border: "#E3D5E1",
+        border: "#E8DDE6",
         // Semantic colors
         success: {
           DEFAULT: "#10B981",
