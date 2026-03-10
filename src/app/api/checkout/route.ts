@@ -156,9 +156,10 @@ export async function POST(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Error initializing checkout:", error);
+    const errMsg = error instanceof Error ? error.message : String(error);
+    console.error("Error initializing checkout:", errMsg, error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: `Checkout failed: ${errMsg}` },
       { status: 500 }
     );
   }
