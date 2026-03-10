@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { format } from "date-fns";
 import {
   Calendar,
@@ -13,6 +12,7 @@ import {
   Briefcase,
   ChevronLeft,
 } from "lucide-react";
+import { ListingGallery } from "@/components/shared/listing-gallery";
 
 import { db } from "@/lib/db";
 import {
@@ -148,52 +148,11 @@ export default async function AppointmentDetailPage({
         {/* Left Column */}
         <div className="lg:col-span-2 space-y-8">
           {/* Image Gallery */}
-          <div className="space-y-3">
-            {images.length > 0 ? (
-              <>
-                <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl">
-                  <Image
-                    src={images[0]}
-                    alt={listing.serviceName}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                  {savingsPercent > 0 && (
-                    <div className="absolute top-3 left-3">
-                      <Badge variant="success" size="md">
-                        Save {savingsPercent}%
-                      </Badge>
-                    </div>
-                  )}
-                </div>
-                {images.length > 1 && (
-                  <div className="flex gap-2 overflow-x-auto pb-1">
-                    {images.slice(1, 6).map((src, idx) => (
-                      <div
-                        key={idx}
-                        className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg"
-                      >
-                        <Image
-                          src={src}
-                          alt={`${listing.serviceName} photo ${idx + 2}`}
-                          fill
-                          className="object-cover"
-                          loading="lazy"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </>
-            ) : (
-              <div className="flex aspect-[16/10] w-full items-center justify-center rounded-xl bg-gradient-to-br from-gray-100 to-gray-200">
-                <span className="text-lg text-accent/60">
-                  No photo available
-                </span>
-              </div>
-            )}
-          </div>
+          <ListingGallery
+            images={images}
+            serviceName={listing.serviceName}
+            savingsPercent={savingsPercent}
+          />
 
           {/* Service Name */}
           <h1 className="text-h2 font-bold text-dark">{listing.serviceName}</h1>
