@@ -3,6 +3,7 @@
 import { useState, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2, AlertCircle, CheckCircle } from "lucide-react";
+import { ImageUpload } from "@/components/shared/image-upload";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,6 +49,9 @@ export function CreateListingForm() {
   const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTime, setAppointmentTime] = useState("");
   const [maxClients, setMaxClients] = useState("1");
+
+  // Photo
+  const [listingPhoto, setListingPhoto] = useState("");
 
   // Location
   const [addressLine1, setAddressLine1] = useState("");
@@ -123,6 +127,7 @@ export function CreateListingForm() {
       zipCode,
       launchZone: launchZone || undefined,
       locationAddress,
+      listingPhotoUrl: listingPhoto || undefined,
     };
   }
 
@@ -323,6 +328,22 @@ export function CreateListingForm() {
               </SelectContent>
             </Select>
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Listing Photo */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Listing Photo</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ImageUpload
+            value={listingPhoto}
+            onChange={(val) => setListingPhoto(val as string)}
+            folder="listings"
+            aspectRatio="aspect-video"
+            placeholder="Add a cover photo for your listing"
+          />
         </CardContent>
       </Card>
 

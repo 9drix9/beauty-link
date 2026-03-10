@@ -22,10 +22,10 @@ import {
   LICENSE_TYPES,
 } from "@/lib/constants";
 import { cn } from "@/lib/utils";
+import { ImageUpload } from "@/components/shared/image-upload";
 import {
   ArrowLeft,
   ArrowRight,
-  Upload,
   CheckCircle,
   Loader2,
   User,
@@ -103,6 +103,7 @@ interface FormData {
   // Step 5 — Portfolio
   instagramUrl: string;
   websiteUrl: string;
+  portfolioPhotos: string[];
   licenseDoc: File | null;
   // Step 6 — Location
   city: string;
@@ -139,6 +140,7 @@ export function ApplyForm() {
     licenseState: "",
     instagramUrl: "",
     websiteUrl: "",
+    portfolioPhotos: [],
     licenseDoc: null,
     city: "",
     state: "CA",
@@ -226,6 +228,7 @@ export function ApplyForm() {
         licenseState: formData.licenseState.toUpperCase().trim(),
         instagramUrl: formData.instagramUrl.trim() || "",
         websiteUrl: formData.websiteUrl.trim() || "",
+        portfolioPhotos: formData.portfolioPhotos,
       };
 
       const res = await fetch("/api/providers/apply", {
@@ -511,31 +514,15 @@ export function ApplyForm() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Upload Photos (optional)</Label>
-              <div
-                className={cn(
-                  "flex flex-col items-center justify-center rounded-lg border-2 border-dashed px-6 py-10 transition-colors",
-                  formData.licenseDoc
-                    ? "border-accent bg-accent-light"
-                    : "border-gray-300 hover:border-gray-400"
-                )}
-              >
-                <Upload className="h-8 w-8 text-gray-400 mb-3" aria-hidden="true" />
-                <p className="text-sm font-medium text-gray-700 mb-1">
-                  {formData.licenseDoc ? formData.licenseDoc.name : "Upload portfolio photos"}
-                </p>
-                <p className="text-xs text-muted mb-3">JPG or PNG up to 10MB each</p>
-                <label className="cursor-pointer">
-                  <span className="text-sm font-medium text-accent hover:underline">Choose files</span>
-                  <input
-                    type="file"
-                    className="sr-only"
-                    accept=".jpg,.jpeg,.png"
-                    multiple
-                    onChange={(e) => updateField("licenseDoc", e.target.files?.[0] ?? null)}
-                  />
-                </label>
-              </div>
+              <Label>Upload Portfolio Photos</Label>
+              <ImageUpload
+                value={formData.portfolioPhotos}
+                onChange={(val) => updateField("portfolioPhotos", val as string[])}
+                multiple
+                maxImages={10}
+                folder="portfolio"
+                placeholder="Show off your best work"
+              />
             </div>
           </CardContent>
         </Card>

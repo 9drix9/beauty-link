@@ -100,6 +100,7 @@ export async function POST(request: Request) {
       discountedPrice: data.discountedPriceCents,
       maxClients: data.maxClients,
       locationAddress,
+      listingPhotoUrl: body.listingPhotoUrl || null,
       launchZone: body.launchZone || null,
       status,
     },

@@ -56,6 +56,7 @@ export async function POST(req: Request) {
           licenseNumber: data.licenseNumber || null,
           licenseState: data.licenseState || null,
           instagramHandle: data.instagramUrl || null,
+          portfolioPhotos: body.portfolioPhotos || [],
           applicationStatus: "PENDING",
           applicationSubmittedAt: new Date(),
         },
