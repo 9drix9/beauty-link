@@ -6,15 +6,20 @@ import { generateBookingReference } from "@/lib/utils";
 import { SLOT_HOLD_MINUTES } from "@/lib/constants";
 import Stripe from "stripe";
 
-const stripe = process.env.STRIPE_SECRET_KEY
-  ? new Stripe(process.env.STRIPE_SECRET_KEY!)
-  : null;
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) return null;
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    maxNetworkRetries: 3,
+    timeout: 10000,
+  });
+}
 
 export async function POST(req: NextRequest) {
   try {
+    const stripe = getStripe();
     if (!stripe) {
       return NextResponse.json(
-        { error: "Payment processing is not configured" },
+        { error: "Payment processing is not configured. STRIPE_SECRET_KEY is missing." },
         { status: 503 }
       );
     }
