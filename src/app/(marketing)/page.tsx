@@ -109,7 +109,7 @@ export default function HomePage() {
       </section>
 
       {/* ── Service Filter Navigation ── */}
-      <section className="py-5 bg-white border-b border-border sticky top-[57px] z-40">
+      <section className="py-3 md:py-5 bg-white border-b border-border sticky top-[57px] z-40">
         <div className="overflow-x-auto scrollbar-hide">
           <div className="flex items-center justify-start md:justify-center gap-3 px-4 min-w-max mx-auto max-w-4xl">
             {categories.map((cat) => (
