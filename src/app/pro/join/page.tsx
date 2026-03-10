@@ -1,14 +1,56 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, ArrowRight } from "lucide-react";
+import {
+  CheckCircle,
+  ArrowRight,
+  DollarSign,
+  Calendar,
+  Users,
+  Shield,
+  Star,
+  Zap,
+} from "lucide-react";
 
 export const metadata = { title: "For Professionals — BeautyLink" };
 
 const requirements = [
-  "Valid professional license (cosmetology, esthetics, nail tech, etc.)",
-  "At least 3 portfolio photos",
-  "Professional workspace (salon, suite, or home studio)",
+  "Valid professional license (cosmetology, esthetics, nail tech, barbering, etc.)",
+  "At least 3 portfolio photos showcasing your work",
+  "Professional workspace (salon, suite, home studio, or mobile)",
   "Located in Greater Los Angeles (expanding soon)",
+];
+
+const benefits = [
+  {
+    icon: DollarSign,
+    title: "Keep 100% of your price",
+    body: "You set your discounted rate. We charge customers a 5% service fee — your earnings stay yours.",
+  },
+  {
+    icon: Calendar,
+    title: "Fill your open slots",
+    body: "Turn empty chairs into income. List last-minute or underbooked appointments and let new clients find you.",
+  },
+  {
+    icon: Users,
+    title: "Reach new clients",
+    body: "Get discovered by clients in your area who are ready to book right now — no marketing budget needed.",
+  },
+  {
+    icon: Shield,
+    title: "Secure & reliable payments",
+    body: "Payments processed through Stripe. Payouts released 24 hours after appointment completion.",
+  },
+  {
+    icon: Star,
+    title: "Build your reputation",
+    body: "Collect verified reviews from real clients. Build trust and grow your repeat clientele over time.",
+  },
+  {
+    icon: Zap,
+    title: "Simple to use",
+    body: "List a deal in under 60 seconds. Manage bookings, earnings, and messages from one dashboard.",
+  },
 ];
 
 export default function JoinPage() {
@@ -17,47 +59,101 @@ export default function JoinPage() {
       {/* Hero */}
       <section className="hero-gradient text-white py-20 md:py-28 px-4">
         <div className="max-w-3xl mx-auto text-center">
+          <p className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white mb-6 backdrop-blur-sm">
+            For Beauty Professionals
+          </p>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-4">
             Fill your empty chair.
             <br />
             Keep every dollar.
           </h1>
           <p className="text-lg text-white/85 max-w-xl mx-auto mb-8">
-            List your open slots at a discount. We charge customers a 5% fee — you keep 100% of your price.
+            List your open slots at a discount. Reach new clients in your area. You keep 100% of your listed price — we only charge customers a 5% service fee.
           </p>
-          <Button variant="cta" size="xl" asChild>
-            <Link href="/pro/apply">
-              Apply Now
-              <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-            </Link>
-          </Button>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Button variant="cta" size="xl" asChild>
+              <Link href="/pro/apply">
+                Apply Now
+                <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+              </Link>
+            </Button>
+          </div>
         </div>
       </section>
 
-      {/* How it works — simple */}
+      {/* How it works */}
       <section className="py-16 px-4 bg-white">
-        <div className="max-w-2xl mx-auto space-y-6">
-          <div className="flex items-baseline gap-4">
-            <span className="text-sm font-semibold text-accent shrink-0">Apply</span>
-            <p className="text-body">Submit your license and portfolio. We verify within 48 hours.</p>
+        <div className="max-w-2xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-10">
+            How it works
+          </h2>
+          <div className="space-y-6">
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-white text-sm font-bold">
+                1
+              </div>
+              <div>
+                <h3 className="text-base font-semibold text-dark">Apply</h3>
+                <p className="text-body mt-0.5">Submit your info and license details. We review applications within 48 hours.</p>
+              </div>
+            </div>
+            <div className="border-l-2 border-accent/20 ml-5 h-4" />
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-white text-sm font-bold">
+                2
+              </div>
+              <div>
+                <h3 className="text-base font-semibold text-dark">List your deals</h3>
+                <p className="text-body mt-0.5">Post discounted appointments anytime you have open slots. Set your own price — minimum 15% off your regular rate.</p>
+              </div>
+            </div>
+            <div className="border-l-2 border-accent/20 ml-5 h-4" />
+            <div className="flex items-start gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-white text-sm font-bold">
+                3
+              </div>
+              <div>
+                <h3 className="text-base font-semibold text-dark">Get booked & paid</h3>
+                <p className="text-body mt-0.5">Clients book and pay instantly. You get paid within 24 hours after the appointment.</p>
+              </div>
+            </div>
           </div>
-          <div className="border-t border-border" />
-          <div className="flex items-baseline gap-4">
-            <span className="text-sm font-semibold text-accent shrink-0">List</span>
-            <p className="text-body">Post discounted appointments anytime you have open slots.</p>
-          </div>
-          <div className="border-t border-border" />
-          <div className="flex items-baseline gap-4">
-            <span className="text-sm font-semibold text-accent shrink-0">Earn</span>
-            <p className="text-body">Clients book instantly. You get paid within 24 hours after the appointment.</p>
+        </div>
+      </section>
+
+      {/* Benefits */}
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-10">
+            Why professionals love BeautyLink
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {benefits.map((benefit) => (
+              <div
+                key={benefit.title}
+                className="rounded-xl bg-white p-6 shadow-card"
+              >
+                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-accent-light">
+                  <benefit.icon className="h-5 w-5 text-accent" aria-hidden="true" />
+                </div>
+                <h3 className="text-base font-semibold text-dark">
+                  {benefit.title}
+                </h3>
+                <p className="mt-1.5 text-sm text-muted leading-relaxed">
+                  {benefit.body}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Requirements */}
-      <section className="py-16 px-4 bg-gray-50">
+      <section className="py-16 px-4 bg-white">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-xl font-bold text-dark mb-6">Requirements</h2>
+          <h2 className="text-2xl font-bold text-dark mb-6 text-center">
+            Requirements
+          </h2>
           <ul className="space-y-3">
             {requirements.map((req) => (
               <li key={req} className="flex items-start gap-3">
@@ -69,17 +165,22 @@ export default function JoinPage() {
         </div>
       </section>
 
-      {/* Bottom CTA — minimal */}
-      <section className="py-12 px-4 border-t border-border text-center">
-        <p className="text-body text-muted mb-4">
-          Join hundreds of beauty professionals growing their business with BeautyLink.
-        </p>
-        <Button variant="cta" size="lg" asChild>
-          <Link href="/pro/apply">
-            Apply Now
-            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-          </Link>
-        </Button>
+      {/* Bottom CTA */}
+      <section className="py-16 px-4 bg-accent text-center">
+        <div className="max-w-xl mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
+            Ready to grow your business?
+          </h2>
+          <p className="text-accent-light/90 mb-8">
+            Join beauty professionals across Greater LA who are filling their empty slots and reaching new clients with BeautyLink.
+          </p>
+          <Button variant="cta" size="xl" asChild>
+            <Link href="/pro/apply">
+              Apply Now
+              <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
+            </Link>
+          </Button>
+        </div>
       </section>
     </main>
   );

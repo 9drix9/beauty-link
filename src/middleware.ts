@@ -15,9 +15,9 @@ const isPublicRoute = createRouteMatcher([
   "/cookies",
   "/help",
 
-  // Auth pages
-  "/login",
-  "/signup",
+  // Auth pages (catch-all for Clerk multi-step flows)
+  "/login(.*)",
+  "/signup(.*)",
   "/auth-redirect",
   "/forgot-password",
   "/reset-password",

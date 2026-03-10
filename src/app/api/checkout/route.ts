@@ -77,33 +77,39 @@ export async function POST(req: NextRequest) {
     );
 
     const holdResult = await db.$transaction(async (tx) => {
+      // First, clean up any expired holds for this listing
+      await tx.slotHold.deleteMany({
+        where: {
+          appointmentListingId: listingId,
+          expiresAt: { lt: now },
+        },
+      });
+
       const existingHold = await tx.slotHold.findUnique({
         where: { appointmentListingId: listingId },
       });
 
       if (existingHold) {
-        // If held by another user and not expired, reject
-        if (
-          existingHold.userId !== user.id &&
-          existingHold.expiresAt > now
-        ) {
-          return { held: false as const };
+        // If held by the same user, extend their hold
+        if (existingHold.userId === user.id) {
+          await tx.slotHold.update({
+            where: { id: existingHold.id },
+            data: { expiresAt: holdExpiresAt },
+          });
+          return { held: true as const };
         }
 
-        // Replace expired hold or extend own hold
-        await tx.slotHold.update({
-          where: { id: existingHold.id },
-          data: { userId: user.id, expiresAt: holdExpiresAt },
-        });
-      } else {
-        await tx.slotHold.create({
-          data: {
-            appointmentListingId: listingId,
-            userId: user.id,
-            expiresAt: holdExpiresAt,
-          },
-        });
+        // Held by another user and still active — reject
+        return { held: false as const };
       }
+
+      await tx.slotHold.create({
+        data: {
+          appointmentListingId: listingId,
+          userId: user.id,
+          expiresAt: holdExpiresAt,
+        },
+      });
 
       return { held: true as const };
     });

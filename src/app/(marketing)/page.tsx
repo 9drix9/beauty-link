@@ -4,8 +4,9 @@ import {
   Paintbrush,
   Sparkles,
   Eye,
-  Droplets,
   PenTool,
+  Droplets,
+  Grid,
   ArrowRight,
   Shield,
   Clock,
@@ -28,7 +29,8 @@ const categories = [
   { label: "Makeup", value: "makeup", icon: Sparkles, color: "text-pink-600", bg: "bg-pink-50" },
   { label: "Lashes", value: "lashes", icon: Eye, color: "text-blue-600", bg: "bg-blue-50" },
   { label: "Brows", value: "brows", icon: PenTool, color: "text-amber-600", bg: "bg-amber-50" },
-  { label: "Skincare", value: "skincare", icon: Droplets, color: "text-green-600", bg: "bg-green-50" },
+  { label: "Spa", value: "skincare", icon: Droplets, color: "text-green-600", bg: "bg-green-50" },
+  { label: "All Services", value: "", icon: Grid, color: "text-gray-600", bg: "bg-gray-100" },
 ];
 
 const valueProps = [
@@ -59,7 +61,6 @@ export default function HomePage() {
     <>
       {/* ── Hero ── */}
       <section className="relative bg-white pt-12 pb-16 md:pt-20 md:pb-24 overflow-hidden">
-        {/* Subtle background accent */}
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-accent-light/40 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" aria-hidden="true" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cta-light/30 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none" aria-hidden="true" />
 
@@ -107,6 +108,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ── Service Filter Navigation ── */}
+      <section className="py-4 bg-white border-b border-border sticky top-[57px] z-40">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1">
+            {categories.map((cat) => (
+              <Link
+                key={cat.label}
+                href={cat.value ? `/browse?category=${cat.value}` : "/browse"}
+                className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-border px-4 py-2 text-sm font-medium text-body transition-all hover:border-accent hover:text-accent hover:bg-accent-light/50"
+              >
+                <cat.icon className={`h-4 w-4 ${cat.color}`} aria-hidden="true" />
+                {cat.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── Live Feed Preview ── */}
       <section className="py-12 md:py-16 bg-background">
         <div className="container mx-auto px-4">
@@ -142,11 +161,11 @@ export default function HomePage() {
           <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-10">
             What are you looking for?
           </h2>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-3 md:gap-5 max-w-3xl mx-auto">
+          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-5 max-w-4xl mx-auto">
             {categories.map((cat) => (
               <Link
-                key={cat.value}
-                href={`/browse?category=${cat.value}`}
+                key={cat.label}
+                href={cat.value ? `/browse?category=${cat.value}` : "/browse"}
                 className="group flex flex-col items-center gap-2.5 rounded-2xl bg-background p-5 text-center transition-all hover:shadow-card hover:-translate-y-0.5"
               >
                 <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${cat.bg} transition-transform group-hover:scale-105`}>
@@ -182,22 +201,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Pro CTA ── */}
+      {/* ── Stylist Promo Banner ── */}
       <section className="py-12 md:py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-3xl rounded-2xl bg-accent px-6 py-12 md:px-12 text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Fill your empty chair
+              Are you a beauty professional?
             </h2>
-            <p className="mt-3 text-accent-light/90 text-lg max-w-md mx-auto">
-              List your open slots, set your own discounted price, and reach new clients. You keep 100% of your earnings.
+            <p className="mt-3 text-accent-light/90 text-lg max-w-lg mx-auto">
+              Fill your empty chair. List your open slots at a discount, reach new clients, and keep 100% of your listed price. We only charge customers a 5% fee.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
               <Button asChild variant="hero-primary" size="lg">
-                <Link href="/pro/join">Start listing</Link>
+                <Link href="/pro/apply">Apply Now</Link>
               </Button>
               <Button asChild variant="hero-outline" size="lg">
-                <Link href="/pro/join">How it works</Link>
+                <Link href="/pro/join">Learn More</Link>
               </Button>
             </div>
           </div>
