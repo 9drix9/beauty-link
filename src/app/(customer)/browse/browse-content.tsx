@@ -116,8 +116,8 @@ export function BrowseContent({ searchParams }: BrowseContentProps) {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Sticky search + filter bar */}
-      <div className="sticky top-0 z-30 bg-white border-b border-border shadow-sm">
+      {/* Sticky search + filter bar — offset by nav height (57px) */}
+      <div className="sticky top-[57px] z-30 bg-white border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 py-3">
           {/* Search row */}
           <form onSubmit={handleSearch} className="flex gap-2">
