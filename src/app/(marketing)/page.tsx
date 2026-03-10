@@ -111,7 +111,7 @@ export default function HomePage() {
       {/* ── Service Filter Navigation ── */}
       <section className="py-4 bg-white border-b border-border sticky top-[57px] z-40">
         <div className="container mx-auto px-4">
-          <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1">
+          <div className="flex items-center justify-center gap-2 overflow-x-auto scrollbar-hide pb-1">
             {categories.map((cat) => (
               <Link
                 key={cat.label}
@@ -151,29 +151,6 @@ export default function HomePage() {
             <Button asChild variant="primary" size="md">
               <Link href="/browse">Browse all deals</Link>
             </Button>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Categories ── */}
-      <section className="py-12 md:py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-10">
-            What are you looking for?
-          </h2>
-          <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-7 gap-3 md:gap-5 max-w-4xl mx-auto">
-            {categories.map((cat) => (
-              <Link
-                key={cat.label}
-                href={cat.value ? `/browse?category=${cat.value}` : "/browse"}
-                className="group flex flex-col items-center gap-2.5 rounded-2xl bg-background p-5 text-center transition-all hover:shadow-card hover:-translate-y-0.5"
-              >
-                <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${cat.bg} transition-transform group-hover:scale-105`}>
-                  <cat.icon className={`h-6 w-6 ${cat.color}`} aria-hidden="true" />
-                </div>
-                <span className="text-sm font-medium text-dark">{cat.label}</span>
-              </Link>
-            ))}
           </div>
         </div>
       </section>
