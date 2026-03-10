@@ -325,7 +325,7 @@ export default async function AppointmentDetailPage({
                 {listing.locationAddress && (
                   <div className="flex items-start gap-3 text-sm min-w-0">
                     <MapPin className="mt-0.5 h-4 w-4 flex-shrink-0 text-muted" aria-hidden="true" />
-                    <span className="truncate">{listing.locationAddress}</span>
+                    <span className="break-words">{listing.locationAddress}</span>
                   </div>
                 )}
               </div>
