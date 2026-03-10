@@ -22,7 +22,7 @@ const sidebarLinks = [
   { label: "Appointments", href: "/pro/appointments", icon: Calendar },
   { label: "Messages", href: "/messages", icon: MessageSquare },
   { label: "Earnings", href: "/pro/earnings", icon: DollarSign },
-  { label: "Profile", href: "/profile", icon: UserCircle },
+  { label: "Edit Profile", href: "/pro/settings", icon: UserCircle },
 ];
 
 export default function ProDashboardLayout({
