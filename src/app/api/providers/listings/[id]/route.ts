@@ -4,6 +4,8 @@ import { getApiUser } from "@/lib/auth";
 import { validateDiscount } from "@/lib/pricing";
 import { logger } from "@/lib/logger";
 
+export const dynamic = "force-dynamic";
+
 async function getAuthenticatedPro() {
   const baseUser = await getApiUser();
   if (!baseUser) return null;

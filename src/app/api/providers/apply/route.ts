@@ -5,6 +5,8 @@ import { proApplicationSchema } from "@/lib/validators";
 import { logger } from "@/lib/logger";
 import type { WorkSetting, YearsExperience, LicenseStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const user = await getApiUser();

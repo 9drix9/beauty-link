@@ -3,6 +3,8 @@ import { auth, clerkClient } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { UserRole } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 const VALID_ROLES = Object.values(UserRole);
 
 export async function POST(req: NextRequest) {

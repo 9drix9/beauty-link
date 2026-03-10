@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { getApiUser } from "@/lib/auth";
 import Stripe from "stripe";
 
+export const dynamic = "force-dynamic";
+
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) return null;
   return new Stripe(process.env.STRIPE_SECRET_KEY, {

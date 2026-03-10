@@ -4,6 +4,8 @@ import { PAYOUT_HOLD_HOURS } from "@/lib/constants";
 import { logger } from "@/lib/logger";
 import Stripe from "stripe";
 
+export const dynamic = "force-dynamic";
+
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) return null;
   return new Stripe(process.env.STRIPE_SECRET_KEY, {

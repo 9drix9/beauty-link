@@ -5,6 +5,8 @@ import { db } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { MessagesContent } from "./messages-content";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Messages",
 };

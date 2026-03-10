@@ -6,6 +6,8 @@ import { createListingSchema } from "@/lib/validators";
 import { validateDiscount } from "@/lib/pricing";
 import { logger } from "@/lib/logger";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   try {
     const baseUser = await getApiUser();

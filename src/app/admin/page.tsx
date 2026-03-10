@@ -19,6 +19,8 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Admin Dashboard" };
 
 export default async function AdminDashboardPage() {

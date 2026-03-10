@@ -7,6 +7,8 @@ import { SLOT_HOLD_MINUTES } from "@/lib/constants";
 import { logger } from "@/lib/logger";
 import Stripe from "stripe";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: NextRequest) {
   try {
     if (!process.env.STRIPE_SECRET_KEY) {

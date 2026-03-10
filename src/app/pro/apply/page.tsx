@@ -8,6 +8,8 @@ import { Clock } from "lucide-react";
 import Link from "next/link";
 import { ApplyForm } from "./apply-form";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Apply as a Professional" };
 
 export default async function ApplyPage() {

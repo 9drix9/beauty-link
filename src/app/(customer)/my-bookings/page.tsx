@@ -6,6 +6,8 @@ import { getCurrentUser } from "@/lib/auth";
 import { formatPrice } from "@/lib/utils";
 import { MyBookingsContent } from "./my-bookings-content";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "My Bookings",
 };

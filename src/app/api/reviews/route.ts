@@ -4,6 +4,8 @@ import { getApiUser } from "@/lib/auth";
 import { reviewSchema } from "@/lib/validators";
 import { logger } from "@/lib/logger";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(request: Request) {
   try {
   const user = await getApiUser();

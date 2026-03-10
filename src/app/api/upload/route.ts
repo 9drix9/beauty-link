@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { put, del } from "@vercel/blob";
 import { getApiUser } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const ALLOWED_TYPES = [
   "image/jpeg",

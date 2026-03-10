@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import { BrowseContent } from "./browse-content";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Browse Appointments | BeautyLink",
   description:

@@ -2,6 +2,8 @@ import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import ApplicationsContent from "./applications-content";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "Applications" };
 
 export default async function ApplicationsPage() {
