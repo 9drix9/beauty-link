@@ -179,22 +179,56 @@ export default function HomePage() {
       </section>
 
       {/* ── Stylist Promo Banner ── */}
-      <section className="py-12 md:py-16 bg-white">
+      <section className="py-12 md:py-16 bg-white border-t border-border">
         <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-3xl rounded-2xl bg-accent px-6 py-12 md:px-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">
-              Are you a beauty professional?
-            </h2>
-            <p className="mt-3 text-accent-light/90 text-lg max-w-lg mx-auto">
-              Fill your empty chair. List your open slots at a discount, reach new clients, and keep 100% of your listed price. We only charge customers a 5% fee.
-            </p>
-            <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button asChild variant="hero-primary" size="lg">
-                <Link href="/pro/apply">Apply Now</Link>
-              </Button>
-              <Button asChild variant="hero-outline" size="lg">
-                <Link href="/pro/join">Learn More</Link>
-              </Button>
+          <div className="relative mx-auto max-w-4xl overflow-hidden rounded-2xl bg-gradient-to-br from-accent-light via-white to-cta-light border border-border/60 shadow-card">
+            {/* Decorative blobs */}
+            <div className="absolute -top-20 -right-20 h-56 w-56 rounded-full bg-accent/5 blur-2xl pointer-events-none" aria-hidden="true" />
+            <div className="absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-cta/5 blur-2xl pointer-events-none" aria-hidden="true" />
+
+            <div className="relative grid md:grid-cols-5 items-center gap-6 md:gap-0">
+              {/* Content */}
+              <div className="md:col-span-3 px-6 pt-10 pb-6 md:px-10 md:py-12">
+                <p className="inline-flex items-center gap-1.5 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent mb-4">
+                  <Scissors className="h-3 w-3" aria-hidden="true" />
+                  For Professionals
+                </p>
+                <h2 className="text-2xl md:text-3xl font-bold text-dark leading-tight">
+                  Fill your empty chair.
+                  <br />
+                  <span className="text-accent">Keep every dollar.</span>
+                </h2>
+                <p className="mt-3 text-muted leading-relaxed max-w-md">
+                  List open slots at a discount, reach new clients nearby, and keep 100% of your listed price. We only charge customers a 5% service fee.
+                </p>
+                <div className="mt-6 flex flex-col sm:flex-row items-start gap-3">
+                  <Button asChild variant="cta" size="lg">
+                    <Link href="/pro/apply">
+                      Apply Now
+                      <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
+                    </Link>
+                  </Button>
+                  <Button asChild variant="outline" size="lg">
+                    <Link href="/pro/join">Learn More</Link>
+                  </Button>
+                </div>
+              </div>
+
+              {/* Stats side */}
+              <div className="md:col-span-2 flex md:flex-col items-center justify-center gap-4 px-6 pb-8 md:px-8 md:py-12 md:border-l md:border-border/60">
+                <div className="flex-1 md:flex-none text-center rounded-xl bg-white/80 shadow-soft px-5 py-4 w-full">
+                  <p className="text-2xl md:text-3xl font-bold text-accent">100%</p>
+                  <p className="text-xs text-muted mt-0.5">Your price, your earnings</p>
+                </div>
+                <div className="flex-1 md:flex-none text-center rounded-xl bg-white/80 shadow-soft px-5 py-4 w-full">
+                  <p className="text-2xl md:text-3xl font-bold text-cta">24hr</p>
+                  <p className="text-xs text-muted mt-0.5">Fast payouts after service</p>
+                </div>
+                <div className="hidden sm:block flex-1 md:flex-none text-center rounded-xl bg-white/80 shadow-soft px-5 py-4 w-full">
+                  <p className="text-2xl md:text-3xl font-bold text-success">60s</p>
+                  <p className="text-xs text-muted mt-0.5">List a deal in seconds</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
