@@ -1,37 +1,36 @@
 import { requirePro } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatPrice } from "@/lib/utils";
-import { format } from "date-fns";
+import { format, startOfWeek, endOfWeek, subWeeks } from "date-fns";
 import Link from "next/link";
 import {
   DollarSign,
-  Wallet,
   CalendarCheck,
   Star,
   Plus,
-  TrendingUp,
   Eye,
   ArrowRight,
+  BarChart3,
+  Users,
+  TrendingUp,
+  TrendingDown,
+  Zap,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
-
-export const metadata = { title: "Pro Dashboard" };
+export const metadata = { title: "Dashboard — BeautyLink Pro" };
 
 function getStatusBadge(status: string) {
   switch (status) {
     case "LIVE":
-      return <Badge variant="success">{status}</Badge>;
+      return <Badge variant="success">Live</Badge>;
     case "DRAFT":
     case "PAUSED":
-      return <Badge variant="warning">{status}</Badge>;
+      return <Badge variant="warning">{status === "DRAFT" ? "Draft" : "Paused"}</Badge>;
     case "BOOKED":
-    case "EXPIRED":
-      return <Badge variant="outline">{status}</Badge>;
-    case "CANCELLED":
-      return <Badge variant="error">{status}</Badge>;
+      return <Badge variant="outline">Booked</Badge>;
     case "CONFIRMED":
       return <Badge variant="success">Confirmed</Badge>;
     case "COMPLETED":
@@ -41,157 +40,291 @@ function getStatusBadge(status: string) {
   }
 }
 
+function formatTime(time24: string): string {
+  const [hours, minutes] = time24.split(":").map(Number);
+  const period = hours >= 12 ? "PM" : "AM";
+  const displayHour = hours % 12 || 12;
+  return `${displayHour}:${minutes.toString().padStart(2, "0")} ${period}`;
+}
+
 export default async function ProDashboardPage() {
   const user = await requirePro();
   const profile = user.professionalProfile;
 
+  const now = new Date();
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const [upcomingBookings, recentListings] = await Promise.all([
+  const thisWeekStart = startOfWeek(now, { weekStartsOn: 1 });
+  const thisWeekEnd = endOfWeek(now, { weekStartsOn: 1 });
+  const lastWeekStart = startOfWeek(subWeeks(now, 1), { weekStartsOn: 1 });
+  const lastWeekEnd = endOfWeek(subWeeks(now, 1), { weekStartsOn: 1 });
+
+  const [
+    activeListingsCount,
+    upcomingBookings,
+    thisWeekBookings,
+    lastWeekBookings,
+    recentListings,
+    totalClientsCount,
+  ] = await Promise.all([
+    db.appointmentListing.count({
+      where: { professionalId: profile.id, status: "LIVE" },
+    }),
     db.booking.findMany({
       where: {
         professionalId: profile.id,
         status: "CONFIRMED",
         appointmentDate: { gte: today },
       },
-      include: {
-        customer: true,
-      },
+      include: { customer: true },
       orderBy: [{ appointmentDate: "asc" }, { appointmentTime: "asc" }],
       take: 5,
+    }),
+    db.booking.findMany({
+      where: {
+        professionalId: profile.id,
+        status: { in: ["CONFIRMED", "COMPLETED"] },
+        appointmentDate: { gte: thisWeekStart, lte: thisWeekEnd },
+      },
+      select: { discountedPrice: true },
+    }),
+    db.booking.findMany({
+      where: {
+        professionalId: profile.id,
+        status: { in: ["CONFIRMED", "COMPLETED"] },
+        appointmentDate: { gte: lastWeekStart, lte: lastWeekEnd },
+      },
+      select: { discountedPrice: true },
     }),
     db.appointmentListing.findMany({
       where: { professionalId: profile.id },
       orderBy: { createdAt: "desc" },
       take: 5,
     }),
+    db.booking.groupBy({
+      by: ["customerId"],
+      where: {
+        professionalId: profile.id,
+        status: { in: ["CONFIRMED", "COMPLETED"] },
+      },
+    }),
   ]);
+
+  const thisWeekEarnings = thisWeekBookings.reduce(
+    (sum, b) => sum + b.discountedPrice,
+    0
+  );
+  const lastWeekEarnings = lastWeekBookings.reduce(
+    (sum, b) => sum + b.discountedPrice,
+    0
+  );
+  const earningsTrend =
+    lastWeekEarnings > 0
+      ? Math.round(
+          ((thisWeekEarnings - lastWeekEarnings) / lastWeekEarnings) * 100
+        )
+      : thisWeekEarnings > 0
+        ? 100
+        : 0;
 
   const stats = [
     {
-      label: "Total Earnings",
-      value: formatPrice(profile.lifetimeEarnings),
-      icon: DollarSign,
-      color: "text-green-600",
-      bg: "bg-green-50",
-    },
-    {
-      label: "Available Balance",
-      value: formatPrice(profile.availableBalance),
-      icon: Wallet,
+      label: "Active Listings",
+      value: activeListingsCount.toString(),
+      icon: Zap,
       color: "text-accent",
       bg: "bg-accent-light",
     },
     {
-      label: "Total Bookings",
-      value: profile.totalBookings.toString(),
+      label: "Upcoming Bookings",
+      value: upcomingBookings.length.toString(),
       icon: CalendarCheck,
       color: "text-blue-600",
       bg: "bg-blue-50",
     },
     {
-      label: "Average Rating",
-      value: profile.avgRating > 0 ? profile.avgRating.toFixed(1) : "N/A",
-      icon: Star,
+      label: "Earnings This Week",
+      value: formatPrice(thisWeekEarnings),
+      icon: DollarSign,
+      color: "text-green-600",
+      bg: "bg-green-50",
+      trend: earningsTrend,
+    },
+    {
+      label: "Total Clients",
+      value: totalClientsCount.length.toString(),
+      icon: Users,
       color: "text-orange-600",
       bg: "bg-orange-50",
     },
   ];
 
+  // Aggregate views + conversion for performance section
+  const totalViews = recentListings.reduce((s, l) => s + l.viewCount, 0);
+  const totalBooked = recentListings.reduce((s, l) => s + l.bookedCount, 0);
+  const conversionRate =
+    totalViews > 0 ? ((totalBooked / totalViews) * 100).toFixed(1) : "0";
+
   return (
     <div className="space-y-8">
-      {/* Welcome */}
-      <div>
-        <h1 className="text-2xl font-bold text-dark">
-          Welcome back, {user.firstName}
-        </h1>
-        <p className="mt-1 text-sm text-muted">
-          Here&apos;s an overview of your BeautyLink activity.
-        </p>
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-dark">
+            Welcome back, {user.firstName}
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            Here&apos;s your BeautyLink overview.
+          </p>
+        </div>
+        <Button variant="cta" asChild>
+          <Link href="/pro/appointments/new">
+            <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
+            Post New Deal
+          </Link>
+        </Button>
       </div>
 
-      {/* Stats Row */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {/* Summary Cards */}
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
             <Card key={stat.label}>
-              <CardContent className="flex items-center gap-4 p-5">
-                <div className={`rounded-lg p-3 ${stat.bg}`}>
-                  <Icon className={`h-5 w-5 ${stat.color}`} aria-hidden="true" />
+              <CardContent className="p-4 sm:p-5">
+                <div className="flex items-center gap-3">
+                  <div className={`rounded-lg p-2.5 ${stat.bg}`}>
+                    <Icon
+                      className={`h-5 w-5 ${stat.color}`}
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted truncate">{stat.label}</p>
+                    <p className="text-lg font-bold text-dark sm:text-xl">
+                      {stat.value}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-muted">{stat.label}</p>
-                  <p className="text-xl font-bold text-dark">
-                    {stat.value}
-                  </p>
-                </div>
+                {"trend" in stat && stat.trend !== undefined && stat.trend !== 0 && (
+                  <div className="mt-2 flex items-center gap-1 text-xs">
+                    {stat.trend > 0 ? (
+                      <TrendingUp className="h-3 w-3 text-green-600" aria-hidden="true" />
+                    ) : (
+                      <TrendingDown className="h-3 w-3 text-red-500" aria-hidden="true" />
+                    )}
+                    <span
+                      className={
+                        stat.trend > 0 ? "text-green-600" : "text-red-500"
+                      }
+                    >
+                      {stat.trend > 0 ? "+" : ""}
+                      {stat.trend}% vs last week
+                    </span>
+                  </div>
+                )}
               </CardContent>
             </Card>
           );
         })}
       </div>
 
-      {/* Quick Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">Quick Actions</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-wrap gap-3">
-          <Button variant="cta" asChild>
-            <Link href="/pro/appointments/new">
-              <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-              Create New Listing
-            </Link>
-          </Button>
-          <Button variant="secondary" asChild>
-            <Link href="/pro/earnings">
-              <TrendingUp className="mr-2 h-4 w-4" aria-hidden="true" />
-              View Earnings
-            </Link>
-          </Button>
-        </CardContent>
-      </Card>
+      {/* Performance + Quick Stats */}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <Card>
+          <CardContent className="flex items-center gap-3 p-4">
+            <div className="rounded-lg bg-gray-100 p-2.5">
+              <Star className="h-5 w-5 text-yellow-500" aria-hidden="true" />
+            </div>
+            <div>
+              <p className="text-xs text-muted">Avg Rating</p>
+              <p className="text-lg font-bold text-dark">
+                {profile.avgRating > 0
+                  ? `${profile.avgRating.toFixed(1)} / 5`
+                  : "No reviews"}
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="flex items-center gap-3 p-4">
+            <div className="rounded-lg bg-gray-100 p-2.5">
+              <Eye className="h-5 w-5 text-muted" aria-hidden="true" />
+            </div>
+            <div>
+              <p className="text-xs text-muted">Total Views</p>
+              <p className="text-lg font-bold text-dark">{totalViews}</p>
+            </div>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="flex items-center gap-3 p-4">
+            <div className="rounded-lg bg-gray-100 p-2.5">
+              <BarChart3 className="h-5 w-5 text-muted" aria-hidden="true" />
+            </div>
+            <div>
+              <p className="text-xs text-muted">Conversion Rate</p>
+              <p className="text-lg font-bold text-dark">{conversionRate}%</p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Upcoming Appointments */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between pb-3">
           <CardTitle className="text-lg">Upcoming Appointments</CardTitle>
           <Button variant="ghost" size="sm" asChild>
             <Link href="/pro/appointments">
-              View all <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+              View all{" "}
+              <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
         </CardHeader>
         <CardContent>
           {upcomingBookings.length === 0 ? (
-            <p className="py-6 text-center text-sm text-muted">
-              No upcoming appointments. Create a listing to get started!
-            </p>
+            <div className="py-8 text-center">
+              <CalendarCheck
+                className="mx-auto h-8 w-8 text-muted/50"
+                aria-hidden="true"
+              />
+              <p className="mt-2 text-sm text-muted">
+                No upcoming appointments.
+              </p>
+              <Button variant="cta" size="sm" className="mt-3" asChild>
+                <Link href="/pro/appointments/new">
+                  <Plus className="mr-1 h-4 w-4" aria-hidden="true" />
+                  Post a Deal
+                </Link>
+              </Button>
+            </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {upcomingBookings.map((booking) => (
                 <Link
                   key={booking.id}
                   href={`/pro/bookings/${booking.id}`}
-                  className="flex items-center justify-between rounded-lg border border-border p-4 transition-colors hover:bg-gray-50"
+                  className="flex items-center justify-between rounded-lg border border-border p-3 sm:p-4 transition-colors hover:bg-gray-50"
                 >
-                  <div className="space-y-1">
-                    <p className="font-medium text-dark">
+                  <div className="min-w-0 space-y-0.5">
+                    <p className="font-medium text-dark truncate">
                       {booking.serviceName}
                     </p>
                     <p className="text-sm text-muted">
                       {booking.customer.firstName} {booking.customer.lastName}
                     </p>
                   </div>
-                  <div className="flex items-center gap-3 text-right">
+                  <div className="flex items-center gap-3 text-right shrink-0">
                     <div>
                       <p className="text-sm font-medium text-dark">
-                        {format(new Date(booking.appointmentDate), "MMM d, yyyy")}
+                        {format(
+                          new Date(booking.appointmentDate),
+                          "MMM d"
+                        )}
                       </p>
-                      <p className="text-sm text-muted">
-                        {booking.appointmentTime}
+                      <p className="text-xs text-muted">
+                        {formatTime(booking.appointmentTime)}
                       </p>
                     </div>
                     {getStatusBadge(booking.status)}
@@ -205,11 +338,12 @@ export default async function ProDashboardPage() {
 
       {/* Recent Listings */}
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between pb-3">
           <CardTitle className="text-lg">Recent Listings</CardTitle>
           <Button variant="ghost" size="sm" asChild>
             <Link href="/pro/appointments">
-              View all <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
+              View all{" "}
+              <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
             </Link>
           </Button>
         </CardHeader>
@@ -219,30 +353,33 @@ export default async function ProDashboardPage() {
               You haven&apos;t created any listings yet.
             </p>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {recentListings.map((listing) => (
                 <Link
                   key={listing.id}
                   href={`/pro/appointments/${listing.id}/edit`}
-                  className="flex items-center justify-between rounded-lg border border-border p-4 transition-colors hover:bg-gray-50"
+                  className="flex items-center justify-between rounded-lg border border-border p-3 sm:p-4 transition-colors hover:bg-gray-50"
                 >
-                  <div className="space-y-1">
-                    <p className="font-medium text-dark">
+                  <div className="min-w-0 space-y-0.5">
+                    <p className="font-medium text-dark truncate">
                       {listing.serviceName}
                     </p>
-                    <p className="text-sm text-muted">
-                      {format(new Date(listing.appointmentDate), "MMM d, yyyy")}{" "}
-                      at {listing.appointmentTime}
+                    <p className="text-xs text-muted">
+                      {format(
+                        new Date(listing.appointmentDate),
+                        "MMM d, yyyy"
+                      )}{" "}
+                      at {formatTime(listing.appointmentTime)}
                     </p>
                   </div>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3 shrink-0">
                     <div className="text-right">
                       <p className="text-sm font-medium text-dark">
                         {formatPrice(listing.discountedPrice)}
                       </p>
                       <div className="flex items-center gap-1 text-xs text-muted">
                         <Eye className="h-3 w-3" aria-hidden="true" />
-                        {listing.viewCount} views
+                        {listing.viewCount}
                       </div>
                     </div>
                     {getStatusBadge(listing.status)}
@@ -253,6 +390,33 @@ export default async function ProDashboardPage() {
           )}
         </CardContent>
       </Card>
+
+      {/* Lifetime Stats Footer */}
+      <div className="rounded-xl border border-border bg-white p-4 sm:p-5">
+        <p className="text-xs font-medium uppercase tracking-wider text-muted mb-3">
+          Lifetime
+        </p>
+        <div className="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <p className="text-lg font-bold text-dark sm:text-xl">
+              {formatPrice(profile.lifetimeEarnings)}
+            </p>
+            <p className="text-xs text-muted">Earnings</p>
+          </div>
+          <div>
+            <p className="text-lg font-bold text-dark sm:text-xl">
+              {profile.totalBookings}
+            </p>
+            <p className="text-xs text-muted">Bookings</p>
+          </div>
+          <div>
+            <p className="text-lg font-bold text-dark sm:text-xl">
+              {formatPrice(profile.availableBalance)}
+            </p>
+            <p className="text-xs text-muted">Balance</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
