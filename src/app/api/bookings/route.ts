@@ -93,73 +93,68 @@ export async function POST(req: NextRequest) {
       listing.discountedPrice
     );
 
-    // Use a serializable transaction to prevent race conditions
-    const booking = await db.$transaction(
-      async (tx) => {
-        // Re-check availability inside transaction with row lock
-        const [freshListing] = await tx.$queryRaw<
-          { id: string; booked_count: number; max_clients: number }[]
-        >`
-          SELECT id, booked_count, max_clients
-          FROM appointment_listings
-          WHERE id = ${listingId}
-          FOR UPDATE
-        `;
+    // Use a transaction to prevent race conditions
+    const booking = await db.$transaction(async (tx) => {
+      // Re-check availability inside transaction
+      const freshListing = await tx.appointmentListing.findUnique({
+        where: { id: listingId },
+      });
 
-        if (
-          !freshListing ||
-          freshListing.booked_count >= freshListing.max_clients
-        ) {
-          throw new Error("NO_SPOTS_AVAILABLE");
-        }
+      if (
+        !freshListing ||
+        freshListing.bookedCount >= freshListing.maxClients
+      ) {
+        throw new Error("NO_SPOTS_AVAILABLE");
+      }
 
-        // Create the booking with snapshot fields
-        const newBooking = await tx.booking.create({
-          data: {
-            bookingReference,
-            appointmentListingId: listingId,
-            customerId: user.id,
-            professionalId: listing.professionalId,
-            serviceName: listing.serviceName,
-            serviceCategory: listing.serviceCategory,
-            appointmentDate: listing.appointmentDate,
-            appointmentTime: listing.appointmentTime,
-            timezone: listing.timezone,
-            durationMinutes: listing.durationMinutes,
-            locationAddress: listing.locationAddress,
-            originalPrice: pricing.originalPrice,
-            discountedPrice: pricing.discountedPrice,
-            platformFee: pricing.platformFee,
-            totalCharged: pricing.totalCharged,
-            stripePaymentIntentId: paymentIntentId,
-            status: "CONFIRMED",
-          },
-        });
+      // Create the booking with snapshot fields
+      const newBooking = await tx.booking.create({
+        data: {
+          bookingReference,
+          appointmentListingId: listingId,
+          customerId: user.id,
+          professionalId: listing.professionalId,
+          serviceName: listing.serviceName,
+          serviceCategory: listing.serviceCategory,
+          appointmentDate: listing.appointmentDate,
+          appointmentTime: listing.appointmentTime,
+          timezone: listing.timezone,
+          durationMinutes: listing.durationMinutes,
+          locationAddress: listing.locationAddress,
+          originalPrice: pricing.originalPrice,
+          discountedPrice: pricing.discountedPrice,
+          platformFee: pricing.platformFee,
+          totalCharged: pricing.totalCharged,
+          stripePaymentIntentId: paymentIntentId,
+          status: "CONFIRMED",
+        },
+      });
 
-        // Increment bookedCount
-        const newBookedCount = freshListing.booked_count + 1;
-        await tx.appointmentListing.update({
-          where: { id: listingId },
-          data: {
-            bookedCount: { increment: 1 },
-            ...(newBookedCount >= freshListing.max_clients
-              ? { status: "BOOKED" }
-              : {}),
-          },
-        });
+      // Increment bookedCount
+      const newBookedCount = freshListing.bookedCount + 1;
+      await tx.appointmentListing.update({
+        where: { id: listingId },
+        data: {
+          bookedCount: { increment: 1 },
+          ...(newBookedCount >= freshListing.maxClients
+            ? { status: "BOOKED" }
+            : {}),
+        },
+      });
 
-        // Delete any SlotHold for this listing
-        await tx.slotHold.deleteMany({
-          where: { appointmentListingId: listingId },
-        });
+      // Delete any SlotHold for this listing
+      await tx.slotHold.deleteMany({
+        where: { appointmentListingId: listingId },
+      });
 
-        // Update professional stats
-        await tx.professionalProfile.update({
-          where: { id: listing.professionalId },
-          data: { totalBookings: { increment: 1 } },
-        });
+      // Update professional stats
+      await tx.professionalProfile.update({
+        where: { id: listing.professionalId },
+        data: { totalBookings: { increment: 1 } },
+      });
 
-        // Create notification for the professional
+      // Create notification for the professional
+      try {
         await tx.notification.create({
           data: {
             userId: listing.professional.userId,
@@ -169,13 +164,14 @@ export async function POST(req: NextRequest) {
             link: `/pro/appointments`,
           },
         });
+      } catch {
+        // Non-critical — don't fail the booking if notification fails
+      }
 
-        return newBooking;
-      },
-      { isolationLevel: "Serializable" }
-    );
+      return newBooking;
+    });
 
-    return NextResponse.json({ booking }, { status: 201 });
+    return NextResponse.json(booking, { status: 201 });
   } catch (error) {
     if (error instanceof Error && error.message === "NO_SPOTS_AVAILABLE") {
       return NextResponse.json(
