@@ -59,12 +59,12 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-8 md:grid-cols-4">
           {/* Brand column */}
           <div>
-            <Link href="/" className="text-xl font-bold text-dark">
+            <Link href="/" className="text-xl font-bold text-gradient">
               BeautyLink
             </Link>
             <p className="mt-3 text-sm text-muted leading-relaxed">
-              Connecting you with beauty professionals at exclusive discounted
-              rates.
+              Great beauty. Better prices. Book discounted appointments from
+              verified pros near you.
             </p>
           </div>
 

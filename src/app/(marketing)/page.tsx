@@ -25,7 +25,7 @@ const floatingCards = [
     save: 27,
     color: "bg-accent-light",
     emoji: "💅",
-    position: "top-[18%] left-[3%] md:left-[6%]",
+    position: "top-[20%] left-[4%] lg:left-[10%]",
     delay: "0s",
   },
   {
@@ -35,7 +35,7 @@ const floatingCards = [
     save: 31,
     color: "bg-accent-muted",
     emoji: "✨",
-    position: "top-[12%] right-[3%] md:right-[5%]",
+    position: "top-[14%] right-[4%] lg:right-[10%]",
     delay: "1s",
   },
   {
@@ -45,7 +45,7 @@ const floatingCards = [
     save: 28,
     color: "bg-cta-light",
     emoji: "💇",
-    position: "bottom-[28%] left-[2%] md:left-[4%]",
+    position: "bottom-[28%] left-[3%] lg:left-[8%]",
     delay: "2s",
   },
   {
@@ -55,7 +55,7 @@ const floatingCards = [
     save: 0,
     color: "bg-success-light",
     emoji: "⭐",
-    position: "bottom-[24%] right-[2%] md:right-[4%]",
+    position: "bottom-[22%] right-[3%] lg:right-[8%]",
     delay: "3s",
     isReview: true,
   },
@@ -65,7 +65,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative min-h-[calc(100vh-64px)] flex flex-col items-center justify-center overflow-hidden px-4 py-16 md:py-24">
+      <section className="relative flex flex-col items-center justify-center overflow-hidden px-4 pt-16 pb-10 md:pt-24 md:pb-14">
         {/* Warm gradient background */}
         <div
           className="absolute inset-0 -z-10 gradient-hero-page"
@@ -81,26 +81,26 @@ export default function HomePage() {
           aria-hidden="true"
         />
 
-        {/* Floating appointment cards — hidden on small mobile */}
+        {/* Floating appointment cards — larger, closer to center */}
         {floatingCards.map((card) => (
           <div
             key={card.title}
-            className={`absolute ${card.position} hidden sm:flex items-center gap-3 rounded-xl bg-white/95 backdrop-blur-md px-4 py-3 shadow-elevated border border-white/80`}
+            className={`absolute ${card.position} hidden md:flex items-center gap-3.5 rounded-2xl bg-white/95 backdrop-blur-md px-5 py-3.5 shadow-elevated border border-white/80`}
             style={{
               animation: `float 6s ease-in-out infinite`,
               animationDelay: card.delay,
             }}
           >
             <div
-              className={`flex h-10 w-10 items-center justify-center rounded-xl ${card.color} text-lg`}
+              className={`flex h-11 w-11 items-center justify-center rounded-xl ${card.color} text-xl`}
             >
               {card.emoji}
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-semibold text-dark leading-tight">
+              <p className="text-[15px] font-semibold text-dark leading-tight">
                 {card.title}
               </p>
-              <p className="text-xs text-muted">
+              <p className="text-xs text-muted mt-0.5">
                 {card.pro} &middot; {card.detail}
               </p>
             </div>
@@ -131,8 +131,8 @@ export default function HomePage() {
             </span>
           </h1>
 
-          {/* Subheadline */}
-          <p className="mt-6 text-base md:text-lg text-muted max-w-xl mx-auto leading-relaxed">
+          {/* Subheadline — #6 larger + better contrast */}
+          <p className="mt-6 text-lg md:text-xl text-body/80 max-w-xl mx-auto leading-relaxed">
             Book exclusive discounted appointments from trusted beauty
             professionals near you.
           </p>
@@ -160,7 +160,7 @@ export default function HomePage() {
         </div>
 
         {/* Trust indicators */}
-        <div className="relative z-10 mt-16 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-muted">
+        <div className="relative z-10 mt-12 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-sm text-body/70">
           <span className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Verified professionals only
@@ -212,6 +212,9 @@ export default function HomePage() {
       {/* ── Value Props ── */}
       <section className="py-14 md:py-20 bg-background">
         <div className="container mx-auto px-4">
+          <p className="text-xs font-semibold uppercase tracking-wider text-accent text-center mb-1">
+            The BeautyLink difference
+          </p>
           <h2 className="text-2xl md:text-3xl font-bold text-dark text-center mb-3">
             Why BeautyLink
           </h2>
@@ -224,27 +227,31 @@ export default function HomePage() {
                 icon: Percent,
                 title: "Save 15 to 50%",
                 body: "Every listing is a real discount on a real open slot. No inflated prices, no fake sales.",
+                iconBg: "bg-accent-light",
               },
               {
                 icon: Shield,
                 title: "Reviewed pros",
                 body: "Every professional is reviewed and approved. Licensed providers earn a verified badge.",
+                iconBg: "bg-success-light",
               },
               {
                 icon: Star,
                 title: "Book in seconds",
                 body: "See the price, pick your slot, pay securely. No DMs, no back-and-forth.",
+                iconBg: "bg-cta-light",
               },
               {
                 icon: MapPin,
                 title: "Hyperlocal",
                 body: "Appointments from professionals in your neighborhood. Currently live across Greater LA.",
+                iconBg: "bg-info-light",
               },
             ].map((vp) => (
               <div key={vp.title} className="rounded-xl bg-white border border-border p-6 text-center shadow-card">
-                <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-accent-light">
+                <div className={`mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full ${vp.iconBg}`}>
                   <vp.icon
-                    className="h-5 w-5 text-accent"
+                    className="h-5.5 w-5.5 text-accent"
                     aria-hidden="true"
                   />
                 </div>
@@ -301,30 +308,30 @@ export default function HomePage() {
             </div>
 
             {/* Stats row */}
-            <div className="mt-12 flex flex-wrap items-center justify-center gap-6 md:gap-12">
+            <div className="mt-12 flex flex-wrap items-center justify-center gap-8 md:gap-14">
               <div className="text-center">
-                <p className="text-2xl md:text-3xl font-bold text-accent">
+                <p className="text-3xl md:text-4xl font-bold text-accent">
                   100%
                 </p>
-                <p className="text-xs text-muted mt-0.5">
+                <p className="text-sm text-body/70 mt-1 font-medium">
                   Your price, your earnings
                 </p>
               </div>
-              <div className="h-8 w-px bg-border hidden sm:block" />
+              <div className="h-10 w-px bg-border/60 hidden sm:block" />
               <div className="text-center">
-                <p className="text-2xl md:text-3xl font-bold text-accent">
+                <p className="text-3xl md:text-4xl font-bold text-accent">
                   24hr
                 </p>
-                <p className="text-xs text-muted mt-0.5">
+                <p className="text-sm text-body/70 mt-1 font-medium">
                   Fast payouts after service
                 </p>
               </div>
-              <div className="h-8 w-px bg-border hidden sm:block" />
+              <div className="h-10 w-px bg-border/60 hidden sm:block" />
               <div className="text-center">
-                <p className="text-2xl md:text-3xl font-bold text-accent">
+                <p className="text-3xl md:text-4xl font-bold text-accent">
                   60s
                 </p>
-                <p className="text-xs text-muted mt-0.5">
+                <p className="text-sm text-body/70 mt-1 font-medium">
                   List a deal in seconds
                 </p>
               </div>

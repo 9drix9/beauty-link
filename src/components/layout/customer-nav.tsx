@@ -36,7 +36,7 @@ export function CustomerNav() {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-white">
       <nav className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
         {/* Logo */}
-        <Link href="/" className="shrink-0 text-xl font-bold text-dark">
+        <Link href="/" className="shrink-0 text-xl font-bold text-gradient">
           BeautyLink
         </Link>
 
