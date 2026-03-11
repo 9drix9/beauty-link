@@ -63,7 +63,7 @@ export function Footer() {
               Beauty<span className="text-accent">Link</span>
             </Link>
             <p className="mt-3 text-sm text-muted leading-relaxed">
-              Last-minute beauty appointments at 15-50% off from verified professionals in Greater Los Angeles.
+              Last-minute beauty appointments at 15-50% off from verified professionals in Los Angeles.
             </p>
           </div>
 

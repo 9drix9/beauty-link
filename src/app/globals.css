@@ -5,29 +5,29 @@
 @tailwind utilities;
 
 :root {
-  --accent: #6B179F;
-  --accent-hover: #5A1288;
-  --accent-light: #F8F0FF;
-  --cta: #F06449;
-  --cta-hover: #DC4F35;
-  --cta-light: #FFF4F0;
-  --color-dark: #18181B;
-  --color-body: #3F3F46;
-  --color-muted: #71717A;
-  --color-background: #FAFAF8;
+  --accent: #c4614a;
+  --accent-hover: #a8503d;
+  --accent-light: #fdf0ed;
+  --cta: #c4614a;
+  --cta-hover: #a8503d;
+  --cta-light: #fdf0ed;
+  --color-dark: #2d1a0e;
+  --color-body: #7a5240;
+  --color-muted: #9a7b6a;
+  --color-background: #FAF7F5;
   --color-surface: #FFFFFF;
-  --color-border: #E4E4E7;
+  --color-border: #e8ddd6;
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
 
   /* Legacy aliases */
-  --purple-primary: #6B179F;
-  --purple-mid: #5A1288;
-  --purple-light: #F8F0FF;
-  --orange-primary: #F06449;
-  --orange-mid: #DC4F35;
-  --orange-light: #FFF4F0;
+  --purple-primary: #c4614a;
+  --purple-mid: #a8503d;
+  --purple-light: #fdf0ed;
+  --orange-primary: #c4614a;
+  --orange-mid: #a8503d;
+  --orange-light: #fdf0ed;
   --color-white: #FFFFFF;
 }
 
@@ -45,7 +45,7 @@
   }
 
   ::selection {
-    background-color: rgba(107, 23, 159, 0.12);
+    background-color: rgba(196, 97, 74, 0.15);
     color: var(--color-dark);
   }
 
@@ -70,27 +70,27 @@
   }
 
   .gradient-hero-page {
-    background: linear-gradient(160deg, #F0C8DA 0%, #F5D5CC 35%, #FAE4CE 70%, #FAFAF8 100%);
+    background: linear-gradient(135deg, #f7e4d2 0%, #edd5bc 35%, #e4c4a8 65%, #d9b498 100%);
   }
 
   .gradient-hero-soft {
-    background: linear-gradient(160deg, #F0C8DA 0%, #F8DDD2 50%, #FAFAF8 100%);
+    background: linear-gradient(135deg, #f7e4d2 0%, #edd5bc 50%, #FAF7F5 100%);
   }
 
   .gradient-hero-pro {
-    background: linear-gradient(160deg, #F0C8DA 0%, #F5D2C8 45%, #FAE4CE 100%);
+    background: linear-gradient(135deg, #f7e4d2 0%, #edd5bc 45%, #e4c4a8 100%);
   }
 
   .gradient-card-warm {
-    background: linear-gradient(160deg, #F8F0FF 0%, #F0C8DA 40%, #FAE4CE 100%);
+    background: linear-gradient(160deg, #fdf0ed 0%, #f7e4d2 40%, #e4c4a8 100%);
   }
 
   .gradient-dashboard {
-    background: linear-gradient(160deg, #F8F0FF 0%, #F0C8DA 50%, #FAE4CE 100%);
+    background: linear-gradient(160deg, #fdf0ed 0%, #f7e4d2 50%, #e4c4a8 100%);
   }
 
   .gradient-welcome-banner {
-    background: linear-gradient(135deg, #6B179F 0%, #8B3AB8 40%, #F06449 100%);
+    background: linear-gradient(135deg, #2d1a0e 0%, #5a3525 40%, #c4614a 100%);
   }
 
   .text-gradient {

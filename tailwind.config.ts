@@ -12,26 +12,26 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Brand accent — refined plum
+        // Brand accent — warm terracotta
         accent: {
-          DEFAULT: "#6B179F",
-          hover: "#5A1288",
-          light: "#F8F0FF",
-          muted: "#F0E6FD",
+          DEFAULT: "#c4614a",
+          hover: "#a8503d",
+          light: "#fdf0ed",
+          muted: "#f8ddd6",
         },
         // CTA — warm coral for high-conversion actions
         cta: {
-          DEFAULT: "#F06449",
-          hover: "#DC4F35",
-          light: "#FFF4F0",
+          DEFAULT: "#c4614a",
+          hover: "#a8503d",
+          light: "#fdf0ed",
         },
-        // Neutrals — clean, warm-neutral backbone
-        dark: "#18181B",
-        body: "#3F3F46",
-        muted: "#71717A",
-        background: "#FAFAF8",
+        // Neutrals — warm espresso backbone
+        dark: "#2d1a0e",
+        body: "#7a5240",
+        muted: "#9a7b6a",
+        background: "#FAF7F5",
         surface: "#FFFFFF",
-        border: "#E4E4E7",
+        border: "#e8ddd6",
         // Semantic colors
         success: {
           DEFAULT: "#10B981",
@@ -51,14 +51,14 @@ const config: Config = {
         },
         // Legacy aliases
         purple: {
-          primary: "#6B179F",
-          mid: "#5A1288",
-          light: "#F8F0FF",
+          primary: "#c4614a",
+          mid: "#a8503d",
+          light: "#fdf0ed",
         },
         orange: {
-          primary: "#F06449",
-          mid: "#DC4F35",
-          light: "#FFF4F0",
+          primary: "#c4614a",
+          mid: "#a8503d",
+          light: "#fdf0ed",
         },
       },
       fontFamily: {
@@ -85,7 +85,7 @@ const config: Config = {
         cardHover: "0 8px 30px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)",
         soft: "0 2px 8px rgba(0,0,0,0.04)",
         elevated: "0 4px 20px rgba(0,0,0,0.06)",
-        glow: "0 0 0 1px rgba(107,23,159,0.1), 0 4px 16px rgba(107,23,159,0.08)",
+        glow: "0 0 0 1px rgba(196,97,74,0.1), 0 4px 16px rgba(196,97,74,0.08)",
       },
       transitionDuration: {
         DEFAULT: "200ms",

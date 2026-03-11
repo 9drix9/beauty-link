@@ -10,7 +10,7 @@ import { LiveFeedPreview } from "@/components/shared/live-feed-preview";
 export const metadata = {
   title: "BeautyLink | Great Beauty. Better Prices.",
   description:
-    "Save 15-50% on last-minute beauty appointments from verified professionals in Greater Los Angeles. Hair, nails, lashes, makeup, skincare.",
+    "Save 15-50% on last-minute beauty appointments from verified professionals in Los Angeles. Hair, nails, lashes, makeup, skincare.",
 };
 
 export default function HomePage() {
@@ -28,7 +28,7 @@ export default function HomePage() {
             {/* Location tag */}
             <div className="inline-flex items-center gap-1.5 text-sm text-body/70 mb-6">
               <MapPin className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-              Greater Los Angeles
+              Los Angeles
             </div>
 
             <h1 className="text-[2.75rem] leading-[1.05] md:text-[4.25rem] lg:text-[5rem] font-bold tracking-tight text-dark">
@@ -86,9 +86,11 @@ export default function HomePage() {
                 fill
                 unoptimized
                 className="object-cover"
+                style={{ filter: "sepia(20%) saturate(1.15) brightness(0.96)" }}
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FAFAF8] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F5] via-transparent to-transparent" />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(235,160,110,0.4) 0%, rgba(196,97,74,0.18) 60%, rgba(160,90,60,0.1) 100%)", mixBlendMode: "multiply" }} />
             </div>
           </div>
         </div>
@@ -251,7 +253,7 @@ export default function HomePage() {
             Great beauty shouldn&apos;t cost full price
           </h2>
           <p className="text-white/60 mb-8">
-            New appointments added daily from verified professionals across Greater Los Angeles.
+            New appointments added daily from verified professionals across Los Angeles.
           </p>
           <Link
             href="/browse"

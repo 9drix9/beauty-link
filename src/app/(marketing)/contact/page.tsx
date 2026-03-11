@@ -62,7 +62,7 @@ export default function ContactPage() {
             <div>
               <h2 className="font-semibold text-dark">Service Area</h2>
               <p className="mt-1 text-sm text-muted">
-                BeautyLink currently serves the Greater Los Angeles area,
+                BeautyLink currently serves the Los Angeles area,
                 including West LA, Santa Monica, Beverly Hills, Hollywood,
                 Westwood, and Westchester.
               </p>

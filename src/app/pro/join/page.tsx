@@ -149,7 +149,7 @@ export default function JoinPage() {
               "Licensed beauty professional (cosmetology, esthetics, nail tech, barbering). Recommended but not required.",
               "At least 3 portfolio photos showcasing your work",
               "Professional workspace (salon, suite, home studio, or mobile)",
-              "Located in Greater Los Angeles (expanding soon)",
+              "Located in Los Angeles (expanding soon)",
             ].map((req) => (
               <li key={req} className="flex items-start gap-3">
                 <Check className="h-4 w-4 text-accent mt-1 shrink-0" aria-hidden="true" />
