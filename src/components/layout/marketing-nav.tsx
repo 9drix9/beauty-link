@@ -7,10 +7,17 @@ import { UserButton } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { IS_LAUNCHED } from "@/lib/launch";
 
-const navLinks = [
+const prelaunchLinks = [
   { label: "How It Works", href: "/how-it-works" },
   { label: "Become a Founding Stylist", href: "/pro/join", accent: true },
+];
+
+const liveLinks = [
+  { label: "Browse Appointments", href: "/browse" },
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "For Professionals", href: "/pro/join", accent: true },
 ];
 
 const authedLinks = [
@@ -22,6 +29,7 @@ export function MarketingNav() {
   const { isSignedIn } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  const navLinks = IS_LAUNCHED ? liveLinks : prelaunchLinks;
   const allLinks = isSignedIn ? [...navLinks, ...authedLinks] : navLinks;
 
   return (

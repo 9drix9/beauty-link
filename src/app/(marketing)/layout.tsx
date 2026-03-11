@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { MarketingNav } from "@/components/layout/marketing-nav";
 import { Footer } from "@/components/layout/footer";
+import { IS_LAUNCHED } from "@/lib/launch";
 
 function LaunchBanner() {
   return (
@@ -26,7 +27,7 @@ export default function MarketingLayout({
 }) {
   return (
     <>
-      <LaunchBanner />
+      {!IS_LAUNCHED && <LaunchBanner />}
       <MarketingNav />
       <main className="min-h-screen">{children}</main>
       <Footer />
