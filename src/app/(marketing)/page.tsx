@@ -5,7 +5,7 @@ import {
   MapPin,
   Check,
 } from "lucide-react";
-import { LiveFeedPreview } from "@/components/shared/live-feed-preview";
+import { WaitlistForm } from "@/components/shared/waitlist-form";
 
 export const metadata = {
   title: "BeautyLink | Great Beauty. Better Prices.",
@@ -46,17 +46,17 @@ export default function HomePage() {
 
             <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
               <Link
-                href="/browse"
+                href="/pro/apply"
                 className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
               >
-                Browse Appointments
+                Become a Founding Stylist
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
               <Link
                 href="/pro/join"
                 className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-7 py-3.5 text-[15px] font-semibold text-body transition-all hover:bg-white hover:-translate-y-0.5"
               >
-                List Your Services
+                Learn More
               </Link>
             </div>
 
@@ -96,36 +96,26 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Live Deals ── */}
+      {/* ── Launching Soon / Waitlist ── */}
       <section className="py-12 md:py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-end justify-between mb-8">
-            <h2 className="text-xl md:text-2xl font-bold text-dark w-full text-center sm:text-left sm:w-auto">
-              Available now
-            </h2>
-            <Link
-              href="/browse"
-              className="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline"
-            >
-              View all
-              <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
-            </Link>
-          </div>
-
-          <LiveFeedPreview />
-
-          <div className="mt-6 text-center sm:hidden">
-            <Link
-              href="/browse"
-              className="text-sm font-semibold text-accent hover:underline"
-            >
-              View all appointments &rarr;
-            </Link>
-          </div>
+        <div className="max-w-2xl mx-auto px-4 text-center">
+          <p className="text-sm font-semibold text-accent mb-3">
+            Launching April 2026
+          </p>
+          <h2 className="text-xl md:text-2xl font-bold text-dark mb-3">
+            Client bookings open April 2026
+          </h2>
+          <p className="text-body/70 mb-8 max-w-md mx-auto">
+            Be the first to book discounted beauty appointments from verified professionals across Los Angeles.
+          </p>
+          <WaitlistForm source="homepage" />
+          <p className="mt-3 text-xs text-muted">
+            Join the waitlist. No spam, just launch updates.
+          </p>
         </div>
       </section>
 
-      {/* ── How it works — simple, not a numbered grid ── */}
+      {/* ── How it works ── */}
       <section className="py-14 md:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
@@ -185,14 +175,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── For Professionals ── */}
+      {/* ── For Professionals / Founding Stylists ── */}
       <section className="py-14 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
             {/* Left: copy */}
             <div className="order-2 md:order-1 text-center md:text-left">
               <p className="text-sm font-semibold text-accent mb-3">
-                For beauty professionals
+                Now onboarding Founding Stylists
               </p>
               <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
                 Turn your empty slots into income
@@ -220,7 +210,7 @@ export default function HomePage() {
                   href="/pro/apply"
                   className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
                 >
-                  Apply to list
+                  Apply as Founding Stylist
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
                 <Link
@@ -246,22 +236,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Final CTA — minimal ── */}
+      {/* ── Final CTA ── */}
       <section className="py-16 md:py-24 bg-dark text-center">
         <div className="max-w-xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
             Great beauty shouldn&apos;t cost full price
           </h2>
           <p className="text-white/60 mb-8">
-            New appointments added daily from verified professionals across Los Angeles.
+            Launching April 2026 with verified professionals across Los Angeles.
           </p>
-          <Link
-            href="/browse"
-            className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-[15px] font-semibold text-dark shadow-elevated transition-all hover:bg-white/90 hover:-translate-y-0.5"
-          >
-            Browse Appointments
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <Link
+              href="/pro/apply"
+              className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-[15px] font-semibold text-dark shadow-elevated transition-all hover:bg-white/90 hover:-translate-y-0.5"
+            >
+              Apply as Founding Stylist
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
         </div>
       </section>
     </>

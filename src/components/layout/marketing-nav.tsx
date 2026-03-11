@@ -9,9 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [
-  { label: "Browse Appointments", href: "/browse" },
   { label: "How It Works", href: "/how-it-works" },
-  { label: "For Professionals", href: "/pro/join", accent: true },
+  { label: "Become a Founding Stylist", href: "/pro/join", accent: true },
 ];
 
 const authedLinks = [

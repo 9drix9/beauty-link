@@ -576,7 +576,7 @@ model SitewideBanner {
   linkText        String?  @map("link_text")
   linkUrl         String?  @map("link_url")
   isActive        Boolean  @default(false) @map("is_active")
-  backgroundColor String   @default("#6A1B9A") @map("background_color")
+  backgroundColor String   @default("#2d1a0e") @map("background_color")
   textColor       String   @default("#FFFFFF") @map("text_color")
   createdAt       DateTime @default(now()) @map("created_at")
   updatedAt       DateTime @updatedAt @map("updated_at")
@@ -645,4 +645,13 @@ model SearchQuery {
   @@index([query])
   @@index([createdAt])
   @@map("search_queries")
+}
+
+model LaunchWaitlist {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  source    String   @default("homepage")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("launch_waitlist")
 }

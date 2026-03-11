@@ -5,7 +5,7 @@ import {
   Check,
 } from "lucide-react";
 
-export const metadata = { title: "For Professionals | BeautyLink" };
+export const metadata = { title: "Become a Founding Stylist | BeautyLink" };
 
 export default function JoinPage() {
   return (
@@ -15,7 +15,7 @@ export default function JoinPage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-10 px-4 py-16 md:py-24">
           <div className="text-center md:text-left">
             <p className="text-sm font-semibold text-accent mb-4">
-              For beauty professionals
+              Now onboarding Founding Stylists
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-dark mb-5 leading-[1.1]">
               Fill your empty chair.
@@ -29,7 +29,7 @@ export default function JoinPage() {
               href="/pro/apply"
               className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
             >
-              Apply Now
+              Apply as Founding Stylist
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
@@ -167,13 +167,13 @@ export default function JoinPage() {
             Your empty chair is costing you money
           </h2>
           <p className="text-white/60 mb-8">
-            Join beauty professionals across Greater LA who are filling open slots and reaching new clients.
+            Join Founding Stylists across LA who are filling open slots and reaching new clients.
           </p>
           <Link
             href="/pro/apply"
             className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-[15px] font-semibold text-dark transition-all hover:bg-white/90 hover:-translate-y-0.5"
           >
-            Apply Now
+            Apply as Founding Stylist
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>

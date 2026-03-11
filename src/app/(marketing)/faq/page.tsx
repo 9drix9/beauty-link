@@ -95,17 +95,17 @@ export default function FAQPage() {
 
       <div className="mt-14 text-center">
         <Link
-          href="/browse"
+          href="/pro/apply"
           className="inline-flex items-center gap-2 rounded-full bg-dark px-8 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
         >
-          Browse Appointments
+          Become a Founding Stylist
         </Link>
         <p className="mt-4">
           <Link
             href="/pro/join"
             className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
           >
-            Are you a beauty pro? Learn more &rarr;
+            Learn more about listing &rarr;
           </Link>
         </p>
       </div>
