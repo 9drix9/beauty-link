@@ -30,10 +30,10 @@ export default function ContactPage() {
                 For general inquiries, account help, or booking issues.
               </p>
               <a
-                href="mailto:support@beautylinknetwork.com"
+                href="mailto:team@beautylinknetwork.com"
                 className="mt-2 inline-block text-sm font-medium text-accent hover:underline"
               >
-                support@beautylinknetwork.com
+                team@beautylinknetwork.com
               </a>
             </div>
           </div>
@@ -80,10 +80,10 @@ export default function ContactPage() {
           professional page or email us directly.
         </p>
         <a
-          href="mailto:pros@beautylinknetwork.com"
+          href="mailto:team@beautylinknetwork.com"
           className="inline-flex items-center text-sm font-semibold text-accent hover:underline"
         >
-          pros@beautylinknetwork.com
+          team@beautylinknetwork.com
         </a>
       </div>
     </div>

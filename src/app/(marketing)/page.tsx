@@ -12,7 +12,7 @@ import { IS_LAUNCHED } from "@/lib/launch";
 export const metadata = {
   title: "BeautyLink | Great Beauty. Better Prices.",
   description:
-    "Save 15-50% on last-minute beauty appointments from verified professionals in Los Angeles. Hair, nails, lashes, makeup, skincare.",
+    "Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 15–50% off.",
 };
 
 export default function HomePage() {
@@ -42,8 +42,10 @@ export default function HomePage() {
             </h1>
 
             <p className="mt-5 text-lg text-body/70 max-w-md mx-auto md:mx-0 leading-relaxed">
-              Last-minute appointments from verified pros.
-              Hair, nails, lashes, makeup, skincare. 15-50% off.
+              Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more.
+            </p>
+            <p className="mt-2 text-lg text-body/70 max-w-md mx-auto md:mx-0 font-semibold">
+              15–50% off.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
@@ -234,7 +236,7 @@ export default function HomePage() {
             {/* Left: copy */}
             <div className="order-2 md:order-1 text-center md:text-left">
               <p className="text-sm font-semibold text-accent mb-3">
-                {IS_LAUNCHED ? "For beauty professionals" : "Now onboarding Founding Stylists"}
+                {IS_LAUNCHED ? "For beauty professionals" : "Now Onboarding Founding Stylists"}
               </p>
               <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
                 Turn Your Empty Slots Into Income

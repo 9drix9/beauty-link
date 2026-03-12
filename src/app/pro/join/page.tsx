@@ -5,26 +5,33 @@ import {
   Check,
 } from "lucide-react";
 import { IS_LAUNCHED } from "@/lib/launch";
+import { MarketingNav } from "@/components/layout/marketing-nav";
+import { Footer } from "@/components/layout/footer";
 
 export const metadata = { title: "For Professionals | BeautyLink" };
 
 export default function JoinPage() {
   return (
+    <>
+    <MarketingNav />
     <main className="min-h-screen">
       {/* Hero — asymmetric, editorial */}
       <section className="gradient-hero-pro">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-10 px-4 py-16 md:py-24">
           <div className="text-center md:text-left">
             <p className="text-sm font-semibold text-accent mb-4">
-              {IS_LAUNCHED ? "For beauty professionals" : "Now onboarding Founding Stylists"}
+              {IS_LAUNCHED ? "For beauty professionals" : "Now Onboarding Founding Stylists"}
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-dark mb-5 leading-[1.1]">
               Fill your empty chair.
               <br />
               Keep every dollar.
             </h1>
-            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8">
-              Had a cancellation? List your open slot at a discount and let new clients find you. You set the price. You keep 100%.
+            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-3">
+              Had a cancellation? List your open slot at a discount and let new clients find you.
+            </p>
+            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8 font-semibold">
+              You set the price. You keep 100%.
             </p>
             <Link
               href="/pro/apply"
@@ -175,5 +182,7 @@ export default function JoinPage() {
         </div>
       </section>
     </main>
+    <Footer />
+    </>
   );
 }

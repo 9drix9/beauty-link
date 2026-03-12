@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Clock } from "lucide-react";
 import Link from "next/link";
 import { ApplyForm } from "./apply-form";
+import { MarketingNav } from "@/components/layout/marketing-nav";
+import { Footer } from "@/components/layout/footer";
 
 export const dynamic = "force-dynamic";
 
@@ -34,6 +36,8 @@ export default async function ApplyPage() {
 
     if (applicationStatus === "PENDING") {
       return (
+        <>
+        <MarketingNav />
         <main className="min-h-screen bg-background flex items-center justify-center px-4">
           <Card className="max-w-lg w-full text-center">
             <CardHeader>
@@ -63,11 +67,15 @@ export default async function ApplyPage() {
             </CardContent>
           </Card>
         </main>
+        <Footer />
+        </>
       );
     }
   }
 
   return (
+    <>
+    <MarketingNav />
     <main className="min-h-screen bg-background py-6 sm:py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-6 sm:mb-8">
@@ -79,5 +87,7 @@ export default async function ApplyPage() {
         <ApplyForm />
       </div>
     </main>
+    <Footer />
+    </>
   );
 }

@@ -122,10 +122,10 @@ export default function TermsPage() {
           <p>
             Questions about these terms? Contact us at{" "}
             <a
-              href="mailto:support@beautylinknetwork.com"
+              href="mailto:team@beautylinknetwork.com"
               className="text-accent hover:underline"
             >
-              support@beautylinknetwork.com
+              team@beautylinknetwork.com
             </a>
             .
           </p>

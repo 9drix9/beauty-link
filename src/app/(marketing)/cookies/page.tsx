@@ -87,10 +87,10 @@ export default function CookiePolicyPage() {
           <p>
             Questions about our cookie practices? Contact us at{" "}
             <a
-              href="mailto:support@beautylinknetwork.com"
+              href="mailto:team@beautylinknetwork.com"
               className="text-accent hover:underline"
             >
-              support@beautylinknetwork.com
+              team@beautylinknetwork.com
             </a>
             .
           </p>

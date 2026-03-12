@@ -30,7 +30,7 @@ const faqs = [
   {
     question: "Have more questions?",
     answer:
-      "Reach out to our support team at support@beautylinknetwork.com and we'll get back to you within 24 hours.",
+      "Reach out to our support team at team@beautylinknetwork.com and we'll get back to you within 24 hours.",
   },
   {
     question: "How much can I save?",

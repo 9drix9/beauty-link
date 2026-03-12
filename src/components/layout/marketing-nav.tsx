@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
@@ -20,16 +20,27 @@ const liveLinks = [
   { label: "For Professionals", href: "/pro/join", accent: true },
 ];
 
-const authedLinks = [
-  { label: "Dashboard", href: "/my-bookings" },
-  { label: "My Listings", href: "/pro/appointments" },
-];
-
 export function MarketingNav() {
   const { isSignedIn } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isPro, setIsPro] = useState(false);
+
+  useEffect(() => {
+    if (!isSignedIn) {
+      setIsPro(false);
+      return;
+    }
+    fetch("/api/user/pro-status")
+      .then((r) => r.json())
+      .then((data) => setIsPro(data.isPro === true))
+      .catch(() => setIsPro(false));
+  }, [isSignedIn]);
 
   const navLinks = IS_LAUNCHED ? liveLinks : prelaunchLinks;
+  const authedLinks = [
+    { label: "Dashboard", href: "/my-bookings" },
+    ...(isPro ? [{ label: "My Listings", href: "/pro/appointments" }] : []),
+  ];
   const allLinks = isSignedIn ? [...navLinks, ...authedLinks] : navLinks;
 
   return (

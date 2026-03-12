@@ -85,10 +85,10 @@ export default function PrivacyPage() {
             time through your account settings. To request a full data export or
             account deletion, contact us at{" "}
             <a
-              href="mailto:support@beautylinknetwork.com"
+              href="mailto:team@beautylinknetwork.com"
               className="text-accent hover:underline"
             >
-              support@beautylinknetwork.com
+              team@beautylinknetwork.com
             </a>
             .
           </p>
@@ -125,10 +125,10 @@ export default function PrivacyPage() {
           <p>
             Questions about privacy? Contact us at{" "}
             <a
-              href="mailto:support@beautylinknetwork.com"
+              href="mailto:team@beautylinknetwork.com"
               className="text-accent hover:underline"
             >
-              support@beautylinknetwork.com
+              team@beautylinknetwork.com
             </a>
             .
           </p>
