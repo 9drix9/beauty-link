@@ -86,18 +86,26 @@ export default async function MyBookingsPage() {
 
       {/* Savings Banner */}
       {totalSaved > 0 && (
-        <div className="mb-6 rounded-xl bg-success-light border border-success/20 px-5 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-success font-medium">
-                Total Saved with BeautyLink
+        <div className="mb-6 rounded-2xl overflow-hidden bg-gradient-to-r from-accent-light via-[#F9E8EC] to-surface border border-accent-muted/20 px-6 py-5">
+          <div className="flex items-center gap-5">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white shadow-sm">
+              <span className="text-xl">✨</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-wider text-accent">
+                Your BeautyLink Savings
               </p>
-              <p className="text-2xl font-bold text-success mt-0.5">
+              <p className="text-3xl font-bold text-dark mt-0.5 tracking-tight">
                 {formatPrice(totalSaved)}
               </p>
             </div>
-            <div className="text-sm text-success">
-              Across {completedBookings.length} booking{completedBookings.length !== 1 ? "s" : ""}
+            <div className="hidden sm:block shrink-0 text-right">
+              <p className="text-2xl font-bold text-dark">
+                {completedBookings.length}
+              </p>
+              <p className="text-xs text-muted">
+                {completedBookings.length === 1 ? "booking" : "bookings"}
+              </p>
             </div>
           </div>
         </div>
