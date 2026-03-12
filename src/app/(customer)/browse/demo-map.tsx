@@ -160,18 +160,22 @@ function createPriceIcon(price: string, isActive: boolean) {
 
 function createPopupContent(pin: MapPinData) {
   return `
-    <div style="font-family: Inter, -apple-system, sans-serif; width: 260px; overflow: hidden;">
-      <div style="position: relative; width: 100%; height: 130px; overflow: hidden; margin: -14px -16px 12px -16px; width: calc(100% + 32px);">
-        <img src="${pin.image}" alt="${pin.service}" style="width: 100%; height: 100%; object-fit: cover;" />
-        <div style="position: absolute; top: 8px; left: 8px; background: #4B2615; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px;">
+    <div style="font-family: Inter, -apple-system, sans-serif; width: 260px; overflow: hidden; margin: 0; padding: 0;">
+      <div style="position: relative; height: 140px; overflow: hidden; border-radius: 12px 12px 0 0; margin: -20px -20px 14px -20px;">
+        <img
+          src="${pin.image}"
+          alt="${pin.service}"
+          style="display: block; width: 100%; height: 100%; object-fit: cover;"
+        />
+        <div style="position: absolute; top: 8px; left: 8px; background: #4B2615; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; line-height: 1.4;">
           Save ${pin.savings}
         </div>
       </div>
-      <div style="font-weight: 700; font-size: 15px; color: #3A1F10; margin: 0 0 4px; line-height: 1.3;">
+      <div style="font-weight: 700; font-size: 15px; color: #3A1F10; margin: 0 0 6px; line-height: 1.3;">
         ${pin.service}
       </div>
-      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
-        <div style="width: 20px; height: 20px; border-radius: 50%; background: #F4DDE5; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #D06A4E;">
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
+        <div style="width: 22px; height: 22px; border-radius: 50%; background: #F4DDE5; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #D06A4E; flex-shrink: 0;">
           ${pin.stylist.charAt(0)}
         </div>
         <span style="font-size: 12px; color: #3A1F10;">${pin.stylist}</span>
@@ -180,7 +184,7 @@ function createPopupContent(pin: MapPinData) {
       <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 2px;">
         ${pin.time}
       </div>
-      <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 10px;">
+      <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 12px;">
         \uD83D\uDCCD ${pin.location}
       </div>
       <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #E6D8CF;">
@@ -319,8 +323,11 @@ export function DemoMap() {
           overflow: hidden;
         }
         .demo-map-popup .leaflet-popup-content {
-          margin: 14px 16px;
+          margin: 20px;
           line-height: 1.4;
+        }
+        .demo-map-popup .leaflet-popup-content p {
+          margin: 0;
         }
         .demo-map-popup .leaflet-popup-tip-container {
           margin-top: -1px;
