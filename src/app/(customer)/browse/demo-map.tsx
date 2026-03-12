@@ -121,31 +121,31 @@ const MAP_PINS: MapPinData[] = [
 
 function createPriceIcon(price: string, isActive: boolean) {
   return L.divIcon({
-    className: "",
-    iconSize: [60, 36],
-    iconAnchor: [30, 36],
-    popupAnchor: [0, -30],
+    className: "demo-price-pin",
+    iconSize: [70, 40],
+    iconAnchor: [35, 40],
+    popupAnchor: [0, -34],
     html: `
-      <div style="
+      <div class="demo-pin-inner" style="
+        width: 70px;
+        height: 40px;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: flex-start;
         cursor: pointer;
         filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
-        pointer-events: auto;
       ">
         <div style="
           padding: 6px 12px;
           border-radius: 20px;
-          font-size: 12px;
+          font-size: 13px;
           font-weight: 700;
           font-family: Inter, -apple-system, sans-serif;
           white-space: nowrap;
-          transition: all 0.15s ease;
           background: ${isActive ? "#3A1F10" : "#ffffff"};
           color: ${isActive ? "#ffffff" : "#3A1F10"};
           border: 1.5px solid ${isActive ? "#3A1F10" : "#E6D8CF"};
-          ${isActive ? "transform: scale(1.1);" : ""}
         ">${price}</div>
         <div style="
           width: 0; height: 0;
@@ -236,9 +236,23 @@ export function DemoMap() {
 
     mapInstanceRef.current = map;
 
+    const openPin = (pin: MapPinData, marker: L.Marker) => {
+      // Reset all other markers
+      markersRef.current.forEach((m, i) => {
+        if (MAP_PINS[i].id !== pin.id) {
+          m.setIcon(createPriceIcon(MAP_PINS[i].price, false));
+        }
+      });
+      clickedRef.current = pin.id;
+      marker.setIcon(createPriceIcon(pin.price, true));
+      marker.openPopup();
+    };
+
     MAP_PINS.forEach((pin) => {
       const marker = L.marker([pin.lat, pin.lng], {
         icon: createPriceIcon(pin.price, false),
+        interactive: true,
+        bubblingMouseEvents: false,
       }).addTo(map);
 
       marker.bindPopup(createPopupContent(pin), {
@@ -264,17 +278,7 @@ export function DemoMap() {
         }
       });
 
-      marker.on("click", () => {
-        // Reset all other markers
-        markersRef.current.forEach((m, i) => {
-          if (MAP_PINS[i].id !== pin.id) {
-            m.setIcon(createPriceIcon(MAP_PINS[i].price, false));
-          }
-        });
-        clickedRef.current = pin.id;
-        marker.setIcon(createPriceIcon(pin.price, true));
-        marker.openPopup();
-      });
+      marker.on("click", () => openPin(pin, marker));
 
       marker.on("popupclose", () => {
         if (clickedRef.current === pin.id) {
@@ -282,6 +286,16 @@ export function DemoMap() {
           marker.setIcon(createPriceIcon(pin.price, false));
         }
       });
+
+      // Add direct touchend handler for mobile — Leaflet's tap detection is unreliable with divIcons
+      const el = marker.getElement();
+      if (el) {
+        el.addEventListener("touchend", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openPin(pin, marker);
+        }, { passive: false });
+      }
 
       markersRef.current.push(marker);
     });
@@ -316,8 +330,17 @@ export function DemoMap() {
         </span>
       </div>
 
-      {/* Custom popup styles */}
+      {/* Pin + popup styles */}
       <style jsx global>{`
+        .demo-price-pin {
+          background: none !important;
+          border: none !important;
+          pointer-events: auto !important;
+          touch-action: manipulation;
+        }
+        .demo-price-pin .demo-pin-inner {
+          pointer-events: auto !important;
+        }
         .demo-map-popup .leaflet-popup-content-wrapper {
           border-radius: 16px;
           padding: 0;
