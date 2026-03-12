@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import {
   Star,
@@ -13,6 +14,15 @@ import {
   Calendar,
 } from "lucide-react";
 import { WaitlistForm } from "@/components/shared/waitlist-form";
+
+const DemoMap = dynamic(() => import("./demo-map").then((m) => m.DemoMap), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[500px] lg:min-h-[700px] rounded-2xl bg-background border border-border animate-pulse flex items-center justify-center">
+      <span className="text-sm text-muted">Loading map...</span>
+    </div>
+  ),
+});
 import Link from "next/link";
 
 // ─── Demo Data ───────────────────────────────────────────────
@@ -169,101 +179,6 @@ const DEMO_APPOINTMENTS: DemoAppointment[] = [
     description:
       "Deep cleanse, exfoliation, extraction, and hydration with antioxidant serum infusion.",
     includes: ["Deep cleanse", "Extraction", "LED light therapy", "Serum boost"],
-  },
-];
-
-interface DemoMapPin {
-  id: string;
-  price: string;
-  x: number;
-  y: number;
-  tooltip: {
-    service: string;
-    time: string;
-    location: string;
-    original: string;
-    discounted: string;
-  };
-}
-
-const MAP_PINS: DemoMapPin[] = [
-  {
-    id: "pin-1",
-    price: "$79",
-    x: 52,
-    y: 28,
-    tooltip: {
-      service: "Hybrid Lash Set",
-      time: "Today \u2022 4:30 PM",
-      location: "Westwood",
-      original: "$125",
-      discounted: "$79",
-    },
-  },
-  {
-    id: "pin-2",
-    price: "$145",
-    x: 15,
-    y: 62,
-    tooltip: {
-      service: "Balayage + Blowout",
-      time: "Tomorrow \u2022 11:00 AM",
-      location: "Santa Monica",
-      original: "$220",
-      discounted: "$145",
-    },
-  },
-  {
-    id: "pin-3",
-    price: "$45",
-    x: 80,
-    y: 20,
-    tooltip: {
-      service: "Gel Manicure + Pedicure",
-      time: "Today \u2022 2:00 PM",
-      location: "Beverly Hills",
-      original: "$85",
-      discounted: "$45",
-    },
-  },
-  {
-    id: "pin-4",
-    price: "$110",
-    x: 32,
-    y: 38,
-    tooltip: {
-      service: "Full Glam Makeup",
-      time: "Sat, Mar 15 \u2022 9:00 AM",
-      location: "Brentwood",
-      original: "$180",
-      discounted: "$110",
-    },
-  },
-  {
-    id: "pin-5",
-    price: "$95",
-    x: 58,
-    y: 52,
-    tooltip: {
-      service: "Microblading Touch-Up",
-      time: "Today \u2022 6:00 PM",
-      location: "Westwood",
-      original: "$150",
-      discounted: "$95",
-    },
-  },
-  {
-    id: "pin-6",
-    price: "$129",
-    x: 22,
-    y: 48,
-    tooltip: {
-      service: "Hydrafacial Glow",
-      time: "Tomorrow \u2022 3:00 PM",
-      location: "Santa Monica",
-      original: "$199",
-      discounted: "$129",
-    },
   },
 ];
 
@@ -512,92 +427,6 @@ function DetailModal({
   );
 }
 
-function InteractiveMap() {
-  const [activePin, setActivePin] = useState<string | null>(null);
-
-  return (
-    <div className="relative w-full h-full min-h-[500px] lg:min-h-[700px] rounded-2xl overflow-hidden border border-border">
-      {/* Real Google Maps embed — West LA area */}
-      <iframe
-        title="West Los Angeles map"
-        className="absolute inset-0 w-full h-full"
-        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d52944.72377694!2d-118.46!3d34.055!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1710000000000!5m2!1sen!2sus"
-        style={{ border: 0, filter: "saturate(0.85) brightness(1.05)" }}
-        allowFullScreen={false}
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      />
-
-      {/* Overlay for pins */}
-      <div className="absolute inset-0 pointer-events-none">
-        {MAP_PINS.map((pin) => (
-          <div
-            key={pin.id}
-            className="absolute pointer-events-auto z-10"
-            style={{
-              left: `${pin.x}%`,
-              top: `${pin.y}%`,
-              transform: "translate(-50%, -100%)",
-            }}
-            onMouseEnter={() => setActivePin(pin.id)}
-            onMouseLeave={() => setActivePin(null)}
-          >
-            <div className="relative cursor-pointer">
-              {/* Pin body */}
-              <div
-                className={`relative px-2.5 py-1.5 rounded-full text-xs font-bold shadow-lg transition-all duration-200 hover:scale-110 whitespace-nowrap ${
-                  activePin === pin.id
-                    ? "bg-dark text-white scale-110"
-                    : "bg-white text-dark border border-border"
-                }`}
-              >
-                {pin.price}
-              </div>
-              {/* Pin arrow */}
-              <div
-                className={`absolute left-1/2 -translate-x-1/2 -bottom-1.5 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] ${
-                  activePin === pin.id
-                    ? "border-t-dark"
-                    : "border-t-white"
-                }`}
-              />
-
-              {/* Tooltip */}
-              {activePin === pin.id && (
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 bg-white rounded-xl shadow-elevated border border-border p-3.5 z-20 animate-fade-in">
-                  <p className="font-semibold text-dark text-sm leading-tight">
-                    {pin.tooltip.service}
-                  </p>
-                  <p className="text-xs text-muted mt-1">
-                    {pin.tooltip.time}
-                  </p>
-                  <p className="text-xs text-muted">{pin.tooltip.location}</p>
-                  <div className="mt-2 flex items-baseline gap-1.5">
-                    <span className="text-xs text-muted line-through">
-                      {pin.tooltip.original}
-                    </span>
-                    <span className="text-sm font-bold text-dark">
-                      {pin.tooltip.discounted}
-                    </span>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Map label */}
-      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5 text-[11px] text-dark font-semibold border border-border/50 shadow-sm z-10 pointer-events-none">
-        <span className="flex items-center gap-1.5">
-          <MapPin className="h-3 w-3 text-accent" />
-          West Los Angeles
-        </span>
-      </div>
-    </div>
-  );
-}
-
 // ─── Main Component ──────────────────────────────────────────
 
 export function DemoBrowse() {
@@ -668,7 +497,7 @@ export function DemoBrowse() {
           {/* Right — Map (40%) */}
           <div className="lg:w-[40%]">
             <div className="lg:sticky lg:top-[80px]">
-              <InteractiveMap />
+              <DemoMap />
             </div>
           </div>
         </div>
