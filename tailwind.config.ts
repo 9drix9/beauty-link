@@ -12,26 +12,32 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Brand accent — warm terracotta
+        // Brand accent — blush pink / coral
         accent: {
-          DEFAULT: "#c4614a",
-          hover: "#a8503d",
-          light: "#fdf0ed",
-          muted: "#f8ddd6",
+          DEFAULT: "#D06A4E",
+          hover: "#5A2F1A",
+          light: "#F4DDE5",
+          muted: "#DFA3A6",
         },
-        // CTA — warm coral for high-conversion actions
+        // CTA — deep espresso buttons
         cta: {
-          DEFAULT: "#c4614a",
-          hover: "#a8503d",
-          light: "#fdf0ed",
+          DEFAULT: "#4B2615",
+          hover: "#5A2F1A",
+          light: "#F4DDE5",
+        },
+        // Blush tones
+        blush: {
+          DEFAULT: "#F4DDE5",
+          accent: "#DFA3A6",
+          coral: "#D06A4E",
         },
         // Neutrals — warm espresso backbone
-        dark: "#2d1a0e",
-        body: "#7a5240",
+        dark: "#3A1F10",
+        body: "#3A1F10",
         muted: "#9a7b6a",
-        background: "#FAF7F5",
-        surface: "#FFFFFF",
-        border: "#e8ddd6",
+        background: "#F6EDE6",
+        surface: "#FFF8F4",
+        border: "#E6D8CF",
         // Semantic colors
         success: {
           DEFAULT: "#10B981",
@@ -51,14 +57,14 @@ const config: Config = {
         },
         // Legacy aliases
         purple: {
-          primary: "#c4614a",
-          mid: "#a8503d",
-          light: "#fdf0ed",
+          primary: "#D06A4E",
+          mid: "#5A2F1A",
+          light: "#F4DDE5",
         },
         orange: {
-          primary: "#c4614a",
-          mid: "#a8503d",
-          light: "#fdf0ed",
+          primary: "#D06A4E",
+          mid: "#5A2F1A",
+          light: "#F4DDE5",
         },
       },
       fontFamily: {
@@ -85,7 +91,7 @@ const config: Config = {
         cardHover: "0 8px 30px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)",
         soft: "0 2px 8px rgba(0,0,0,0.04)",
         elevated: "0 4px 20px rgba(0,0,0,0.06)",
-        glow: "0 0 0 1px rgba(196,97,74,0.1), 0 4px 16px rgba(196,97,74,0.08)",
+        glow: "0 0 0 1px rgba(208,106,78,0.1), 0 4px 16px rgba(223,163,166,0.12)",
       },
       transitionDuration: {
         DEFAULT: "200ms",

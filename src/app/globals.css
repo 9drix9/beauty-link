@@ -5,29 +5,33 @@
 @tailwind utilities;
 
 :root {
-  --accent: #c4614a;
-  --accent-hover: #a8503d;
-  --accent-light: #fdf0ed;
-  --cta: #c4614a;
-  --cta-hover: #a8503d;
-  --cta-light: #fdf0ed;
-  --color-dark: #2d1a0e;
-  --color-body: #7a5240;
+  --accent: #D06A4E;
+  --accent-hover: #5A2F1A;
+  --accent-light: #F4DDE5;
+  --accent-muted: #DFA3A6;
+  --cta: #4B2615;
+  --cta-hover: #5A2F1A;
+  --cta-light: #F4DDE5;
+  --color-dark: #3A1F10;
+  --color-body: #3A1F10;
   --color-muted: #9a7b6a;
-  --color-background: #FAF7F5;
-  --color-surface: #FFFFFF;
-  --color-border: #e8ddd6;
+  --color-background: #F6EDE6;
+  --color-surface: #FFF8F4;
+  --color-border: #E6D8CF;
+  --color-blush: #F4DDE5;
+  --color-blush-accent: #DFA3A6;
+  --color-coral: #D06A4E;
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
 
   /* Legacy aliases */
-  --purple-primary: #c4614a;
-  --purple-mid: #a8503d;
-  --purple-light: #fdf0ed;
-  --orange-primary: #c4614a;
-  --orange-mid: #a8503d;
-  --orange-light: #fdf0ed;
+  --purple-primary: #D06A4E;
+  --purple-mid: #5A2F1A;
+  --purple-light: #F4DDE5;
+  --orange-primary: #D06A4E;
+  --orange-mid: #5A2F1A;
+  --orange-light: #F4DDE5;
   --color-white: #FFFFFF;
 }
 
@@ -45,7 +49,7 @@
   }
 
   ::selection {
-    background-color: rgba(196, 97, 74, 0.15);
+    background-color: rgba(223, 163, 166, 0.25);
     color: var(--color-dark);
   }
 
@@ -66,31 +70,31 @@
 
 @layer utilities {
   .hero-gradient {
-    background: linear-gradient(135deg, #1F2933 0%, #374151 50%, #1F2933 100%);
+    background: linear-gradient(135deg, #F4DDE5 0%, #F6EDE6 45%, #F3E7DA 100%);
   }
 
   .gradient-hero-page {
-    background: linear-gradient(135deg, #f7e4d2 0%, #edd5bc 35%, #e4c4a8 65%, #d9b498 100%);
+    background: linear-gradient(135deg, #F4DDE5 0%, #F6EDE6 45%, #F3E7DA 100%);
   }
 
   .gradient-hero-soft {
-    background: linear-gradient(135deg, #f7e4d2 0%, #edd5bc 50%, #FAF7F5 100%);
+    background: linear-gradient(135deg, #F4DDE5 0%, #F6EDE6 50%, #FFF8F4 100%);
   }
 
   .gradient-hero-pro {
-    background: linear-gradient(135deg, #f7e4d2 0%, #edd5bc 45%, #e4c4a8 100%);
+    background: linear-gradient(135deg, #F4DDE5 0%, #F6EDE6 45%, #F3E7DA 100%);
   }
 
   .gradient-card-warm {
-    background: linear-gradient(160deg, #fdf0ed 0%, #f7e4d2 40%, #e4c4a8 100%);
+    background: linear-gradient(160deg, #FFF8F4 0%, #F4DDE5 40%, #DFA3A6 100%);
   }
 
   .gradient-dashboard {
-    background: linear-gradient(160deg, #fdf0ed 0%, #f7e4d2 50%, #e4c4a8 100%);
+    background: linear-gradient(160deg, #FFF8F4 0%, #F4DDE5 50%, #F6EDE6 100%);
   }
 
   .gradient-welcome-banner {
-    background: linear-gradient(135deg, #2d1a0e 0%, #5a3525 40%, #c4614a 100%);
+    background: linear-gradient(135deg, #3A1F10 0%, #4B2615 40%, #D06A4E 100%);
   }
 
   .text-gradient {
