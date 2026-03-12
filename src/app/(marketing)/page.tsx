@@ -45,7 +45,7 @@ export default function HomePage() {
               Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more.
             </p>
             <p className="mt-2 text-lg text-body/70 max-w-md mx-auto md:mx-0 font-semibold">
-              15–50% off.
+              15–50% off all appointments.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
