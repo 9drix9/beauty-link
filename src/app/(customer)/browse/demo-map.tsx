@@ -122,19 +122,20 @@ const MAP_PINS: MapPinData[] = [
 function createPriceIcon(price: string, isActive: boolean) {
   return L.divIcon({
     className: "",
-    iconSize: [0, 0],
-    iconAnchor: [0, 0],
+    iconSize: [60, 36],
+    iconAnchor: [30, 36],
+    popupAnchor: [0, -30],
     html: `
       <div style="
-        transform: translate(-50%, -100%);
         display: flex;
         flex-direction: column;
         align-items: center;
         cursor: pointer;
         filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+        pointer-events: auto;
       ">
         <div style="
-          padding: 5px 10px;
+          padding: 6px 12px;
           border-radius: 20px;
           font-size: 12px;
           font-weight: 700;
@@ -214,7 +215,7 @@ export function DemoMap() {
       zoom: 13,
       zoomControl: false,
       attributionControl: false,
-    });
+    } as L.MapOptions);
 
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
@@ -243,12 +244,12 @@ export function DemoMap() {
       marker.bindPopup(createPopupContent(pin), {
         closeButton: true,
         className: "demo-map-popup",
-        offset: [0, -8],
+        offset: [0, 0],
         maxWidth: 272,
-        minWidth: 240,
+        minWidth: 220,
         autoPan: true,
-        autoPanPaddingTopLeft: L.point(20, 20),
-        autoPanPaddingBottomRight: L.point(20, 20),
+        autoPanPaddingTopLeft: L.point(10, 10),
+        autoPanPaddingBottomRight: L.point(10, 10),
       });
 
       marker.on("mouseover", () => {

@@ -12,6 +12,7 @@ import {
   X,
   Shield,
   Calendar,
+  Search,
 } from "lucide-react";
 import { WaitlistForm } from "@/components/shared/waitlist-form";
 
@@ -446,8 +447,19 @@ export function DemoBrowse() {
         </div>
       </div>
 
-      {/* Category pills */}
+      {/* Search bar + Category pills */}
       <div className="bg-surface border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 pt-3">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" aria-hidden="true" />
+            <input
+              type="text"
+              placeholder="Search services, professionals..."
+              readOnly
+              className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-4 text-sm text-dark placeholder:text-muted cursor-default"
+            />
+          </div>
+        </div>
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4">
             {[
