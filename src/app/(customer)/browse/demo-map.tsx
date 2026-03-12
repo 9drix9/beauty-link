@@ -160,22 +160,22 @@ function createPriceIcon(price: string, isActive: boolean) {
 
 function createPopupContent(pin: MapPinData) {
   return `
-    <div style="font-family: Inter, -apple-system, sans-serif; width: 260px; overflow: hidden; margin: 0; padding: 0;">
-      <div style="position: relative; height: 140px; overflow: hidden; border-radius: 12px 12px 0 0; margin: -20px -20px 14px -20px;">
+    <div style="font-family: Inter, -apple-system, sans-serif; width: 240px; margin: 0; padding: 0;">
+      <div style="position: relative; height: 130px; border-radius: 12px 12px 0 0; margin: -16px -16px 12px -16px;">
         <img
           src="${pin.image}"
           alt="${pin.service}"
           style="display: block; width: 100%; height: 100%; object-fit: cover;"
         />
-        <div style="position: absolute; top: 8px; left: 8px; background: #4B2615; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; line-height: 1.4;">
+        <div style="position: absolute; top: 8px; left: 8px; background: #4B2615; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; line-height: 1.4; z-index: 2;">
           Save ${pin.savings}
         </div>
       </div>
-      <div style="font-weight: 700; font-size: 15px; color: #3A1F10; margin: 0 0 6px; line-height: 1.3;">
+      <div style="font-weight: 700; font-size: 14px; color: #3A1F10; margin: 0 0 6px; line-height: 1.3;">
         ${pin.service}
       </div>
-      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 8px;">
-        <div style="width: 22px; height: 22px; border-radius: 50%; background: #F4DDE5; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #D06A4E; flex-shrink: 0;">
+      <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 6px;">
+        <div style="width: 20px; height: 20px; border-radius: 50%; background: #F4DDE5; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #D06A4E; flex-shrink: 0;">
           ${pin.stylist.charAt(0)}
         </div>
         <span style="font-size: 12px; color: #3A1F10;">${pin.stylist}</span>
@@ -184,15 +184,15 @@ function createPopupContent(pin: MapPinData) {
       <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 2px;">
         ${pin.time}
       </div>
-      <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 12px;">
+      <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 10px;">
         \uD83D\uDCCD ${pin.location}
       </div>
-      <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #E6D8CF;">
-        <div style="display: flex; align-items: baseline; gap: 6px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid #E6D8CF;">
+        <div style="display: flex; align-items: baseline; gap: 5px;">
           <span style="font-size: 12px; color: #9a7b6a; text-decoration: line-through;">${pin.original}</span>
-          <span style="font-size: 18px; font-weight: 800; color: #3A1F10;">${pin.discounted}</span>
+          <span style="font-size: 17px; font-weight: 800; color: #3A1F10;">${pin.discounted}</span>
         </div>
-        <div style="background: #4B2615; color: white; font-size: 11px; font-weight: 600; padding: 6px 14px; border-radius: 20px; cursor: pointer;">
+        <div style="background: #4B2615; color: white; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px; cursor: pointer;">
           Join Waitlist
         </div>
       </div>
@@ -244,8 +244,11 @@ export function DemoMap() {
         closeButton: true,
         className: "demo-map-popup",
         offset: [0, -8],
-        maxWidth: 292,
-        minWidth: 260,
+        maxWidth: 272,
+        minWidth: 240,
+        autoPan: true,
+        autoPanPaddingTopLeft: L.point(20, 20),
+        autoPanPaddingBottomRight: L.point(20, 20),
       });
 
       marker.on("mouseover", () => {
@@ -320,11 +323,12 @@ export function DemoMap() {
           box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
             0 2px 8px rgba(0, 0, 0, 0.06);
           border: 1px solid #e6d8cf;
-          overflow: hidden;
+          overflow: visible;
         }
         .demo-map-popup .leaflet-popup-content {
-          margin: 20px;
+          margin: 16px;
           line-height: 1.4;
+          overflow: visible;
         }
         .demo-map-popup .leaflet-popup-content p {
           margin: 0;
@@ -341,11 +345,11 @@ export function DemoMap() {
         .demo-map-popup .leaflet-popup-close-button {
           top: 6px !important;
           right: 6px !important;
-          width: 24px !important;
-          height: 24px !important;
-          font-size: 16px !important;
-          line-height: 24px !important;
-          background: rgba(255, 255, 255, 0.85) !important;
+          width: 26px !important;
+          height: 26px !important;
+          font-size: 18px !important;
+          line-height: 26px !important;
+          background: rgba(255, 255, 255, 0.9) !important;
           backdrop-filter: blur(4px);
           border-radius: 50% !important;
           color: #3a1f10 !important;
@@ -354,6 +358,15 @@ export function DemoMap() {
         }
         .demo-map-popup .leaflet-popup-close-button:hover {
           background: #ffffff !important;
+        }
+        @media (max-width: 640px) {
+          .demo-map-popup {
+            left: 50% !important;
+            transform: translateX(-50%);
+          }
+          .demo-map-popup .leaflet-popup-content-wrapper {
+            max-width: 90vw;
+          }
         }
       `}</style>
     </div>
