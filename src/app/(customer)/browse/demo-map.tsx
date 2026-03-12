@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -142,8 +142,6 @@ export function DemoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
-  const [activePin, setActivePin] = useState<string | null>(null);
-  const activePinRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
@@ -205,15 +203,11 @@ export function DemoMap() {
       marker.on("mouseover", () => {
         marker.setIcon(createPriceIcon(pin.price, true));
         marker.openPopup();
-        activePinRef.current = pin.id;
-        setActivePin(pin.id);
       });
 
       marker.on("mouseout", () => {
         marker.setIcon(createPriceIcon(pin.price, false));
         marker.closePopup();
-        activePinRef.current = null;
-        setActivePin(null);
       });
 
       marker.on("click", () => {
