@@ -126,7 +126,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-end justify-between mb-8">
               <h2 className="text-xl md:text-2xl font-bold text-dark w-full text-center sm:text-left sm:w-auto">
-                Available Now
+                Sample Appointments
               </h2>
               <Link
                 href="/browse"
