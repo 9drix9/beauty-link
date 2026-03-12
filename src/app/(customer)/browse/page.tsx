@@ -22,10 +22,7 @@ interface BrowsePageProps {
 }
 
 export default async function BrowsePage({ searchParams }: BrowsePageProps) {
-  if (IS_LAUNCHED) {
-    const params = await searchParams;
-    return <BrowseContent searchParams={params} />;
-  }
-
+  // Show demo marketplace preview until real listings exist
+  // Switch to BrowseContent once professionals start posting appointments
   return <DemoBrowse />;
 }
