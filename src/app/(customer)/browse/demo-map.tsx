@@ -9,13 +9,15 @@ interface MapPinData {
   price: string;
   lat: number;
   lng: number;
-  tooltip: {
-    service: string;
-    time: string;
-    location: string;
-    original: string;
-    discounted: string;
-  };
+  service: string;
+  stylist: string;
+  rating: number;
+  time: string;
+  location: string;
+  original: string;
+  discounted: string;
+  savings: string;
+  image: string;
 }
 
 const MAP_PINS: MapPinData[] = [
@@ -24,78 +26,96 @@ const MAP_PINS: MapPinData[] = [
     price: "$79",
     lat: 34.0625,
     lng: -118.4437,
-    tooltip: {
-      service: "Hybrid Lash Set",
-      time: "Today \u2022 4:30 PM",
-      location: "Westwood",
-      original: "$125",
-      discounted: "$79",
-    },
+    service: "Hybrid Lash Set",
+    stylist: "Jessica Kim",
+    rating: 4.9,
+    time: "Today \u2022 4:30 PM",
+    location: "Westwood",
+    original: "$125",
+    discounted: "$79",
+    savings: "37%",
+    image:
+      "https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=300&q=80&auto=format&fit=crop",
   },
   {
     id: "pin-2",
     price: "$145",
     lat: 34.0195,
     lng: -118.4912,
-    tooltip: {
-      service: "Balayage + Blowout",
-      time: "Tomorrow \u2022 11:00 AM",
-      location: "Santa Monica",
-      original: "$220",
-      discounted: "$145",
-    },
+    service: "Balayage + Blowout",
+    stylist: "Sarah Mitchell",
+    rating: 4.8,
+    time: "Tomorrow \u2022 11:00 AM",
+    location: "Santa Monica",
+    original: "$220",
+    discounted: "$145",
+    savings: "34%",
+    image:
+      "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=300&q=80&auto=format&fit=crop",
   },
   {
     id: "pin-3",
     price: "$45",
     lat: 34.0736,
     lng: -118.4004,
-    tooltip: {
-      service: "Gel Manicure + Pedicure",
-      time: "Today \u2022 2:00 PM",
-      location: "Beverly Hills",
-      original: "$85",
-      discounted: "$45",
-    },
+    service: "Gel Manicure + Pedicure",
+    stylist: "Maria Santos",
+    rating: 5.0,
+    time: "Today \u2022 2:00 PM",
+    location: "Beverly Hills",
+    original: "$85",
+    discounted: "$45",
+    savings: "47%",
+    image:
+      "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=300&q=80&auto=format&fit=crop",
   },
   {
     id: "pin-4",
     price: "$110",
     lat: 34.0515,
     lng: -118.4726,
-    tooltip: {
-      service: "Full Glam Makeup",
-      time: "Sat, Mar 15 \u2022 9:00 AM",
-      location: "Brentwood",
-      original: "$180",
-      discounted: "$110",
-    },
+    service: "Full Glam Makeup",
+    stylist: "Aaliyah James",
+    rating: 4.9,
+    time: "Sat, Mar 15 \u2022 9:00 AM",
+    location: "Brentwood",
+    original: "$180",
+    discounted: "$110",
+    savings: "39%",
+    image:
+      "https://images.unsplash.com/photo-1487412912498-0447578fcca8?w=300&q=80&auto=format&fit=crop",
   },
   {
     id: "pin-5",
     price: "$95",
     lat: 34.0585,
-    lng: -118.4500,
-    tooltip: {
-      service: "Microblading Touch-Up",
-      time: "Today \u2022 6:00 PM",
-      location: "Westwood",
-      original: "$150",
-      discounted: "$95",
-    },
+    lng: -118.45,
+    service: "Microblading Touch-Up",
+    stylist: "Priya Patel",
+    rating: 4.7,
+    time: "Today \u2022 6:00 PM",
+    location: "Westwood",
+    original: "$150",
+    discounted: "$95",
+    savings: "37%",
+    image:
+      "https://images.unsplash.com/photo-1616394584738-fc6e612e71b9?w=300&q=80&auto=format&fit=crop",
   },
   {
     id: "pin-6",
     price: "$129",
     lat: 34.0259,
-    lng: -118.5010,
-    tooltip: {
-      service: "Hydrafacial Glow",
-      time: "Tomorrow \u2022 3:00 PM",
-      location: "Santa Monica",
-      original: "$199",
-      discounted: "$129",
-    },
+    lng: -118.501,
+    service: "Hydrafacial Glow",
+    stylist: "Emily Chen",
+    rating: 4.8,
+    time: "Tomorrow \u2022 3:00 PM",
+    location: "Santa Monica",
+    original: "$199",
+    discounted: "$129",
+    savings: "35%",
+    image:
+      "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=300&q=80&auto=format&fit=crop",
   },
 ];
 
@@ -138,15 +158,53 @@ function createPriceIcon(price: string, isActive: boolean) {
   });
 }
 
+function createPopupContent(pin: MapPinData) {
+  return `
+    <div style="font-family: Inter, -apple-system, sans-serif; width: 260px; overflow: hidden;">
+      <div style="position: relative; width: 100%; height: 130px; overflow: hidden; margin: -14px -16px 12px -16px; width: calc(100% + 32px);">
+        <img src="${pin.image}" alt="${pin.service}" style="width: 100%; height: 100%; object-fit: cover;" />
+        <div style="position: absolute; top: 8px; left: 8px; background: #4B2615; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px;">
+          Save ${pin.savings}
+        </div>
+      </div>
+      <div style="font-weight: 700; font-size: 15px; color: #3A1F10; margin: 0 0 4px; line-height: 1.3;">
+        ${pin.service}
+      </div>
+      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 6px;">
+        <div style="width: 20px; height: 20px; border-radius: 50%; background: #F4DDE5; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #D06A4E;">
+          ${pin.stylist.charAt(0)}
+        </div>
+        <span style="font-size: 12px; color: #3A1F10;">${pin.stylist}</span>
+        <span style="font-size: 11px; color: #9a7b6a;">\u2605 ${pin.rating}</span>
+      </div>
+      <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 2px;">
+        ${pin.time}
+      </div>
+      <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 10px;">
+        \uD83D\uDCCD ${pin.location}
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid #E6D8CF;">
+        <div style="display: flex; align-items: baseline; gap: 6px;">
+          <span style="font-size: 12px; color: #9a7b6a; text-decoration: line-through;">${pin.original}</span>
+          <span style="font-size: 18px; font-weight: 800; color: #3A1F10;">${pin.discounted}</span>
+        </div>
+        <div style="background: #4B2615; color: white; font-size: 11px; font-weight: 600; padding: 6px 14px; border-radius: 20px; cursor: pointer;">
+          Join Waitlist
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 export function DemoMap() {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersRef = useRef<L.Marker[]>([]);
+  const clickedRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
-    // Center on West LA
     const map = L.map(mapRef.current, {
       center: [34.048, -118.46],
       zoom: 13,
@@ -154,7 +212,6 @@ export function DemoMap() {
       attributionControl: false,
     });
 
-    // Warm-toned map tiles (CartoDB Voyager — clean, modern, slightly warm)
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
       {
@@ -163,10 +220,8 @@ export function DemoMap() {
       }
     ).addTo(map);
 
-    // Zoom control — bottom right
     L.control.zoom({ position: "bottomright" }).addTo(map);
 
-    // Attribution — collapsed
     L.control
       .attribution({ position: "bottomleft", prefix: false })
       .addAttribution(
@@ -176,42 +231,48 @@ export function DemoMap() {
 
     mapInstanceRef.current = map;
 
-    // Add markers
     MAP_PINS.forEach((pin) => {
       const marker = L.marker([pin.lat, pin.lng], {
         icon: createPriceIcon(pin.price, false),
       }).addTo(map);
 
-      // Tooltip
-      marker.bindPopup(
-        `<div style="font-family: Inter, -apple-system, sans-serif; min-width: 180px;">
-          <p style="font-weight: 600; font-size: 14px; color: #3A1F10; margin: 0 0 4px;">${pin.tooltip.service}</p>
-          <p style="font-size: 12px; color: #9a7b6a; margin: 0;">${pin.tooltip.time}</p>
-          <p style="font-size: 12px; color: #9a7b6a; margin: 0 0 8px;">${pin.tooltip.location}</p>
-          <div style="display: flex; align-items: baseline; gap: 6px;">
-            <span style="font-size: 12px; color: #9a7b6a; text-decoration: line-through;">${pin.tooltip.original}</span>
-            <span style="font-size: 15px; font-weight: 700; color: #3A1F10;">${pin.tooltip.discounted}</span>
-          </div>
-        </div>`,
-        {
-          closeButton: false,
-          className: "demo-map-popup",
-          offset: [0, -8],
-        }
-      );
+      marker.bindPopup(createPopupContent(pin), {
+        closeButton: true,
+        className: "demo-map-popup",
+        offset: [0, -8],
+        maxWidth: 292,
+        minWidth: 260,
+      });
 
       marker.on("mouseover", () => {
+        if (clickedRef.current !== pin.id) {
+          marker.setIcon(createPriceIcon(pin.price, true));
+        }
+      });
+
+      marker.on("mouseout", () => {
+        if (clickedRef.current !== pin.id) {
+          marker.setIcon(createPriceIcon(pin.price, false));
+        }
+      });
+
+      marker.on("click", () => {
+        // Reset all other markers
+        markersRef.current.forEach((m, i) => {
+          if (MAP_PINS[i].id !== pin.id) {
+            m.setIcon(createPriceIcon(MAP_PINS[i].price, false));
+          }
+        });
+        clickedRef.current = pin.id;
         marker.setIcon(createPriceIcon(pin.price, true));
         marker.openPopup();
       });
 
-      marker.on("mouseout", () => {
-        marker.setIcon(createPriceIcon(pin.price, false));
-        marker.closePopup();
-      });
-
-      marker.on("click", () => {
-        marker.openPopup();
+      marker.on("popupclose", () => {
+        if (clickedRef.current === pin.id) {
+          clickedRef.current = null;
+          marker.setIcon(createPriceIcon(pin.price, false));
+        }
       });
 
       markersRef.current.push(marker);
@@ -250,17 +311,42 @@ export function DemoMap() {
       {/* Custom popup styles */}
       <style jsx global>{`
         .demo-map-popup .leaflet-popup-content-wrapper {
-          border-radius: 12px;
+          border-radius: 16px;
           padding: 0;
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-          border: 1px solid #E6D8CF;
+          box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12),
+            0 2px 8px rgba(0, 0, 0, 0.06);
+          border: 1px solid #e6d8cf;
+          overflow: hidden;
         }
         .demo-map-popup .leaflet-popup-content {
           margin: 14px 16px;
+          line-height: 1.4;
+        }
+        .demo-map-popup .leaflet-popup-tip-container {
+          margin-top: -1px;
         }
         .demo-map-popup .leaflet-popup-tip {
           box-shadow: none;
-          border: 1px solid #E6D8CF;
+          border: 1px solid #e6d8cf;
+          border-top: none;
+          border-left: none;
+        }
+        .demo-map-popup .leaflet-popup-close-button {
+          top: 6px !important;
+          right: 6px !important;
+          width: 24px !important;
+          height: 24px !important;
+          font-size: 16px !important;
+          line-height: 24px !important;
+          background: rgba(255, 255, 255, 0.85) !important;
+          backdrop-filter: blur(4px);
+          border-radius: 50% !important;
+          color: #3a1f10 !important;
+          text-align: center;
+          z-index: 10;
+        }
+        .demo-map-popup .leaflet-popup-close-button:hover {
+          background: #ffffff !important;
         }
       `}</style>
     </div>
