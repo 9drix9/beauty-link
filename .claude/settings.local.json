@@ -40,7 +40,9 @@
       "Bash(cat:*)",
       "Bash(vercel:*)",
       "WebFetch(domain:svgmaker.io)",
-      "WebFetch(domain:furry-beauty-link-pro.base44.app)"
+      "WebFetch(domain:furry-beauty-link-pro.base44.app)",
+      "Bash(which node; which npm; which git; which brew 2>/dev/null; node --version 2>/dev/null; npm --version 2>/dev/null)",
+      "Bash(brew install:*)"
     ]
   }
 }

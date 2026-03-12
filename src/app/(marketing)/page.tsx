@@ -124,7 +124,7 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4">
             <div className="flex items-end justify-between mb-8">
               <h2 className="text-xl md:text-2xl font-bold text-dark w-full text-center sm:text-left sm:w-auto">
-                Available now
+                Available Now
               </h2>
               <Link
                 href="/browse"
@@ -154,7 +154,7 @@ export default function HomePage() {
               Launching April 2026
             </p>
             <h2 className="text-xl md:text-2xl font-bold text-dark mb-3">
-              Client bookings open April 2026
+              Client Bookings Open April 2026
             </h2>
             <p className="text-body/70 mb-8 max-w-md mx-auto">
               Be the first to book discounted beauty appointments from verified professionals across Los Angeles.
@@ -185,7 +185,7 @@ export default function HomePage() {
             {/* Right: copy */}
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-dark mb-8 text-center md:text-left">
-                Book a discounted appointment in under a minute
+                Book a Discounted Appointment in Under a Minute
               </h2>
               <div className="space-y-6">
                 <div className="flex gap-4">
@@ -237,7 +237,7 @@ export default function HomePage() {
                 {IS_LAUNCHED ? "For beauty professionals" : "Now onboarding Founding Stylists"}
               </p>
               <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
-                Turn your empty slots into income
+                Turn Your Empty Slots Into Income
               </h2>
               <p className="text-body/70 leading-relaxed mb-6">
                 Had a cancellation? Slow afternoon? List your open time at a discounted rate and let new clients find you. You set the price, you keep every dollar.
@@ -292,7 +292,7 @@ export default function HomePage() {
       <section className="py-16 md:py-24 bg-dark text-center">
         <div className="max-w-xl mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-            Great beauty shouldn&apos;t cost full price
+            Great Beauty Shouldn&apos;t Cost Full Price
           </h2>
           <p className="text-white/60 mb-8">
             {IS_LAUNCHED

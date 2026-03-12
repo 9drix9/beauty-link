@@ -65,7 +65,7 @@ export default function JoinPage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-dark mb-10">
-            How it works
+            How It Works
           </h2>
           <div className="space-y-6">
             {[
@@ -116,7 +116,7 @@ export default function JoinPage() {
           </div>
           <div>
             <h2 className="text-2xl md:text-3xl font-bold text-dark mb-6">
-              Built for working professionals
+              Built for Working Professionals
             </h2>
             <ul className="space-y-4">
               {[
@@ -143,21 +143,14 @@ export default function JoinPage() {
       <section className="py-16 px-4 bg-white">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-dark mb-6">
-            Who can join
+            Who Can Join
           </h2>
-          <ul className="space-y-3">
-            {[
-              "Licensed beauty professional (cosmetology, esthetics, nail tech, barbering). Recommended but not required.",
-              "At least 3 portfolio photos showcasing your work",
-              "Professional workspace (salon, suite, home studio, or mobile)",
-              "Located in Los Angeles (expanding soon)",
-            ].map((req) => (
-              <li key={req} className="flex items-start gap-3">
-                <Check className="h-4 w-4 text-accent mt-1 shrink-0" aria-hidden="true" />
-                <span className="text-body text-sm">{req}</span>
-              </li>
-            ))}
-          </ul>
+          <p className="text-body text-sm mb-4">
+            If the services you provide help clients look or feel their best, you belong on BeautyLink. We welcome professionals across the beauty and self care industry including hair, nails, skincare, makeup, lashes, brows, and more.
+          </p>
+          <p className="text-body text-sm">
+            Currently serving the Los Angeles area. More locations coming soon.
+          </p>
         </div>
       </section>
 
@@ -165,12 +158,12 @@ export default function JoinPage() {
       <section className="py-16 px-4 bg-dark text-center">
         <div className="max-w-xl mx-auto">
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-            Your empty chair is costing you money
+            Your Empty Chair Is Costing You Money
           </h2>
           <p className="text-white/60 mb-8">
             {IS_LAUNCHED
               ? "Join beauty professionals across LA who are filling open slots and reaching new clients."
-              : "Join Founding Stylists across LA who are filling open slots and reaching new clients."}
+              : "Join founding stylists across LA who are filling open slots and reaching new clients."}
           </p>
           <Link
             href="/pro/apply"

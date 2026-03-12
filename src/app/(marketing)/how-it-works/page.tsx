@@ -156,7 +156,7 @@ export default function HowItWorksPage() {
       <section className="py-16 md:py-20 bg-white text-center">
         <div className="container mx-auto px-4">
           <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
-            Ready to get started?
+            Ready to Get Started?
           </h2>
           <p className="text-muted mb-8 max-w-md mx-auto">
             Browse deals from beauty professionals in your area, or apply to
