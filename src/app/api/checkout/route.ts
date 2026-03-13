@@ -5,12 +5,20 @@ import { calculatePriceBreakdown } from "@/lib/pricing";
 import { generateBookingReference } from "@/lib/utils";
 import { SLOT_HOLD_MINUTES } from "@/lib/constants";
 import { logger } from "@/lib/logger";
+import { IS_LAUNCHED } from "@/lib/launch";
 import Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
+    if (!IS_LAUNCHED) {
+      return NextResponse.json(
+        { error: "Bookings are not yet available" },
+        { status: 503 }
+      );
+    }
+
     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json(
         { error: "Payment processing is not configured" },

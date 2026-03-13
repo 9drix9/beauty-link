@@ -3,6 +3,7 @@ import { db } from "@/lib/db";
 import { getApiUser } from "@/lib/auth";
 import { calculatePriceBreakdown } from "@/lib/pricing";
 import { generateBookingReference } from "@/lib/utils";
+import { IS_LAUNCHED } from "@/lib/launch";
 import Stripe from "stripe";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +18,13 @@ function getStripe() {
 
 export async function POST(req: NextRequest) {
   try {
+    if (!IS_LAUNCHED) {
+      return NextResponse.json(
+        { error: "Bookings are not yet available" },
+        { status: 503 }
+      );
+    }
+
     const user = await getApiUser();
     if (!user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

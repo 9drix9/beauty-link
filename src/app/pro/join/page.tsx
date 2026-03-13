@@ -176,7 +176,7 @@ export default function JoinPage() {
             href="/pro/apply"
             className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-[15px] font-semibold text-dark transition-all hover:bg-white/90 hover:-translate-y-0.5"
           >
-            Apply as Founding Stylist
+            {IS_LAUNCHED ? "Apply Now" : "Apply as Founding Stylist"}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>
