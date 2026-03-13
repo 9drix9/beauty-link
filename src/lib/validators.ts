@@ -20,10 +20,10 @@ export const createListingSchema = z
     zipCode: z.string().regex(/^\d{5}$/),
   })
   .refine(
-    (data) => data.discountedPriceCents <= data.originalPriceCents * 0.85,
+    (data) => data.discountedPriceCents <= data.originalPriceCents * 0.90,
     {
       message:
-        "BeautyLink listings must be discounted at least 15% from your normal price.",
+        "BeautyLink listings must be discounted at least 10% from your normal price.",
       path: ["discountedPriceCents"],
     }
   )

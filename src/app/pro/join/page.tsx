@@ -84,7 +84,7 @@ export default function JoinPage() {
               {
                 step: "2",
                 title: "List your open slots",
-                body: "Post discounted appointments whenever you have availability. Set your own price, minimum 15% off your regular rate.",
+                body: "Post discounted appointments whenever you have availability. Set your own price, minimum 10% off your regular rate.",
               },
               {
                 step: "3",

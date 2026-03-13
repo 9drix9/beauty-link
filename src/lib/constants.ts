@@ -15,7 +15,7 @@ export const AUTO_COMPLETE_HOURS = 48; // Auto-complete after appointment end
 export const NO_SHOW_WINDOW_HOURS = 48;
 export const SLOT_HOLD_MINUTES = 10;
 export const SESSION_EXPIRY_DAYS = 30;
-export const MIN_DISCOUNT_PERCENT = 15; // Discounted must be >= 15% below original
+export const MIN_DISCOUNT_PERCENT = 10; // Discounted must be >= 10% below original
 export const MIN_LISTING_PRICE_CENTS = 1000; // $10.00 minimum
 export const MAX_LISTING_PRICE_CENTS = 999900; // $9,999.00 maximum
 export const MAX_CLIENTS_PER_LISTING = 3;

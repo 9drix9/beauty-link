@@ -12,7 +12,7 @@ import { IS_LAUNCHED } from "@/lib/launch";
 export const metadata = {
   title: "BeautyLink | Great Beauty. Better Prices.",
   description:
-    "Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 15–50% off.",
+    "Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 10–50% off.",
 };
 
 export default function HomePage() {
@@ -45,7 +45,7 @@ export default function HomePage() {
               Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more.
             </p>
             <p className="mt-2 text-lg text-body/70 max-w-md mx-auto md:mx-0 font-semibold">
-              15–50% off all appointments.
+              10–50% off all appointments.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
@@ -219,7 +219,7 @@ export default function HomePage() {
                   <div>
                     <p className="font-semibold text-dark">Show up & save</p>
                     <p className="text-sm text-muted mt-0.5">
-                      Get the same quality service at 15-50% off. Leave a review after.
+                      Get the same quality service at 10-50% off. Leave a review after.
                     </p>
                   </div>
                 </div>

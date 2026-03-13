@@ -63,7 +63,7 @@ export function Footer() {
               Beauty<span className="text-accent">Link</span>
             </Link>
             <p className="mt-3 text-sm text-muted leading-relaxed">
-              Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 15–50% off.
+              Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 10–50% off.
             </p>
           </div>
 

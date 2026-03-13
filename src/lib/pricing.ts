@@ -5,7 +5,7 @@ import { PLATFORM_FEE_RATE, MIN_DISCOUNT_PERCENT } from "./constants";
  * 
  * Business model:
  * - Professional sets original_price and discounted_price
- * - Discounted must be >= 15% below original
+ * - Discounted must be >= 10% below original
  * - Platform charges 5% fee ON TOP of discounted price (customer pays)
  * - Professional receives 100% of discounted_price (no deductions)
  * - Platform revenue = platform_fee = discounted_price * 0.05

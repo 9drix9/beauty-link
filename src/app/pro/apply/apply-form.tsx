@@ -594,7 +594,7 @@ export function ApplyForm() {
             <div>
               <h2 className="text-xl font-bold text-dark">Typical Service Pricing</h2>
               <p className="text-sm text-muted mt-1">
-                What&apos;s your typical price range? On BeautyLink, you&apos;ll list at a discounted rate, at least 15% off your regular price.
+                What&apos;s your typical price range? On BeautyLink, you&apos;ll list at a discounted rate, at least 10% off your regular price.
               </p>
             </div>
             <div className="space-y-3">
