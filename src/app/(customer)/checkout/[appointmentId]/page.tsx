@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 
 import { db } from "@/lib/db";
+import { IS_LAUNCHED } from "@/lib/launch";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckoutContent } from "./checkout-content";
@@ -18,6 +19,10 @@ interface CheckoutPageProps {
 }
 
 export default async function CheckoutPage({ params }: CheckoutPageProps) {
+  // Disable checkout in pre-launch mode
+  if (!IS_LAUNCHED) {
+    redirect("/browse");
+  }
   const { userId: clerkId } = await auth();
 
   if (!clerkId) {
