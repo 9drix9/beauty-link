@@ -546,7 +546,7 @@ export function DemoBrowse() {
       </div>
 
       {/* Waitlist CTA */}
-      <div className="border-t border-border bg-gradient-to-b from-accent-light/50 to-background">
+      <div id="waitlist-cta" className="border-t border-border bg-gradient-to-b from-accent-light/50 to-background scroll-mt-4">
         <div className="max-w-2xl mx-auto px-4 py-16 text-center">
           <p className="text-sm font-semibold text-accent mb-3 tracking-wide uppercase">
             Coming Soon

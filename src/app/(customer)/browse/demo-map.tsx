@@ -200,9 +200,9 @@ function createPopupContent(pin: MapPinData) {
           <span style="font-size: 12px; color: #9a7b6a; text-decoration: line-through;">${pin.original}</span>
           <span style="font-size: 17px; font-weight: 800; color: #3A1F10;">${pin.discounted}</span>
         </div>
-        <div style="background: #4B2615; color: white; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px; cursor: pointer;">
+        <a href="#waitlist-cta" style="background: #4B2615; color: white; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px; cursor: pointer; text-decoration: none; display: inline-block;">
           Join Waitlist
-        </div>
+        </a>
       </div>
     </div>
   `;
