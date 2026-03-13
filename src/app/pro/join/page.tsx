@@ -28,7 +28,7 @@ export default function JoinPage() {
               Keep every dollar.
             </h1>
             <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-3">
-              Had a cancellation? List your open slot at a discount and let new clients find you.
+              Had a cancellation or a slow day? List your open appointments at a discounted rate and let new clients discover you.
             </p>
             <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8 font-semibold">
               You set the price. You keep 100%.
@@ -83,12 +83,12 @@ export default function JoinPage() {
               },
               {
                 step: "2",
-                title: "List your open slots",
+                title: "List Your Open Slots",
                 body: "Post discounted appointments whenever you have availability. Set your own price, minimum 10% off your regular rate.",
               },
               {
                 step: "3",
-                title: "Get booked and paid",
+                title: "Get Booked and Paid",
                 body: "Clients book and pay instantly. You receive your full listed price within 24 hours of the appointment.",
               },
             ].map((item, i) => (

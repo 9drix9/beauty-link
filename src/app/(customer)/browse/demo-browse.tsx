@@ -13,6 +13,7 @@ import {
   Shield,
   Calendar,
   Search,
+  Info,
 } from "lucide-react";
 import { WaitlistForm } from "@/components/shared/waitlist-form";
 
@@ -70,7 +71,7 @@ const DEMO_APPOINTMENTS: DemoAppointment[] = [
     badge: "Just listed",
     initial: "L",
     description:
-      "Classic + volume mix for a natural-to-glam look. Includes lash bath, primer, and aftercare kit.",
+      "Classic + volume mix for a natural to glam look. Includes lash bath, primer, and aftercare kit.",
     includes: ["Lash bath & primer", "Hybrid full set", "Aftercare kit"],
   },
   {
@@ -92,7 +93,7 @@ const DEMO_APPOINTMENTS: DemoAppointment[] = [
     badge: "Last minute opening",
     initial: "H",
     description:
-      "Hand-painted balayage with toner and a styled blowout. Perfect for a sun-kissed refresh.",
+      "Hand painted balayage with toner and a styled blowout. Perfect for a sun kissed refresh.",
     includes: ["Consultation", "Balayage + toner", "Blowout & style"],
   },
   {
@@ -135,12 +136,12 @@ const DEMO_APPOINTMENTS: DemoAppointment[] = [
     imageGradient: "from-purple-100 via-pink-50 to-rose-50",
     initial: "M",
     description:
-      "Red-carpet-ready glam with false lashes, contouring, and long-wear setting spray.",
+      "Red carpet ready glam with false lashes, contouring, and long wear setting spray.",
     includes: ["Full face makeup", "False lashes", "Setting spray"],
   },
   {
     id: "demo-5",
-    service: "Microblading Touch-Up",
+    service: "Microblading Touch Up",
     category: "Brows",
     stylist: "Priya Patel",
     rating: 4.7,
@@ -157,8 +158,8 @@ const DEMO_APPOINTMENTS: DemoAppointment[] = [
     badge: "Just listed",
     initial: "B",
     description:
-      "Precision touch-up for existing microblading. Restore color and shape for brows that last.",
-    includes: ["Brow mapping", "Microblading touch-up", "Aftercare balm"],
+      "Precision touch up for existing microblading. Restore color and shape for brows that last.",
+    includes: ["Brow mapping", "Microblading touch up", "Aftercare balm"],
   },
   {
     id: "demo-6",
@@ -182,6 +183,8 @@ const DEMO_APPOINTMENTS: DemoAppointment[] = [
     includes: ["Deep cleanse", "Extraction", "LED light therapy", "Serum boost"],
   },
 ];
+
+const CATEGORIES = ["All", "Hair", "Nails", "Makeup", "Lashes", "Brows", "Skincare"];
 
 // ─── Components ──────────────────────────────────────────────
 
@@ -239,9 +242,15 @@ function DemoCard({
       <div className="p-4">
         {/* Service + Price */}
         <div className="flex items-start justify-between gap-2">
-          <h3 className="font-semibold text-dark leading-tight line-clamp-1 flex-1 min-w-0">
-            {apt.service}
-          </h3>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-dark leading-tight line-clamp-1">
+              {apt.service}
+            </h3>
+            <span className="inline-flex items-center gap-1 mt-1 rounded-full bg-amber-50 border border-amber-200/60 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+              <Info className="h-2.5 w-2.5" aria-hidden="true" />
+              Sample Appointment
+            </span>
+          </div>
           <div className="flex items-baseline gap-1.5 shrink-0">
             <span className="text-sm text-muted line-through">
               ${apt.originalPrice}
@@ -342,7 +351,13 @@ function DetailModal({
           <div className="flex items-start justify-between gap-3">
             <div>
               <h2 className="text-xl font-bold text-dark">{apt.service}</h2>
-              <p className="text-sm text-muted mt-0.5">{apt.category}</p>
+              <div className="flex items-center gap-2 mt-1">
+                <p className="text-sm text-muted">{apt.category}</p>
+                <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200/60 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+                  <Info className="h-2.5 w-2.5" aria-hidden="true" />
+                  Sample Appointment
+                </span>
+              </div>
             </div>
             <div className="text-right shrink-0">
               <div className="flex items-baseline gap-2">
@@ -400,7 +415,7 @@ function DetailModal({
           {/* Includes */}
           <div className="mt-4">
             <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-2">
-              What&apos;s included
+              What&apos;s Included
             </p>
             <ul className="space-y-1.5">
               {apt.includes.map((item) => (
@@ -432,6 +447,11 @@ function DetailModal({
 
 export function DemoBrowse() {
   const [selectedApt, setSelectedApt] = useState<DemoAppointment | null>(null);
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const filteredAppointments = activeCategory === "All"
+    ? DEMO_APPOINTMENTS
+    : DEMO_APPOINTMENTS.filter((apt) => apt.category === activeCategory);
 
   return (
     <div className="min-h-screen bg-background">
@@ -450,31 +470,35 @@ export function DemoBrowse() {
       {/* Search bar + Category pills */}
       <div className="bg-surface border-b border-border">
         <div className="max-w-7xl mx-auto px-4 pt-3">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" aria-hidden="true" />
-            <input
-              type="text"
-              placeholder="Search services, professionals..."
-              readOnly
-              className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-4 text-sm text-dark placeholder:text-muted cursor-default"
-            />
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" aria-hidden="true" />
+              <input
+                type="text"
+                placeholder="Search services, professionals..."
+                readOnly
+                className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-4 text-sm text-dark placeholder:text-muted cursor-default"
+              />
+            </div>
+            <div className="relative shrink-0">
+              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted" aria-hidden="true" />
+              <input
+                type="text"
+                placeholder="Zip code"
+                readOnly
+                className="h-11 w-28 sm:w-32 rounded-xl border border-border bg-background pl-9 pr-3 text-sm text-dark placeholder:text-muted cursor-default"
+              />
+            </div>
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide -mx-4 px-4">
-            {[
-              "All",
-              "Hair",
-              "Nails",
-              "Makeup",
-              "Lashes",
-              "Brows",
-              "Skincare",
-            ].map((cat, i) => (
+            {CATEGORIES.map((cat) => (
               <button
                 key={cat}
+                onClick={() => setActiveCategory(cat)}
                 className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                  i === 0
+                  activeCategory === cat
                     ? "bg-dark text-white"
                     : "bg-background text-body hover:bg-border"
                 }`}
@@ -492,24 +516,30 @@ export function DemoBrowse() {
         <div className="flex items-center gap-2 mb-5">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-light px-3 py-1 text-xs font-semibold text-accent">
             <Sparkles className="h-3 w-3" aria-hidden="true" />
-            Example appointments — full marketplace launching soon
+            Sample appointments only. Full marketplace launching soon.
           </span>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Left — Demo Cards (60%) */}
           <div className="lg:w-[60%]">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {DEMO_APPOINTMENTS.map((apt) => (
-                <DemoCard key={apt.id} apt={apt} onSelect={setSelectedApt} />
-              ))}
-            </div>
+            {filteredAppointments.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                {filteredAppointments.map((apt) => (
+                  <DemoCard key={apt.id} apt={apt} onSelect={setSelectedApt} />
+                ))}
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-border bg-surface p-12 text-center">
+                <p className="text-muted text-sm">No sample appointments for this category yet.</p>
+              </div>
+            )}
           </div>
 
           {/* Right — Map (40%) */}
           <div className="lg:w-[40%]">
             <div className="lg:sticky lg:top-[80px]">
-              <DemoMap />
+              <DemoMap activeCategory={activeCategory} />
             </div>
           </div>
         </div>
@@ -522,7 +552,7 @@ export function DemoBrowse() {
             Coming Soon
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold text-dark mb-3">
-            BeautyLink launches soon in Los Angeles
+            BeautyLink Launches Soon in Los Angeles
           </h2>
           <p className="text-body/70 mb-8 max-w-md mx-auto">
             Join the waitlist to get early access to discounted beauty

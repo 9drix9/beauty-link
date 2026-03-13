@@ -75,9 +75,9 @@ export const WORK_SETTINGS = [
 // Years of Experience Options
 export const YEARS_EXPERIENCE_OPTIONS = [
   { value: "UNDER_1", label: "Less than 1 year" },
-  { value: "ONE_TO_THREE", label: "1–3 years" },
-  { value: "THREE_TO_FIVE", label: "3–5 years" },
-  { value: "FIVE_TO_TEN", label: "5–10 years" },
+  { value: "ONE_TO_THREE", label: "1 to 3 years" },
+  { value: "THREE_TO_FIVE", label: "3 to 5 years" },
+  { value: "FIVE_TO_TEN", label: "5 to 10 years" },
   { value: "TEN_PLUS", label: "10+ years" },
 ] as const;
 

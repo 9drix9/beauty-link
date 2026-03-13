@@ -367,7 +367,7 @@ export default function ApplicationsContent({
                 {/* Student Status */}
                 <div>
                   <span className="font-medium text-body">Student:</span>{" "}
-                  <span className="text-body">{app.applicationIsStudent ? `Yes${app.applicationSchool ? ` - ${app.applicationSchool}` : ""}` : "No"}</span>
+                  <span className="text-body">{app.applicationIsStudent ? `Yes${app.applicationSchool ? ` (${app.applicationSchool})` : ""}` : "No"}</span>
                 </div>
 
                 {/* Instagram */}

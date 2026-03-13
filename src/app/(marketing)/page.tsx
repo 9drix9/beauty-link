@@ -12,7 +12,7 @@ import { IS_LAUNCHED } from "@/lib/launch";
 export const metadata = {
   title: "BeautyLink | Great Beauty. Better Prices.",
   description:
-    "Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 10–50% off.",
+    "Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 10 to 50% off.",
 };
 
 export default function HomePage() {
@@ -45,7 +45,7 @@ export default function HomePage() {
               Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more.
             </p>
             <p className="mt-2 text-lg text-body/70 max-w-md mx-auto md:mx-0 font-semibold">
-              10–50% off all appointments.
+              10 to 50% off all appointments.
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
@@ -187,7 +187,7 @@ export default function HomePage() {
             {/* Right: copy */}
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-dark mb-8 text-center md:text-left">
-                Book a Discounted Appointment in Under a Minute
+                Book A Discounted Appointment In Under A Minute
               </h2>
               <div className="space-y-6">
                 <div className="flex gap-4">
@@ -206,7 +206,7 @@ export default function HomePage() {
                     2
                   </div>
                   <div>
-                    <p className="font-semibold text-dark">Book & pay</p>
+                    <p className="font-semibold text-dark">Book & Pay</p>
                     <p className="text-sm text-muted mt-0.5">
                       Secure checkout through Stripe. Free cancellation if you cancel 24+ hours ahead.
                     </p>
@@ -217,9 +217,9 @@ export default function HomePage() {
                     3
                   </div>
                   <div>
-                    <p className="font-semibold text-dark">Show up & save</p>
+                    <p className="font-semibold text-dark">Show Up & Save</p>
                     <p className="text-sm text-muted mt-0.5">
-                      Get the same quality service at 10-50% off. Leave a review after.
+                      Get the same quality service at 10 to 50% off. Leave a review after.
                     </p>
                   </div>
                 </div>

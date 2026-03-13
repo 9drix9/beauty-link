@@ -52,16 +52,31 @@ export default function TermsPage() {
             4. Bookings & Payments
           </h2>
           <p>
-            All payments are processed through Stripe. A service fee is added
-            to each booking. Prices shown on listings are set by professionals
-            and include the discounted rate. Full payment is required at the time
-            of booking.
+            All payments are processed through Stripe. Prices shown on listings
+            are set by professionals and reflect the discounted rate. Full
+            payment is required at the time of booking. See Section 5 for
+            details on fees.
           </p>
         </section>
 
         <section>
           <h2 className="text-xl font-semibold text-dark mb-3">
-            5. Cancellation Policy
+            5. Pricing and Fees
+          </h2>
+          <p>
+            BeautyLink charges a service fee on each booking, which is added to
+            the listed price and paid by the client. Professionals keep 100% of
+            their listed price. BeautyLink reserves the right to modify its
+            pricing model, fee structure, or fee percentages at any time.
+            Changes to fees will be communicated to users in advance where
+            practicable. Continued use of the Platform after any pricing changes
+            constitutes acceptance of the updated fees.
+          </p>
+        </section>
+
+        <section>
+          <h2 className="text-xl font-semibold text-dark mb-3">
+            6. Cancellation Policy
           </h2>
           <p>
             Clients may cancel a booking free of charge up to 24 hours before
@@ -73,7 +88,7 @@ export default function TermsPage() {
 
         <section>
           <h2 className="text-xl font-semibold text-dark mb-3">
-            6. Professional Responsibilities
+            7. Professional Responsibilities
           </h2>
           <p>
             Professionals are responsible for the accuracy of their listings,
@@ -85,7 +100,7 @@ export default function TermsPage() {
 
         <section>
           <h2 className="text-xl font-semibold text-dark mb-3">
-            7. Prohibited Conduct
+            8. Prohibited Conduct
           </h2>
           <p>
             Users may not misuse the Platform, including but not limited to:
@@ -96,7 +111,7 @@ export default function TermsPage() {
 
         <section>
           <h2 className="text-xl font-semibold text-dark mb-3">
-            8. Limitation of Liability
+            9. Limitation of Liability
           </h2>
           <p>
             BeautyLink acts as a marketplace facilitator. We are not liable for
@@ -108,7 +123,7 @@ export default function TermsPage() {
 
         <section>
           <h2 className="text-xl font-semibold text-dark mb-3">
-            9. Changes to Terms
+            10. Changes to Terms
           </h2>
           <p>
             We may update these terms from time to time. Continued use of the
@@ -118,7 +133,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-xl font-semibold text-dark mb-3">10. Contact</h2>
+          <h2 className="text-xl font-semibold text-dark mb-3">11. Contact</h2>
           <p>
             Questions about these terms? Contact us at{" "}
             <a

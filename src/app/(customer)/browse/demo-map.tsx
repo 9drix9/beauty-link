@@ -10,6 +10,7 @@ interface MapPinData {
   lat: number;
   lng: number;
   service: string;
+  category: string;
   stylist: string;
   rating: number;
   time: string;
@@ -27,6 +28,7 @@ const MAP_PINS: MapPinData[] = [
     lat: 34.0625,
     lng: -118.4437,
     service: "Hybrid Lash Set",
+    category: "Lashes",
     stylist: "Jessica Kim",
     rating: 4.9,
     time: "Today \u2022 4:30 PM",
@@ -43,6 +45,7 @@ const MAP_PINS: MapPinData[] = [
     lat: 34.0195,
     lng: -118.4912,
     service: "Balayage + Blowout",
+    category: "Hair",
     stylist: "Sarah Mitchell",
     rating: 4.8,
     time: "Tomorrow \u2022 11:00 AM",
@@ -59,6 +62,7 @@ const MAP_PINS: MapPinData[] = [
     lat: 34.0736,
     lng: -118.4004,
     service: "Gel Manicure + Pedicure",
+    category: "Nails",
     stylist: "Maria Santos",
     rating: 5.0,
     time: "Today \u2022 2:00 PM",
@@ -75,6 +79,7 @@ const MAP_PINS: MapPinData[] = [
     lat: 34.0515,
     lng: -118.4726,
     service: "Full Glam Makeup",
+    category: "Makeup",
     stylist: "Aaliyah James",
     rating: 4.9,
     time: "Sat, Mar 15 \u2022 9:00 AM",
@@ -90,7 +95,8 @@ const MAP_PINS: MapPinData[] = [
     price: "$95",
     lat: 34.0585,
     lng: -118.45,
-    service: "Microblading Touch-Up",
+    service: "Microblading Touch Up",
+    category: "Brows",
     stylist: "Priya Patel",
     rating: 4.7,
     time: "Today \u2022 6:00 PM",
@@ -107,6 +113,7 @@ const MAP_PINS: MapPinData[] = [
     lat: 34.0259,
     lng: -118.501,
     service: "Hydrafacial Glow",
+    category: "Skincare",
     stylist: "Emily Chen",
     rating: 4.8,
     time: "Tomorrow \u2022 3:00 PM",
@@ -201,12 +208,17 @@ function createPopupContent(pin: MapPinData) {
   `;
 }
 
-export function DemoMap() {
+interface DemoMapProps {
+  activeCategory?: string;
+}
+
+export function DemoMap({ activeCategory }: DemoMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
-  const markersRef = useRef<L.Marker[]>([]);
+  const markersRef = useRef<{ marker: L.Marker; pin: MapPinData }[]>([]);
   const clickedRef = useRef<string | null>(null);
 
+  // Initialize map once
   useEffect(() => {
     if (!mapRef.current || mapInstanceRef.current) return;
 
@@ -237,10 +249,9 @@ export function DemoMap() {
     mapInstanceRef.current = map;
 
     const openPin = (pin: MapPinData, marker: L.Marker) => {
-      // Reset all other markers
-      markersRef.current.forEach((m, i) => {
-        if (MAP_PINS[i].id !== pin.id) {
-          m.setIcon(createPriceIcon(MAP_PINS[i].price, false));
+      markersRef.current.forEach(({ marker: m, pin: p }) => {
+        if (p.id !== pin.id) {
+          m.setIcon(createPriceIcon(p.price, false));
         }
       });
       clickedRef.current = pin.id;
@@ -287,7 +298,7 @@ export function DemoMap() {
         }
       });
 
-      // Add direct touchend handler for mobile — Leaflet's tap detection is unreliable with divIcons
+      // Add direct touchend handler for mobile
       const el = marker.getElement();
       if (el) {
         el.addEventListener("touchend", (e) => {
@@ -297,7 +308,7 @@ export function DemoMap() {
         }, { passive: false });
       }
 
-      markersRef.current.push(marker);
+      markersRef.current.push({ marker, pin });
     });
 
     return () => {
@@ -306,6 +317,24 @@ export function DemoMap() {
       markersRef.current = [];
     };
   }, []);
+
+  // Show/hide markers based on active category filter
+  useEffect(() => {
+    const map = mapInstanceRef.current;
+    if (!map) return;
+
+    markersRef.current.forEach(({ marker, pin }) => {
+      const visible = !activeCategory || activeCategory === "All" || pin.category === activeCategory;
+      if (visible && !map.hasLayer(marker)) {
+        marker.addTo(map);
+      } else if (!visible && map.hasLayer(marker)) {
+        marker.closePopup();
+        map.removeLayer(marker);
+      }
+    });
+
+    clickedRef.current = null;
+  }, [activeCategory]);
 
   return (
     <div className="relative w-full h-full min-h-[500px] lg:min-h-[700px] rounded-2xl overflow-hidden border border-border">
