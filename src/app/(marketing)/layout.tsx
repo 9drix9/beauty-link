@@ -14,7 +14,7 @@ function LaunchBanner() {
           Now Onboarding Founding Stylists
         </Link>
         {" "}<span className="text-white/50 mx-1.5">|</span>{" "}
-        Launching April 2026
+        Launching May 2026
       </p>
     </div>
   );

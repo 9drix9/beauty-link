@@ -512,12 +512,11 @@ export function DemoBrowse() {
 
       {/* Split layout */}
       <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* Demo label */}
-        <div className="flex items-center gap-2 mb-5">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-accent-light px-3 py-1 text-xs font-semibold text-accent">
-            <Sparkles className="h-3 w-3" aria-hidden="true" />
-            Sample appointments only. Full marketplace launching soon.
-          </span>
+        {/* Demo disclaimer */}
+        <div className="mb-5 rounded-xl border border-amber-200/60 bg-amber-50/50 px-4 py-3">
+          <p className="text-sm text-amber-800">
+            This page shows preview appointments to demonstrate the types of services you will be able to discover on BeautyLink. These listings are not real bookings. BeautyLink will officially launch in May 2026.
+          </p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
@@ -552,7 +551,7 @@ export function DemoBrowse() {
             Coming Soon
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold text-dark mb-3">
-            BeautyLink Launches Soon in Los Angeles
+            BeautyLink Launches May 2026 in Los Angeles
           </h2>
           <p className="text-body/70 mb-8 max-w-md mx-auto">
             Join the waitlist to get early access to discounted beauty

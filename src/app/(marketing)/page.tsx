@@ -4,8 +4,11 @@ import {
   ArrowRight,
   MapPin,
   Check,
+  Info,
+  Sparkles,
+  Star,
+  Clock,
 } from "lucide-react";
-import { LiveFeedPreview } from "@/components/shared/live-feed-preview";
 import { WaitlistForm } from "@/components/shared/waitlist-form";
 import { IS_LAUNCHED } from "@/lib/launch";
 
@@ -14,6 +17,48 @@ export const metadata = {
   description:
     "Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 10 to 50% off.",
 };
+
+const PREVIEW_LISTINGS = [
+  {
+    id: "preview-1",
+    service: "Hybrid Lash Set",
+    category: "Lashes",
+    stylist: "Jessica K.",
+    rating: 4.9,
+    location: "Westwood",
+    time: "Today, 4:30 PM",
+    duration: "90 min",
+    originalPrice: 125,
+    discountedPrice: 79,
+    image: "https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=400&q=80&auto=format&fit=crop",
+  },
+  {
+    id: "preview-2",
+    service: "Balayage + Blowout",
+    category: "Hair",
+    stylist: "Sarah M.",
+    rating: 4.8,
+    location: "Santa Monica",
+    time: "Tomorrow, 11:00 AM",
+    duration: "2.5 hrs",
+    originalPrice: 220,
+    discountedPrice: 145,
+    image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400&q=80&auto=format&fit=crop",
+  },
+  {
+    id: "preview-3",
+    service: "Gel Manicure + Pedicure",
+    category: "Nails",
+    stylist: "Maria S.",
+    rating: 5.0,
+    location: "Beverly Hills",
+    time: "Today, 2:00 PM",
+    duration: "75 min",
+    originalPrice: 85,
+    discountedPrice: 45,
+    image: "https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&q=80&auto=format&fit=crop",
+  },
+];
 
 export default function HomePage() {
   return (
@@ -68,18 +113,18 @@ export default function HomePage() {
               ) : (
                 <>
                   <Link
-                    href="/pro/apply"
+                    href="/pro/join"
                     className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
                   >
-                    Become a Founding Stylist
+                    Become A Founding Stylist
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
-                  <Link
-                    href="/pro/join"
+                  <a
+                    href="#how-it-works"
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-7 py-3.5 text-[15px] font-semibold text-body transition-all hover:bg-white hover:-translate-y-0.5"
                   >
                     Learn More
-                  </Link>
+                  </a>
                 </>
               )}
             </div>
@@ -120,7 +165,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Live Deals (launched) or Waitlist (pre-launch) ── */}
+      {/* ── Waitlist (pre-launch) or Live Deals (launched) ── */}
       {IS_LAUNCHED ? (
         <section className="py-12 md:py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4">
@@ -136,27 +181,16 @@ export default function HomePage() {
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </Link>
             </div>
-
-            <LiveFeedPreview />
-
-            <div className="mt-6 text-center sm:hidden">
-              <Link
-                href="/browse"
-                className="text-sm font-semibold text-accent hover:underline"
-              >
-                View all appointments &rarr;
-              </Link>
-            </div>
           </div>
         </section>
       ) : (
         <section className="py-12 md:py-16 bg-white">
           <div className="max-w-2xl mx-auto px-4 text-center">
             <p className="text-sm font-semibold text-accent mb-3">
-              Launching April 2026
+              Launching May 2026
             </p>
             <h2 className="text-xl md:text-2xl font-bold text-dark mb-3">
-              Client Bookings Open April 2026
+              Client Bookings Open May 2026
             </h2>
             <p className="text-body/70 mb-8 max-w-md mx-auto">
               Be the first to book discounted beauty appointments from verified professionals across Los Angeles.
@@ -169,8 +203,8 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* ── How it works ── */}
-      <section className="py-14 md:py-20 bg-background">
+      {/* ── How It Works ── */}
+      <section id="how-it-works" className="py-14 md:py-20 bg-background scroll-mt-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
             {/* Left: image */}
@@ -229,8 +263,103 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── For Professionals ── */}
+      {/* ── Preview Appointments ── */}
       <section className="py-14 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-bold text-dark mb-3">
+              Preview Appointments
+            </h2>
+            <p className="text-body/70 max-w-lg mx-auto">
+              Here is a preview of the types of services you will be able to discover on BeautyLink. These listings are not real bookings.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {PREVIEW_LISTINGS.map((listing) => {
+              const savings = Math.round(
+                ((listing.originalPrice - listing.discountedPrice) / listing.originalPrice) * 100
+              );
+              return (
+                <div
+                  key={listing.id}
+                  className="rounded-2xl bg-surface border border-border overflow-hidden"
+                >
+                  <div className="relative aspect-[3/2] overflow-hidden bg-background">
+                    <Image
+                      src={listing.image}
+                      alt={listing.service}
+                      fill
+                      unoptimized
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
+                    <span className="absolute top-3 left-3 inline-flex items-center rounded-full bg-cta px-2.5 py-1 text-xs font-bold text-white shadow-md">
+                      Save {savings}%
+                    </span>
+                  </div>
+                  <div className="p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-dark leading-tight">
+                          {listing.service}
+                        </h3>
+                        <span className="inline-flex items-center gap-1 mt-1 rounded-full bg-amber-50 border border-amber-200/60 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
+                          <Info className="h-2.5 w-2.5" aria-hidden="true" />
+                          Preview Appointment
+                        </span>
+                      </div>
+                      <div className="flex items-baseline gap-1.5 shrink-0">
+                        <span className="text-sm text-muted line-through">
+                          ${listing.originalPrice}
+                        </span>
+                        <span className="text-lg font-bold text-dark">
+                          ${listing.discountedPrice}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="mt-2 flex items-center gap-2">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent-light text-[10px] font-semibold text-accent shrink-0">
+                        {listing.stylist.charAt(0)}
+                      </span>
+                      <span className="text-sm text-body">{listing.stylist}</span>
+                      <span className="flex items-center gap-0.5 text-sm text-body shrink-0">
+                        <Star className="h-3.5 w-3.5 fill-cta text-cta" aria-hidden="true" />
+                        {listing.rating}
+                      </span>
+                    </div>
+                    <div className="mt-3 flex items-center gap-3 text-[13px] text-muted">
+                      <span className="flex items-center gap-1">
+                        <Clock className="h-3 w-3" aria-hidden="true" />
+                        {listing.time}
+                      </span>
+                      <span>&middot;</span>
+                      <span>{listing.duration}</span>
+                    </div>
+                    <div className="mt-1 flex items-center gap-1 text-[13px] text-muted">
+                      <MapPin className="h-3 w-3 shrink-0" aria-hidden="true" />
+                      {listing.location}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-8 text-center">
+            <Link
+              href="/browse"
+              className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
+            >
+              View All Preview Appointments
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── For Professionals ── */}
+      <section className="py-14 md:py-20 bg-background">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
             {/* Left: copy */}
@@ -264,14 +393,14 @@ export default function HomePage() {
                   href="/pro/apply"
                   className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
                 >
-                  {IS_LAUNCHED ? "Apply to list" : "Apply as Founding Stylist"}
+                  {IS_LAUNCHED ? "Apply To List" : "Apply As Founding Stylist"}
                   <ArrowRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
                 <Link
                   href="/pro/join"
-                  className="inline-flex items-center rounded-full border border-border px-7 py-3.5 text-sm font-semibold text-body transition-all hover:bg-background hover:-translate-y-0.5"
+                  className="inline-flex items-center rounded-full border border-border px-7 py-3.5 text-sm font-semibold text-body transition-all hover:bg-white hover:-translate-y-0.5"
                 >
-                  Learn more
+                  Learn More
                 </Link>
               </div>
             </div>
@@ -287,27 +416,6 @@ export default function HomePage() {
               />
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ── Final CTA ── */}
-      <section className="py-16 md:py-24 bg-dark text-center">
-        <div className="max-w-xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">
-            Great Beauty Shouldn&apos;t Cost Full Price
-          </h2>
-          <p className="text-white/60 mb-8">
-            {IS_LAUNCHED
-              ? "New appointments added daily from verified professionals across Los Angeles."
-              : "Launching April 2026 with verified professionals across Los Angeles."}
-          </p>
-          <Link
-            href={IS_LAUNCHED ? "/browse" : "/pro/apply"}
-            className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-[15px] font-semibold text-dark shadow-elevated transition-all hover:bg-white/90 hover:-translate-y-0.5"
-          >
-            {IS_LAUNCHED ? "Browse Appointments" : "Apply as Founding Stylist"}
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
         </div>
       </section>
     </>

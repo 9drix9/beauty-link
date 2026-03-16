@@ -8,6 +8,8 @@ import {
   Clock,
   ArrowRight,
 } from "lucide-react";
+import { IS_LAUNCHED } from "@/lib/launch";
+import { WaitlistForm } from "@/components/shared/waitlist-form";
 
 export const metadata = {
   title: "How It Works | BeautyLink",
@@ -154,29 +156,48 @@ export default function HowItWorksPage() {
 
       {/* CTA */}
       <section className="py-16 md:py-20 bg-white text-center">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-xl">
           <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
-            Ready to Get Started?
+            Ready To Get Started?
           </h2>
-          <p className="text-muted mb-8 max-w-md mx-auto">
-            Browse deals from beauty professionals in your area, or apply to
-            list your own.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/browse"
-              className="inline-flex items-center gap-2 rounded-full bg-dark px-8 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
-            >
-              Browse Appointments
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Link>
-            <Link
-              href="/pro/join"
-              className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
-            >
-              Are you a beauty pro? Join free &rarr;
-            </Link>
-          </div>
+          {IS_LAUNCHED ? (
+            <>
+              <p className="text-muted mb-8 max-w-md mx-auto">
+                Browse deals from beauty professionals in your area, or apply to
+                list your own.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <Link
+                  href="/browse"
+                  className="inline-flex items-center gap-2 rounded-full bg-dark px-8 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
+                >
+                  Browse Appointments
+                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+                <Link
+                  href="/pro/join"
+                  className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
+                >
+                  Are you a beauty pro? Join free &rarr;
+                </Link>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="text-muted mb-8 max-w-md mx-auto">
+                Sign up for our waitlist to be the first to know when BeautyLink launches in May 2026.
+              </p>
+              <WaitlistForm source="how-it-works" />
+              <p className="mt-6">
+                <Link
+                  href="/pro/join"
+                  className="text-sm font-medium text-accent hover:text-accent-hover transition-colors"
+                >
+                  Are you a beauty pro? Join free &rarr;
+                </Link>
+              </p>
+            </>
+          )}
         </div>
       </section>
     </>
