@@ -2,6 +2,7 @@ import { requirePro } from "@/lib/auth";
 import { ProSettingsForm } from "./pro-settings-form";
 import { PaymentSetup } from "./payment-setup";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Edit Profile | BeautyLink Pro" };
 
 export default async function ProSettingsPage() {
