@@ -5,7 +5,6 @@ import {
   MapPin,
   Check,
   Info,
-  Sparkles,
   Star,
   Clock,
 } from "lucide-react";
