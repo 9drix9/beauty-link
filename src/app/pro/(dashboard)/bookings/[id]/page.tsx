@@ -15,6 +15,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 
+export const dynamic = "force-dynamic";
+
 import { requirePro } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatPrice } from "@/lib/utils";

@@ -2,6 +2,7 @@ import { requirePro } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { ProListingsContent } from "./pro-listings-content";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "My Listings" };
 
 export default async function AppointmentsPage() {

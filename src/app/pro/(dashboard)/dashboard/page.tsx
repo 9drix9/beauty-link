@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { requirePro } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { formatPrice, getInitials } from "@/lib/utils";

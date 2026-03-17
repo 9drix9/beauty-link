@@ -456,7 +456,7 @@ export function DemoBrowse() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-surface border-b border-border">
+      <div className="bg-surface border-b border-border relative z-10">
         <div className="max-w-7xl mx-auto px-4 py-6 sm:py-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-dark">
             Discover Appointments
@@ -468,7 +468,7 @@ export function DemoBrowse() {
       </div>
 
       {/* Search bar + Category pills */}
-      <div className="bg-surface border-b border-border">
+      <div className="bg-surface border-b border-border relative z-10">
         <div className="max-w-7xl mx-auto px-4 pt-3">
           <div className="flex gap-2">
             <div className="relative flex-1">
@@ -537,7 +537,7 @@ export function DemoBrowse() {
 
           {/* Right — Map (40%) */}
           <div className="lg:w-[40%]">
-            <div className="lg:sticky lg:top-[80px]">
+            <div className="relative z-0 lg:sticky lg:top-[80px]">
               <DemoMap activeCategory={activeCategory} />
             </div>
           </div>

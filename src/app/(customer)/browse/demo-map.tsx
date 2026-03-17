@@ -337,7 +337,7 @@ export function DemoMap({ activeCategory }: DemoMapProps) {
   }, [activeCategory]);
 
   return (
-    <div className="relative w-full h-full min-h-[500px] lg:min-h-[700px] rounded-2xl overflow-hidden border border-border">
+    <div className="relative isolate w-full h-full min-h-[350px] sm:min-h-[450px] lg:min-h-[700px] rounded-2xl overflow-hidden border border-border">
       <div ref={mapRef} className="absolute inset-0 z-0" />
 
       {/* Map label */}

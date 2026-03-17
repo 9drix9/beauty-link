@@ -4,6 +4,7 @@ import { requirePro } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { MessagesContent } from "@/app/(customer)/messages/messages-content";
 
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Messages | BeautyLink Pro",
 };

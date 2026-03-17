@@ -1,6 +1,7 @@
 import { requirePro } from "@/lib/auth";
 import { CreateListingForm } from "./create-listing-form";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Create Listing" };
 
 export default async function CreateListingPage() {
