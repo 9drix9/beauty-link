@@ -12,32 +12,32 @@ const config: Config = {
     },
     extend: {
       colors: {
-        // Brand accent — blush pink / coral
+        // Brand accent — warm brown / copper
         accent: {
-          DEFAULT: "#D06A4E",
-          hover: "#5A2F1A",
-          light: "#F4DDE5",
-          muted: "#DFA3A6",
+          DEFAULT: "#b05a2a",
+          hover: "#6b3020",
+          light: "#f5e8da",
+          muted: "#c4a98c",
         },
-        // CTA — deep espresso buttons
+        // CTA — deep brand brown buttons
         cta: {
-          DEFAULT: "#4B2615",
-          hover: "#5A2F1A",
-          light: "#F4DDE5",
+          DEFAULT: "#3d1a0f",
+          hover: "#6b3020",
+          light: "#f5e8da",
         },
-        // Blush tones
+        // Warm tones
         blush: {
-          DEFAULT: "#F4DDE5",
-          accent: "#DFA3A6",
-          coral: "#D06A4E",
+          DEFAULT: "#f5e8da",
+          accent: "#c4a98c",
+          coral: "#b05a2a",
         },
-        // Neutrals — warm espresso backbone
-        dark: "#3A1F10",
-        body: "#3A1F10",
+        // Neutrals — warm brown backbone
+        dark: "#3d1a0f",
+        body: "#3d1a0f",
         muted: "#9a7b6a",
-        background: "#F6EDE6",
-        surface: "#FFF8F4",
-        border: "#E6D8CF",
+        background: "#faf5f0",
+        surface: "#ffffff",
+        border: "#e0d3c8",
         // Semantic colors
         success: {
           DEFAULT: "#10B981",
@@ -57,19 +57,19 @@ const config: Config = {
         },
         // Legacy aliases
         purple: {
-          primary: "#D06A4E",
-          mid: "#5A2F1A",
-          light: "#F4DDE5",
+          primary: "#b05a2a",
+          mid: "#6b3020",
+          light: "#f5e8da",
         },
         orange: {
-          primary: "#D06A4E",
-          mid: "#5A2F1A",
-          light: "#F4DDE5",
+          primary: "#b05a2a",
+          mid: "#6b3020",
+          light: "#f5e8da",
         },
       },
       fontFamily: {
-        sans: ["Inter", ...defaultTheme.fontFamily.sans],
-        serif: ["Georgia", "'Times New Roman'", "serif"],
+        sans: ["'DM Sans'", ...defaultTheme.fontFamily.sans],
+        serif: ["'Playfair Display'", "Georgia", "serif"],
       },
       fontSize: {
         h1: ["48px", { lineHeight: "1.15", fontWeight: "700" }],
@@ -91,7 +91,7 @@ const config: Config = {
         cardHover: "0 8px 30px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.03)",
         soft: "0 2px 8px rgba(0,0,0,0.04)",
         elevated: "0 4px 20px rgba(0,0,0,0.06)",
-        glow: "0 0 0 1px rgba(208,106,78,0.1), 0 4px 16px rgba(223,163,166,0.12)",
+        glow: "0 0 0 1px rgba(176,90,42,0.1), 0 4px 16px rgba(196,169,140,0.12)",
       },
       transitionDuration: {
         DEFAULT: "200ms",

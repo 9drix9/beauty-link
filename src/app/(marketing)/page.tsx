@@ -77,10 +77,10 @@ export default function HomePage() {
               Los Angeles
             </div>
 
-            <h1 className="text-[2.75rem] leading-[1.05] md:text-[4.25rem] lg:text-[5rem] font-bold tracking-tight text-dark">
-              Great Beauty.
+            <h1 className="font-serif text-[2.75rem] leading-[1.05] md:text-[4.25rem] lg:text-[5rem] tracking-tight text-dark">
+              <span className="font-bold">Great Beauty.</span>
               <br />
-              <span className="text-accent">
+              <span className="italic text-accent">
                 Better Prices.
               </span>
             </h1>
@@ -157,8 +157,8 @@ export default function HomePage() {
                 style={{ filter: "sepia(20%) saturate(1.15) brightness(0.96)" }}
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FAF7F5] via-transparent to-transparent" />
-              <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(235,160,110,0.4) 0%, rgba(196,97,74,0.18) 60%, rgba(160,90,60,0.1) 100%)", mixBlendMode: "multiply" }} />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#faf5f0] via-transparent to-transparent" />
+              <div className="absolute inset-0" style={{ background: "linear-gradient(135deg, rgba(176,90,42,0.3) 0%, rgba(107,48,32,0.15) 60%, rgba(61,26,15,0.08) 100%)", mixBlendMode: "multiply" }} />
             </div>
           </div>
         </div>

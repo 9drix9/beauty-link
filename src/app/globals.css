@@ -1,37 +1,37 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --accent: #D06A4E;
-  --accent-hover: #5A2F1A;
-  --accent-light: #F4DDE5;
-  --accent-muted: #DFA3A6;
-  --cta: #4B2615;
-  --cta-hover: #5A2F1A;
-  --cta-light: #F4DDE5;
-  --color-dark: #3A1F10;
-  --color-body: #3A1F10;
+  --accent: #b05a2a;
+  --accent-hover: #6b3020;
+  --accent-light: #f5e8da;
+  --accent-muted: #c4a98c;
+  --cta: #3d1a0f;
+  --cta-hover: #6b3020;
+  --cta-light: #f5e8da;
+  --color-dark: #3d1a0f;
+  --color-body: #3d1a0f;
   --color-muted: #9a7b6a;
-  --color-background: #F6EDE6;
-  --color-surface: #FFF8F4;
-  --color-border: #E6D8CF;
-  --color-blush: #F4DDE5;
-  --color-blush-accent: #DFA3A6;
-  --color-coral: #D06A4E;
+  --color-background: #faf5f0;
+  --color-surface: #ffffff;
+  --color-border: #e0d3c8;
+  --color-blush: #f5e8da;
+  --color-blush-accent: #c4a98c;
+  --color-coral: #b05a2a;
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
 
   /* Legacy aliases */
-  --purple-primary: #D06A4E;
-  --purple-mid: #5A2F1A;
-  --purple-light: #F4DDE5;
-  --orange-primary: #D06A4E;
-  --orange-mid: #5A2F1A;
-  --orange-light: #F4DDE5;
+  --purple-primary: #b05a2a;
+  --purple-mid: #6b3020;
+  --purple-light: #f5e8da;
+  --orange-primary: #b05a2a;
+  --orange-mid: #6b3020;
+  --orange-light: #f5e8da;
   --color-white: #FFFFFF;
 }
 
@@ -49,7 +49,7 @@
   }
 
   ::selection {
-    background-color: rgba(223, 163, 166, 0.25);
+    background-color: rgba(176, 90, 42, 0.15);
     color: var(--color-dark);
   }
 
@@ -70,31 +70,31 @@
 
 @layer utilities {
   .hero-gradient {
-    background: linear-gradient(135deg, #F4DDE5 0%, #F6EDE6 45%, #F3E7DA 100%);
+    background: linear-gradient(135deg, #f5e8da 0%, #faf5f0 45%, #f0e4d6 100%);
   }
 
   .gradient-hero-page {
-    background: linear-gradient(135deg, #F4DDE5 0%, #F6EDE6 45%, #F3E7DA 100%);
+    background: linear-gradient(135deg, #f5e8da 0%, #faf5f0 45%, #f0e4d6 100%);
   }
 
   .gradient-hero-soft {
-    background: linear-gradient(135deg, #F4DDE5 0%, #F6EDE6 50%, #FFF8F4 100%);
+    background: linear-gradient(135deg, #f5e8da 0%, #faf5f0 50%, #ffffff 100%);
   }
 
   .gradient-hero-pro {
-    background: linear-gradient(135deg, #F4DDE5 0%, #F6EDE6 45%, #F3E7DA 100%);
+    background: linear-gradient(135deg, #f5e8da 0%, #faf5f0 45%, #f0e4d6 100%);
   }
 
   .gradient-card-warm {
-    background: linear-gradient(160deg, #FFF8F4 0%, #F4DDE5 40%, #DFA3A6 100%);
+    background: linear-gradient(160deg, #ffffff 0%, #f5e8da 40%, #c4a98c 100%);
   }
 
   .gradient-dashboard {
-    background: linear-gradient(160deg, #FFF8F4 0%, #F4DDE5 50%, #F6EDE6 100%);
+    background: linear-gradient(160deg, #ffffff 0%, #f5e8da 50%, #faf5f0 100%);
   }
 
   .gradient-welcome-banner {
-    background: linear-gradient(135deg, #3A1F10 0%, #4B2615 40%, #D06A4E 100%);
+    background: linear-gradient(135deg, #3d1a0f 0%, #6b3020 40%, #b05a2a 100%);
   }
 
   .text-gradient {

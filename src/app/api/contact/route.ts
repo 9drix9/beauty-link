@@ -59,33 +59,33 @@ export async function POST(req: NextRequest) {
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 32px 24px;">
               <div style="text-align: center; margin-bottom: 32px;">
-                <h1 style="font-size: 22px; color: #3A1F10; margin: 0;">
-                  Beauty<span style="color: #D06A4E;">Link</span>
+                <h1 style="font-size: 22px; margin: 0; font-family: Georgia, serif; color: #3d1a0f;">
+                  <span style="font-weight: 700;">beauty</span><span style="font-style: italic;">link</span>
                 </h1>
               </div>
 
-              <p style="font-size: 15px; color: #3A1F10; line-height: 1.6; margin: 0 0 16px;">
+              <p style="font-size: 15px; color: #3d1a0f; line-height: 1.6; margin: 0 0 16px;">
                 Hi ${name.trim()},
               </p>
 
-              <p style="font-size: 15px; color: #3A1F10; line-height: 1.6; margin: 0 0 16px;">
+              <p style="font-size: 15px; color: #3d1a0f; line-height: 1.6; margin: 0 0 16px;">
                 Thank you for reaching out to BeautyLink. We have received your message and our team will get back to you within 24 hours.
               </p>
 
-              <div style="background: #F6EDE6; border-radius: 12px; padding: 20px; margin: 24px 0;">
-                <p style="font-size: 13px; color: #9A7B6A; margin: 0 0 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Your Message</p>
-                <p style="font-size: 14px; color: #3A1F10; margin: 0 0 12px; font-weight: 600;">${subject.trim()}</p>
-                <p style="font-size: 14px; color: #3A1F10; line-height: 1.5; margin: 0; white-space: pre-wrap;">${message.trim()}</p>
+              <div style="background: #faf5f0; border-radius: 12px; padding: 20px; margin: 24px 0;">
+                <p style="font-size: 13px; color: #9a7b6a; margin: 0 0 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Your Message</p>
+                <p style="font-size: 14px; color: #3d1a0f; margin: 0 0 12px; font-weight: 600;">${subject.trim()}</p>
+                <p style="font-size: 14px; color: #3d1a0f; line-height: 1.5; margin: 0; white-space: pre-wrap;">${message.trim()}</p>
               </div>
 
-              <p style="font-size: 14px; color: #9A7B6A; line-height: 1.6; margin: 24px 0 0;">
+              <p style="font-size: 14px; color: #9a7b6a; line-height: 1.6; margin: 24px 0 0;">
                 Reference: #${submission.id.slice(-8).toUpperCase()}<br/>
                 If you need immediate assistance, reply directly to this email.
               </p>
 
-              <hr style="border: none; border-top: 1px solid #E6D8CF; margin: 32px 0;" />
+              <hr style="border: none; border-top: 1px solid #e0d3c8; margin: 32px 0;" />
 
-              <p style="font-size: 12px; color: #9A7B6A; text-align: center; margin: 0;">
+              <p style="font-size: 12px; color: #9a7b6a; text-align: center; margin: 0;">
                 BeautyLink &middot; Los Angeles, CA<br/>
                 beautylinknetwork.com
               </p>
@@ -104,16 +104,16 @@ export async function POST(req: NextRequest) {
           subject: `[Contact Form] ${category || "General"}: ${subject.trim()}`,
           html: `
             <div style="font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 24px;">
-              <h2 style="color: #3A1F10; margin: 0 0 16px;">New Contact Form Submission</h2>
-              <table style="font-size: 14px; color: #3A1F10; line-height: 1.6;">
-                <tr><td style="padding: 4px 16px 4px 0; color: #9A7B6A; font-weight: 600;">Name</td><td>${name.trim()}</td></tr>
-                <tr><td style="padding: 4px 16px 4px 0; color: #9A7B6A; font-weight: 600;">Email</td><td><a href="mailto:${email.trim()}">${email.trim()}</a></td></tr>
-                <tr><td style="padding: 4px 16px 4px 0; color: #9A7B6A; font-weight: 600;">Category</td><td>${category || "General"}</td></tr>
-                <tr><td style="padding: 4px 16px 4px 0; color: #9A7B6A; font-weight: 600;">Subject</td><td>${subject.trim()}</td></tr>
-                <tr><td style="padding: 4px 16px 4px 0; color: #9A7B6A; font-weight: 600;">Ref</td><td>#${submission.id.slice(-8).toUpperCase()}</td></tr>
+              <h2 style="color: #3d1a0f; margin: 0 0 16px;">New Contact Form Submission</h2>
+              <table style="font-size: 14px; color: #3d1a0f; line-height: 1.6;">
+                <tr><td style="padding: 4px 16px 4px 0; color: #9a7b6a; font-weight: 600;">Name</td><td>${name.trim()}</td></tr>
+                <tr><td style="padding: 4px 16px 4px 0; color: #9a7b6a; font-weight: 600;">Email</td><td><a href="mailto:${email.trim()}">${email.trim()}</a></td></tr>
+                <tr><td style="padding: 4px 16px 4px 0; color: #9a7b6a; font-weight: 600;">Category</td><td>${category || "General"}</td></tr>
+                <tr><td style="padding: 4px 16px 4px 0; color: #9a7b6a; font-weight: 600;">Subject</td><td>${subject.trim()}</td></tr>
+                <tr><td style="padding: 4px 16px 4px 0; color: #9a7b6a; font-weight: 600;">Ref</td><td>#${submission.id.slice(-8).toUpperCase()}</td></tr>
               </table>
-              <div style="background: #F6EDE6; border-radius: 8px; padding: 16px; margin-top: 16px;">
-                <p style="font-size: 14px; color: #3A1F10; line-height: 1.5; margin: 0; white-space: pre-wrap;">${message.trim()}</p>
+              <div style="background: #faf5f0; border-radius: 8px; padding: 16px; margin-top: 16px;">
+                <p style="font-size: 14px; color: #3d1a0f; line-height: 1.5; margin: 0; white-space: pre-wrap;">${message.trim()}</p>
               </div>
             </div>
           `,

@@ -36,8 +36,9 @@ export function CustomerNav() {
     <header className="sticky top-0 z-50 w-full border-b border-border bg-white">
       <nav className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
         {/* Logo */}
-        <Link href="/" className="shrink-0 text-xl font-bold text-dark">
-          Beauty<span className="text-accent">Link</span>
+        <Link href="/" className="shrink-0 text-[22px] text-dark">
+          <span className="font-serif font-bold">beauty</span>
+          <span className="font-serif italic">link</span>
         </Link>
 
         {/* Search bar - center */}

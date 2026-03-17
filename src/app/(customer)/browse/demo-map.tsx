@@ -148,17 +148,17 @@ function createPriceIcon(price: string, isActive: boolean) {
           border-radius: 20px;
           font-size: 13px;
           font-weight: 700;
-          font-family: Inter, -apple-system, sans-serif;
+          font-family: DM Sans, -apple-system, sans-serif;
           white-space: nowrap;
-          background: ${isActive ? "#3A1F10" : "#ffffff"};
-          color: ${isActive ? "#ffffff" : "#3A1F10"};
-          border: 1.5px solid ${isActive ? "#3A1F10" : "#E6D8CF"};
+          background: ${isActive ? "#3d1a0f" : "#ffffff"};
+          color: ${isActive ? "#ffffff" : "#3d1a0f"};
+          border: 1.5px solid ${isActive ? "#3d1a0f" : "#e0d3c8"};
         ">${price}</div>
         <div style="
           width: 0; height: 0;
           border-left: 5px solid transparent;
           border-right: 5px solid transparent;
-          border-top: 6px solid ${isActive ? "#3A1F10" : "#ffffff"};
+          border-top: 6px solid ${isActive ? "#3d1a0f" : "#ffffff"};
           margin-top: -1px;
         "></div>
       </div>
@@ -168,25 +168,25 @@ function createPriceIcon(price: string, isActive: boolean) {
 
 function createPopupContent(pin: MapPinData) {
   return `
-    <div style="font-family: Inter, -apple-system, sans-serif; width: 240px; margin: 0; padding: 0;">
+    <div style="font-family: DM Sans, -apple-system, sans-serif; width: 240px; margin: 0; padding: 0;">
       <div style="position: relative; height: 130px; border-radius: 12px 12px 0 0; margin: -16px -16px 12px -16px;">
         <img
           src="${pin.image}"
           alt="${pin.service}"
           style="display: block; width: 100%; height: 100%; object-fit: cover;"
         />
-        <div style="position: absolute; top: 8px; left: 8px; background: #4B2615; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; line-height: 1.4; z-index: 2;">
+        <div style="position: absolute; top: 8px; left: 8px; background: #3d1a0f; color: white; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 12px; line-height: 1.4; z-index: 2;">
           Save ${pin.savings}
         </div>
       </div>
-      <div style="font-weight: 700; font-size: 14px; color: #3A1F10; margin: 0 0 6px; line-height: 1.3;">
+      <div style="font-weight: 700; font-size: 14px; color: #3d1a0f; margin: 0 0 6px; line-height: 1.3;">
         ${pin.service}
       </div>
       <div style="display: flex; align-items: center; gap: 5px; margin-bottom: 6px;">
-        <div style="width: 20px; height: 20px; border-radius: 50%; background: #F4DDE5; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #D06A4E; flex-shrink: 0;">
+        <div style="width: 20px; height: 20px; border-radius: 50%; background: #f5e8da; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: #b05a2a; flex-shrink: 0;">
           ${pin.stylist.charAt(0)}
         </div>
-        <span style="font-size: 12px; color: #3A1F10;">${pin.stylist}</span>
+        <span style="font-size: 12px; color: #3d1a0f;">${pin.stylist}</span>
         <span style="font-size: 11px; color: #9a7b6a;">\u2605 ${pin.rating}</span>
       </div>
       <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 2px;">
@@ -195,12 +195,12 @@ function createPopupContent(pin: MapPinData) {
       <div style="font-size: 11px; color: #9a7b6a; margin-bottom: 10px;">
         \uD83D\uDCCD ${pin.location}
       </div>
-      <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid #E6D8CF;">
+      <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid #e0d3c8;">
         <div style="display: flex; align-items: baseline; gap: 5px;">
           <span style="font-size: 12px; color: #9a7b6a; text-decoration: line-through;">${pin.original}</span>
-          <span style="font-size: 17px; font-weight: 800; color: #3A1F10;">${pin.discounted}</span>
+          <span style="font-size: 17px; font-weight: 800; color: #3d1a0f;">${pin.discounted}</span>
         </div>
-        <a href="#waitlist-cta" style="background: #4B2615; color: white; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px; cursor: pointer; text-decoration: none; display: inline-block;">
+        <a href="#waitlist-cta" style="background: #3d1a0f; color: white; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px; cursor: pointer; text-decoration: none; display: inline-block;">
           Join Waitlist
         </a>
       </div>
@@ -344,7 +344,7 @@ export function DemoMap({ activeCategory }: DemoMapProps) {
       <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 text-xs text-dark font-semibold border border-border/50 shadow-sm z-[1000] pointer-events-none">
         <span className="flex items-center gap-1.5">
           <svg
-            className="h-3.5 w-3.5 text-[#D06A4E]"
+            className="h-3.5 w-3.5 text-[#b05a2a]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
