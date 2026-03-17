@@ -655,3 +655,19 @@ model LaunchWaitlist {
 
   @@map("launch_waitlist")
 }
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  category  String   @default("general")
+  status    String   @default("new")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([email])
+  @@index([status])
+  @@index([createdAt])
+  @@map("contact_submissions")
+}
