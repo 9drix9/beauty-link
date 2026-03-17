@@ -251,7 +251,7 @@ struct ListingCard: View {
                     .clipped()
                 } else {
                     Rectangle()
-                        .fill(AppTheme.blush)
+                        .fill(AppTheme.accentLight)
                         .frame(height: 120)
                         .overlay(
                             Image(systemName: "sparkles")

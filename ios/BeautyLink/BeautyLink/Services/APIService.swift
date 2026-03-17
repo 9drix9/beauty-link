@@ -238,4 +238,25 @@ class APIService: ObservableObject {
     func getProStatus() async throws -> [String: Bool] {
         return try await request("GET", path: "/api/user/pro-status")
     }
+
+    // MARK: - Contact
+
+    func submitContactForm(
+        name: String,
+        email: String,
+        subject: String,
+        message: String,
+        category: String
+    ) async throws -> [String: String] {
+        struct ContactBody: Codable {
+            let name: String
+            let email: String
+            let subject: String
+            let message: String
+            let category: String
+        }
+        return try await request("POST", path: "/api/contact", body: ContactBody(
+            name: name, email: email, subject: subject, message: message, category: category
+        ))
+    }
 }

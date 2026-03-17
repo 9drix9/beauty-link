@@ -1,29 +1,36 @@
 import SwiftUI
 
 enum AppTheme {
-    // Primary palette
-    static let background = Color(hex: "F6EDE6")
-    static let surface = Color(hex: "FFF8F4")
-    static let blush = Color(hex: "F4DDE5")
-    static let blushAccent = Color(hex: "DFA3A6")
-    static let coral = Color(hex: "D06A4E")
-    static let dark = Color(hex: "3A1F10")
-    static let body = Color(hex: "3A1F10")
-    static let muted = Color(hex: "9A7B6A")
-    static let border = Color(hex: "E6D8CF")
-    static let cta = Color(hex: "4B2615")
-    static let ctaHover = Color(hex: "5A2F1A")
-    static let accent = Color(hex: "D06A4E")
-    static let accentLight = Color(hex: "F4DDE5")
-    static let success = Color(hex: "16A34A")
-    static let error = Color(hex: "DC2626")
-    static let white = Color.white
+    // Brand colors (matching logo)
+    static let dark = Color(hex: "3d1a0f")
+    static let body = Color(hex: "3d1a0f")
+    static let accent = Color(hex: "b05a2a")
+    static let accentHover = Color(hex: "6b3020")
+    static let accentLight = Color(hex: "f5e8da")
+    static let accentMuted = Color(hex: "c4a98c")
+    static let muted = Color(hex: "9a7b6a")
+    static let background = Color(hex: "faf5f0")
+    static let surface = Color.white
+    static let border = Color(hex: "e0d3c8")
+    static let cta = Color(hex: "3d1a0f")
+    static let ctaHover = Color(hex: "6b3020")
+    static let success = Color(hex: "10B981")
+    static let error = Color(hex: "EF4444")
+    static let warning = Color(hex: "F59E0B")
 
     // Typography
-    static let headingFont: Font = .system(.title, design: .default, weight: .bold)
-    static let subheadingFont: Font = .system(.title3, design: .default, weight: .semibold)
-    static let bodyFont: Font = .system(.body, design: .default)
-    static let captionFont: Font = .system(.caption, design: .default)
+    static let headingFont: Font = .custom("PlayfairDisplay-Bold", size: 28, relativeTo: .title)
+    static let headingItalic: Font = .custom("PlayfairDisplay-Italic", size: 28, relativeTo: .title)
+    static let subheadingFont: Font = .custom("PlayfairDisplay-SemiBold", size: 20, relativeTo: .title3)
+
+    // Fallback serif for headings (when custom fonts not bundled)
+    static func serif(_ size: CGFloat, weight: Font.Weight = .bold) -> Font {
+        .system(size: size, weight: weight, design: .serif)
+    }
+
+    static func serifItalic(_ size: CGFloat) -> Font {
+        .system(size: size, design: .serif).italic()
+    }
 
     // Spacing
     static let paddingSm: CGFloat = 8
@@ -36,7 +43,7 @@ enum AppTheme {
     static let radiusMd: CGFloat = 12
     static let radiusLg: CGFloat = 16
     static let radiusXl: CGFloat = 20
-    static let radiusFull: CGFloat = 100
+    static let radiusPill: CGFloat = 24
 }
 
 extension Color {

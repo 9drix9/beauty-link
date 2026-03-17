@@ -25,7 +25,7 @@ struct AppointmentDetailView: View {
                         .clipped()
                     } else {
                         Rectangle()
-                            .fill(LinearGradient(colors: [AppTheme.blush, AppTheme.background], startPoint: .topLeading, endPoint: .bottomTrailing))
+                            .fill(LinearGradient(colors: [AppTheme.accentLight, AppTheme.background], startPoint: .topLeading, endPoint: .bottomTrailing))
                             .frame(height: 260)
                     }
 

@@ -62,6 +62,10 @@ struct ProDashboardView: View {
                                 NavigationLink(destination: ProEarningsView()) {
                                     QuickAction(icon: "chart.bar.fill", title: "View Earnings", color: AppTheme.success)
                                 }
+
+                                NavigationLink(destination: ProSettingsView()) {
+                                    QuickAction(icon: "gearshape.fill", title: "Settings", color: AppTheme.muted)
+                                }
                             }
                             .padding()
                             .background(AppTheme.surface)
@@ -157,7 +161,7 @@ struct ProListingRow: View {
     var body: some View {
         HStack(spacing: 12) {
             RoundedRectangle(cornerRadius: 8)
-                .fill(AppTheme.blush)
+                .fill(AppTheme.accentLight)
                 .frame(width: 50, height: 50)
                 .overlay(
                     Text(String(listing.serviceName.prefix(1)))

@@ -16,18 +16,33 @@ struct LoadingView: View {
     var body: some View {
         ZStack {
             AppTheme.background.ignoresSafeArea()
-            VStack(spacing: 12) {
-                Text("Beauty")
-                    .font(.system(size: 28, weight: .bold)) +
-                Text("Link")
-                    .font(.system(size: 28, weight: .bold))
-                    .foregroundColor(AppTheme.accent)
+            VStack(spacing: 16) {
+                BrandLogo(size: 32)
                 ProgressView()
                     .tint(AppTheme.accent)
             }
         }
     }
 }
+
+// MARK: - Brand Logo
+
+struct BrandLogo: View {
+    var size: CGFloat = 22
+
+    var body: some View {
+        HStack(spacing: 0) {
+            Text("beauty")
+                .font(AppTheme.serif(size, weight: .bold))
+                .foregroundColor(AppTheme.dark)
+            Text("link")
+                .font(AppTheme.serifItalic(size))
+                .foregroundColor(AppTheme.dark)
+        }
+    }
+}
+
+// MARK: - Tab View
 
 struct MainTabView: View {
     @EnvironmentObject var auth: AuthManager

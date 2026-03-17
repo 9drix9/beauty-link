@@ -129,9 +129,19 @@ struct BookingCard: View {
                     .foregroundColor(AppTheme.dark)
             }
 
-            Text("Ref: \(booking.bookingReference)")
-                .font(.caption2)
-                .foregroundColor(AppTheme.muted)
+            HStack {
+                Text("Ref: \(booking.bookingReference)")
+                    .font(.caption2)
+                    .foregroundColor(AppTheme.muted)
+                Spacer()
+                if booking.status == .COMPLETED {
+                    NavigationLink(destination: ReviewView(booking: booking)) {
+                        Text("Leave Review")
+                            .font(.caption.weight(.semibold))
+                            .foregroundColor(AppTheme.accent)
+                    }
+                }
+            }
         }
         .padding()
         .background(AppTheme.surface)
