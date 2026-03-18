@@ -136,6 +136,30 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Model calls are free — skip Stripe entirely
+    if (listing.isModelCall) {
+      logger.info("MODEL_CALL_CHECKOUT", {
+        listingId,
+        customerId: user.id,
+      });
+
+      return NextResponse.json({
+        clientSecret: null,
+        isModelCall: true,
+        holdExpiresAt: holdExpiresAt.toISOString(),
+        pricing: {
+          originalPrice: 0,
+          discountedPrice: 0,
+          savingsAmount: 0,
+          savingsPercent: 100,
+          platformFee: 0,
+          totalCharged: 0,
+          providerPayout: 0,
+          promoDiscount: 0,
+        },
+      });
+    }
+
     // Calculate pricing
     const pricing = calculatePriceBreakdown(
       listing.originalPrice,

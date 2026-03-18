@@ -9,6 +9,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = req.nextUrl;
 
     const category = searchParams.get("category");
+    const modelCall = searchParams.get("modelCall");
     const search = searchParams.get("search");
     const sort = searchParams.get("sort");
     const date = searchParams.get("date");
@@ -28,6 +29,7 @@ export async function GET(req: NextRequest) {
     const where: Record<string, unknown> = {
       status: ListingStatus.LIVE,
       appointmentDate: { gte: today },
+      isModelCall: modelCall === "true",
     };
 
     // Category filter

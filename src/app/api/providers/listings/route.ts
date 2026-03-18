@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { getApiUser } from "@/lib/auth";
 import { ServiceCategory } from "@prisma/client";
-import { createListingSchema } from "@/lib/validators";
+import { createListingSchema, createModelCallSchema } from "@/lib/validators";
 import { validateDiscount } from "@/lib/pricing";
+import { SkillLevel } from "@prisma/client";
 import { logger } from "@/lib/logger";
 
 export const dynamic = "force-dynamic";
@@ -63,8 +64,61 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
+    const isModelCall = body.isModelCall === true;
 
-    // Validate with schema
+    if (isModelCall) {
+      // Model call validation (no pricing)
+      const parsed = createModelCallSchema.safeParse(body);
+      if (!parsed.success) {
+        return NextResponse.json(
+          { error: parsed.error.issues[0].message },
+          { status: 400 }
+        );
+      }
+
+      const data = parsed.data;
+      const status = body.status === "DRAFT" ? "DRAFT" : "LIVE";
+      const locationAddress =
+        body.locationAddress ||
+        [data.addressLine1, data.city, data.state, data.zipCode]
+          .filter(Boolean)
+          .join(", ");
+
+      const listing = await db.appointmentListing.create({
+        data: {
+          professionalId: user.professionalProfile.id,
+          serviceCategory: data.serviceCategory as ServiceCategory,
+          serviceName: data.title,
+          description: data.description,
+          whatsIncluded: data.whatsIncluded || [],
+          appointmentDate: new Date(data.appointmentDate + "T00:00:00"),
+          appointmentTime: data.appointmentTime,
+          durationMinutes: data.durationMinutes,
+          originalPrice: 0,
+          discountedPrice: 0,
+          maxClients: data.maxClients,
+          locationAddress,
+          listingPhotoUrl: body.listingPhotoUrl || null,
+          launchZone: body.launchZone || null,
+          isModelCall: true,
+          skillLevel: data.skillLevel as SkillLevel,
+          modelRequirements: data.modelRequirements || null,
+          status,
+        },
+      });
+
+      logger.info("MODEL_CALL_CREATED", {
+        listingId: listing.id,
+        professionalId: user.professionalProfile.id,
+        serviceName: listing.serviceName,
+        skillLevel: listing.skillLevel,
+        status,
+      });
+
+      return NextResponse.json(listing, { status: 201 });
+    }
+
+    // Regular paid listing validation
     const parsed = createListingSchema.safeParse(body);
     if (!parsed.success) {
       const firstError = parsed.error.issues[0];

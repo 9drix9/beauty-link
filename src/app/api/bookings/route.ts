@@ -33,55 +33,14 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const { listingId, paymentIntentId } = body;
 
-    if (!listingId || !paymentIntentId) {
+    if (!listingId) {
       return NextResponse.json(
-        { error: "listingId and paymentIntentId are required" },
+        { error: "listingId is required" },
         { status: 400 }
       );
     }
 
-    // ── Verify PaymentIntent with Stripe ──
-    const stripe = getStripe();
-    if (!stripe) {
-      return NextResponse.json(
-        { error: "Payment processing is not configured" },
-        { status: 503 }
-      );
-    }
-
-    const pi = await stripe.paymentIntents.retrieve(paymentIntentId);
-
-    if (pi.status !== "succeeded") {
-      return NextResponse.json(
-        { error: "Payment has not been completed" },
-        { status: 400 }
-      );
-    }
-
-    // Verify the PaymentIntent was created for this listing and user
-    if (pi.metadata.listingId !== listingId) {
-      return NextResponse.json(
-        { error: "Payment does not match this listing" },
-        { status: 400 }
-      );
-    }
-
-    if (pi.metadata.userId !== user.id) {
-      return NextResponse.json(
-        { error: "Payment does not belong to this user" },
-        { status: 400 }
-      );
-    }
-
-    // Idempotency: if a booking already exists for this PI, return it
-    const existingBooking = await db.booking.findFirst({
-      where: { stripePaymentIntentId: paymentIntentId },
-    });
-    if (existingBooking) {
-      return NextResponse.json({ booking: existingBooking }, { status: 200 });
-    }
-
-    // Fetch listing for initial validation
+    // Fetch listing first to determine if model call
     const listing = await db.appointmentListing.findUnique({
       where: { id: listingId },
       include: { professional: true },
@@ -101,12 +60,68 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const bookingReference =
-      pi.metadata.bookingReference || generateBookingReference();
-    const pricing = calculatePriceBreakdown(
-      listing.originalPrice,
-      listing.discountedPrice
-    );
+    let bookingReference: string;
+    let pricing: ReturnType<typeof calculatePriceBreakdown>;
+
+    if (listing.isModelCall) {
+      // ── Model call: free booking, no Stripe ──
+      bookingReference = generateBookingReference();
+      pricing = calculatePriceBreakdown(0, 0);
+    } else {
+      // ── Paid listing: verify Stripe payment ──
+      if (!paymentIntentId) {
+        return NextResponse.json(
+          { error: "paymentIntentId is required" },
+          { status: 400 }
+        );
+      }
+
+      const stripe = getStripe();
+      if (!stripe) {
+        return NextResponse.json(
+          { error: "Payment processing is not configured" },
+          { status: 503 }
+        );
+      }
+
+      const pi = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+      if (pi.status !== "succeeded") {
+        return NextResponse.json(
+          { error: "Payment has not been completed" },
+          { status: 400 }
+        );
+      }
+
+      if (pi.metadata.listingId !== listingId) {
+        return NextResponse.json(
+          { error: "Payment does not match this listing" },
+          { status: 400 }
+        );
+      }
+
+      if (pi.metadata.userId !== user.id) {
+        return NextResponse.json(
+          { error: "Payment does not belong to this user" },
+          { status: 400 }
+        );
+      }
+
+      // Idempotency: if a booking already exists for this PI, return it
+      const existingBooking = await db.booking.findFirst({
+        where: { stripePaymentIntentId: paymentIntentId },
+      });
+      if (existingBooking) {
+        return NextResponse.json({ booking: existingBooking }, { status: 200 });
+      }
+
+      bookingReference =
+        pi.metadata.bookingReference || generateBookingReference();
+      pricing = calculatePriceBreakdown(
+        listing.originalPrice,
+        listing.discountedPrice
+      );
+    }
 
     // Use a transaction to prevent race conditions
     const booking = await db.$transaction(async (tx) => {
@@ -140,7 +155,7 @@ export async function POST(req: NextRequest) {
           discountedPrice: pricing.discountedPrice,
           platformFee: pricing.platformFee,
           totalCharged: pricing.totalCharged,
-          stripePaymentIntentId: paymentIntentId,
+          stripePaymentIntentId: paymentIntentId || null,
           status: "CONFIRMED",
         },
       });

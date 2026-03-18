@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ServiceCategory } from "@prisma/client";
+import { ServiceCategory, SkillLevel } from "@prisma/client";
 
 export const createListingSchema = z
   .object({
@@ -72,7 +72,38 @@ export const contactSchema = z.object({
   message: z.string().min(20).max(2000),
 });
 
+export const createModelCallSchema = z
+  .object({
+    serviceCategory: z.nativeEnum(ServiceCategory),
+    title: z.string().min(5).max(100),
+    description: z.string().min(20).max(1000),
+    skillLevel: z.nativeEnum(SkillLevel),
+    modelRequirements: z.string().max(500).optional(),
+    durationMinutes: z.number().int().min(15).max(480),
+    appointmentDate: z.string(),
+    appointmentTime: z.string(),
+    maxClients: z.number().int().min(1).max(3).default(1),
+    whatsIncluded: z.array(z.string()).max(5).optional(),
+    addressLine1: z.string().min(1),
+    city: z.string().min(1),
+    state: z.string().length(2),
+    zipCode: z.string().regex(/^\d{5}$/),
+  })
+  .refine(
+    (data) => {
+      const apptDate = new Date(data.appointmentDate + "T00:00:00");
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return apptDate >= today;
+    },
+    {
+      message: "Appointment date must be today or in the future.",
+      path: ["appointmentDate"],
+    }
+  );
+
 export type CreateListingInput = z.infer<typeof createListingSchema>;
+export type CreateModelCallInput = z.infer<typeof createModelCallSchema>;
 export type CreateBookingInput = z.infer<typeof createBookingSchema>;
 export type ReviewInput = z.infer<typeof reviewSchema>;
 export type ProApplicationInput = z.infer<typeof proApplicationSchema>;

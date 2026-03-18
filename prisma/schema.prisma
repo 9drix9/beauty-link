@@ -89,6 +89,14 @@ enum ServiceCategory {
   @@map("service_category")
 }
 
+enum SkillLevel {
+  STUDENT
+  TRAINEE
+  BEGINNER
+
+  @@map("skill_level")
+}
+
 enum ListingStatus {
   DRAFT
   LIVE
@@ -336,9 +344,12 @@ model AppointmentListing {
   latitude        Float?
   longitude       Float?
   launchZone      String?         @map("launch_zone")
-  status          ListingStatus   @default(DRAFT)
-  createdAt       DateTime        @default(now()) @map("created_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
+  status            ListingStatus   @default(DRAFT)
+  isModelCall       Boolean         @default(false) @map("is_model_call")
+  skillLevel        SkillLevel?     @map("skill_level")
+  modelRequirements String?         @map("model_requirements") @db.Text
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
 
   professional ProfessionalProfile @relation(fields: [professionalId], references: [id], onDelete: Cascade)
   service      Service?            @relation(fields: [serviceId], references: [id])
@@ -350,6 +361,7 @@ model AppointmentListing {
   @@index([serviceCategory])
   @@index([professionalId])
   @@index([latitude, longitude])
+  @@index([isModelCall, status, appointmentDate])
   @@map("appointment_listings")
 }
 

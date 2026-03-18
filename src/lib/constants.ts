@@ -20,6 +20,13 @@ export const MIN_LISTING_PRICE_CENTS = 1000; // $10.00 minimum
 export const MAX_LISTING_PRICE_CENTS = 999900; // $9,999.00 maximum
 export const MAX_CLIENTS_PER_LISTING = 3;
 export const MIN_PORTFOLIO_PHOTOS = 3;
+
+// Model Calls / Trainee Services
+export const SKILL_LEVELS = [
+  { value: "STUDENT", label: "Student", description: "Currently enrolled in a beauty program" },
+  { value: "TRAINEE", label: "Trainee", description: "Apprentice or in training professional" },
+  { value: "BEGINNER", label: "Beginner", description: "Licensed but building experience" },
+] as const;
 export const MAX_PORTFOLIO_PHOTOS = 10;
 export const MAX_SPECIALTIES = 15;
 export const MAX_WHATS_INCLUDED = 5;
