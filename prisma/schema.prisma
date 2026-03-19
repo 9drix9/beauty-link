@@ -287,6 +287,8 @@ model ProfessionalProfile {
   lifetimeEarnings         Int               @default(0) @map("lifetime_earnings")
   availableBalance         Int               @default(0) @map("available_balance")
   pendingBalance           Int               @default(0) @map("pending_balance")
+  profileBadges            String[]          @map("profile_badges") @default([])
+  licensedBadge            Boolean           @default(false) @map("licensed_badge")
   createdAt                DateTime          @default(now()) @map("created_at")
   updatedAt                DateTime          @updatedAt @map("updated_at")
 

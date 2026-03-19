@@ -328,7 +328,7 @@ function ModelCallDetailModal({
             <div className="flex items-start gap-2">
               <Info className="h-4 w-4 text-amber-700 mt-0.5 shrink-0" aria-hidden="true" />
               <p className="text-xs text-amber-800 leading-relaxed">
-                This is a training service. Results may vary and appointments may take longer than usual. The professional is building their skills and your feedback helps them improve.
+                Results are not guaranteed. Model Call services may be performed in a practice, training, or demo setting and can vary by provider experience and service type.
               </p>
             </div>
           </div>
@@ -372,7 +372,7 @@ export function DemoModelCalls() {
                 Model Calls
               </h1>
               <p className="text-body/70 mt-0.5 text-sm sm:text-base">
-                Free beauty services from students and trainees. Be their model.
+                Find free and low cost beauty appointments from students, emerging professionals, and artists seeking models for practice, demos, and portfolio work.
               </p>
             </div>
           </div>
@@ -419,7 +419,7 @@ export function DemoModelCalls() {
           <div className="flex items-start gap-2">
             <Info className="h-4 w-4 text-blue-700 mt-0.5 shrink-0" aria-hidden="true" />
             <p className="text-sm text-blue-800">
-              These are training services provided by beauty students and trainees. Services are free but results are not guaranteed. Sessions may take longer than usual. BeautyLink will officially launch in May 2026.
+              Results are not guaranteed. Model Call services may be performed in a practice, training, or demo setting and can vary by provider experience and service type. BeautyLink will officially launch in May 2026.
             </p>
           </div>
         </div>

@@ -21,6 +21,16 @@ export const MAX_LISTING_PRICE_CENTS = 999900; // $9,999.00 maximum
 export const MAX_CLIENTS_PER_LISTING = 3;
 export const MIN_PORTFOLIO_PHOTOS = 3;
 
+// Profile Badges (self-selected by pros; "Licensed" is admin-controlled only)
+export const PROFILE_BADGES = [
+  { value: "NEW", label: "New", description: "New to BeautyLink" },
+  { value: "TRAINEE", label: "Trainee", description: "In training or apprenticeship" },
+  { value: "STUDENT", label: "Student", description: "Currently enrolled in a beauty program" },
+  { value: "EMERGING", label: "Emerging Artist", description: "Building a portfolio" },
+  { value: "EXPERIENCED", label: "Experienced", description: "Seasoned professional" },
+  { value: "SPECIALIST", label: "Specialist", description: "Expert in a specific service" },
+] as const;
+
 // Model Calls / Trainee Services
 export const SKILL_LEVELS = [
   { value: "STUDENT", label: "Student", description: "Currently enrolled in a beauty program" },

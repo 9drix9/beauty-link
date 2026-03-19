@@ -7,6 +7,7 @@ import {
   AlertTriangle,
   Megaphone,
   Star,
+  Mail,
   ExternalLink,
 } from "lucide-react";
 import { AdminMobileNav } from "./admin-mobile-nav";
@@ -15,6 +16,7 @@ const sidebarLinks = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { label: "Applications", href: "/admin/applications", icon: FileText },
   { label: "Users", href: "/admin/users", icon: Users },
+  { label: "Mailing List", href: "/admin/waitlist", icon: Mail },
   { label: "Disputes", href: "/admin/disputes", icon: AlertTriangle },
   { label: "Banners", href: "/admin/banners", icon: Megaphone },
   { label: "Featured", href: "/admin/featured", icon: Star },
