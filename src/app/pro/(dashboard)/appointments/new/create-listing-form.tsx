@@ -23,15 +23,21 @@ import {
   DURATION_OPTIONS,
   LAUNCH_ZONES,
   MAX_WHATS_INCLUDED,
+  SKILL_LEVELS,
 } from "@/lib/constants";
 import { calculatePriceBreakdown, validateDiscount } from "@/lib/pricing";
 import { formatPrice, calcSavingsPercent } from "@/lib/utils";
-import { createListingSchema } from "@/lib/validators";
+import { createListingSchema, createModelCallSchema } from "@/lib/validators";
 
 export function CreateListingForm() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Listing Type
+  const [isModelCall, setIsModelCall] = useState(false);
+  const [skillLevel, setSkillLevel] = useState("");
+  const [modelRequirements, setModelRequirements] = useState("");
 
   // Service Details
   const [serviceCategory, setServiceCategory] = useState("");
@@ -109,13 +115,10 @@ export function CreateListingForm() {
       .filter(Boolean)
       .join(", ");
 
-    return {
+    const base = {
       serviceCategory,
-      subCategory: subCategory || undefined,
       title,
       description,
-      originalPriceCents,
-      discountedPriceCents,
       durationMinutes: parseInt(durationMinutes) || 0,
       appointmentDate,
       appointmentTime,
@@ -129,6 +132,22 @@ export function CreateListingForm() {
       locationAddress,
       listingPhotoUrl: listingPhoto || undefined,
     };
+
+    if (isModelCall) {
+      return {
+        ...base,
+        isModelCall: true,
+        skillLevel,
+        modelRequirements: modelRequirements || undefined,
+      };
+    }
+
+    return {
+      ...base,
+      subCategory: subCategory || undefined,
+      originalPriceCents,
+      discountedPriceCents,
+    };
   }
 
   async function handleSubmit(status: "LIVE" | "DRAFT") {
@@ -136,20 +155,24 @@ export function CreateListingForm() {
     const data = buildFormData();
 
     // Client-side validation
-    const result = createListingSchema.safeParse(data);
-    if (!result.success) {
-      const firstError = result.error.issues[0];
-      setError(firstError.message);
-      return;
-    }
+    if (isModelCall) {
+      const result = createModelCallSchema.safeParse(data);
+      if (!result.success) {
+        setError(result.error.issues[0].message);
+        return;
+      }
+    } else {
+      const result = createListingSchema.safeParse(data);
+      if (!result.success) {
+        setError(result.error.issues[0].message);
+        return;
+      }
 
-    // Discount validation
-    if (discountValidation && !discountValidation.valid) {
-      setError(
-        discountValidation.error ||
-          "Invalid discount"
-      );
-      return;
+      // Discount validation
+      if (discountValidation && !discountValidation.valid) {
+        setError(discountValidation.error || "Invalid discount");
+        return;
+      }
     }
 
     // Date must be in the future
@@ -197,6 +220,78 @@ export function CreateListingForm() {
           <p className="text-sm text-error">{error}</p>
         </div>
       )}
+
+      {/* Listing Type */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg">Listing Type</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => setIsModelCall(false)}
+              className={`rounded-xl border-2 p-4 text-left transition-all ${
+                !isModelCall
+                  ? "border-accent bg-accent-light"
+                  : "border-border hover:border-accent/30"
+              }`}
+            >
+              <p className="font-semibold text-dark text-sm">Regular Appointment</p>
+              <p className="text-xs text-muted mt-1">Paid listing with discounted pricing</p>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsModelCall(true)}
+              className={`rounded-xl border-2 p-4 text-left transition-all ${
+                isModelCall
+                  ? "border-accent bg-accent-light"
+                  : "border-border hover:border-accent/30"
+              }`}
+            >
+              <p className="font-semibold text-dark text-sm">Model Call</p>
+              <p className="text-xs text-muted mt-1">Free service for training or portfolio work</p>
+            </button>
+          </div>
+
+          {isModelCall && (
+            <div className="mt-4 space-y-4 pt-4 border-t border-border">
+              <div className="space-y-2">
+                <Label htmlFor="skillLevel">Skill Level</Label>
+                <Select value={skillLevel} onValueChange={setSkillLevel}>
+                  <SelectTrigger id="skillLevel">
+                    <SelectValue placeholder="Select your level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SKILL_LEVELS.map((level) => (
+                      <SelectItem key={level.value} value={level.value}>
+                        {level.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="modelRequirements">Model Requirements (Optional)</Label>
+                <Textarea
+                  id="modelRequirements"
+                  value={modelRequirements}
+                  onChange={(e) => setModelRequirements(e.target.value)}
+                  placeholder="e.g. Looking for medium to long hair, any texture. Must be comfortable with a longer appointment."
+                  rows={3}
+                  maxLength={500}
+                />
+                <p className="text-xs text-muted text-right">{modelRequirements.length}/500</p>
+              </div>
+              <div className="rounded-lg bg-accent-light/50 border border-accent-muted/20 p-3">
+                <p className="text-xs text-body/70">
+                  Model Call listings are free ($0). Clients book the same way but no payment is required.
+                </p>
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Service Details */}
       <Card>
@@ -347,8 +442,8 @@ export function CreateListingForm() {
         </CardContent>
       </Card>
 
-      {/* Pricing */}
-      <Card>
+      {/* Pricing (hidden for model calls) */}
+      {!isModelCall && <Card>
         <CardHeader>
           <CardTitle className="text-lg">Pricing</CardTitle>
         </CardHeader>
@@ -423,7 +518,7 @@ export function CreateListingForm() {
             </div>
           )}
         </CardContent>
-      </Card>
+      </Card>}
 
       {/* Appointment Details */}
       <Card>

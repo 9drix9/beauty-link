@@ -55,6 +55,12 @@ export async function PATCH(req: Request) {
         .filter((url: unknown) => typeof url === "string" && url.length > 0)
         .slice(0, 10);
     }
+    if (Array.isArray(body.profileBadges)) {
+      const validBadges = ["NEW", "TRAINEE", "STUDENT", "EMERGING", "EXPERIENCED", "SPECIALIST"];
+      allowedFields.profileBadges = body.profileBadges
+        .filter((b: unknown) => typeof b === "string" && validBadges.includes(b as string))
+        .slice(0, 6);
+    }
 
     const updated = await db.professionalProfile.update({
       where: { id: profile.id },

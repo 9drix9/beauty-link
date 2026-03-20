@@ -1,6 +1,7 @@
 import { requirePro } from "@/lib/auth";
 import { ProSettingsForm } from "./pro-settings-form";
 import { PaymentSetup } from "./payment-setup";
+import { BadgeSelector } from "./badge-selector";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Edit Profile | BeautyLink Pro" };
@@ -23,6 +24,13 @@ export default async function ProSettingsPage() {
         stripeConnected={!!profile.stripeConnectAccountId}
         payoutEnabled={profile.payoutEnabled}
         bankLast4={profile.bankAccountLast4}
+      />
+
+      {/* Profile Badges */}
+      <BadgeSelector
+        currentBadges={profile.profileBadges || []}
+        licensedBadge={profile.licensedBadge}
+        licenseStatus={profile.licenseStatus}
       />
 
       {/* Profile Form */}
