@@ -60,8 +60,8 @@ export function Footer() {
           {/* Brand column */}
           <div>
             <Link href="/" className="text-[22px] text-dark">
-              <span className="font-serif font-bold">beauty</span>
-              <span className="font-serif italic">link</span>
+              <span className="font-serif font-bold">Beauty</span>
+              <span className="font-serif italic">Link</span>
             </Link>
             <p className="mt-3 text-sm text-muted leading-relaxed">
               Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 10 to 50% off.

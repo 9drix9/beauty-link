@@ -37,8 +37,8 @@ export function CustomerNav() {
       <nav className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
         {/* Logo */}
         <Link href="/" className="shrink-0 text-[22px] text-dark">
-          <span className="font-serif font-bold">beauty</span>
-          <span className="font-serif italic">link</span>
+          <span className="font-serif font-bold">Beauty</span>
+          <span className="font-serif italic">Link</span>
         </Link>
 
         {/* Search bar - center */}

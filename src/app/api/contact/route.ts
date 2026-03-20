@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
             <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: 0 auto; padding: 32px 24px;">
               <div style="text-align: center; margin-bottom: 32px;">
                 <h1 style="font-size: 22px; margin: 0; font-family: Georgia, serif; color: #3d1a0f;">
-                  <span style="font-weight: 700;">beauty</span><span style="font-style: italic;">link</span>
+                  <span style="font-weight: 700;">Beauty</span><span style="font-style: italic;">Link</span>
                 </h1>
               </div>
 

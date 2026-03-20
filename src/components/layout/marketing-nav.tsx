@@ -50,8 +50,8 @@ export function MarketingNav() {
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         {/* Logo */}
         <Link href="/" className="text-[22px] shrink-0 text-dark">
-          <span className="font-serif font-bold">beauty</span>
-          <span className="font-serif italic">link</span>
+          <span className="font-serif font-bold">Beauty</span>
+          <span className="font-serif italic">Link</span>
         </Link>
 
         {/* Desktop nav links — centered */}
