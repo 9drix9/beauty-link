@@ -8,7 +8,12 @@ import { IS_LAUNCHED } from "@/lib/launch";
 import { MarketingNav } from "@/components/layout/marketing-nav";
 import { Footer } from "@/components/layout/footer";
 
-export const metadata = { title: "For Professionals | BeautyLink" };
+export const metadata = {
+  title: "For Professionals",
+  description:
+    "Join BeautyLink as a beauty professional. Fill your empty chair, keep 100% of your listed price, and reach new clients in Los Angeles. Apply as a founding stylist today.",
+  alternates: { canonical: "/pro/join" },
+};
 
 export default function JoinPage() {
   return (

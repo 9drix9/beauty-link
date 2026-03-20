@@ -12,7 +12,12 @@ import { Footer } from "@/components/layout/footer";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = { title: "Apply as a Professional" };
+export const metadata = {
+  title: "Apply As A Professional",
+  description:
+    "Apply to list your beauty services on BeautyLink. We review applications within 48 hours. Hair, nails, lashes, makeup, skincare, and more.",
+  alternates: { canonical: "/pro/apply" },
+};
 
 export default async function ApplyPage() {
   const baseUser = await getCurrentUser();
