@@ -16,7 +16,7 @@ const footerColumns = [
     links: [
       { label: "Join as a Pro", href: "/pro/join" },
       { label: "Apply Now", href: "/pro/apply" },
-      { label: "Pro FAQ", href: "/faq" },
+      { label: "Pro FAQ", href: "/pro/faq" },
     ],
   },
   {
@@ -97,7 +97,7 @@ export function Footer() {
 
           <div className="flex items-center gap-2">
             {/* Instagram */}
-            <SocialIcon href="https://instagram.com" label="Instagram">
+            <SocialIcon href="https://instagram.com/beautylinknetwork" label="Instagram">
               <svg
                 className="h-5 w-5"
                 fill="currentColor"
