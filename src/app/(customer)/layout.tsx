@@ -11,8 +11,8 @@ export default function CustomerLayout({
     <>
       <CustomerNav />
       <main className="min-h-screen pb-20 md:pb-0">{children}</main>
-      <MobileBottomTabs />
       <Footer />
+      <MobileBottomTabs />
     </>
   );
 }

@@ -16,7 +16,7 @@ const footerColumns = [
     links: [
       { label: "Join as a Pro", href: "/pro/join" },
       { label: "Apply Now", href: "/pro/apply" },
-      { label: "Pro FAQ", href: "/pro/faq" },
+      { label: "Pro FAQ", href: "/pro-faq" },
     ],
   },
   {
@@ -108,7 +108,7 @@ export function Footer() {
             </SocialIcon>
 
             {/* TikTok */}
-            <SocialIcon href="https://tiktok.com" label="TikTok">
+            <SocialIcon href="https://tiktok.com/@beautylinknetwork" label="TikTok">
               <svg
                 className="h-5 w-5"
                 fill="currentColor"
