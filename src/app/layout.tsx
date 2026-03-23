@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     template: "%s | BeautyLink",
   },
   description:
-    "Book exclusive discounted beauty appointments with verified professionals in Los Angeles. Hair, nails, lashes, makeup, brows, skincare, and more at 10 to 50% off. Free model calls available for beauty students.",
+    "Book exclusive discounted beauty appointments with verified professionals in Los Angeles. Hair, nails, lashes, makeup, brows, skincare, and more at 10 to 50% off. Model calls available for beauty students and trainees.",
   keywords: [
     "beauty appointments",
     "discounted beauty",

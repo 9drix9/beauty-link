@@ -10,7 +10,6 @@ import {
   ArrowRight,
   Search,
   Info,
-  Users,
   X,
   Calendar,
 } from "lucide-react";
@@ -37,7 +36,7 @@ interface ModelCallListing {
 const DEMO_MODEL_CALLS: ModelCallListing[] = [
   {
     id: "mc-1",
-    service: "Practice Balayage",
+    service: "Balayage Model Call",
     category: "Hair",
     stylist: "Maya Johnson",
     skillLevel: "Student",
@@ -48,13 +47,13 @@ const DEMO_MODEL_CALLS: ModelCallListing[] = [
     time: "10:00 AM",
     duration: "3 hrs",
     modelRequirements: "Looking for medium to long hair, any texture. Must be comfortable with a longer appointment time.",
-    description: "Practice balayage technique under instructor supervision. Great for anyone wanting a free color refresh.",
+    description: "Practice balayage technique under instructor supervision. Great for anyone wanting a color refresh.",
     includes: ["Consultation", "Balayage application", "Toner", "Blowout"],
     image: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80&auto=format&fit=crop",
   },
   {
     id: "mc-2",
-    service: "Gel Manicure Practice",
+    service: "Gel Manicure Model Call",
     category: "Nails",
     stylist: "Lucia Reyes",
     skillLevel: "Trainee",
@@ -70,7 +69,7 @@ const DEMO_MODEL_CALLS: ModelCallListing[] = [
   },
   {
     id: "mc-3",
-    service: "Lash Lift Training",
+    service: "Lash Lift Model Call",
     category: "Lashes",
     stylist: "Priya Desai",
     skillLevel: "Student",
@@ -87,7 +86,7 @@ const DEMO_MODEL_CALLS: ModelCallListing[] = [
   },
   {
     id: "mc-4",
-    service: "Beginner Makeup Application",
+    service: "Makeup Model Call",
     category: "Makeup",
     stylist: "Jasmine Cole",
     skillLevel: "Beginner",
@@ -97,13 +96,13 @@ const DEMO_MODEL_CALLS: ModelCallListing[] = [
     time: "11:00 AM",
     duration: "60 min",
     modelRequirements: "All skin tones welcome. Let me know about any skin sensitivities.",
-    description: "Building my portfolio with full glam looks. Great if you have an event coming up or just want a free makeover.",
+    description: "Building my portfolio with full glam looks. Great if you have an event coming up.",
     includes: ["Full face makeup", "Lashes (optional)", "Setting spray"],
     image: "https://images.unsplash.com/photo-1487412912498-0447578fcca8?w=600&q=80&auto=format&fit=crop",
   },
   {
     id: "mc-5",
-    service: "Brow Lamination Practice",
+    service: "Brow Lamination Model Call",
     category: "Brows",
     stylist: "Taylor Kim",
     skillLevel: "Trainee",
@@ -135,10 +134,11 @@ function SkillBadge({ level }: { level: string }) {
   );
 }
 
-function FreeBadge() {
+function ModelCallBadge() {
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500 px-3 py-1 text-xs font-bold text-white shadow-md">
-      FREE
+    <span className="inline-flex items-center gap-1 rounded-full bg-dark/80 backdrop-blur-sm px-3 py-1 text-xs font-semibold text-white shadow-md">
+      <GraduationCap className="h-3 w-3" aria-hidden="true" />
+      Model Call
     </span>
   );
 }
@@ -165,9 +165,8 @@ function ModelCallCard({
           className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
           sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        <FreeBadge />
         <span className="absolute top-3 left-3">
-          <FreeBadge />
+          <ModelCallBadge />
         </span>
       </div>
 
@@ -180,13 +179,12 @@ function ModelCallCard({
             <div className="flex items-center gap-2 mt-1.5">
               <SkillBadge level={listing.skillLevel} />
               <span className="inline-flex items-center gap-1 rounded-full bg-amber-50 border border-amber-200/60 px-2 py-0.5 text-[10px] font-semibold text-amber-700">
-                <Users className="h-2.5 w-2.5" aria-hidden="true" />
                 Model Call
               </span>
             </div>
           </div>
-          <span className="text-lg font-bold text-emerald-600 shrink-0">
-            $0
+          <span className="text-xs font-medium text-body/50 shrink-0">
+            Complimentary
           </span>
         </div>
 
@@ -250,7 +248,7 @@ function ModelCallDetailModal({
             <X className="h-4 w-4" />
           </button>
           <span className="absolute top-4 left-4">
-            <FreeBadge />
+            <ModelCallBadge />
           </span>
         </div>
 
@@ -263,7 +261,7 @@ function ModelCallDetailModal({
                 <SkillBadge level={listing.skillLevel} />
               </div>
             </div>
-            <span className="text-2xl font-bold text-emerald-600">FREE</span>
+            <span className="text-sm font-medium text-body/50">Complimentary</span>
           </div>
 
           {/* Stylist */}
@@ -372,7 +370,10 @@ export function DemoModelCalls() {
                 Model Calls
               </h1>
               <p className="text-body/70 mt-0.5 text-sm sm:text-base">
-                Find free and low-cost beauty appointments from students, emerging professionals, and artists seeking models for practice, demos, and portfolio work.
+                Book practice-based appointments with emerging beauty professionals and trainees building their portfolio.
+              </p>
+              <p className="text-body/40 mt-1 text-xs">
+                Model calls are training-based appointments and may vary based on provider experience and service type.
               </p>
             </div>
           </div>
@@ -415,11 +416,11 @@ export function DemoModelCalls() {
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Disclaimer */}
-        <div className="mb-5 rounded-xl border border-blue-200/60 bg-blue-50/50 px-4 py-3">
+        <div className="mb-5 rounded-xl border border-border bg-surface px-4 py-3">
           <div className="flex items-start gap-2">
-            <Info className="h-4 w-4 text-blue-700 mt-0.5 shrink-0" aria-hidden="true" />
-            <p className="text-sm text-blue-800">
-              Model Call services may be performed in a practice, training, or demo setting and can vary by provider experience and service type. BeautyLink will officially launch in May 2026.
+            <Info className="h-4 w-4 text-muted mt-0.5 shrink-0" aria-hidden="true" />
+            <p className="text-sm text-body/60">
+              For training, practice, and portfolio-building sessions. BeautyLink will officially launch in May 2026.
             </p>
           </div>
         </div>
@@ -450,17 +451,17 @@ export function DemoModelCalls() {
             For Trainees
           </p>
           <h2 className="text-2xl sm:text-3xl font-bold text-dark mb-3">
-            Are You A Beauty Student?
+            Are You a Beauty Student or Trainee?
           </h2>
           <p className="text-body/70 mb-8 max-w-md mx-auto">
-            List your training services for free and find practice models in your area. Build your portfolio and gain real experience.
+            Offer model call appointments, build your portfolio, and gain real client experience.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="/pro/apply"
               className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
             >
-              Apply As A Trainee
+              Apply as a Trainee
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
