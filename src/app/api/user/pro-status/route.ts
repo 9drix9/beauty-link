@@ -8,7 +8,7 @@ export async function GET() {
   try {
     const user = await getApiUser();
     if (!user) {
-      return NextResponse.json({ isPro: false });
+      return NextResponse.json({ isPro: false, isProfessional: false });
     }
 
     const profile = await db.professionalProfile.findUnique({
@@ -18,8 +18,10 @@ export async function GET() {
 
     return NextResponse.json({
       isPro: profile?.applicationStatus === "APPROVED",
+      isProfessional: user.role === "PROFESSIONAL" || !!profile,
+      role: user.role,
     });
   } catch {
-    return NextResponse.json({ isPro: false });
+    return NextResponse.json({ isPro: false, isProfessional: false });
   }
 }

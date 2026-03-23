@@ -7,8 +7,8 @@ export function LoginForm() {
     <SignIn
       path="/login"
       routing="path"
-      signUpUrl="/signup"
-      fallbackRedirectUrl="/browse"
+      signUpUrl="/get-started"
+      fallbackRedirectUrl="/auth-redirect"
     />
   );
 }

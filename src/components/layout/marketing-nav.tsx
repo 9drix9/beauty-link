@@ -88,7 +88,7 @@ export function MarketingNav() {
                 <Link href="/login">Log In</Link>
               </Button>
               <Button variant="primary" asChild>
-                <Link href="/signup">Sign Up</Link>
+                <Link href="/get-started">Sign Up</Link>
               </Button>
             </>
           )}
@@ -152,7 +152,7 @@ export function MarketingNav() {
                     </Button>
                     <Button variant="primary" asChild>
                       <Link
-                        href="/signup"
+                        href="/get-started"
                         onClick={() => setMobileOpen(false)}
                       >
                         Sign Up

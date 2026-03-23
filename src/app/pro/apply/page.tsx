@@ -23,7 +23,7 @@ export default async function ApplyPage() {
   const baseUser = await getCurrentUser();
 
   if (!baseUser) {
-    redirect("/signup");
+    redirect("/get-started");
   }
 
   // Check if user already has a professional profile
