@@ -84,9 +84,9 @@ export default async function ApplyPage() {
     <main className="min-h-screen bg-background py-6 sm:py-12 px-4">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Apply As A Professional</h1>
-          <p className="text-muted">
-            Complete the form below to apply to BeautyLink.
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Join BeautyLink as a Pro</h1>
+          <p className="text-muted max-w-md mx-auto">
+            Set up your profile once, then post openings in seconds. We&apos;ll help you get your first listings live.
           </p>
         </div>
         <ApplyForm />

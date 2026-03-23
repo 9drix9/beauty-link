@@ -155,6 +155,7 @@ export async function POST(request: Request) {
     const listing = await db.appointmentListing.create({
       data: {
         professionalId: user.professionalProfile.id,
+        templateId: body.templateId || null,
         serviceCategory: data.serviceCategory as ServiceCategory,
         serviceName: data.title,
         description: data.description,
@@ -171,6 +172,50 @@ export async function POST(request: Request) {
         status,
       },
     });
+
+    // If templateId provided, increment usage
+    if (body.templateId) {
+      await db.serviceTemplate.updateMany({
+        where: {
+          id: body.templateId,
+          professionalProfileId: user.professionalProfile.id,
+        },
+        data: {
+          usageCount: { increment: 1 },
+          lastUsedAt: new Date(),
+        },
+      });
+    }
+
+    // Auto-save as template if requested
+    if (body.saveAsTemplate && body.templateName) {
+      const locationAddress = [data.addressLine1, data.city, data.state, data.zipCode]
+        .filter(Boolean)
+        .join(", ");
+
+      await db.serviceTemplate.create({
+        data: {
+          professionalProfileId: user.professionalProfile.id,
+          name: body.templateName,
+          serviceCategory: data.serviceCategory as ServiceCategory,
+          subCategory: body.subCategory || null,
+          title: data.title,
+          description: data.description || null,
+          whatsIncluded: data.whatsIncluded || [],
+          durationMinutes: data.durationMinutes,
+          coverPhotoUrl: body.listingPhotoUrl || null,
+          originalPriceCents: data.originalPriceCents,
+          discountedPriceCents: data.discountedPriceCents,
+          locationAddress: locationAddress || null,
+          addressLine1: data.addressLine1 || null,
+          city: data.city || null,
+          state: data.state || null,
+          zipCode: data.zipCode || null,
+          launchZone: body.launchZone || null,
+          maxClients: data.maxClients || 1,
+        },
+      });
+    }
 
     logger.info("LISTING_CREATED", {
       listingId: listing.id,

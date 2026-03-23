@@ -9,10 +9,15 @@ export default async function AppointmentsPage() {
   const user = await requirePro();
   const profile = user.professionalProfile;
 
-  const listings = await db.appointmentListing.findMany({
-    where: { professionalId: profile.id },
-    orderBy: { createdAt: "desc" },
-  });
+  const [listings, templateCount] = await Promise.all([
+    db.appointmentListing.findMany({
+      where: { professionalId: profile.id },
+      orderBy: { createdAt: "desc" },
+    }),
+    db.serviceTemplate.count({
+      where: { professionalProfileId: profile.id },
+    }),
+  ]);
 
   // Serialize dates for client component
   const serializedListings = listings.map((listing) => ({
@@ -22,5 +27,10 @@ export default async function AppointmentsPage() {
     updatedAt: listing.updatedAt.toISOString(),
   }));
 
-  return <ProListingsContent listings={serializedListings} />;
+  return (
+    <ProListingsContent
+      listings={serializedListings}
+      hasTemplates={templateCount > 0}
+    />
+  );
 }

@@ -47,6 +47,12 @@ export default async function ProSettingsPage() {
             specialties: profile.specialties || [],
             workSetting: profile.workSetting || "",
             portfolioPhotos: profile.portfolioPhotos || [],
+            defaultAddressLine1: profile.defaultAddressLine1 || "",
+            defaultCity: profile.defaultCity || "",
+            defaultState: profile.defaultState || "",
+            defaultZipCode: profile.defaultZipCode || "",
+            defaultLaunchZone: profile.defaultLaunchZone || "",
+            defaultDurationMinutes: profile.defaultDurationMinutes,
           }}
         />
       </div>

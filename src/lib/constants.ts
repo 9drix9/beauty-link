@@ -171,3 +171,32 @@ export const DISTANCE_OPTIONS = [
   { value: 50, label: "50 mi" },
   { value: -1, label: "Any Distance" },
 ] as const;
+
+// Discount Suggestions (for price suggestion UI)
+export const DISCOUNT_SUGGESTIONS = [
+  { percent: 15, label: "15% off" },
+  { percent: 20, label: "20% off" },
+  { percent: 25, label: "25% off" },
+  { percent: 30, label: "30% off" },
+] as const;
+
+// Smart Nudge Messages
+export const POSTING_NUDGES = [
+  "Post another opening?",
+  "Use an existing template to post faster",
+  "Repeat last week's availability?",
+  "Quick Post an opening in seconds",
+] as const;
+
+// Dashboard guided actions for empty states
+export const EMPTY_STATE_ACTIONS = {
+  noListings: [
+    { label: "Quick Post an opening", href: "/pro/appointments/new?mode=quick", icon: "Zap" },
+    { label: "Create your first service template", href: "/pro/templates", icon: "FileText" },
+    { label: "Finish your profile", href: "/pro/settings", icon: "UserCircle" },
+  ],
+  noTemplates: [
+    { label: "Create your first template", href: "/pro/templates?create=true", icon: "Plus" },
+    { label: "Create a listing and save as template", href: "/pro/appointments/new", icon: "Calendar" },
+  ],
+} as const;

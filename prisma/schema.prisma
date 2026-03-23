@@ -289,17 +289,28 @@ model ProfessionalProfile {
   pendingBalance           Int               @default(0) @map("pending_balance")
   profileBadges            String[]          @map("profile_badges") @default([])
   licensedBadge            Boolean           @default(false) @map("licensed_badge")
+  // Listing defaults (auto-fill for new listings)
+  defaultAddressLine1      String?           @map("default_address_line_1")
+  defaultCity              String?           @map("default_city")
+  defaultState             String?           @map("default_state")
+  defaultZipCode           String?           @map("default_zip_code")
+  defaultLaunchZone        String?           @map("default_launch_zone")
+  defaultDurationMinutes   Int?              @map("default_duration_minutes")
+  // Onboarding progress
+  onboardingCompleted      Boolean           @default(false) @map("onboarding_completed")
+  phone                    String?
   createdAt                DateTime          @default(now()) @map("created_at")
   updatedAt                DateTime          @updatedAt @map("updated_at")
 
-  user         User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  services     Service[]
-  appointments AppointmentListing[]
-  bookings     Booking[]
-  reviews      Review[]
-  payouts      Payout[]
-  taxInfo      TaxInfo?
-  savedBy      SavedProfessional[]
+  user              User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  services          Service[]
+  serviceTemplates  ServiceTemplate[]
+  appointments      AppointmentListing[]
+  bookings          Booking[]
+  reviews           Review[]
+  payouts           Payout[]
+  taxInfo           TaxInfo?
+  savedBy           SavedProfessional[]
 
   @@index([applicationStatus])
   @@index([licenseStatus])
@@ -324,10 +335,45 @@ model Service {
   @@map("services")
 }
 
+model ServiceTemplate {
+  id                    String          @id @default(cuid())
+  professionalProfileId String          @map("professional_profile_id")
+  name                  String
+  serviceCategory       ServiceCategory @map("service_category")
+  subCategory           String?         @map("sub_category")
+  title                 String
+  description           String?         @db.Text
+  whatsIncluded         String[]        @map("whats_included") @default([])
+  durationMinutes       Int             @map("duration_minutes")
+  coverPhotoUrl         String?         @map("cover_photo_url")
+  originalPriceCents    Int?            @map("original_price_cents")
+  discountedPriceCents  Int?            @map("discounted_price_cents")
+  isModelCall           Boolean         @default(false) @map("is_model_call")
+  skillLevel            SkillLevel?     @map("skill_level")
+  modelRequirements     String?         @map("model_requirements") @db.Text
+  locationAddress       String?         @map("location_address")
+  addressLine1          String?         @map("address_line_1")
+  city                  String?
+  state                 String?
+  zipCode               String?         @map("zip_code")
+  launchZone            String?         @map("launch_zone")
+  maxClients            Int             @default(1) @map("max_clients")
+  usageCount            Int             @default(0) @map("usage_count")
+  lastUsedAt            DateTime?       @map("last_used_at")
+  createdAt             DateTime        @default(now()) @map("created_at")
+  updatedAt             DateTime        @updatedAt @map("updated_at")
+
+  professionalProfile ProfessionalProfile @relation(fields: [professionalProfileId], references: [id], onDelete: Cascade)
+
+  @@index([professionalProfileId])
+  @@map("service_templates")
+}
+
 model AppointmentListing {
   id              String          @id @default(cuid())
   professionalId  String          @map("professional_id")
   serviceId       String?         @map("service_id")
+  templateId      String?         @map("template_id")
   serviceCategory ServiceCategory @map("service_category")
   serviceName     String          @map("service_name")
   description     String?         @db.Text

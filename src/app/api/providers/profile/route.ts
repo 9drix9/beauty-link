@@ -61,6 +61,25 @@ export async function PATCH(req: Request) {
         .filter((b: unknown) => typeof b === "string" && validBadges.includes(b as string))
         .slice(0, 6);
     }
+    // Listing defaults
+    if (typeof body.defaultAddressLine1 === "string") {
+      allowedFields.defaultAddressLine1 = body.defaultAddressLine1.trim().slice(0, 200);
+    }
+    if (typeof body.defaultCity === "string") {
+      allowedFields.defaultCity = body.defaultCity.trim().slice(0, 100);
+    }
+    if (typeof body.defaultState === "string") {
+      allowedFields.defaultState = body.defaultState.trim().toUpperCase().slice(0, 2);
+    }
+    if (typeof body.defaultZipCode === "string") {
+      allowedFields.defaultZipCode = body.defaultZipCode.trim().slice(0, 5);
+    }
+    if (typeof body.defaultLaunchZone === "string") {
+      allowedFields.defaultLaunchZone = body.defaultLaunchZone.trim();
+    }
+    if (typeof body.defaultDurationMinutes === "number") {
+      allowedFields.defaultDurationMinutes = body.defaultDurationMinutes;
+    }
 
     const updated = await db.professionalProfile.update({
       where: { id: profile.id },

@@ -15,8 +15,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ImageUpload } from "@/components/shared/image-upload";
-import { WORK_SETTINGS } from "@/lib/constants";
-import { Loader2, Check } from "lucide-react";
+import { WORK_SETTINGS, LAUNCH_ZONES, DURATION_OPTIONS } from "@/lib/constants";
+import { Loader2, Check, MapPin } from "lucide-react";
 
 interface ProSettingsFormProps {
   profile: {
@@ -29,6 +29,12 @@ interface ProSettingsFormProps {
     specialties: string[];
     workSetting: string;
     portfolioPhotos: string[];
+    defaultAddressLine1: string;
+    defaultCity: string;
+    defaultState: string;
+    defaultZipCode: string;
+    defaultLaunchZone: string;
+    defaultDurationMinutes: number | null;
   };
 }
 
@@ -52,6 +58,20 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
   const [workSetting, setWorkSetting] = useState(profile.workSetting);
   const [portfolioPhotos, setPortfolioPhotos] = useState<string[]>(
     profile.portfolioPhotos
+  );
+
+  // Listing defaults
+  const [defaultAddressLine1, setDefaultAddressLine1] = useState(
+    profile.defaultAddressLine1
+  );
+  const [defaultCity, setDefaultCity] = useState(profile.defaultCity);
+  const [defaultState, setDefaultState] = useState(profile.defaultState);
+  const [defaultZipCode, setDefaultZipCode] = useState(profile.defaultZipCode);
+  const [defaultLaunchZone, setDefaultLaunchZone] = useState(
+    profile.defaultLaunchZone
+  );
+  const [defaultDurationMinutes, setDefaultDurationMinutes] = useState(
+    profile.defaultDurationMinutes?.toString() || ""
   );
 
   async function handleSave() {
@@ -83,6 +103,14 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
           specialties,
           workSetting,
           portfolioPhotos,
+          defaultAddressLine1: defaultAddressLine1.trim(),
+          defaultCity: defaultCity.trim(),
+          defaultState: defaultState.trim(),
+          defaultZipCode: defaultZipCode.trim(),
+          defaultLaunchZone: defaultLaunchZone,
+          defaultDurationMinutes: defaultDurationMinutes
+            ? parseInt(defaultDurationMinutes)
+            : null,
         }),
       });
 
@@ -203,6 +231,100 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
         </CardContent>
       </Card>
 
+      {/* Listing Defaults */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-2">
+            <MapPin className="h-5 w-5 text-accent" aria-hidden="true" />
+            Listing Defaults
+          </CardTitle>
+          <p className="text-sm text-muted">
+            Set up your defaults once — they&apos;ll auto-fill every time you create a new listing.
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="defaultAddressLine1">Default Address</Label>
+            <Input
+              id="defaultAddressLine1"
+              value={defaultAddressLine1}
+              onChange={(e) => setDefaultAddressLine1(e.target.value)}
+              placeholder="Your studio / salon address"
+            />
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="defaultCity">City</Label>
+              <Input
+                id="defaultCity"
+                value={defaultCity}
+                onChange={(e) => setDefaultCity(e.target.value)}
+                placeholder="City"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="defaultState">State</Label>
+              <Input
+                id="defaultState"
+                value={defaultState}
+                onChange={(e) => setDefaultState(e.target.value.toUpperCase())}
+                placeholder="CA"
+                maxLength={2}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="defaultZipCode">ZIP Code</Label>
+              <Input
+                id="defaultZipCode"
+                value={defaultZipCode}
+                onChange={(e) => setDefaultZipCode(e.target.value)}
+                placeholder="90001"
+                maxLength={5}
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Default Launch Zone</Label>
+            <Select value={defaultLaunchZone} onValueChange={setDefaultLaunchZone}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select a zone" />
+              </SelectTrigger>
+              <SelectContent>
+                {LAUNCH_ZONES.map((zone) => (
+                  <SelectItem key={zone} value={zone}>
+                    {zone}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Default Duration</Label>
+            <Select
+              value={defaultDurationMinutes}
+              onValueChange={setDefaultDurationMinutes}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select default duration" />
+              </SelectTrigger>
+              <SelectContent>
+                {DURATION_OPTIONS.map((opt) => (
+                  <SelectItem key={opt.value} value={String(opt.value)}>
+                    {opt.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <p className="text-xs text-muted">
+              This will be pre-selected when you create new listings.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Portfolio Photos */}
       <Card>
         <CardHeader>
@@ -210,7 +332,7 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted mb-4">
-            Showcase your best work. Upload up to 10 photos that will appear on your profile.
+            Showcase your best work. Upload up to 10 photos that will appear on your profile and can be used in listings.
           </p>
           <ImageUpload
             value={portfolioPhotos}

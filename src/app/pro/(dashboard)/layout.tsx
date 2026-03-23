@@ -7,6 +7,7 @@ import { UserButton } from "@clerk/nextjs";
 import {
   LayoutDashboard,
   Calendar,
+  FileText,
   MessageSquare,
   DollarSign,
   UserCircle,
@@ -21,6 +22,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const sidebarLinks = [
   { label: "Dashboard", href: "/pro/dashboard", icon: LayoutDashboard },
   { label: "Appointments", href: "/pro/appointments", icon: Calendar },
+  { label: "Templates", href: "/pro/templates", icon: FileText },
   { label: "Messages", href: "/pro/messages", icon: MessageSquare },
   { label: "Earnings", href: "/pro/earnings", icon: DollarSign },
   { label: "Edit Profile", href: "/pro/settings", icon: UserCircle },

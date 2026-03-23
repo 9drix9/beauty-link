@@ -16,11 +16,16 @@ import {
   Clock,
   BarChart3,
   Zap,
+  Copy,
+  FileText,
+  CheckCircle,
+  Loader2,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
 import { formatPrice, calcSavingsPercent } from "@/lib/utils";
 
 interface SerializedListing {
@@ -46,12 +51,14 @@ interface SerializedListing {
   longitude: number | null;
   launchZone: string | null;
   status: string;
+  isModelCall: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
 interface ProListingsContentProps {
   listings: SerializedListing[];
+  hasTemplates: boolean;
 }
 
 const ACTIVE_STATUSES = ["LIVE", "DRAFT", "PAUSED"];
@@ -99,9 +106,13 @@ function formatTime(time24: string): string {
   return `${displayHour}:${minutes.toString().padStart(2, "0")} ${period}`;
 }
 
-export function ProListingsContent({ listings }: ProListingsContentProps) {
+export function ProListingsContent({ listings, hasTemplates }: ProListingsContentProps) {
   const router = useRouter();
   const [loadingId, setLoadingId] = useState<string | null>(null);
+  const [saveTemplateId, setSaveTemplateId] = useState<string | null>(null);
+  const [templateName, setTemplateName] = useState("");
+  const [savingTemplate, setSavingTemplate] = useState(false);
+  const [savedTemplateSuccess, setSavedTemplateSuccess] = useState<string | null>(null);
 
   const activeListings = listings.filter((l) =>
     ACTIVE_STATUSES.includes(l.status)
@@ -123,6 +134,39 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
       }
     } finally {
       setLoadingId(null);
+    }
+  }
+
+  async function handleSaveAsTemplate(listing: SerializedListing) {
+    if (!templateName.trim()) return;
+    setSavingTemplate(true);
+    try {
+      const res = await fetch("/api/providers/templates", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: templateName.trim(),
+          serviceCategory: listing.serviceCategory,
+          title: listing.serviceName,
+          description: listing.description || "",
+          whatsIncluded: listing.whatsIncluded || [],
+          durationMinutes: listing.durationMinutes,
+          coverPhotoUrl: listing.listingPhotoUrl || undefined,
+          originalPriceCents: listing.originalPrice,
+          discountedPriceCents: listing.discountedPrice,
+          isModelCall: listing.isModelCall,
+          maxClients: listing.maxClients,
+          launchZone: listing.launchZone || undefined,
+        }),
+      });
+      if (res.ok) {
+        setSavedTemplateSuccess(listing.id);
+        setSaveTemplateId(null);
+        setTemplateName("");
+        setTimeout(() => setSavedTemplateSuccess(null), 3000);
+      }
+    } finally {
+      setSavingTemplate(false);
     }
   }
 
@@ -158,6 +202,9 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
                   {savings}% off
                 </Badge>
               )}
+              {listing.isModelCall && (
+                <Badge variant="default" size="sm">Model Call</Badge>
+              )}
             </div>
             <Badge variant="default" size="sm" className="self-start sm:self-auto shrink-0">
               {getCategoryLabel(listing.serviceCategory)}
@@ -176,14 +223,16 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
                 {formatTime(listing.appointmentTime)}
               </span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-muted line-through text-xs">
-                {formatPrice(listing.originalPrice)}
-              </span>
-              <span className="font-semibold text-dark">
-                {formatPrice(listing.discountedPrice)}
-              </span>
-            </div>
+            {!listing.isModelCall && (
+              <div className="flex items-center gap-2">
+                <span className="text-muted line-through text-xs">
+                  {formatPrice(listing.originalPrice)}
+                </span>
+                <span className="font-semibold text-dark">
+                  {formatPrice(listing.discountedPrice)}
+                </span>
+              </div>
+            )}
           </div>
 
           {/* Availability Bar */}
@@ -234,6 +283,49 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
               {conversionRate}% conversion
             </span>
           </div>
+
+          {/* Saved as template success */}
+          {savedTemplateSuccess === listing.id && (
+            <div className="flex items-center gap-2 text-xs text-success">
+              <CheckCircle className="h-3.5 w-3.5" aria-hidden="true" />
+              Saved as template!
+            </div>
+          )}
+
+          {/* Save as template inline */}
+          {saveTemplateId === listing.id && (
+            <div className="flex items-center gap-2 pt-1">
+              <Input
+                placeholder="Template name, e.g. Blowout — 60 min"
+                value={templateName}
+                onChange={(e) => setTemplateName(e.target.value)}
+                className="text-sm"
+                maxLength={100}
+              />
+              <Button
+                variant="primary"
+                size="sm"
+                disabled={savingTemplate || !templateName.trim()}
+                onClick={() => handleSaveAsTemplate(listing)}
+              >
+                {savingTemplate ? (
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+                ) : (
+                  "Save"
+                )}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setSaveTemplateId(null);
+                  setTemplateName("");
+                }}
+              >
+                Cancel
+              </Button>
+            </div>
+          )}
 
           {/* Actions */}
           <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-border">
@@ -286,6 +378,30 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
                 Publish
               </Button>
             )}
+
+            {/* Duplicate */}
+            <Button variant="outline" size="sm" asChild>
+              <Link href={`/pro/appointments/new?duplicateId=${listing.id}`}>
+                <Copy className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
+                Duplicate
+              </Link>
+            </Button>
+
+            {/* Save as Template */}
+            {saveTemplateId !== listing.id && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setSaveTemplateId(listing.id);
+                  setTemplateName(listing.serviceName);
+                }}
+              >
+                <FileText className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
+                Save as Template
+              </Button>
+            )}
+
             {!["CANCELLED", "EXPIRED"].includes(listing.status) && (
               <Button
                 variant="destructive"
@@ -318,12 +434,33 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
             : "Completed, expired, and cancelled listings will appear here."}
         </p>
         {type === "active" && (
-          <Button variant="cta" size="sm" className="mt-4" asChild>
-            <Link href="/pro/appointments/new">
-              <Plus className="mr-1 h-4 w-4" aria-hidden="true" />
-              Post New Deal
-            </Link>
-          </Button>
+          <div className="mt-4 space-y-2">
+            <div className="flex items-center justify-center gap-2">
+              {hasTemplates && (
+                <Button variant="cta" size="sm" asChild>
+                  <Link href="/pro/appointments/new?mode=quick">
+                    <Zap className="mr-1 h-4 w-4" aria-hidden="true" />
+                    Quick Post
+                  </Link>
+                </Button>
+              )}
+              <Button variant={hasTemplates ? "outline" : "cta"} size="sm" asChild>
+                <Link href="/pro/appointments/new">
+                  <Plus className="mr-1 h-4 w-4" aria-hidden="true" />
+                  Create Listing
+                </Link>
+              </Button>
+            </div>
+            {!hasTemplates && (
+              <Link
+                href="/pro/templates"
+                className="inline-flex items-center gap-1.5 text-xs text-accent hover:underline"
+              >
+                <FileText className="h-3 w-3" aria-hidden="true" />
+                Or create a template first for faster posting
+              </Link>
+            )}
+          </div>
         )}
       </div>
     );
@@ -334,12 +471,22 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-dark">My Listings</h1>
-        <Button variant="cta" asChild>
-          <Link href="/pro/appointments/new">
-            <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-            Post New Deal
-          </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          {hasTemplates && (
+            <Button variant="primary" asChild>
+              <Link href="/pro/appointments/new?mode=quick">
+                <Zap className="mr-2 h-4 w-4" aria-hidden="true" />
+                Quick Post
+              </Link>
+            </Button>
+          )}
+          <Button variant="cta" asChild>
+            <Link href="/pro/appointments/new">
+              <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
+              New Listing
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Tabs defaultValue="active">
@@ -366,7 +513,20 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
       </Tabs>
 
       {/* Mobile sticky CTA */}
-      <div className="fixed bottom-20 right-4 sm:hidden z-40">
+      <div className="fixed bottom-20 right-4 sm:hidden z-40 flex flex-col gap-2">
+        {hasTemplates && (
+          <Button
+            variant="primary"
+            size="lg"
+            className="rounded-full shadow-elevated h-12 w-12 p-0"
+            asChild
+          >
+            <Link href="/pro/appointments/new?mode=quick">
+              <Zap className="h-5 w-5" aria-hidden="true" />
+              <span className="sr-only">Quick Post</span>
+            </Link>
+          </Button>
+        )}
         <Button
           variant="cta"
           size="lg"
@@ -375,7 +535,7 @@ export function ProListingsContent({ listings }: ProListingsContentProps) {
         >
           <Link href="/pro/appointments/new">
             <Plus className="h-6 w-6" aria-hidden="true" />
-            <span className="sr-only">Post New Deal</span>
+            <span className="sr-only">New Listing</span>
           </Link>
         </Button>
       </div>
