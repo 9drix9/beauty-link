@@ -2,13 +2,20 @@
 
 import { SignIn } from "@clerk/nextjs";
 
-export function LoginForm() {
+interface LoginFormProps {
+  intent: "customer" | "pro";
+}
+
+export function LoginForm({ intent }: LoginFormProps) {
+  const redirectUrl =
+    intent === "pro" ? "/auth-redirect?intent=pro" : "/auth-redirect";
+
   return (
     <SignIn
       path="/login"
       routing="path"
-      signUpUrl="/get-started"
-      fallbackRedirectUrl="/auth-redirect"
+      signUpUrl={intent === "pro" ? "/signup?intent=pro" : "/signup"}
+      fallbackRedirectUrl={redirectUrl}
     />
   );
 }

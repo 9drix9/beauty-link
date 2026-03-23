@@ -85,7 +85,7 @@ export function MarketingNav() {
           ) : (
             <>
               <Button variant="ghost" asChild>
-                <Link href="/login">Log In</Link>
+                <Link href="/get-started">Log In</Link>
               </Button>
               <Button variant="primary" asChild>
                 <Link href="/get-started">Sign Up</Link>
@@ -144,7 +144,7 @@ export function MarketingNav() {
                   <div className="flex flex-col gap-2">
                     <Button variant="ghost" asChild className="justify-start">
                       <Link
-                        href="/login"
+                        href="/get-started"
                         onClick={() => setMobileOpen(false)}
                       >
                         Log In
