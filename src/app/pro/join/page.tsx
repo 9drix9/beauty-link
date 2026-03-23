@@ -33,13 +33,10 @@ export default function JoinPage() {
               Keep every dollar.
             </h1>
             <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-3">
-              Had a cancellation or a slow day? List your open appointments at a discounted rate and let new clients discover you, whether you are fully booked or building your clientele.
+              Had a cancellation or a slow day? List your open appointments at a discounted rate and let new clients discover you.
             </p>
-            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-3 font-semibold">
+            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8 font-semibold">
               You set the price. You keep 100%.
-            </p>
-            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8">
-              Built for beauty professionals at every stage, from students to established stylists.
             </p>
             <Link
               href="/pro/apply"
@@ -48,6 +45,9 @@ export default function JoinPage() {
               {IS_LAUNCHED ? "Apply Now" : "Apply as Founding Stylist"}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
+            <p className="text-sm text-body/50 max-w-md mx-auto md:mx-0 mt-4">
+              Open to a curated mix of established stylists, growing artists, and trainees.
+            </p>
           </div>
           <div className="relative hidden md:block">
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
@@ -130,9 +130,12 @@ export default function JoinPage() {
             />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-dark mb-6">
-              Built for Working Professionals
+            <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
+              Built for beauty professionals at every stage
             </h2>
+            <p className="text-sm text-body/70 mb-6">
+              We&apos;re onboarding a curated group of Los Angeles-based professionals across all stages, from students to established stylists.
+            </p>
             <ul className="space-y-4">
               {[
                 { title: "Keep 100% of your listed price", body: "We charge clients a small service fee. Your earnings are yours." },
