@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { SERVICE_CATEGORIES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ImageUpload } from "@/components/shared/image-upload";
+import { InstagramImport } from "@/components/shared/instagram-import";
 import {
   ArrowLeft,
   ArrowRight,
@@ -366,12 +367,14 @@ export function ApplyForm() {
                 </p>
               </div>
 
+              {/* Instagram Import */}
               {formData.instagramHandle && (
-                <div className="rounded-lg bg-accent-light/50 border border-accent/10 p-3">
-                  <p className="text-sm text-body">
-                    <span className="font-medium">Tip:</span> You can also upload photos from your Instagram ({formData.instagramHandle}) directly from your camera roll.
-                  </p>
-                </div>
+                <InstagramImport
+                  handle={formData.instagramHandle}
+                  currentPhotos={formData.portfolioPhotos}
+                  maxPhotos={10}
+                  onImport={(urls) => updateField("portfolioPhotos", urls)}
+                />
               )}
 
               <ImageUpload
