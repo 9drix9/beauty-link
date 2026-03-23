@@ -11,7 +11,7 @@ function LaunchBanner() {
           href="/pro/join"
           className="hover:text-accent transition-colors"
         >
-          Now Onboarding Founding Stylists
+          Now onboarding a curated group of founding stylists
         </Link>
         {" "}<span className="text-white/50 mx-1.5">|</span>{" "}
         Launching May 2026

@@ -364,13 +364,13 @@ export default function HomePage() {
             {/* Left: copy */}
             <div className="order-2 md:order-1 text-center md:text-left">
               <p className="text-sm font-semibold text-accent mb-3">
-                {IS_LAUNCHED ? "For beauty professionals" : "Now Onboarding Founding Stylists"}
+                {IS_LAUNCHED ? "For beauty professionals" : "Now onboarding a curated group of founding stylists"}
               </p>
               <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
                 Turn Your Empty Slots Into Income
               </h2>
               <p className="text-body/70 leading-relaxed mb-6">
-                Had a cancellation? Slow afternoon? List your open time at a discounted rate and let new clients find you. You set the price, you keep every dollar.
+                Had a cancellation? Slow afternoon? List your open time at a discounted rate and let new clients find you, whether you are fully booked or building your clientele. You set the price, you keep every dollar.
               </p>
 
               <ul className="space-y-3 mb-8 inline-block text-left">

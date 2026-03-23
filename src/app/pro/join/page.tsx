@@ -25,7 +25,7 @@ export default function JoinPage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-10 px-4 py-16 md:py-24">
           <div className="text-center md:text-left">
             <p className="text-sm font-semibold text-accent mb-4">
-              {IS_LAUNCHED ? "For beauty professionals" : "Now Onboarding Founding Stylists"}
+              {IS_LAUNCHED ? "For beauty professionals" : "Now onboarding a curated group of founding stylists"}
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-dark mb-5 leading-[1.1]">
               Fill your empty chair.
@@ -33,10 +33,13 @@ export default function JoinPage() {
               Keep every dollar.
             </h1>
             <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-3">
-              Had a cancellation or a slow day? List your open appointments at a discounted rate and let new clients discover you.
+              Had a cancellation or a slow day? List your open appointments at a discounted rate and let new clients discover you, whether you are fully booked or building your clientele.
             </p>
-            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8 font-semibold">
+            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-3 font-semibold">
               You set the price. You keep 100%.
+            </p>
+            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8">
+              Built for beauty professionals at every stage, from students to established stylists.
             </p>
             <Link
               href="/pro/apply"
