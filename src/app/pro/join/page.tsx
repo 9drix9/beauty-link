@@ -24,18 +24,18 @@ export default function JoinPage() {
       <section className="gradient-hero-pro">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-10 px-4 py-16 md:py-24">
           <div className="text-center md:text-left">
-            <p className="text-sm font-semibold text-accent mb-4">
+            <p className="text-sm font-semibold text-accent mb-3">
               {IS_LAUNCHED ? "For beauty professionals" : "Now onboarding a curated group of founding stylists"}
             </p>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-dark mb-5 leading-[1.1]">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-dark mb-6 leading-[1.1]">
               Fill your empty chair.
               <br />
               Keep every dollar.
             </h1>
-            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-3">
+            <p className="text-[17px] text-body/70 max-w-[460px] mx-auto md:mx-0 mb-2 leading-relaxed">
               Had a cancellation or a slow day? List your open appointments at a discounted rate and let new clients discover you.
             </p>
-            <p className="text-lg text-body/70 max-w-md mx-auto md:mx-0 mb-8 font-semibold">
+            <p className="text-[15px] text-body/60 max-w-[460px] mx-auto md:mx-0 mb-10">
               You set the price. You keep 100%.
             </p>
             <Link
@@ -45,9 +45,6 @@ export default function JoinPage() {
               {IS_LAUNCHED ? "Apply Now" : "Apply as Founding Stylist"}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
-            <p className="text-sm text-body/50 max-w-md mx-auto md:mx-0 mt-4">
-              Open to a curated mix of established stylists, growing artists, and trainees.
-            </p>
           </div>
           <div className="relative hidden md:block">
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
