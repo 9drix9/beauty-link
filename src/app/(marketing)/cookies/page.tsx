@@ -85,12 +85,12 @@ export default function CookiePolicyPage() {
         <section>
           <h2 className="text-xl font-semibold text-dark mb-3">Contact</h2>
           <p>
-            Questions about our cookie practices? Contact us at{" "}
+            Questions about our cookie practices?{" "}
             <a
-              href="mailto:team@beautylinknetwork.com"
+              href="/contact"
               className="text-accent hover:underline"
             >
-              team@beautylinknetwork.com
+              Contact our support team
             </a>
             .
           </p>

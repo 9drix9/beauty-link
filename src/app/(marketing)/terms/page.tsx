@@ -135,12 +135,12 @@ export default function TermsPage() {
         <section>
           <h2 className="text-xl font-semibold text-dark mb-3">11. Contact</h2>
           <p>
-            Questions about these terms? Contact us at{" "}
+            Questions about these terms?{" "}
             <a
-              href="mailto:team@beautylinknetwork.com"
+              href="/contact"
               className="text-accent hover:underline"
             >
-              team@beautylinknetwork.com
+              Contact our support team
             </a>
             .
           </p>
