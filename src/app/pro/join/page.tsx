@@ -7,7 +7,6 @@ import {
   Layers,
   DollarSign,
   Ban,
-  Quote,
   Briefcase,
   Scissors,
   GraduationCap,
@@ -159,22 +158,6 @@ export default async function JoinPage() {
             ))}
           </div>
 
-          {/* Featured testimonial */}
-          <div className="rounded-2xl border border-border bg-white p-6 md:p-8">
-            <Quote className="h-7 w-7 text-accent/20 mb-3" aria-hidden="true" />
-            <p className="text-[15px] md:text-base text-body leading-relaxed italic">
-              &ldquo;I&apos;ve been doing hair for 12 years and this is the first platform that actually makes sense for independent stylists. No subscriptions, no contracts — just post and get booked.&rdquo;
-            </p>
-            <div className="mt-4 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent-light text-xs font-bold text-accent">
-                MS
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-dark">Maria S.</p>
-                <p className="text-xs text-muted">Hair Stylist · Beverly Hills</p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

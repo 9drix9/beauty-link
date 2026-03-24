@@ -7,7 +7,6 @@ import {
   Info,
   Star,
   Clock,
-  Quote,
   Shield,
   CreditCard,
   BadgeCheck,
@@ -18,29 +17,6 @@ import { db } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
-const TESTIMONIALS = [
-  {
-    quote:
-      "I listed an open chair on Tuesday and had it booked by Wednesday morning. No ads, no DMs — just posted and done.",
-    name: "Jasmine R.",
-    role: "Lash Artist · West LA",
-    initials: "JR",
-  },
-  {
-    quote:
-      "I was spending $200/month on Instagram ads trying to fill slow days. BeautyLink fills them for free.",
-    name: "Daniela M.",
-    role: "Nail Tech · Santa Monica",
-    initials: "DM",
-  },
-  {
-    quote:
-      "I saved $40 on a balayage from someone I never would have found otherwise. The quality was incredible.",
-    name: "Priya K.",
-    role: "BeautyLink Client",
-    initials: "PK",
-  },
-];
 
 export const metadata = {
   title: "BeautyLink | Great Beauty. Better Prices.",
@@ -336,45 +312,6 @@ export default async function HomePage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Testimonials ── */}
-      <section className="py-14 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <p className="text-sm font-semibold text-accent mb-2">
-              From our founding community
-            </p>
-            <h2 className="text-2xl md:text-3xl font-bold text-dark">
-              What stylists and clients are saying
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {TESTIMONIALS.map((testimonial) => (
-              <div
-                key={testimonial.name}
-                className="relative rounded-2xl border border-border bg-surface p-6 transition-all hover:shadow-sm"
-              >
-                <Quote className="h-8 w-8 text-accent/15 mb-3" aria-hidden="true" />
-                <p className="text-[15px] text-body leading-relaxed mb-5">
-                  &ldquo;{testimonial.quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent-light text-xs font-bold text-accent shrink-0">
-                    {testimonial.initials}
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-dark">
-                      {testimonial.name}
-                    </p>
-                    <p className="text-xs text-muted">{testimonial.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </section>
