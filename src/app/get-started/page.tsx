@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { BeautyLinkLogo } from "@/components/ui/beautylink-logo";
 
 export const metadata: Metadata = {
   title: "Sign up / log in | BeautyLink",
@@ -12,8 +13,8 @@ export default function GetStartedPage() {
     <div className="flex min-h-screen">
       {/* Left side — role selection */}
       <div className="flex w-full flex-col lg:w-1/2">
-        {/* Back button */}
-        <div className="p-6">
+        {/* Header with logo and back */}
+        <div className="flex items-center justify-between p-6">
           <Link
             href="/"
             className="inline-flex h-10 w-10 items-center justify-center rounded-full text-body transition-colors hover:bg-background"
@@ -21,6 +22,10 @@ export default function GetStartedPage() {
           >
             <ArrowLeft className="h-5 w-5" />
           </Link>
+          <Link href="/">
+            <BeautyLinkLogo className="text-xl text-dark" />
+          </Link>
+          <div className="w-10" />
         </div>
 
         {/* Content — vertically centered */}
