@@ -75,15 +75,31 @@ export function InstagramImport({
       }
 
       if (data.photos && data.photos.length > 0) {
-        setPhotos(
-          data.photos.map((url: string) => ({
-            url,
-            selected: false,
-            importing: false,
-            imported: false,
-          }))
+        // Filter out any remaining static assets / logos that slipped through
+        const validPhotos = data.photos.filter(
+          (url: string) =>
+            !url.includes("static.cdninstagram.com") &&
+            !url.includes("/static/") &&
+            !url.includes("instagram_logo") &&
+            !url.includes("glyph-logo")
         );
-        setMode("fetched");
+
+        if (validPhotos.length > 0) {
+          setPhotos(
+            validPhotos.map((url: string) => ({
+              url,
+              selected: false,
+              importing: false,
+              imported: false,
+            }))
+          );
+          setMode("fetched");
+        } else {
+          setMode("url-paste");
+          setError(
+            "Couldn't load real photos — Instagram may have returned placeholder images. Paste post URLs below or save photos from Instagram and upload them directly."
+          );
+        }
       } else {
         // No photos found — offer URL paste fallback
         setMode("url-paste");
@@ -93,7 +109,7 @@ export function InstagramImport({
           );
         } else {
           setError(
-            "Couldn't load photos automatically. Paste Instagram post URLs below, or save photos from your Instagram and upload them."
+            "Instagram requires login to view photos from the server. Paste post URLs below, or save photos from Instagram to your camera roll and upload them directly."
           );
         }
       }
@@ -237,7 +253,7 @@ export function InstagramImport({
 
   const selectedCount = photos.filter((p) => p.selected && !p.imported).length;
 
-  // Idle state — show the import button
+  // Idle state — show import options
   if (mode === "idle") {
     return (
       <div className="rounded-xl border border-border bg-white overflow-hidden">
@@ -255,23 +271,24 @@ export function InstagramImport({
             </p>
             <p className="text-xs text-muted truncate">
               {username
-                ? `Pull photos from @${username}`
+                ? `Try auto-importing from @${username}`
                 : "Connect your Instagram to import portfolio photos"}
             </p>
           </div>
           <Download className="h-4 w-4 text-muted shrink-0 ml-auto" />
         </button>
 
-        {/* Also show URL paste option */}
-        <div className="border-t border-border px-4 py-2.5">
+        {/* URL paste option — more prominent since it's more reliable */}
+        <div className="border-t border-border px-4 py-3 flex items-center justify-between">
           <button
             type="button"
             onClick={() => setMode("url-paste")}
-            className="flex items-center gap-2 text-xs text-muted hover:text-accent transition-colors"
+            className="flex items-center gap-2 text-sm font-medium text-accent hover:underline transition-colors"
           >
             <Link2 className="h-3.5 w-3.5" />
-            Or paste Instagram post URLs
+            Paste Instagram post URLs
           </button>
+          <span className="text-[10px] text-muted">Most reliable method</span>
         </div>
       </div>
     );
@@ -364,9 +381,16 @@ export function InstagramImport({
           </Button>
         </div>
 
-        <div className="border-t border-border pt-3">
-          <p className="text-xs text-muted">
-            <strong>Tip:</strong> Open your Instagram, tap the share icon on any post, copy the link, and paste it above. You can also save photos from Instagram to your camera roll and upload them directly.
+        <div className="border-t border-border pt-3 space-y-1.5">
+          <p className="text-xs font-medium text-dark">How to get a post URL:</p>
+          <ol className="text-xs text-muted space-y-1 list-decimal list-inside">
+            <li>Open a post on Instagram</li>
+            <li>Tap the three dots (&middot;&middot;&middot;) or share button</li>
+            <li>Tap &quot;Copy Link&quot;</li>
+            <li>Paste it above</li>
+          </ol>
+          <p className="text-xs text-muted pt-1">
+            You can also save photos from Instagram to your camera roll and upload them directly below.
           </p>
         </div>
       </div>

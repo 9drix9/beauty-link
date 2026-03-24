@@ -113,6 +113,11 @@ export function ProListingsContent({ listings, hasTemplates }: ProListingsConten
   const [templateName, setTemplateName] = useState("");
   const [savingTemplate, setSavingTemplate] = useState(false);
   const [savedTemplateSuccess, setSavedTemplateSuccess] = useState<string | null>(null);
+  const [showPostedBanner, setShowPostedBanner] = useState(() => {
+    if (typeof window === "undefined") return false;
+    const params = new URLSearchParams(window.location.search);
+    return params.get("posted") === "true";
+  });
 
   const activeListings = listings.filter((l) =>
     ACTIVE_STATUSES.includes(l.status)
@@ -402,6 +407,16 @@ export function ProListingsContent({ listings, hasTemplates }: ProListingsConten
               </Button>
             )}
 
+            {/* Repost for completed/expired listings */}
+            {["BOOKED", "EXPIRED"].includes(listing.status) && (
+              <Button variant="primary" size="sm" asChild>
+                <Link href={`/pro/appointments/new?duplicateId=${listing.id}`}>
+                  <Calendar className="mr-1 h-3.5 w-3.5" aria-hidden="true" />
+                  Repost
+                </Link>
+              </Button>
+            )}
+
             {!["CANCELLED", "EXPIRED"].includes(listing.status) && (
               <Button
                 variant="destructive"
@@ -426,12 +441,12 @@ export function ProListingsContent({ listings, hasTemplates }: ProListingsConten
           <Calendar className="h-7 w-7 text-muted" aria-hidden="true" />
         </div>
         <h3 className="font-semibold text-dark">
-          {type === "active" ? "No active listings" : "No completed listings"}
+          {type === "active" ? "No active listings" : "No completed listings yet"}
         </h3>
         <p className="mt-1 text-sm text-muted max-w-xs mx-auto">
           {type === "active"
-            ? "Post your first deal to start attracting new clients."
-            : "Completed, expired, and cancelled listings will appear here."}
+            ? "Post an opening to start attracting new clients. Use templates to post in seconds."
+            : "Completed, expired, and cancelled listings will appear here. You can repost any of them with a new date."}
         </p>
         {type === "active" && (
           <div className="mt-4 space-y-2">
@@ -452,12 +467,17 @@ export function ProListingsContent({ listings, hasTemplates }: ProListingsConten
               </Button>
             </div>
             {!hasTemplates && (
+              <p className="text-xs text-muted mt-3 max-w-sm mx-auto">
+                Set up your services once as templates, then post openings in seconds with Quick Post.
+              </p>
+            )}
+            {!hasTemplates && (
               <Link
                 href="/pro/templates"
                 className="inline-flex items-center gap-1.5 text-xs text-accent hover:underline"
               >
                 <FileText className="h-3 w-3" aria-hidden="true" />
-                Or create a template first for faster posting
+                Create your first template
               </Link>
             )}
           </div>
@@ -468,6 +488,46 @@ export function ProListingsContent({ listings, hasTemplates }: ProListingsConten
 
   return (
     <div className="space-y-6">
+      {/* Post-publish success banner */}
+      {showPostedBanner && (
+        <div className="rounded-xl border border-success/20 bg-success-light p-5">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-success/10">
+                <CheckCircle className="h-5 w-5 text-success" aria-hidden="true" />
+              </div>
+              <div>
+                <p className="font-semibold text-dark">Listing published!</p>
+                <p className="text-sm text-muted mt-0.5">Your opening is now live and visible to clients.</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              {hasTemplates && (
+                <Button variant="primary" size="sm" asChild>
+                  <Link href="/pro/appointments/new?mode=quick">
+                    <Zap className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
+                    Post Another
+                  </Link>
+                </Button>
+              )}
+              <Button variant="outline" size="sm" asChild>
+                <Link href="/pro/appointments/new">
+                  <Plus className="mr-1.5 h-3.5 w-3.5" aria-hidden="true" />
+                  New Listing
+                </Link>
+              </Button>
+              <button
+                type="button"
+                onClick={() => setShowPostedBanner(false)}
+                className="text-muted hover:text-dark text-xs ml-1"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-dark">My Listings</h1>

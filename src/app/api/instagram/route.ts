@@ -80,17 +80,21 @@ async function handleProfileFetch(handle: string) {
     return NextResponse.json({ error: "Invalid handle" }, { status: 400 });
   }
 
+  const browserHeaders = {
+    "User-Agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    Accept:
+      "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+  };
+
   try {
     // Try fetching the profile page and extracting og:image + embedded data
     const profileUrl = `https://www.instagram.com/${username}/`;
     const res = await fetch(profileUrl, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        Accept:
-          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language": "en-US,en;q=0.5",
-      },
+      headers: browserHeaders,
       redirect: "follow",
     });
 
@@ -106,6 +110,12 @@ async function handleProfileFetch(handle: string) {
 
     const html = await res.text();
 
+    // Check if Instagram returned a login wall instead of profile content
+    const isLoginWall =
+      html.includes("loginForm") ||
+      html.includes("Log in to Instagram") ||
+      (html.includes('"require_login"') && !html.includes("ProfilePage"));
+
     // Extract profile image from og:image
     const profileImage = extractMetaContent(html, "og:image");
 
@@ -113,7 +123,21 @@ async function handleProfileFetch(handle: string) {
     const bio = extractMetaContent(html, "og:description") || "";
 
     // Try to extract post images from embedded JSON data
-    const photos = extractPostImages(html);
+    const photos = isLoginWall ? [] : extractPostImages(html);
+
+    // If we got a login wall or no real photos, return with a helpful message
+    // pointing users to the URL paste fallback
+    if (photos.length === 0) {
+      return NextResponse.json({
+        photos: [],
+        profileImage,
+        bio,
+        username,
+        error: "no_photos_found",
+        message:
+          "Instagram requires login to view photos. You can paste individual post URLs or save photos from Instagram and upload them directly.",
+      });
+    }
 
     return NextResponse.json({
       photos,
@@ -136,14 +160,18 @@ async function handleProfileFetch(handle: string) {
 /** Download a remote image and upload it to Vercel Blob */
 async function handleImageUpload(imageUrl: string, userId: string) {
   try {
-    // Validate URL
+    // Validate URL — accept Instagram CDN domains and Facebook CDN (used for og:image)
     const parsed = new URL(imageUrl);
-    if (
-      !parsed.hostname.includes("instagram.com") &&
-      !parsed.hostname.includes("cdninstagram.com") &&
-      !parsed.hostname.includes("fbcdn.net") &&
-      !parsed.hostname.includes("scontent")
-    ) {
+    const host = parsed.hostname.toLowerCase();
+    const allowedDomains = [
+      "instagram.com",
+      "cdninstagram.com",
+      "fbcdn.net",
+      "scontent",
+      "fbsbx.com",
+      "xx.fbcdn.net",
+    ];
+    if (!allowedDomains.some((d) => host.includes(d))) {
       return NextResponse.json(
         { error: "URL must be from Instagram" },
         { status: 400 }
@@ -244,6 +272,9 @@ function extractPostImages(html: string): string[] {
     // Skip tiny thumbnails (profile pics are usually small)
     if (url.includes("150x150") || url.includes("s150x150")) continue;
 
+    // Skip Instagram's own static assets (logos, icons, sprites, branding)
+    if (isInstagramStaticAsset(url)) continue;
+
     // Deduplicate by base URL (without size params)
     const baseUrl = url.split("?")[0];
     if (!seen.has(baseUrl)) {
@@ -256,19 +287,63 @@ function extractPostImages(html: string): string[] {
   return images.slice(0, 12);
 }
 
-/** Fetch og:image from a single URL */
+/** Check if a URL is an Instagram static asset (logo, icon, etc.) rather than user content */
+function isInstagramStaticAsset(url: string): boolean {
+  const lower = url.toLowerCase();
+  // Instagram static CDN assets
+  if (lower.includes("static.cdninstagram.com")) return true;
+  if (lower.includes("/static/")) return true;
+  // Instagram app icons, logos, and branding
+  if (lower.includes("instagram_logo")) return true;
+  if (lower.includes("glyph-logo")) return true;
+  if (lower.includes("/images/ico/")) return true;
+  if (lower.includes("app_icon")) return true;
+  if (lower.includes("favicon")) return true;
+  if (lower.includes("/icons/")) return true;
+  if (lower.includes("/branding/")) return true;
+  // Very small images are usually UI elements, not user photos
+  if (lower.includes("44x44") || lower.includes("s44x44")) return true;
+  if (lower.includes("50x50") || lower.includes("s50x50")) return true;
+  if (lower.includes("56x56")) return true;
+  if (lower.includes("64x64")) return true;
+  if (lower.includes("100x100")) return true;
+  // Profile pictures (small circular avatars)
+  if (lower.includes("_s.jpg") || lower.includes("_a.jpg")) return true;
+  return false;
+}
+
+/** Fetch og:image from a single URL, trying embed page as fallback */
 async function fetchOgImage(url: string): Promise<string | null> {
-  const res = await fetch(url, {
-    headers: {
-      "User-Agent":
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-      Accept: "text/html",
-    },
-    redirect: "follow",
-  });
+  const headers = {
+    "User-Agent":
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+    Accept: "text/html",
+  };
 
-  if (!res.ok) return null;
+  // Try direct URL first
+  const res = await fetch(url, { headers, redirect: "follow" });
+  if (res.ok) {
+    const html = await res.text();
+    const ogImage = extractMetaContent(html, "og:image");
+    if (ogImage && !isInstagramStaticAsset(ogImage)) return ogImage;
+  }
 
-  const html = await res.text();
-  return extractMetaContent(html, "og:image");
+  // Fallback: try the embed version of the URL which is often more accessible
+  try {
+    const embedUrl = url.replace(/\/?(\?.*)?$/, "/embed/");
+    const embedRes = await fetch(embedUrl, { headers, redirect: "follow" });
+    if (embedRes.ok) {
+      const embedHtml = await embedRes.text();
+      const ogImage = extractMetaContent(embedHtml, "og:image");
+      if (ogImage && !isInstagramStaticAsset(ogImage)) return ogImage;
+
+      // Also try extracting from embed HTML content
+      const photos = extractPostImages(embedHtml);
+      if (photos.length > 0) return photos[0];
+    }
+  } catch {
+    // Embed fallback failed, that's ok
+  }
+
+  return null;
 }

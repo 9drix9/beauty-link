@@ -41,6 +41,11 @@ export default async function ProDashboardPage() {
   today.setHours(0, 0, 0, 0);
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
 
+  // Last week date range for "Repeat Last Week" feature
+  const lastWeekStart = new Date();
+  lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+  lastWeekStart.setHours(0, 0, 0, 0);
+
   const [
     activeListings,
     upcomingBookings,
@@ -49,6 +54,7 @@ export default async function ProDashboardPage() {
     templateCount,
     recentListings,
     draftCount,
+    lastWeekListings,
   ] = await Promise.all([
     db.appointmentListing.findMany({
       where: { professionalId: profile.id, status: "LIVE" },
@@ -94,6 +100,27 @@ export default async function ProDashboardPage() {
     db.appointmentListing.count({
       where: { professionalId: profile.id, status: "DRAFT" },
     }),
+    // Fetch last week's listings for "Repeat Last Week"
+    db.appointmentListing.findMany({
+      where: {
+        professionalId: profile.id,
+        appointmentDate: { gte: lastWeekStart, lt: today },
+        status: { in: ["LIVE", "BOOKED", "EXPIRED"] },
+      },
+      orderBy: { appointmentDate: "asc" },
+      take: 5,
+      select: {
+        id: true,
+        serviceName: true,
+        serviceCategory: true,
+        appointmentDate: true,
+        appointmentTime: true,
+        originalPrice: true,
+        discountedPrice: true,
+        durationMinutes: true,
+        isModelCall: true,
+      },
+    }),
   ]);
 
   const thisMonthEarnings = monthBookings.reduce(
@@ -116,17 +143,22 @@ export default async function ProDashboardPage() {
   );
   const isNewPro = profile.totalBookings === 0 && activeListings.length === 0;
 
-  // Smart nudge — pick contextual message
+  // Smart nudge — pick contextual message based on pro's activity
   const lastListingDay = recentListings[0]
     ? new Date(recentListings[0].appointmentDate).toLocaleDateString("en-US", { weekday: "long" })
     : null;
+  const hasLastWeek = lastWeekListings.length > 0;
   const nudgeMessage = templateCount > 0
     ? activeListings.length === 0
-      ? "You have templates ready — Quick Post an opening?"
+      ? hasLastWeek
+        ? `Repeat last week's ${lastWeekListings[0].serviceName} slot?`
+        : "You have templates ready — Quick Post an opening?"
       : lastListingDay
         ? `You usually post around ${lastListingDay}s — add availability?`
         : "Post another opening?"
-    : "Create a service template to post openings faster";
+    : completedCount > 0
+      ? "Save your services as templates to post openings in seconds"
+      : "Create a service template to post openings faster";
 
   return (
     <div className="space-y-8">
@@ -283,6 +315,15 @@ export default async function ProDashboardPage() {
                 Quick Post
               </Link>
             )}
+            {hasLastWeek && (
+              <Link
+                href="#repeat-last-week"
+                className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-white px-4 py-2 text-xs font-medium text-accent hover:bg-accent-light transition-colors"
+              >
+                <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
+                Repeat Last Week
+              </Link>
+            )}
             <Link
               href="/pro/templates"
               className="inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-xs font-medium text-body hover:bg-background transition-colors"
@@ -342,6 +383,53 @@ export default async function ProDashboardPage() {
           <Clock className="inline h-4 w-4 text-warning mr-2" aria-hidden="true" />
           You have {draftCount} draft{draftCount !== 1 ? "s" : ""} — resume editing
         </Link>
+      )}
+
+      {/* Repeat Last Week */}
+      {!isNewPro && lastWeekListings.length > 0 && (
+        <div id="repeat-last-week" className="rounded-xl border border-border bg-white p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-accent" aria-hidden="true" />
+              <h2 className="font-bold text-dark">Repeat Last Week</h2>
+            </div>
+            <span className="text-xs text-muted">Repost with a new date</span>
+          </div>
+          <div className="space-y-2">
+            {lastWeekListings.map((listing) => {
+              const date = new Date(listing.appointmentDate);
+              const dayName = date.toLocaleDateString("en-US", { weekday: "short" });
+              const [h, m] = listing.appointmentTime.split(":").map(Number);
+              const period = h >= 12 ? "PM" : "AM";
+              const displayHour = h % 12 || 12;
+              return (
+                <div
+                  key={listing.id}
+                  className="flex items-center justify-between rounded-lg border border-border px-4 py-3 hover:bg-background transition-colors"
+                >
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-dark truncate">
+                      {listing.serviceName}
+                    </p>
+                    <p className="text-xs text-muted">
+                      {dayName} at {displayHour}:{m.toString().padStart(2, "0")} {period}
+                      {!listing.isModelCall && (
+                        <span className="ml-2">{formatPrice(listing.discountedPrice)}</span>
+                      )}
+                    </p>
+                  </div>
+                  <Link
+                    href={`/pro/appointments/new?duplicateId=${listing.id}`}
+                    className="inline-flex items-center gap-1.5 rounded-full bg-accent-light px-3 py-1.5 text-xs font-semibold text-accent hover:bg-accent hover:text-white transition-colors shrink-0 ml-3"
+                  >
+                    <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                    Repost
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       )}
 
       {/* Two-column: Upcoming Appointments + Quick Actions */}
