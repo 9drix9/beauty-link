@@ -15,9 +15,8 @@ export function BeautyLinkLogo({
 }: BeautyLinkLogoProps) {
   return (
     <span className={cn("inline-flex items-center gap-2", className)}>
-      <span>
-        <span className="font-serif font-bold">Beauty</span>
-        <span className="font-serif italic">Link</span>
+      <span className="font-serif font-semibold tracking-tight">
+        BeautyLink
       </span>
       {badge && (
         <span
