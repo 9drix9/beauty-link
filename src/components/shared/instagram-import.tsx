@@ -40,9 +40,8 @@ export function InstagramImport({
   maxPhotos = 10,
   onImport,
 }: InstagramImportProps) {
-  const [mode, setMode] = useState<"idle" | "fetching" | "fetched" | "url-paste">("idle");
+  const [mode, setMode] = useState<"idle" | "active" | "fetched">("idle");
   const [photos, setPhotos] = useState<FetchedPhoto[]>([]);
-  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [importing, setImporting] = useState(false);
   const [pasteUrls, setPasteUrls] = useState("");
@@ -51,84 +50,14 @@ export function InstagramImport({
   const username = handle.replace(/^@/, "").trim();
   const remainingSlots = maxPhotos - currentPhotos.length;
 
-  async function handleFetchProfile() {
-    if (!username) {
-      setError("No Instagram handle provided.");
-      return;
-    }
-
-    setMode("fetching");
-    setError(null);
-    setPhotos([]);
-
-    try {
-      const res = await fetch("/api/instagram", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ handle: username }),
-      });
-
-      const data = await res.json();
-
-      if (data.profileImage) {
-        setProfileImage(data.profileImage);
-      }
-
-      if (data.photos && data.photos.length > 0) {
-        // Filter out any remaining static assets / logos that slipped through
-        const validPhotos = data.photos.filter(
-          (url: string) =>
-            !url.includes("static.cdninstagram.com") &&
-            !url.includes("/static/") &&
-            !url.includes("instagram_logo") &&
-            !url.includes("glyph-logo")
-        );
-
-        if (validPhotos.length > 0) {
-          setPhotos(
-            validPhotos.map((url: string) => ({
-              url,
-              selected: false,
-              importing: false,
-              imported: false,
-            }))
-          );
-          setMode("fetched");
-        } else {
-          setMode("url-paste");
-          setError(
-            "Couldn't load real photos — Instagram may have returned placeholder images. Paste post URLs below or save photos from Instagram and upload them directly."
-          );
-        }
-      } else {
-        // No photos found — offer URL paste fallback
-        setMode("url-paste");
-        if (data.error === "profile_private_or_not_found") {
-          setError(
-            "This profile may be private. You can paste individual post URLs below, or save photos from Instagram and upload them."
-          );
-        } else {
-          setError(
-            "Instagram requires login to view photos from the server. Paste post URLs below, or save photos from Instagram to your camera roll and upload them directly."
-          );
-        }
-      }
-    } catch {
-      setMode("url-paste");
-      setError(
-        "Couldn't connect to Instagram. Paste post URLs below or upload saved photos."
-      );
-    }
-  }
-
   function togglePhoto(index: number) {
     setPhotos((prev) =>
       prev.map((p, i) => {
         if (i !== index) return p;
-        if (p.imported) return p; // Can't deselect already imported
+        if (p.imported) return p;
 
         const selectedCount = prev.filter((pp) => pp.selected && !pp.imported).length;
-        if (!p.selected && selectedCount >= remainingSlots) return p; // At limit
+        if (!p.selected && selectedCount >= remainingSlots) return p;
 
         return { ...p, selected: !p.selected };
       })
@@ -146,7 +75,6 @@ export function InstagramImport({
       const photo = toImport[i];
       const photoIndex = photos.indexOf(photo);
 
-      // Mark as importing
       setPhotos((prev) =>
         prev.map((p, idx) =>
           idx === photoIndex ? { ...p, importing: true } : p
@@ -240,12 +168,12 @@ export function InstagramImport({
           setError(null);
         } else {
           setError(
-            "Couldn't extract images from those URLs. The posts may be private."
+            "Couldn't extract images from those URLs. The posts may be private or Instagram is blocking the request. Try saving the photos to your camera roll and uploading them directly below."
           );
         }
       }
     } catch {
-      setError("Failed to fetch post images. Please try again.");
+      setError("Failed to fetch post images. Try saving photos from Instagram and uploading them directly.");
     } finally {
       setFetchingUrls(false);
     }
@@ -253,13 +181,13 @@ export function InstagramImport({
 
   const selectedCount = photos.filter((p) => p.selected && !p.imported).length;
 
-  // Idle state — show import options
+  // Idle state — show the import button
   if (mode === "idle") {
     return (
       <div className="rounded-xl border border-border bg-white overflow-hidden">
         <button
           type="button"
-          onClick={handleFetchProfile}
+          onClick={() => setMode("active")}
           className="w-full flex items-center gap-3 px-4 py-3.5 text-left hover:bg-accent-light/30 transition-colors"
         >
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 shrink-0">
@@ -271,48 +199,25 @@ export function InstagramImport({
             </p>
             <p className="text-xs text-muted truncate">
               {username
-                ? `Try auto-importing from @${username}`
-                : "Connect your Instagram to import portfolio photos"}
+                ? `Import photos from @${username}`
+                : "Import portfolio photos from Instagram"}
             </p>
           </div>
           <Download className="h-4 w-4 text-muted shrink-0 ml-auto" />
         </button>
-
-        {/* URL paste option — more prominent since it's more reliable */}
-        <div className="border-t border-border px-4 py-3 flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => setMode("url-paste")}
-            className="flex items-center gap-2 text-sm font-medium text-accent hover:underline transition-colors"
-          >
-            <Link2 className="h-3.5 w-3.5" />
-            Paste Instagram post URLs
-          </button>
-          <span className="text-[10px] text-muted">Most reliable method</span>
-        </div>
       </div>
     );
   }
 
-  // Fetching state
-  if (mode === "fetching") {
+  // Active state — URL paste (the only reliable method)
+  if (mode === "active") {
     return (
-      <div className="rounded-xl border border-border bg-white p-6 text-center">
-        <Loader2 className="h-8 w-8 animate-spin text-accent mx-auto" />
-        <p className="text-sm text-muted mt-3">
-          Fetching photos from @{username}...
-        </p>
-      </div>
-    );
-  }
-
-  // URL paste mode (fallback)
-  if (mode === "url-paste") {
-    return (
-      <div className="rounded-xl border border-border bg-white p-4 space-y-3">
+      <div className="rounded-xl border border-border bg-white p-4 space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Instagram className="h-4 w-4 text-accent" />
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 shrink-0">
+              <Instagram className="h-3.5 w-3.5 text-white" />
+            </div>
             <span className="font-semibold text-dark text-sm">
               Import from Instagram
             </span>
@@ -337,62 +242,74 @@ export function InstagramImport({
           </div>
         )}
 
+        {/* Step-by-step instructions */}
+        <div className="rounded-lg bg-background p-3.5 space-y-2.5">
+          <p className="text-xs font-semibold text-dark">How to import your photos:</p>
+          <ol className="text-xs text-muted space-y-1.5 list-none">
+            <li className="flex items-start gap-2">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/10 text-accent text-[10px] font-bold shrink-0 mt-0.5">1</span>
+              <span>Open your Instagram and go to a post you want to import</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/10 text-accent text-[10px] font-bold shrink-0 mt-0.5">2</span>
+              <span>Tap the three dots (<strong>&middot;&middot;&middot;</strong>) or share button, then tap <strong>&quot;Copy Link&quot;</strong></span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="flex h-4 w-4 items-center justify-center rounded-full bg-accent/10 text-accent text-[10px] font-bold shrink-0 mt-0.5">3</span>
+              <span>Paste the link(s) below — you can add multiple</span>
+            </li>
+          </ol>
+        </div>
+
         {/* Quick link to their IG */}
         {username && (
           <a
             href={`https://instagram.com/${username}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 rounded-lg bg-background px-3 py-2 text-sm text-accent hover:underline"
+            className="flex items-center gap-2 rounded-lg border border-border px-3 py-2.5 text-sm font-medium text-accent hover:bg-accent-light/30 transition-colors"
           >
             <ExternalLink className="h-3.5 w-3.5" />
-            Open @{username} on Instagram
+            Open @{username} on Instagram to copy links
           </a>
         )}
 
+        {/* URL paste area */}
         <div className="space-y-2">
-          <p className="text-xs text-muted">
-            Paste Instagram post URLs (one per line or comma-separated):
-          </p>
           <textarea
             value={pasteUrls}
-            onChange={(e) => setPasteUrls(e.target.value)}
-            placeholder={"https://www.instagram.com/p/ABC123/\nhttps://www.instagram.com/p/DEF456/"}
+            onChange={(e) => {
+              setPasteUrls(e.target.value);
+              setError(null);
+            }}
+            placeholder={"Paste Instagram post links here...\nhttps://www.instagram.com/p/ABC123/\nhttps://www.instagram.com/p/DEF456/"}
             rows={3}
-            className="w-full rounded-lg border border-border px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent"
+            className="w-full rounded-lg border border-border px-3 py-2.5 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-accent/20 focus:border-accent placeholder:text-muted/50"
           />
           <Button
-            variant="primary"
+            variant="cta"
             size="sm"
+            className="w-full"
             onClick={handlePasteImport}
             disabled={fetchingUrls || !pasteUrls.trim()}
           >
             {fetchingUrls ? (
               <>
                 <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
-                Fetching...
+                Fetching photos...
               </>
             ) : (
               <>
                 <Download className="mr-1.5 h-3.5 w-3.5" />
-                Fetch Photos
+                Import Photos
               </>
             )}
           </Button>
         </div>
 
-        <div className="border-t border-border pt-3 space-y-1.5">
-          <p className="text-xs font-medium text-dark">How to get a post URL:</p>
-          <ol className="text-xs text-muted space-y-1 list-decimal list-inside">
-            <li>Open a post on Instagram</li>
-            <li>Tap the three dots (&middot;&middot;&middot;) or share button</li>
-            <li>Tap &quot;Copy Link&quot;</li>
-            <li>Paste it above</li>
-          </ol>
-          <p className="text-xs text-muted pt-1">
-            You can also save photos from Instagram to your camera roll and upload them directly below.
-          </p>
-        </div>
+        <p className="text-[11px] text-muted text-center">
+          Or save photos from Instagram to your camera roll and use the uploader below.
+        </p>
       </div>
     );
   }
@@ -410,7 +327,7 @@ export function InstagramImport({
         <button
           type="button"
           onClick={() => {
-            setMode("idle");
+            setMode("active");
             setPhotos([]);
             setError(null);
           }}
@@ -419,22 +336,6 @@ export function InstagramImport({
           <X className="h-4 w-4" />
         </button>
       </div>
-
-      {profileImage && (
-        <div className="flex items-center gap-3 rounded-lg bg-background px-3 py-2">
-          <div className="h-8 w-8 rounded-full overflow-hidden border border-border shrink-0">
-            <Image
-              src={profileImage}
-              alt={`@${username}`}
-              width={32}
-              height={32}
-              className="h-full w-full object-cover"
-              unoptimized
-            />
-          </div>
-          <span className="text-sm font-medium text-dark">@{username}</span>
-        </div>
-      )}
 
       <p className="text-xs text-muted">
         Tap photos to select them ({remainingSlots} slot{remainingSlots !== 1 ? "s" : ""} remaining).
@@ -515,15 +416,15 @@ export function InstagramImport({
         </Button>
       )}
 
-      {/* Paste URL fallback */}
+      {/* Add more */}
       <div className="border-t border-border pt-2">
         <button
           type="button"
-          onClick={() => setMode("url-paste")}
-          className="flex items-center gap-1.5 text-xs text-muted hover:text-accent transition-colors"
+          onClick={() => setMode("active")}
+          className="flex items-center gap-1.5 text-xs text-accent hover:underline transition-colors"
         >
           <Link2 className="h-3 w-3" />
-          Import from specific post URLs instead
+          Import more photos
         </button>
       </div>
     </div>

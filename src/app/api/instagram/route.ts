@@ -6,11 +6,8 @@ export const dynamic = "force-dynamic";
 
 /**
  * POST /api/instagram
- * Fetches Instagram photos from a public profile or individual post URLs.
- *
- * Body options:
- *   { handle: "@username" }          — fetch recent posts from profile
- *   { urls: ["https://instagram.com/p/..."] } — fetch specific posts by URL
+ * Two modes:
+ *   { urls: ["https://instagram.com/p/..."] } — extract images from post URLs
  *   { imageUrl: "https://...", upload: true }  — proxy-download an image and upload to Blob
  */
 export async function POST(req: NextRequest) {
@@ -32,13 +29,8 @@ export async function POST(req: NextRequest) {
       return handlePostUrls(body.urls);
     }
 
-    // Mode 3: Fetch recent posts from a public profile
-    if (body.handle) {
-      return handleProfileFetch(body.handle);
-    }
-
     return NextResponse.json(
-      { error: "Provide handle, urls, or imageUrl" },
+      { error: "Provide urls or imageUrl" },
       { status: 400 }
     );
   } catch (error) {
@@ -56,7 +48,6 @@ async function handlePostUrls(urls: string[]) {
 
   for (const url of urls.slice(0, 10)) {
     try {
-      // Validate it's an Instagram URL
       if (!url.includes("instagram.com")) {
         results.push({ url, imageUrl: null, error: "Not an Instagram URL" });
         continue;
@@ -72,95 +63,9 @@ async function handlePostUrls(urls: string[]) {
   return NextResponse.json({ photos: results });
 }
 
-/** Attempt to fetch recent posts from a public Instagram profile */
-async function handleProfileFetch(handle: string) {
-  const username = handle.replace(/^@/, "").trim();
-
-  if (!username || username.length > 30) {
-    return NextResponse.json({ error: "Invalid handle" }, { status: 400 });
-  }
-
-  const browserHeaders = {
-    "User-Agent":
-      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-    Accept:
-      "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Sec-Fetch-Mode": "navigate",
-    "Sec-Fetch-Site": "none",
-  };
-
-  try {
-    // Try fetching the profile page and extracting og:image + embedded data
-    const profileUrl = `https://www.instagram.com/${username}/`;
-    const res = await fetch(profileUrl, {
-      headers: browserHeaders,
-      redirect: "follow",
-    });
-
-    if (!res.ok) {
-      return NextResponse.json({
-        photos: [],
-        profileImage: null,
-        error: "profile_private_or_not_found",
-        message:
-          "Could not access this profile. It may be private or the username may be incorrect.",
-      });
-    }
-
-    const html = await res.text();
-
-    // Check if Instagram returned a login wall instead of profile content
-    const isLoginWall =
-      html.includes("loginForm") ||
-      html.includes("Log in to Instagram") ||
-      (html.includes('"require_login"') && !html.includes("ProfilePage"));
-
-    // Extract profile image from og:image
-    const profileImage = extractMetaContent(html, "og:image");
-
-    // Extract description for bio
-    const bio = extractMetaContent(html, "og:description") || "";
-
-    // Try to extract post images from embedded JSON data
-    const photos = isLoginWall ? [] : extractPostImages(html);
-
-    // If we got a login wall or no real photos, return with a helpful message
-    // pointing users to the URL paste fallback
-    if (photos.length === 0) {
-      return NextResponse.json({
-        photos: [],
-        profileImage,
-        bio,
-        username,
-        error: "no_photos_found",
-        message:
-          "Instagram requires login to view photos. You can paste individual post URLs or save photos from Instagram and upload them directly.",
-      });
-    }
-
-    return NextResponse.json({
-      photos,
-      profileImage,
-      bio,
-      username,
-    });
-  } catch (error) {
-    console.error("Profile fetch error:", error);
-    return NextResponse.json({
-      photos: [],
-      profileImage: null,
-      error: "fetch_failed",
-      message:
-        "Could not fetch Instagram profile. You can paste individual post URLs instead.",
-    });
-  }
-}
-
 /** Download a remote image and upload it to Vercel Blob */
 async function handleImageUpload(imageUrl: string, userId: string) {
   try {
-    // Validate URL — accept Instagram CDN domains and Facebook CDN (used for og:image)
     const parsed = new URL(imageUrl);
     const host = parsed.hostname.toLowerCase();
     const allowedDomains = [
@@ -169,7 +74,6 @@ async function handleImageUpload(imageUrl: string, userId: string) {
       "fbcdn.net",
       "scontent",
       "fbsbx.com",
-      "xx.fbcdn.net",
     ];
     if (!allowedDomains.some((d) => host.includes(d))) {
       return NextResponse.json(
@@ -178,7 +82,6 @@ async function handleImageUpload(imageUrl: string, userId: string) {
       );
     }
 
-    // Download the image
     const imageRes = await fetch(imageUrl, {
       headers: {
         "User-Agent":
@@ -202,7 +105,6 @@ async function handleImageUpload(imageUrl: string, userId: string) {
 
     const buffer = await imageRes.arrayBuffer();
 
-    // Check size (10MB max)
     if (buffer.byteLength > 10 * 1024 * 1024) {
       return NextResponse.json(
         { error: "Image too large (max 10MB)" },
@@ -232,7 +134,6 @@ async function handleImageUpload(imageUrl: string, userId: string) {
 
 /** Extract content from an HTML meta tag */
 function extractMetaContent(html: string, property: string): string | null {
-  // Try property attribute
   const propRegex = new RegExp(
     `<meta[^>]+property=["']${property}["'][^>]+content=["']([^"']+)["']`,
     "i"
@@ -240,7 +141,6 @@ function extractMetaContent(html: string, property: string): string | null {
   const propMatch = html.match(propRegex);
   if (propMatch) return propMatch[1];
 
-  // Try reversed order (content before property)
   const revRegex = new RegExp(
     `<meta[^>]+content=["']([^"']+)["'][^>]+property=["']${property}["']`,
     "i"
@@ -251,68 +151,7 @@ function extractMetaContent(html: string, property: string): string | null {
   return null;
 }
 
-/** Extract post image URLs from Instagram HTML */
-function extractPostImages(html: string): string[] {
-  const images: string[] = [];
-
-  // Try to find image URLs in the HTML (Instagram embeds them in various formats)
-  // Look for high-res image URLs from cdninstagram / scontent
-  const cdnRegex =
-    /https:\/\/(?:scontent[^"'\s]+|[^"'\s]*cdninstagram\.com[^"'\s]*)\.(jpg|jpeg|png|webp)[^"'\s]*/gi;
-
-  const seen = new Set<string>();
-  let match: RegExpExecArray | null;
-  while ((match = cdnRegex.exec(html)) !== null) {
-    let url = match[0];
-    // Clean up escaped characters
-    url = url.replace(/\\u0026/g, "&").replace(/\\/g, "");
-    // Remove trailing garbage
-    url = url.split('"')[0].split("'")[0].split("\\")[0];
-
-    // Skip tiny thumbnails (profile pics are usually small)
-    if (url.includes("150x150") || url.includes("s150x150")) continue;
-
-    // Skip Instagram's own static assets (logos, icons, sprites, branding)
-    if (isInstagramStaticAsset(url)) continue;
-
-    // Deduplicate by base URL (without size params)
-    const baseUrl = url.split("?")[0];
-    if (!seen.has(baseUrl)) {
-      seen.add(baseUrl);
-      images.push(url);
-    }
-  }
-
-  // Return up to 12 unique images
-  return images.slice(0, 12);
-}
-
-/** Check if a URL is an Instagram static asset (logo, icon, etc.) rather than user content */
-function isInstagramStaticAsset(url: string): boolean {
-  const lower = url.toLowerCase();
-  // Instagram static CDN assets
-  if (lower.includes("static.cdninstagram.com")) return true;
-  if (lower.includes("/static/")) return true;
-  // Instagram app icons, logos, and branding
-  if (lower.includes("instagram_logo")) return true;
-  if (lower.includes("glyph-logo")) return true;
-  if (lower.includes("/images/ico/")) return true;
-  if (lower.includes("app_icon")) return true;
-  if (lower.includes("favicon")) return true;
-  if (lower.includes("/icons/")) return true;
-  if (lower.includes("/branding/")) return true;
-  // Very small images are usually UI elements, not user photos
-  if (lower.includes("44x44") || lower.includes("s44x44")) return true;
-  if (lower.includes("50x50") || lower.includes("s50x50")) return true;
-  if (lower.includes("56x56")) return true;
-  if (lower.includes("64x64")) return true;
-  if (lower.includes("100x100")) return true;
-  // Profile pictures (small circular avatars)
-  if (lower.includes("_s.jpg") || lower.includes("_a.jpg")) return true;
-  return false;
-}
-
-/** Fetch og:image from a single URL, trying embed page as fallback */
+/** Fetch og:image from a single post URL, trying embed page as fallback */
 async function fetchOgImage(url: string): Promise<string | null> {
   const headers = {
     "User-Agent":
@@ -321,29 +160,61 @@ async function fetchOgImage(url: string): Promise<string | null> {
   };
 
   // Try direct URL first
-  const res = await fetch(url, { headers, redirect: "follow" });
-  if (res.ok) {
-    const html = await res.text();
-    const ogImage = extractMetaContent(html, "og:image");
-    if (ogImage && !isInstagramStaticAsset(ogImage)) return ogImage;
+  try {
+    const res = await fetch(url, { headers, redirect: "follow" });
+    if (res.ok) {
+      const html = await res.text();
+      const ogImage = extractMetaContent(html, "og:image");
+      if (ogImage && isValidPostImage(ogImage)) return ogImage;
+    }
+  } catch {
+    // Direct fetch failed, try embed
   }
 
-  // Fallback: try the embed version of the URL which is often more accessible
+  // Fallback: try the embed version which is more accessible
   try {
     const embedUrl = url.replace(/\/?(\?.*)?$/, "/embed/");
     const embedRes = await fetch(embedUrl, { headers, redirect: "follow" });
     if (embedRes.ok) {
       const embedHtml = await embedRes.text();
       const ogImage = extractMetaContent(embedHtml, "og:image");
-      if (ogImage && !isInstagramStaticAsset(ogImage)) return ogImage;
+      if (ogImage && isValidPostImage(ogImage)) return ogImage;
 
-      // Also try extracting from embed HTML content
-      const photos = extractPostImages(embedHtml);
-      if (photos.length > 0) return photos[0];
+      // Try extracting CDN image URLs from embed HTML
+      const cdnRegex =
+        /https:\/\/(?:scontent[^"'\s]+|[^"'\s]*cdninstagram\.com[^"'\s]*)\.(jpg|jpeg|png|webp)[^"'\s]*/gi;
+      let match: RegExpExecArray | null;
+      while ((match = cdnRegex.exec(embedHtml)) !== null) {
+        const imgUrl = match[0]
+          .replace(/\\u0026/g, "&")
+          .replace(/\\/g, "")
+          .split('"')[0]
+          .split("'")[0];
+        if (isValidPostImage(imgUrl)) return imgUrl;
+      }
     }
   } catch {
-    // Embed fallback failed, that's ok
+    // Embed fallback also failed
   }
 
   return null;
+}
+
+/** Check if an image URL is actual user content (not an Instagram logo/static asset) */
+function isValidPostImage(url: string): boolean {
+  const lower = url.toLowerCase();
+  if (lower.includes("static.cdninstagram.com")) return false;
+  if (lower.includes("/static/")) return false;
+  if (lower.includes("instagram_logo")) return false;
+  if (lower.includes("glyph-logo")) return false;
+  if (lower.includes("/images/ico/")) return false;
+  if (lower.includes("app_icon")) return false;
+  if (lower.includes("favicon")) return false;
+  if (lower.includes("/icons/")) return false;
+  if (lower.includes("/branding/")) return false;
+  // Tiny images are UI elements, not photos
+  if (lower.includes("44x44") || lower.includes("50x50")) return false;
+  if (lower.includes("56x56") || lower.includes("64x64")) return false;
+  if (lower.includes("100x100") || lower.includes("150x150")) return false;
+  return true;
 }
