@@ -54,7 +54,7 @@ export const reviewSchema = z.object({
 
 export const proApplicationSchema = z.object({
   businessName: z.string().min(2).max(100),
-  bio: z.string().min(50).max(500),
+  bio: z.string().min(10).max(500),
   serviceCategories: z.array(z.string()).min(1),
   yearsExperience: z.string(),
   workSetting: z.string(),
