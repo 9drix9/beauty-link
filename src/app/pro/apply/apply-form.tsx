@@ -165,19 +165,26 @@ export function ApplyForm() {
             <CheckCircle className="h-8 w-8 text-success" aria-hidden="true" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold">You&apos;re almost there!</h2>
+            <h2 className="text-2xl font-bold">Application received</h2>
             <p className="text-muted max-w-md mx-auto mt-2">
-              We&apos;ll review your application and get back to you within 48 hours. Once approved, we&apos;ll help you complete your profile and start posting openings.
+              We&apos;ve received your application and will review it shortly.
+            </p>
+            <p className="text-muted max-w-md mx-auto mt-2">
+              If approved, you&apos;ll be able to finish your profile and start setting up your listings ahead of our May launch.
+            </p>
+            <p className="text-sm text-muted max-w-md mx-auto mt-3">
+              We&apos;ll follow up with next steps soon.
             </p>
           </div>
 
           <div className="rounded-xl bg-accent-light/50 border border-accent/10 p-5 max-w-sm mx-auto text-left space-y-3">
-            <p className="text-sm font-semibold text-dark">What happens next:</p>
+            <p className="text-sm font-semibold text-dark">What happens next</p>
             <div className="space-y-2.5">
               {[
-                { icon: Clock, text: "We review your application (< 48 hrs)" },
-                { icon: Sparkles, text: "We help you finish your profile" },
-                { icon: CheckCircle, text: "You start posting openings in seconds" },
+                { icon: Clock, text: "We review your application" },
+                { icon: User, text: "You complete your profile" },
+                { icon: Briefcase, text: "You set up your first listings" },
+                { icon: Sparkles, text: "Your openings go live in May" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2.5 text-sm text-body">
                   <item.icon className="h-4 w-4 text-accent shrink-0" aria-hidden="true" />
@@ -188,8 +195,12 @@ export function ApplyForm() {
           </div>
 
           <Button variant="primary" asChild>
-            <Link href="/browse">Browse Appointments</Link>
+            <Link href="/">Back to homepage</Link>
           </Button>
+
+          <p className="text-xs text-muted">
+            Questions? <Link href="/contact" className="text-accent hover:underline">Reach out anytime.</Link>
+          </p>
         </CardContent>
       </Card>
     );
