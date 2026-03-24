@@ -40,10 +40,9 @@ export function MarketingNav() {
   }, [isSignedIn]);
 
   const navLinks = IS_LAUNCHED ? liveLinks : prelaunchLinks;
-  const authedLinks = [
-    { label: "Dashboard", href: "/my-bookings" },
-    ...(isPro ? [{ label: "My Listings", href: "/pro/appointments" }] : []),
-  ];
+  const authedLinks = isPro
+    ? [{ label: "Dashboard", href: "/pro/dashboard" }]
+    : [{ label: "Dashboard", href: "/my-bookings" }];
   const allLinks = isSignedIn ? [...navLinks, ...authedLinks] : navLinks;
 
   return (
