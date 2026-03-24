@@ -20,8 +20,12 @@ import {
   Image,
   Clock,
   Sparkles,
+  Camera,
+  Rocket,
+  MessageCircle,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { IS_LAUNCHED } from "@/lib/launch";
 
 export const metadata = { title: "Dashboard | BeautyLink Pro" };
 
@@ -143,22 +147,35 @@ export default async function ProDashboardPage() {
   );
   const isNewPro = profile.totalBookings === 0 && activeListings.length === 0;
 
-  // Smart nudge — pick contextual message based on pro's activity
+  // Smart nudge — pick contextual message based on pro's activity + launch state
   const lastListingDay = recentListings[0]
     ? new Date(recentListings[0].appointmentDate).toLocaleDateString("en-US", { weekday: "long" })
     : null;
   const hasLastWeek = lastWeekListings.length > 0;
-  const nudgeMessage = templateCount > 0
-    ? activeListings.length === 0
-      ? hasLastWeek
-        ? `Repeat last week's ${lastWeekListings[0].serviceName} slot?`
-        : "You have templates ready — Quick Post an opening?"
-      : lastListingDay
-        ? `You usually post around ${lastListingDay}s — add availability?`
-        : "Post another opening?"
-    : completedCount > 0
-      ? "Save your services as templates to post openings in seconds"
-      : "Create a service template to post openings faster";
+
+  let nudgeMessage: string;
+  if (!IS_LAUNCHED) {
+    // Pre-launch nudges
+    nudgeMessage = templateCount > 0
+      ? draftCount > 0
+        ? "You have draft listings ready for launch. Keep setting up!"
+        : "You have templates ready — draft a listing so it\u2019s ready for May."
+      : completionPercent < 100
+        ? "Finish setting up your profile so you\u2019re ready for launch."
+        : "Create a service template to prepare your first listings.";
+  } else {
+    nudgeMessage = templateCount > 0
+      ? activeListings.length === 0
+        ? hasLastWeek
+          ? `Repeat last week's ${lastWeekListings[0].serviceName} slot?`
+          : "You have templates ready — Quick Post an opening?"
+        : lastListingDay
+          ? `You usually post around ${lastListingDay}s — add availability?`
+          : "Post another opening?"
+      : completedCount > 0
+        ? "Save your services as templates to post openings in seconds"
+        : "Create a service template to post openings faster";
+  }
 
   return (
     <div className="space-y-8">
@@ -175,43 +192,51 @@ export default async function ProDashboardPage() {
                   Welcome to BeautyLink!
                 </p>
                 <p className="text-sm text-white/80 mt-0.5">
-                  Set up your profile once, then post openings in seconds. We&apos;ll help you get started.
+                  {IS_LAUNCHED
+                    ? "Set up your profile once, then post openings in seconds."
+                    : "You\u2019re getting set up early so you\u2019re ready to start getting bookings when we launch in May."}
                 </p>
               </div>
             </div>
             <Link
-              href="/pro/appointments/new"
+              href="/pro/settings"
               className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-accent whitespace-nowrap hover:bg-white/90 transition-colors shrink-0"
             >
-              <Plus className="h-4 w-4" aria-hidden="true" />
-              Create First Listing
+              <UserCircle className="h-4 w-4" aria-hidden="true" />
+              {IS_LAUNCHED ? "Get Started" : "Start Setting Up"}
             </Link>
           </div>
 
-          {/* Guided next steps for new pros */}
-          <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {[
-              { icon: UserCircle, text: "Complete your profile", href: "/pro/settings", done: completionPercent >= 75 },
-              { icon: FileText, text: "Create a service template", href: "/pro/templates", done: templateCount > 0 },
-              { icon: Zap, text: "Post your first opening", href: "/pro/appointments/new", done: activeListings.length > 0 },
-            ].map((step, i) => (
-              <Link
-                key={i}
-                href={step.href}
-                className={`flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                  step.done
-                    ? "bg-white/20 text-white/60"
-                    : "bg-white/10 text-white hover:bg-white/20"
-                }`}
-              >
-                {step.done ? (
-                  <CheckCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
-                ) : (
-                  <step.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
-                )}
-                <span className={step.done ? "line-through" : ""}>{step.text}</span>
-              </Link>
-            ))}
+          {/* What you can do now — guided steps */}
+          <div className="mt-5">
+            {!IS_LAUNCHED && (
+              <p className="text-xs text-white/60 mb-2.5 font-medium uppercase tracking-wide">What you can do now</p>
+            )}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              {[
+                { icon: UserCircle, text: "Complete your profile", href: "/pro/settings", done: completionPercent >= 75 },
+                { icon: FileText, text: "Add services + pricing", href: "/pro/templates", done: templateCount > 0 },
+                { icon: Camera, text: "Upload photos of your work", href: "/pro/settings", done: (profile.portfolioPhotos?.length ?? 0) > 0 },
+                { icon: Calendar, text: IS_LAUNCHED ? "Post your first opening" : "Draft your first listings", href: "/pro/appointments/new", done: activeListings.length > 0 || draftCount > 0 },
+              ].map((step, i) => (
+                <Link
+                  key={i}
+                  href={step.href}
+                  className={`flex items-center gap-2.5 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
+                    step.done
+                      ? "bg-white/20 text-white/60"
+                      : "bg-white/10 text-white hover:bg-white/20"
+                  }`}
+                >
+                  {step.done ? (
+                    <CheckCircle className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  ) : (
+                    <step.icon className="h-4 w-4 shrink-0" aria-hidden="true" />
+                  )}
+                  <span className={step.done ? "line-through" : ""}>{step.text}</span>
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       )}
@@ -234,21 +259,34 @@ export default async function ProDashboardPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            {templateCount > 0 ? (
-              <Link
-                href="/pro/appointments/new?mode=quick"
-                className="inline-flex items-center gap-2 rounded-full bg-dark px-5 py-2.5 text-sm font-semibold text-white hover:bg-dark/90 transition-colors"
-              >
-                <Zap className="h-4 w-4" aria-hidden="true" />
-                Quick Post
-              </Link>
+            {IS_LAUNCHED ? (
+              templateCount > 0 ? (
+                <Link
+                  href="/pro/appointments/new?mode=quick"
+                  className="inline-flex items-center gap-2 rounded-full bg-dark px-5 py-2.5 text-sm font-semibold text-white hover:bg-dark/90 transition-colors"
+                >
+                  <Zap className="h-4 w-4" aria-hidden="true" />
+                  Quick Post
+                </Link>
+              ) : (
+                <Link
+                  href="/pro/appointments/new"
+                  className="inline-flex items-center gap-2 rounded-full bg-dark px-5 py-2.5 text-sm font-semibold text-white hover:bg-dark/90 transition-colors"
+                >
+                  <Plus className="h-4 w-4" aria-hidden="true" />
+                  New Listing
+                </Link>
+              )
             ) : (
               <Link
-                href="/pro/appointments/new"
+                href={completionPercent < 100 ? "/pro/settings" : "/pro/appointments/new"}
                 className="inline-flex items-center gap-2 rounded-full bg-dark px-5 py-2.5 text-sm font-semibold text-white hover:bg-dark/90 transition-colors"
               >
-                <Plus className="h-4 w-4" aria-hidden="true" />
-                New Appointment
+                {completionPercent < 100 ? (
+                  <><UserCircle className="h-4 w-4" aria-hidden="true" />Continue Setup</>
+                ) : (
+                  <><Plus className="h-4 w-4" aria-hidden="true" />Draft a Listing</>
+                )}
               </Link>
             )}
             <Link
@@ -374,6 +412,27 @@ export default async function ProDashboardPage() {
         </div>
       )}
 
+      {/* Pre-launch timeline */}
+      {!IS_LAUNCHED && (
+        <div className="rounded-xl border border-accent/15 bg-accent-light/20 px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <Rocket className="h-5 w-5 text-accent shrink-0" aria-hidden="true" />
+            <div>
+              <p className="text-sm font-medium text-dark">Listings go live in May</p>
+              <p className="text-xs text-muted mt-0.5">Set up your profile and services now so you&apos;re ready to start getting bookings at launch.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Help line */}
+      {isNewPro && (
+        <div className="flex items-center justify-center gap-2 text-xs text-muted">
+          <MessageCircle className="h-3.5 w-3.5" aria-hidden="true" />
+          <span>Need help getting set up? <Link href="/contact" className="text-accent hover:underline">Reach out anytime.</Link></span>
+        </div>
+      )}
+
       {/* Drafts banner */}
       {draftCount > 0 && (
         <Link
@@ -455,9 +514,13 @@ export default async function ProDashboardPage() {
                 aria-hidden="true"
               />
               <p className="mt-3 text-muted font-medium">No upcoming appointments</p>
-              <p className="text-sm text-muted mt-1">Post an opening to start getting booked</p>
+              <p className="text-sm text-muted mt-1">
+                {IS_LAUNCHED
+                  ? "Post an opening to start getting booked"
+                  : "Set up your services and draft listings so you\u2019re ready for launch"}
+              </p>
               <div className="flex items-center justify-center gap-2 mt-4">
-                {templateCount > 0 && (
+                {IS_LAUNCHED && templateCount > 0 && (
                   <Link
                     href="/pro/appointments/new?mode=quick"
                     className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white hover:bg-accent/90 transition-colors"
@@ -471,7 +534,7 @@ export default async function ProDashboardPage() {
                   className="inline-flex items-center gap-2 rounded-full bg-dark px-5 py-2.5 text-sm font-semibold text-white hover:bg-dark/90 transition-colors"
                 >
                   <Plus className="h-4 w-4" aria-hidden="true" />
-                  Create Listing
+                  {IS_LAUNCHED ? "Create Listing" : "Draft a Listing"}
                 </Link>
               </div>
             </div>
@@ -511,7 +574,7 @@ export default async function ProDashboardPage() {
           <div>
             <h2 className="text-lg font-bold text-dark mb-3">Quick Actions</h2>
             <div className="space-y-1">
-              {templateCount > 0 && (
+              {IS_LAUNCHED && templateCount > 0 && (
                 <Link
                   href="/pro/appointments/new?mode=quick"
                   className="flex items-center gap-3 rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-white hover:bg-accent/90 transition-colors"
@@ -525,7 +588,7 @@ export default async function ProDashboardPage() {
                 className="flex items-center gap-3 rounded-xl bg-dark px-4 py-3 text-sm font-semibold text-white hover:bg-dark/90 transition-colors"
               >
                 <Plus className="h-4 w-4" aria-hidden="true" />
-                New Listing
+                {IS_LAUNCHED ? "New Listing" : "Draft a Listing"}
               </Link>
               {[
                 {
@@ -574,12 +637,16 @@ export default async function ProDashboardPage() {
 
             {activeListings.length === 0 ? (
               <div className="rounded-xl border border-border bg-white p-6 text-center space-y-3">
-                <p className="text-sm text-muted">No active listings</p>
+                <p className="text-sm text-muted">
+                  {IS_LAUNCHED ? "No active listings" : "No listings yet"}
+                </p>
                 <div className="space-y-1.5 text-left">
                   {[
-                    { label: "Quick Post an opening", href: "/pro/appointments/new?mode=quick", icon: Zap },
+                    ...(IS_LAUNCHED
+                      ? [{ label: "Quick Post an opening", href: "/pro/appointments/new?mode=quick", icon: Zap }]
+                      : [{ label: "Draft a listing", href: "/pro/appointments/new", icon: Calendar }]),
                     { label: "Create a service template", href: "/pro/templates", icon: FileText },
-                    { label: "Import portfolio photos", href: "/pro/settings", icon: Image },
+                    { label: "Upload portfolio photos", href: "/pro/settings", icon: Image },
                   ].map((action) => (
                     <Link
                       key={action.label}
