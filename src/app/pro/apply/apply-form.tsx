@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -41,19 +41,69 @@ interface FormData {
 }
 
 export function ApplyForm() {
+  const STORAGE_KEY = "beautylink_apply_draft";
+
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [formData, setFormData] = useState<FormData>({
-    fullName: "",
-    instagramHandle: "",
-    phone: "",
-    email: "",
-    serviceCategories: [],
-    portfolioPhotos: [],
-    agreedToTerms: false,
+  const [formData, setFormData] = useState<FormData>(() => {
+    // Restore from sessionStorage on mount
+    if (typeof window !== "undefined") {
+      try {
+        const saved = sessionStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          return {
+            fullName: parsed.fullName || "",
+            instagramHandle: parsed.instagramHandle || "",
+            phone: parsed.phone || "",
+            email: parsed.email || "",
+            serviceCategories: parsed.serviceCategories || [],
+            portfolioPhotos: parsed.portfolioPhotos || [],
+            agreedToTerms: false, // Always re-confirm terms
+          };
+        }
+      } catch {
+        // Ignore corrupted data
+      }
+    }
+    return {
+      fullName: "",
+      instagramHandle: "",
+      phone: "",
+      email: "",
+      serviceCategories: [],
+      portfolioPhotos: [],
+      agreedToTerms: false,
+    };
   });
+
+  // Restore step from sessionStorage
+  useEffect(() => {
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed._step) setStep(parsed._step);
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
+
+  // Auto-save to sessionStorage on every change
+  const saveToSession = useCallback((data: FormData, currentStep: number) => {
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...data, _step: currentStep }));
+    } catch {
+      // Storage full or unavailable
+    }
+  }, []);
+
+  useEffect(() => {
+    saveToSession(formData, step);
+  }, [formData, step, saveToSession]);
 
   function updateField<K extends keyof FormData>(key: K, value: FormData[K]) {
     setFormData((prev) => ({ ...prev, [key]: value }));
@@ -149,6 +199,7 @@ export function ApplyForm() {
         throw new Error(data.error || "Something went wrong. Please try again.");
       }
 
+      sessionStorage.removeItem(STORAGE_KEY);
       setIsSubmitted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -399,9 +450,9 @@ export function ApplyForm() {
                 />
                 <Label htmlFor="terms" className="text-sm leading-snug">
                   I confirm that all information is accurate and I agree to BeautyLink&apos;s{" "}
-                  <Link href="/terms" className="text-accent hover:underline">Terms of Service</Link>{" "}
+                  <Link href="/terms" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Terms of Service</Link>{" "}
                   and{" "}
-                  <Link href="/privacy" className="text-accent hover:underline">Privacy Policy</Link>.
+                  <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">Privacy Policy</Link>.
                 </Label>
               </div>
             </CardContent>
