@@ -9,7 +9,7 @@ export default function AuthLayout({
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4">
       <Link href="/" className="mb-8 block text-center">
-        <BeautyLinkLogo className="text-3xl text-accent" />
+        <BeautyLinkLogo className="text-3xl text-dark" />
       </Link>
       {children}
     </div>
