@@ -7,6 +7,7 @@ import { UserButton } from "@clerk/nextjs";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { BeautyLinkLogo } from "@/components/ui/beautylink-logo";
 import { IS_LAUNCHED } from "@/lib/launch";
 
 const prelaunchLinks = [
@@ -49,9 +50,8 @@ export function MarketingNav() {
     <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-lg border-b border-border/40">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 md:px-8">
         {/* Logo */}
-        <Link href="/" className="text-[22px] shrink-0 text-dark">
-          <span className="font-serif font-bold">Beauty</span>
-          <span className="font-serif italic">Link</span>
+        <Link href="/" className="shrink-0">
+          <BeautyLinkLogo className="text-[22px] text-dark" />
         </Link>
 
         {/* Desktop nav links — centered */}

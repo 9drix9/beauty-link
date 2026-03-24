@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { BeautyLinkLogo } from "@/components/ui/beautylink-logo";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/pro/dashboard", icon: LayoutDashboard },
@@ -51,9 +52,8 @@ export default function ProDashboardLayout({
         {/* Sidebar header */}
         <div className="flex h-16 items-center justify-between border-b border-border px-4">
           {!sidebarCollapsed && (
-            <Link href="/pro/dashboard" className="flex items-center gap-2">
-              <span className="text-lg font-bold text-accent">BeautyLink</span>
-              <span className="rounded-md bg-accent-light px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">Pro</span>
+            <Link href="/pro/dashboard">
+              <BeautyLinkLogo className="text-lg text-accent" badge="Pro" />
             </Link>
           )}
           <button
@@ -144,8 +144,8 @@ export default function ProDashboardLayout({
             <Menu className="h-5 w-5" />
           </button>
 
-          <Link href="/pro/dashboard" className="text-lg font-bold text-accent">
-            BeautyLink
+          <Link href="/pro/dashboard">
+            <BeautyLinkLogo className="text-lg text-accent" />
           </Link>
 
           <UserButton />
@@ -171,10 +171,7 @@ export default function ProDashboardLayout({
                 className="fixed inset-y-0 left-0 z-50 flex w-64 flex-col bg-white md:hidden"
               >
                 <div className="flex h-14 items-center justify-between border-b border-border px-4">
-                  <span className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-accent">BeautyLink</span>
-                    <span className="rounded-md bg-accent-light px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">Pro</span>
-                  </span>
+                  <BeautyLinkLogo className="text-lg text-accent" badge="Pro" />
                   <button
                     onClick={() => setMobileOpen(false)}
                     className="rounded-lg p-1.5 text-muted transition-colors hover:bg-background hover:text-dark"

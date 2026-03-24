@@ -11,6 +11,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { AdminMobileNav } from "./admin-mobile-nav";
+import { BeautyLinkLogo } from "@/components/ui/beautylink-logo";
 
 const sidebarLinks = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
@@ -35,12 +36,8 @@ export default async function AdminLayout({
       <aside className="hidden md:flex w-64 flex-col bg-white border-r border-border shrink-0">
         {/* Logo */}
         <div className="flex h-16 items-center border-b border-border px-6">
-          <Link href="/admin" className="flex items-center gap-2 text-xl font-bold tracking-tight">
-            <span className="text-accent">Beauty</span>
-            <span className="text-cta">Link</span>
-            <span className="rounded-full bg-accent/10 text-accent text-xs font-medium px-2 py-0.5">
-              Admin
-            </span>
+          <Link href="/admin">
+            <BeautyLinkLogo className="text-xl text-accent tracking-tight" badge="Admin" badgeVariant="pill" />
           </Link>
         </div>
 

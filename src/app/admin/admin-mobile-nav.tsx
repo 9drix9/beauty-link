@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { BeautyLinkLogo } from "@/components/ui/beautylink-logo";
 
 interface AdminMobileNavProps {
   links: { label: string; href: string }[];
@@ -18,12 +19,8 @@ export function AdminMobileNav({ links }: AdminMobileNavProps) {
     <>
       {/* Mobile top bar */}
       <div className="fixed top-0 left-0 right-0 z-50 flex h-14 items-center justify-between bg-white border-b border-border px-4 md:hidden">
-        <Link href="/admin" className="flex items-center gap-2 text-lg font-bold tracking-tight">
-          <span className="text-accent">Beauty</span>
-          <span className="text-cta">Link</span>
-          <span className="rounded-full bg-accent/10 text-accent text-xs font-medium px-2 py-0.5">
-            Admin
-          </span>
+        <Link href="/admin">
+          <BeautyLinkLogo className="text-lg text-accent tracking-tight" badge="Admin" badgeVariant="pill" />
         </Link>
         <button
           onClick={() => setOpen((prev) => !prev)}
