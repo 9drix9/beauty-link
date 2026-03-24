@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
-import { Camera, ImagePlus, X, Loader2, AlertTriangle } from "lucide-react";
+import { ImagePlus, X, Loader2, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ImageUploadProps {
@@ -200,14 +200,14 @@ export function ImageUpload({
                       <ImagePlus className="h-6 w-6 text-accent" />
                     </div>
                     <div className="rounded-full bg-accent-light p-3 sm:hidden">
-                      <Camera className="h-6 w-6 text-accent" />
+                      <ImagePlus className="h-6 w-6 text-accent" />
                     </div>
                   </div>
                   <p className="text-sm font-medium text-body text-center">
                     {placeholder}
                   </p>
                   <p className="text-xs text-muted text-center">
-                    Tap to upload or take a photo
+                    Tap to choose from your photos
                   </p>
                 </>
               )}
@@ -219,7 +219,6 @@ export function ImageUpload({
           ref={fileInputRef}
           type="file"
           accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
-          capture="environment"
           onChange={handleInputChange}
           className="hidden"
           disabled={disabled || uploading}
@@ -292,7 +291,7 @@ export function ImageUpload({
                 <>
                   <div className="flex gap-2">
                     <ImagePlus className="h-6 w-6 text-muted" />
-                    <Camera className="h-6 w-6 text-muted sm:hidden" />
+                    <ImagePlus className="h-6 w-6 text-muted sm:hidden" />
                   </div>
                   <p className="text-xs text-muted text-center">
                     {images.length}/{maxImages}
@@ -323,7 +322,7 @@ export function ImageUpload({
       )}
 
       <p className="text-xs text-muted">
-        {images.length} of {maxImages} photos. Tap to upload or take a photo. JPEG, PNG, or WebP up to 10MB.
+        {images.length} of {maxImages} photos. Tap to upload from your photo library. JPEG, PNG, or WebP up to 10MB.
       </p>
     </div>
   );
