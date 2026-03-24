@@ -307,7 +307,7 @@ export function ImageUpload({
         ref={fileInputRef}
         type="file"
         accept="image/jpeg,image/png,image/webp,image/heic,image/heif"
-        capture="environment"
+
         multiple
         onChange={handleInputChange}
         className="hidden"
