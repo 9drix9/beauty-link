@@ -204,9 +204,9 @@ export function QuickPostModal({ templates }: QuickPostModalProps) {
         {selectedTemplate && !selectedTemplate.isModelCall && selectedTemplate.originalPriceCents && (
           <div className="space-y-2">
             <Label>
-              Discounted Price (optional)
+              Discounted Price
               <span className="text-muted font-normal ml-1">
-                — default: {formatPrice(selectedTemplate.discountedPriceCents || 0)}
+                — preset from template: {formatPrice(selectedTemplate.discountedPriceCents || 0)}
               </span>
             </Label>
             <Input
@@ -217,6 +217,9 @@ export function QuickPostModal({ templates }: QuickPostModalProps) {
               value={discountedPriceDollars}
               onChange={(e) => setDiscountedPriceDollars(e.target.value)}
             />
+            <p className="text-xs text-muted">
+              This template already includes a BeautyLink discount. You can keep this price or adjust it, but it must be at least 10% below your original price.
+            </p>
             {/* Price suggestions */}
             <div className="flex flex-wrap gap-2">
               {DISCOUNT_SUGGESTIONS.map((s) => {

@@ -57,7 +57,7 @@ export function validateDiscount(originalCents: number, discountedCents: number)
   if (discountPercent < MIN_DISCOUNT_PERCENT) {
     return {
       valid: false,
-      error: `BeautyLink listings must be discounted at least ${MIN_DISCOUNT_PERCENT}% from your normal price.`,
+      error: `Listing price must be at least ${MIN_DISCOUNT_PERCENT}% below the original price.`,
     };
   }
   
