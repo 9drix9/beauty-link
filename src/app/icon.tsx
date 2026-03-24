@@ -13,22 +13,34 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "linear-gradient(145deg, #6A1B9A 0%, #9C27B0 50%, #FF6A3D 100%)",
-          borderRadius: 7,
+          background: "#3d1a0f",
+          borderRadius: 6,
         }}
       >
         <span
           style={{
-            fontSize: 24,
+            fontSize: 18,
             fontWeight: 700,
             color: "white",
+            lineHeight: 1,
+            fontFamily: "Georgia, serif",
+            letterSpacing: -1,
+          }}
+        >
+          B
+        </span>
+        <span
+          style={{
+            fontSize: 18,
+            fontWeight: 400,
+            color: "rgba(255,255,255,0.7)",
             lineHeight: 1,
             fontFamily: "Georgia, serif",
             fontStyle: "italic",
             letterSpacing: -1,
           }}
         >
-          b
+          L
         </span>
       </div>
     ),
