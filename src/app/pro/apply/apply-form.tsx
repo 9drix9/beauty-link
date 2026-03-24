@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { SERVICE_CATEGORIES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import { ImageUpload } from "@/components/shared/image-upload";
-import { InstagramImport } from "@/components/shared/instagram-import";
+
 import {
   ArrowLeft,
   ArrowRight,
@@ -377,16 +377,6 @@ export function ApplyForm() {
                   Upload photos of your best work. These will appear on your profile and can be used in future listings.
                 </p>
               </div>
-
-              {/* Instagram Import */}
-              {formData.instagramHandle && (
-                <InstagramImport
-                  handle={formData.instagramHandle}
-                  currentPhotos={formData.portfolioPhotos}
-                  maxPhotos={10}
-                  onImport={(urls) => updateField("portfolioPhotos", urls)}
-                />
-              )}
 
               <ImageUpload
                 value={formData.portfolioPhotos}

@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { ImageUpload } from "@/components/shared/image-upload";
-import { InstagramImport } from "@/components/shared/instagram-import";
+
 import { WORK_SETTINGS, LAUNCH_ZONES, DURATION_OPTIONS } from "@/lib/constants";
 import { Loader2, Check, MapPin } from "lucide-react";
 
@@ -335,16 +335,6 @@ export function ProSettingsForm({ profile }: ProSettingsFormProps) {
           <p className="text-sm text-muted">
             Showcase your best work. Upload up to 10 photos that will appear on your profile and can be used in listings.
           </p>
-
-          {/* Instagram Import */}
-          {instagramHandle && (
-            <InstagramImport
-              handle={instagramHandle}
-              currentPhotos={portfolioPhotos}
-              maxPhotos={10}
-              onImport={(urls) => setPortfolioPhotos(urls)}
-            />
-          )}
 
           <ImageUpload
             value={portfolioPhotos}
