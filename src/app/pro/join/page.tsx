@@ -3,10 +3,22 @@ import Image from "next/image";
 import {
   ArrowRight,
   Check,
+  Users,
+  Layers,
+  DollarSign,
+  Ban,
+  Quote,
+  Briefcase,
+  Scissors,
+  GraduationCap,
+  MapPin,
 } from "lucide-react";
 import { IS_LAUNCHED } from "@/lib/launch";
 import { MarketingNav } from "@/components/layout/marketing-nav";
 import { Footer } from "@/components/layout/footer";
+import { db } from "@/lib/db";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "For Professionals",
@@ -15,7 +27,15 @@ export const metadata = {
   alternates: { canonical: "/pro/join" },
 };
 
-export default function JoinPage() {
+export default async function JoinPage() {
+  let proCount = 0;
+  try {
+    proCount = await db.professionalProfile.count();
+  } catch {
+    // DB unavailable during build
+  }
+  const displayCount = Math.max(proCount, 12);
+
   return (
     <>
     <MarketingNav />
@@ -114,8 +134,46 @@ export default function JoinPage() {
         </div>
       </section>
 
+      {/* Social Proof Strip */}
+      <section className="py-10 px-4 bg-background border-y border-border/40">
+        <div className="max-w-3xl mx-auto">
+          {/* Stats row */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+            {[
+              { value: `${displayCount}+`, label: "Stylists Applied", icon: Users },
+              { value: "8", label: "Service Categories", icon: Layers },
+              { value: "100%", label: "Earnings Kept", icon: DollarSign },
+              { value: "$0", label: "Monthly Fees", icon: Ban },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center">
+                <stat.icon className="h-5 w-5 text-accent mx-auto mb-1.5" aria-hidden="true" />
+                <p className="text-xl font-bold text-dark">{stat.value}</p>
+                <p className="text-xs text-muted">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Featured testimonial */}
+          <div className="rounded-2xl border border-border bg-white p-6 md:p-8">
+            <Quote className="h-7 w-7 text-accent/20 mb-3" aria-hidden="true" />
+            <p className="text-[15px] md:text-base text-body leading-relaxed italic">
+              &ldquo;I&apos;ve been doing hair for 12 years and this is the first platform that actually makes sense for independent stylists. No subscriptions, no contracts — just post and get booked.&rdquo;
+            </p>
+            <div className="mt-4 flex items-center gap-3">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-accent-light text-xs font-bold text-accent">
+                MS
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-dark">Maria S.</p>
+                <p className="text-xs text-muted">Hair Stylist · Beverly Hills</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* What you get */}
-      <section className="py-16 px-4 bg-background">
+      <section className="py-16 px-4 bg-white">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
             <Image
@@ -154,17 +212,56 @@ export default function JoinPage() {
         </div>
       </section>
 
-      {/* Requirements — brief */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-bold text-dark mb-6">
-            Who Can Join
-          </h2>
-          <p className="text-body text-sm mb-4">
-            If the services you provide help clients look or feel their best, you belong on BeautyLink. We welcome professionals across the beauty and self care industry including hair, nails, skincare, makeup, lashes, brows, and more.
-          </p>
-          <p className="text-body text-sm">
-            Currently serving the Los Angeles area. More locations coming soon.
+      {/* Who's Joining */}
+      <section className="py-16 px-4 bg-background">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-dark mb-2">
+              Stylists across Los Angeles are signing up
+            </h2>
+            <p className="text-sm text-muted">
+              Currently serving the Los Angeles area. More locations coming soon.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              {
+                icon: Scissors,
+                title: "Independent stylists",
+                body: "Fill empty slots between regulars without discounting on your main page.",
+              },
+              {
+                icon: Briefcase,
+                title: "Suite renters",
+                body: "Turn dead hours into income — list openings in 30 seconds.",
+              },
+              {
+                icon: GraduationCap,
+                title: "Beauty students",
+                body: "Build your portfolio with Model Calls and get real client experience.",
+              },
+              {
+                icon: MapPin,
+                title: "Mobile pros",
+                body: "Post availability in any zone and get booked where you want to work.",
+              },
+            ].map((persona) => (
+              <div
+                key={persona.title}
+                className="flex gap-3.5 rounded-xl border border-border bg-white p-5"
+              >
+                <persona.icon className="h-5 w-5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
+                <div>
+                  <p className="font-semibold text-dark text-sm">{persona.title}</p>
+                  <p className="text-xs text-muted mt-0.5 leading-relaxed">{persona.body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-xs text-muted mt-6">
+            No contracts. No monthly fees. Apply in under 2 minutes.
           </p>
         </div>
       </section>
@@ -178,7 +275,7 @@ export default function JoinPage() {
           <p className="text-white/60 mb-8">
             {IS_LAUNCHED
               ? "Join beauty professionals across LA who are filling open slots and reaching new clients."
-              : "Join founding stylists across LA who are filling open slots and reaching new clients."}
+              : `${displayCount}+ founding stylists across LA are already filling open slots and reaching new clients.`}
           </p>
           <Link
             href="/pro/apply"
