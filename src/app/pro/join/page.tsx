@@ -65,6 +65,11 @@ export default async function JoinPage() {
               {IS_LAUNCHED ? "Apply Now" : "Apply as Founding Stylist"}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
+            {!IS_LAUNCHED && (
+              <p className="mt-4 text-xs text-body/50">
+                Currently onboarding stylists ahead of our May launch
+              </p>
+            )}
           </div>
           <div className="relative hidden md:block">
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
@@ -100,23 +105,19 @@ export default async function JoinPage() {
             How It Works
           </h2>
           <div className="space-y-6">
-            {[
-              {
-                step: "1",
-                title: "Apply",
-                body: "Submit your info, portfolio, and service details. We review applications within 48 hours.",
-              },
-              {
-                step: "2",
-                title: "List Your Open Slots",
-                body: "Post discounted appointments whenever you have availability. Set your own price, minimum 10% off your regular rate.",
-              },
-              {
-                step: "3",
-                title: "Get Booked and Paid",
-                body: "Clients book and pay instantly. You receive your full listed price within 24 hours of the appointment.",
-              },
-            ].map((item, i) => (
+            {(IS_LAUNCHED
+              ? [
+                  { step: "1", title: "Apply", body: "Submit your info, portfolio, and service details. We review applications within 48 hours." },
+                  { step: "2", title: "List Your Open Slots", body: "Post discounted appointments whenever you have availability. Set your own price, minimum 10% off your regular rate." },
+                  { step: "3", title: "Get Booked and Paid", body: "Clients book and pay instantly. You receive your full listed price within 24 hours of the appointment." },
+                ]
+              : [
+                  { step: "1", title: "Sign up and create your profile", body: "Tell us about yourself, your services, and where you work. Takes under 2 minutes." },
+                  { step: "2", title: "Add your services, pricing, and photos", body: "Set up your service details, portfolio, and default pricing so everything is ready." },
+                  { step: "3", title: "Set up your first listings", body: "Draft your opening listings now so they\u2019re ready to go live at launch." },
+                  { step: "4", title: "Go live and start getting bookings", body: "When BeautyLink launches in May, your listings go live and clients can start booking." },
+                ]
+            ).map((item, i, arr) => (
               <div key={item.step}>
                 <div className="flex gap-4">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-dark text-white text-sm font-bold">
@@ -127,10 +128,15 @@ export default async function JoinPage() {
                     <p className="text-sm text-muted mt-0.5">{item.body}</p>
                   </div>
                 </div>
-                {i < 2 && <div className="border-l-2 border-border ml-4 h-4 mt-2" />}
+                {i < arr.length - 1 && <div className="border-l-2 border-border ml-4 h-4 mt-2" />}
               </div>
             ))}
           </div>
+          {!IS_LAUNCHED && (
+            <p className="mt-8 text-xs text-muted text-center">
+              Join early to get set up before clients go live
+            </p>
+          )}
         </div>
       </section>
 
