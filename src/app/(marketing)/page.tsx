@@ -109,7 +109,13 @@ export default async function HomePage() {
               10 to 50% off all appointments.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
+            {!IS_LAUNCHED && (
+              <p className="mt-4 text-[15px] font-medium text-body/60 text-center md:text-left">
+                Launching with 3,000+ Los Angeles clients on the waitlist
+              </p>
+            )}
+
+            <div className="mt-6 flex flex-col sm:flex-row items-center md:items-start gap-3">
               {IS_LAUNCHED ? (
                 <>
                   <Link
@@ -161,11 +167,6 @@ export default async function HomePage() {
               </span>
             </div>
 
-            {!IS_LAUNCHED && (
-              <p className="mt-5 text-[13px] font-medium text-body/50 text-center md:text-left">
-                3,000+ Los Angeles clients already on the waitlist for BeautyLink
-              </p>
-            )}
           </div>
 
           {/* Hero image — desktop only */}
