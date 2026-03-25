@@ -109,13 +109,7 @@ export default async function HomePage() {
               10 to 50% off all appointments.
             </p>
 
-            {!IS_LAUNCHED && (
-              <p className="mt-4 text-[15px] font-medium text-body/60 text-center md:text-left">
-                Launching with 3,000+ Los Angeles clients on the waitlist
-              </p>
-            )}
-
-            <div className="mt-6 flex flex-col sm:flex-row items-center md:items-start gap-3">
+            <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
               {IS_LAUNCHED ? (
                 <>
                   <Link
@@ -152,7 +146,7 @@ export default async function HomePage() {
             </div>
 
             {/* Proof points */}
-            <div className="mt-8 flex flex-col items-center sm:flex-row sm:items-start justify-center md:justify-start gap-x-6 gap-y-2 text-sm text-body/60">
+            <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-x-5 gap-y-2 text-[13px] text-body/60">
               <span className="flex items-center gap-1.5">
                 <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Verified professionals
@@ -165,6 +159,12 @@ export default async function HomePage() {
                 <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Free cancellation 24hr+
               </span>
+              {!IS_LAUNCHED && (
+                <span className="flex items-center gap-1.5">
+                  <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
+                  3,000+ LA clients on the waitlist
+                </span>
+              )}
             </div>
 
           </div>
