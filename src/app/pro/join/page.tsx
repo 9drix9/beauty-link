@@ -44,7 +44,7 @@ export default async function JoinPage() {
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 items-center gap-10 px-4 py-16 md:py-24">
           <div className="text-center md:text-left">
             <p className="text-sm font-semibold text-accent mb-3">
-              {IS_LAUNCHED ? "For beauty professionals" : "Now onboarding a curated group of founding stylists"}
+              {IS_LAUNCHED ? "For Beauty Professionals" : "Now Onboarding a Curated Group of Founding Stylists"}
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-dark mb-6 leading-[1.1]">
               Fill your empty chair.
