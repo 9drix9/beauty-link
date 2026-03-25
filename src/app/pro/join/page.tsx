@@ -11,6 +11,10 @@ import {
   Scissors,
   GraduationCap,
   MapPin,
+  Star,
+  Megaphone,
+  BadgeCheck,
+  ShieldCheck,
 } from "lucide-react";
 import { IS_LAUNCHED } from "@/lib/launch";
 import { MarketingNav } from "@/components/layout/marketing-nav";
@@ -66,7 +70,7 @@ export default async function JoinPage() {
             </Link>
             {!IS_LAUNCHED && (
               <p className="mt-4 text-xs text-body/50">
-                Currently onboarding stylists ahead of our May launch
+                Founding perks available to the first 100 stylists
               </p>
             )}
           </div>
@@ -96,6 +100,58 @@ export default async function JoinPage() {
           </div>
         </div>
       </section>
+
+      {/* Founding Stylist Perks (pre-launch only) */}
+      {!IS_LAUNCHED && (
+        <section className="py-14 px-4 bg-white border-b border-border/40">
+          <div className="max-w-2xl mx-auto text-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-dark mb-2">
+              Founding Stylist Perks
+            </h2>
+            <p className="text-sm text-body/60 mb-10">
+              The first 100 stylists who join BeautyLink will receive:
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
+              {[
+                {
+                  icon: Star,
+                  title: "Priority placement at launch",
+                  body: "Your listings appear first when clients start browsing in May.",
+                },
+                {
+                  icon: Megaphone,
+                  title: "Early access to new clients",
+                  body: "Be visible from day one as demand builds across Los Angeles.",
+                },
+                {
+                  icon: BadgeCheck,
+                  title: "Featured exposure on BeautyLink",
+                  body: "Founding stylists receive highlighted placement and a profile badge.",
+                },
+                {
+                  icon: ShieldCheck,
+                  title: "Lifetime free membership",
+                  body: "No platform fees, no monthly charges — now or ever.",
+                },
+              ].map((perk) => (
+                <div
+                  key={perk.title}
+                  className="flex gap-3.5 rounded-xl border border-border bg-background/50 p-5"
+                >
+                  <perk.icon className="h-5 w-5 text-accent shrink-0 mt-0.5" aria-hidden="true" />
+                  <div>
+                    <p className="font-semibold text-dark text-sm">{perk.title}</p>
+                    <p className="text-xs text-muted mt-0.5 leading-relaxed">{perk.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-8 text-xs text-body/50">
+              Available to the first 100 stylists who join before launch.
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* How it works */}
       <section className="py-16 px-4 bg-white">
@@ -145,7 +201,7 @@ export default async function JoinPage() {
           {/* Stats row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
             {[
-              { value: `${displayCount}+`, label: "Stylists Applied", icon: Users },
+              { value: `${displayCount}+`, label: IS_LAUNCHED ? "Stylists Applied" : "Founding Stylists Applied", icon: Users },
               { value: "8", label: "Service Categories", icon: Layers },
               { value: "100%", label: "Earnings Kept", icon: DollarSign },
               { value: "$0", label: "Monthly Fees", icon: Ban },
@@ -206,10 +262,14 @@ export default async function JoinPage() {
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-dark mb-2">
-              Stylists across Los Angeles are signing up
+              {IS_LAUNCHED
+                ? "Stylists across Los Angeles are signing up"
+                : "Onboarding the first 100 founding stylists"}
             </h2>
             <p className="text-sm text-muted">
-              Currently serving the Los Angeles area. More locations coming soon.
+              {IS_LAUNCHED
+                ? "Currently serving the Los Angeles area. More locations coming soon."
+                : "Founding stylist spots are limited. Currently serving the Los Angeles area."}
             </p>
           </div>
 
