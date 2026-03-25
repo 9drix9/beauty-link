@@ -109,7 +109,7 @@ export default async function HomePage() {
               10 to 50% off all appointments.
             </p>
 
-            <div className="mt-8 flex flex-col sm:flex-row items-center md:items-start gap-3">
+            <div className="mt-7 flex flex-col sm:flex-row items-center md:items-start gap-3">
               {IS_LAUNCHED ? (
                 <>
                   <Link
@@ -146,7 +146,7 @@ export default async function HomePage() {
             </div>
 
             {/* Proof points */}
-            <div className="mt-8 flex flex-wrap items-center justify-center md:justify-start gap-x-5 gap-y-2 text-[13px] text-body/60">
+            <div className="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-x-5 gap-y-2 text-[13px] text-body/60">
               <span className="flex items-center gap-1.5">
                 <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Verified professionals
@@ -170,8 +170,8 @@ export default async function HomePage() {
           </div>
 
           {/* Hero image — desktop only */}
-          <div className="hidden lg:block absolute top-0 right-0 w-[45%] h-full">
-            <div className="relative h-full w-full rounded-2xl overflow-hidden">
+          <div className="hidden lg:flex absolute top-0 right-0 w-[45%] h-full items-center py-8">
+            <div className="relative w-full h-full max-h-[540px] rounded-2xl overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80&auto=format&fit=crop"
                 alt="Beauty professional working in a modern salon"
