@@ -160,6 +160,12 @@ export default async function HomePage() {
                 Free cancellation 24hr+
               </span>
             </div>
+
+            {!IS_LAUNCHED && (
+              <p className="mt-5 text-[13px] font-medium text-body/50 text-center md:text-left">
+                3,000+ Los Angeles clients already on the waitlist for BeautyLink
+              </p>
+            )}
           </div>
 
           {/* Hero image — desktop only */}
