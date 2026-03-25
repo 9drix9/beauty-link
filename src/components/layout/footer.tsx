@@ -92,7 +92,7 @@ export function Footer() {
         {/* Bottom row */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <p className="text-sm text-muted">
-            &copy; {new Date().getFullYear()} BeautyLink, Inc. &middot; Woman-owned
+            &copy; {new Date().getFullYear()} BeautyLink, Inc. &middot; Women Owned
           </p>
 
           <div className="flex items-center gap-2">
