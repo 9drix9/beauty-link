@@ -80,7 +80,7 @@ export default async function HomePage() {
   return (
     <>
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden px-4 pt-20 pb-12 md:pt-28 md:pb-16">
+      <section className="relative overflow-hidden px-4 pt-20 pb-10 md:pt-28 md:pb-14">
         <div
           className="absolute inset-0 -z-10 gradient-hero-page"
           aria-hidden="true"
@@ -170,8 +170,8 @@ export default async function HomePage() {
           </div>
 
           {/* Hero image — desktop only */}
-          <div className="hidden lg:flex absolute top-0 right-0 w-[45%] h-full items-center py-8">
-            <div className="relative w-full h-full max-h-[540px] rounded-2xl overflow-hidden">
+          <div className="hidden lg:block absolute top-0 right-0 w-[45%] h-full">
+            <div className="relative h-full w-full rounded-2xl overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=800&q=80&auto=format&fit=crop"
                 alt="Beauty professional working in a modern salon"
