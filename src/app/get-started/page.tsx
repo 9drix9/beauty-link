@@ -32,18 +32,26 @@ export default function GetStartedPage() {
         <div className="flex flex-1 flex-col justify-center px-6 pb-16 sm:px-12 lg:px-16">
           <div className="mx-auto w-full max-w-md">
             <h1 className="text-3xl font-bold text-dark sm:text-4xl">
-              Sign up / log in
+              Get started
             </h1>
+            <p className="mt-2 text-sm text-muted">
+              Create an account or sign in to continue
+            </p>
 
+            {/* Sign up options */}
             <div className="mt-10 space-y-4">
-              {/* Customer option */}
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+                New to BeautyLink?
+              </p>
+
+              {/* Customer sign-up */}
               <Link
-                href="/login"
+                href="/signup"
                 className="group flex items-center justify-between rounded-xl border border-border bg-white px-6 py-5 transition-all hover:border-dark hover:shadow-sm"
               >
                 <div>
                   <p className="text-base font-semibold text-dark">
-                    BeautyLink for customers
+                    Sign up as a customer
                   </p>
                   <p className="mt-0.5 text-sm text-muted">
                     Book beauty appointments near you
@@ -52,19 +60,35 @@ export default function GetStartedPage() {
                 <ArrowRight className="h-5 w-5 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-dark" />
               </Link>
 
-              {/* Professional option */}
+              {/* Professional sign-up */}
               <Link
-                href="/login?intent=pro"
+                href="/signup?intent=pro"
                 className="group flex items-center justify-between rounded-xl border border-border bg-white px-6 py-5 transition-all hover:border-dark hover:shadow-sm"
               >
                 <div>
                   <p className="text-base font-semibold text-dark">
-                    BeautyLink for professionals
+                    Sign up as a professional
                   </p>
                   <p className="mt-0.5 text-sm text-muted">
                     Fill open slots &amp; grow your business
                   </p>
                 </div>
+                <ArrowRight className="h-5 w-5 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-dark" />
+              </Link>
+            </div>
+
+            {/* Sign in for existing users */}
+            <div className="mt-8 pt-6 border-t border-border">
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted mb-4">
+                Already have an account?
+              </p>
+              <Link
+                href="/login"
+                className="group flex items-center justify-between rounded-xl border border-border bg-white px-6 py-4 transition-all hover:border-dark hover:shadow-sm"
+              >
+                <p className="text-base font-semibold text-dark">
+                  Sign in
+                </p>
                 <ArrowRight className="h-5 w-5 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-dark" />
               </Link>
             </div>

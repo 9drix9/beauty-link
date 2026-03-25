@@ -16,7 +16,7 @@ export function SignUpForm({ intent }: SignUpFormProps) {
     <SignUp
       path="/signup"
       routing="path"
-      signInUrl="/login"
+      signInUrl={intent === "pro" ? "/login?intent=pro" : "/login"}
       fallbackRedirectUrl={redirectUrl}
     />
   );
