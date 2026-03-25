@@ -22,7 +22,6 @@ const isPublicRoute = createRouteMatcher([
   "/auth-redirect",
   "/forgot-password",
   "/reset-password",
-  "/verify-email",
 
   // Public API endpoints
   "/api/appointments(.*)",

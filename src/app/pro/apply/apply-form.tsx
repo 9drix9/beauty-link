@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -42,6 +43,8 @@ interface FormData {
 
 export function ApplyForm() {
   const STORAGE_KEY = "beautylink_apply_draft";
+  const { user: clerkUser } = useUser();
+  const accountEmail = clerkUser?.primaryEmailAddress?.emailAddress ?? "";
 
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -78,6 +81,21 @@ export function ApplyForm() {
       agreedToTerms: false,
     };
   });
+
+  // Pre-fill email and name from Clerk account
+  useEffect(() => {
+    if (!clerkUser) return;
+    setFormData((prev) => {
+      const updates: Partial<FormData> = {};
+      if (!prev.email && accountEmail) updates.email = accountEmail;
+      if (!prev.fullName) {
+        const name = [clerkUser.firstName, clerkUser.lastName].filter(Boolean).join(" ");
+        if (name) updates.fullName = name;
+      }
+      if (Object.keys(updates).length === 0) return prev;
+      return { ...prev, ...updates };
+    });
+  }, [clerkUser, accountEmail]);
 
   // Restore step from sessionStorage
   useEffect(() => {
@@ -377,7 +395,14 @@ export function ApplyForm() {
                   placeholder="you@email.com"
                   value={formData.email}
                   onChange={(e) => updateField("email", e.target.value)}
+                  readOnly={!!accountEmail}
+                  className={accountEmail ? "bg-background text-body/70 cursor-default" : ""}
                 />
+                {accountEmail && (
+                  <p className="text-xs text-muted">
+                    From your BeautyLink account
+                  </p>
+                )}
               </div>
             </div>
           </CardContent>
