@@ -188,6 +188,59 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* ── For Beauty Professionals ── */}
+      {!IS_LAUNCHED && (
+        <section className="py-16 md:py-20 px-4 bg-white border-b border-border/40">
+          <div className="max-w-3xl mx-auto text-center">
+            <p className="text-sm font-semibold text-accent mb-3 tracking-wide uppercase">
+              For Beauty Professionals
+            </p>
+            <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
+              Fill Open Appointments With New Clients
+            </h2>
+            <p className="text-body/70 max-w-xl mx-auto leading-relaxed">
+              Turn last-minute cancellations, slow days, and gaps into booked appointments — without lowering your standard pricing.
+            </p>
+
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left max-w-lg mx-auto">
+              {[
+                "Fill empty time without chasing clients",
+                "Get discovered by new local clients",
+                "Post last-minute openings or model spots",
+                "No platform fees for founding stylists",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-2.5">
+                  <Check className="h-4 w-4 text-success mt-0.5 shrink-0" aria-hidden="true" />
+                  <span className="text-sm text-body">{item}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 space-y-2">
+              <p className="text-sm text-body/60">
+                Launching in Los Angeles with 3,000+ clients already on the waitlist
+              </p>
+              <p className="text-sm font-medium text-dark/70">
+                We&apos;re onboarding a small group of founding stylists in West LA before launch
+              </p>
+            </div>
+
+            <div className="mt-8">
+              <Link
+                href="/pro/join"
+                className="inline-flex items-center gap-2.5 rounded-full bg-dark px-8 py-4 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
+              >
+                Apply as a Founding Stylist
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+              <p className="mt-3 text-xs text-body/45">
+                Takes ~1 minute &middot; Early access &middot; No platform fees
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* ── Founding Stylists Counter ── */}
       {!IS_LAUNCHED && (
         <section className="py-8 bg-white border-b border-border/40">
