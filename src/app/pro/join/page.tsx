@@ -58,19 +58,25 @@ export default async function JoinPage() {
             <p className="text-[17px] text-body/70 max-w-[460px] mx-auto md:mx-0 mb-2 leading-relaxed">
               Had a cancellation or a slow day? List your open appointments at a discounted rate and let new clients discover you.
             </p>
-            <p className="text-[15px] text-body/60 max-w-[460px] mx-auto md:mx-0 mb-10">
+            <p className="text-[15px] text-body/60 max-w-[460px] mx-auto md:mx-0 mb-3">
               You set the price. You keep 100%.
             </p>
+            {!IS_LAUNCHED && (
+              <p className="text-[13px] text-body/45 max-w-[460px] mx-auto md:mx-0 mb-10">
+                3,000+ LA clients are already waiting to book on BeautyLink
+              </p>
+            )}
+            {IS_LAUNCHED && <div className="mb-10" />}
             <Link
               href="/pro/apply"
               className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
             >
-              {IS_LAUNCHED ? "Apply Now" : "Apply as Founding Stylist"}
+              {IS_LAUNCHED ? "Apply Now" : "Get Early Stylist Access"}
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>
             {!IS_LAUNCHED && (
               <p className="mt-4 text-xs text-body/50">
-                Founding perks available to the first 100 stylists
+                Launching in Los Angeles — founding stylists get priority placement
               </p>
             )}
           </div>
@@ -330,7 +336,7 @@ export default async function JoinPage() {
             href="/pro/apply"
             className="inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-[15px] font-semibold text-dark transition-all hover:bg-white/90 hover:-translate-y-0.5"
           >
-            {IS_LAUNCHED ? "Apply Now" : "Apply as Founding Stylist"}
+            {IS_LAUNCHED ? "Apply Now" : "Get Early Stylist Access"}
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>

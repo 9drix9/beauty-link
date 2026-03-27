@@ -14,9 +14,9 @@ import {
 import { WaitlistForm } from "@/components/shared/waitlist-form";
 import { IS_LAUNCHED } from "@/lib/launch";
 export const metadata = {
-  title: "BeautyLink | Great Beauty. Better Prices.",
+  title: "BeautyLink | Last-Minute Beauty. Better Prices.",
   description:
-    "Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more at 10 to 50% off.",
+    "Discover open beauty appointments near you. Book discounted services from talented local professionals across hair, nails, lashes, makeup, skincare, and more — up to 50% off.",
 };
 
 const PREVIEW_LISTINGS = [
@@ -80,7 +80,7 @@ export default function HomePage() {
             </div>
 
             <h1 className="font-serif text-[2.75rem] leading-[1.05] md:text-[4.25rem] lg:text-[5rem] tracking-tight text-dark">
-              <span className="font-bold">Great Beauty.</span>
+              <span className="font-bold">Last-Minute Beauty.</span>
               <br />
               <span className="italic text-accent">
                 Better Prices.
@@ -88,10 +88,10 @@ export default function HomePage() {
             </h1>
 
             <p className="mt-5 text-lg text-body/70 max-w-md mx-auto md:mx-0 leading-relaxed">
-              Discover open beauty appointments near you. Flexible timing, insider prices, and talented beauty professionals across hair, nails, lashes, makeup, skincare, and more.
+              Discover open beauty appointments near you. Book discounted services from talented local professionals across hair, nails, lashes, makeup, skincare, and more.
             </p>
             <p className="mt-2 text-lg text-body/70 max-w-md mx-auto md:mx-0 font-semibold">
-              10 to 50% off all appointments.
+              Up to 50% off available appointments.
             </p>
 
             <div className="mt-7 flex flex-col sm:flex-row items-center md:items-start gap-3">
@@ -117,7 +117,7 @@ export default function HomePage() {
                     href="#waitlist"
                     className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
                   >
-                    Join the Waitlist
+                    Get Early Access
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </a>
                   <a
@@ -130,8 +130,15 @@ export default function HomePage() {
               )}
             </div>
 
-            {/* Proof points */}
-            <div className="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-x-5 gap-y-2 text-[13px] text-body/60">
+            {/* Waitlist proof */}
+            {!IS_LAUNCHED && (
+              <p className="mt-5 text-[13px] text-body/50 text-center md:text-left">
+                3,000+ women in Los Angeles are already on the waitlist
+              </p>
+            )}
+
+            {/* Trust points */}
+            <div className="mt-4 flex flex-wrap items-center justify-center md:justify-start gap-x-5 gap-y-2 text-[13px] text-body/60">
               <span className="flex items-center gap-1.5">
                 <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Verified professionals
@@ -144,12 +151,6 @@ export default function HomePage() {
                 <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
                 Free cancellation 24hr+
               </span>
-              {!IS_LAUNCHED && (
-                <span className="flex items-center gap-1.5">
-                  <Check className="h-3.5 w-3.5 text-success" aria-hidden="true" />
-                  3,000+ LA clients on the waitlist
-                </span>
-              )}
             </div>
 
           </div>
