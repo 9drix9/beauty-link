@@ -13,7 +13,7 @@ import { IS_LAUNCHED } from "@/lib/launch";
 const prelaunchLinks = [
   { label: "How It Works", href: "/how-it-works" },
   { label: "Model Calls", href: "/model-calls" },
-  { label: "Become a Founding Stylist", href: "/pro/join", accent: true },
+  { label: "For Professionals", href: "/pro/join", accent: true },
 ];
 
 const liveLinks = [

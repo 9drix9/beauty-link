@@ -43,7 +43,8 @@
       "WebFetch(domain:furry-beauty-link-pro.base44.app)",
       "Bash(which node; which npm; which git; which brew 2>/dev/null; node --version 2>/dev/null; npm --version 2>/dev/null)",
       "Bash(brew install:*)",
-      "Bash(ls /Users/ashleynowell/Documents/GitHub/beauty-link/src/app/\\\\\\(marketing\\\\\\)/contact/)"
+      "Bash(ls /Users/ashleynowell/Documents/GitHub/beauty-link/src/app/\\\\\\(marketing\\\\\\)/contact/)",
+      "Bash(ls -la /Users/ashleynowell/Documents/GitHub/beauty-link/src/app/\\\\\\(customer\\\\\\)/ 2>/dev/null || echo \"Directory does not exist\")"
     ]
   }
 }

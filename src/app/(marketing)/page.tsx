@@ -13,11 +13,6 @@ import {
 } from "lucide-react";
 import { WaitlistForm } from "@/components/shared/waitlist-form";
 import { IS_LAUNCHED } from "@/lib/launch";
-import { db } from "@/lib/db";
-
-export const dynamic = "force-dynamic";
-
-
 export const metadata = {
   title: "BeautyLink | Great Beauty. Better Prices.",
   description:
@@ -66,17 +61,7 @@ const PREVIEW_LISTINGS = [
   },
 ];
 
-export default async function HomePage() {
-  // Dynamic founding stylists count
-  let proCount = 0;
-  try {
-    proCount = await db.professionalProfile.count();
-  } catch {
-    // DB unavailable during build — fallback to 0
-  }
-  // Show at least a base number for credibility
-  const displayCount = Math.max(proCount, 12);
-
+export default function HomePage() {
   return (
     <>
       {/* ── Hero ── */}
@@ -119,22 +104,22 @@ export default async function HomePage() {
                     Browse Appointments
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
                   </Link>
-                  <Link
-                    href="/pro/join"
+                  <a
+                    href="#how-it-works"
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-7 py-3.5 text-[15px] font-semibold text-body transition-all hover:bg-white hover:-translate-y-0.5"
                   >
-                    List Your Services
-                  </Link>
+                    Learn More
+                  </a>
                 </>
               ) : (
                 <>
-                  <Link
-                    href="/pro/join"
+                  <a
+                    href="#waitlist"
                     className="inline-flex items-center gap-2.5 rounded-full bg-dark px-7 py-3.5 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
                   >
-                    Become A Founding Stylist
+                    Join the Waitlist
                     <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                  </Link>
+                  </a>
                   <a
                     href="#how-it-works"
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-white/70 px-7 py-3.5 text-[15px] font-semibold text-body transition-all hover:bg-white hover:-translate-y-0.5"
@@ -188,96 +173,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── For Beauty Professionals ── */}
-      {!IS_LAUNCHED && (
-        <section className="py-16 md:py-20 px-4 bg-white border-b border-border/40">
-          <div className="max-w-3xl mx-auto text-center">
-            <p className="text-sm font-semibold text-accent mb-3 tracking-wide uppercase">
-              For Beauty Professionals
-            </p>
-            <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
-              Fill Open Appointments With New Clients
-            </h2>
-            <p className="text-body/70 max-w-xl mx-auto leading-relaxed">
-              Turn last-minute cancellations, slow days, and gaps into booked appointments — without lowering your standard pricing.
-            </p>
-
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4 text-left max-w-lg mx-auto">
-              {[
-                "Fill empty time without chasing clients",
-                "Get discovered by new local clients",
-                "Post last-minute openings or model spots",
-                "No platform fees for founding stylists",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-2.5">
-                  <Check className="h-4 w-4 text-success mt-0.5 shrink-0" aria-hidden="true" />
-                  <span className="text-sm text-body">{item}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-10 space-y-2">
-              <p className="text-sm text-body/60">
-                Launching in Los Angeles with 3,000+ clients already on the waitlist
-              </p>
-              <p className="text-sm font-medium text-dark/70">
-                We&apos;re onboarding a small group of founding stylists in West LA before launch
-              </p>
-            </div>
-
-            <div className="mt-8">
-              <Link
-                href="/pro/join"
-                className="inline-flex items-center gap-2.5 rounded-full bg-dark px-8 py-4 text-[15px] font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
-              >
-                Apply as a Founding Stylist
-                <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
-              <p className="mt-3 text-xs text-body/45">
-                Takes ~1 minute &middot; Early access &middot; No platform fees
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── Founding Stylists Counter ── */}
-      {!IS_LAUNCHED && (
-        <section className="py-8 bg-white border-b border-border/40">
-          <div className="max-w-7xl mx-auto px-4">
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8">
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-2">
-                  {["JR", "DM", "MS", "AK"].map((initials, i) => (
-                    <div
-                      key={i}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-accent-light text-[10px] font-bold text-accent"
-                    >
-                      {initials}
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <p className="text-sm font-bold text-dark">
-                    {displayCount}+ founding stylists have applied
-                  </p>
-                  <p className="text-xs text-muted">
-                    Hair, nails, lashes, makeup, skincare — and growing every week.
-                  </p>
-                </div>
-              </div>
-              <Link
-                href="/pro/join"
-                className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent-light/50 px-4 py-2 text-xs font-semibold text-accent hover:bg-accent hover:text-white transition-colors"
-              >
-                Join them
-                <ArrowRight className="h-3 w-3" aria-hidden="true" />
-              </Link>
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* ── Waitlist (pre-launch) or Live Deals (launched) ── */}
       {IS_LAUNCHED ? (
         <section className="py-12 md:py-16 bg-white">
@@ -297,7 +192,7 @@ export default async function HomePage() {
           </div>
         </section>
       ) : (
-        <section className="py-12 md:py-16 bg-white">
+        <section id="waitlist" className="py-12 md:py-16 bg-white scroll-mt-16">
           <div className="max-w-2xl mx-auto px-4 text-center">
             <p className="text-sm font-semibold text-accent mb-3">
               Launching May 2026
@@ -495,66 +390,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ── For Professionals ── */}
-      <section className="py-14 md:py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-            {/* Left: copy */}
-            <div className="order-2 md:order-1 text-center md:text-left">
-              <p className="text-sm font-semibold text-accent mb-3">
-                {IS_LAUNCHED ? "For beauty professionals" : "Now onboarding a curated group of founding stylists"}
-              </p>
-              <h2 className="text-2xl md:text-3xl font-bold text-dark mb-4">
-                Turn Your Empty Slots Into Income
-              </h2>
-              <p className="text-body/70 leading-relaxed mb-6">
-                Had a cancellation? Slow afternoon? List your open time at a discounted rate and let new clients find you, whether you are fully booked or building your clientele. You set the price, you keep every dollar.
-              </p>
-
-              <ul className="space-y-3 mb-8 inline-block text-left">
-                {[
-                  "You keep 100% of your listed price",
-                  "Payouts within 24 hours after service",
-                  "List a deal in under 60 seconds",
-                  "Build reviews and grow your clientele",
-                ].map((item) => (
-                  <li key={item} className="flex items-start gap-2.5 text-sm text-body">
-                    <Check className="h-4 w-4 text-success mt-0.5 shrink-0" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-3">
-                <Link
-                  href="/pro/apply"
-                  className="inline-flex items-center gap-2 rounded-full bg-dark px-7 py-3.5 text-sm font-semibold text-white shadow-elevated transition-all hover:bg-dark/90 hover:-translate-y-0.5"
-                >
-                  {IS_LAUNCHED ? "Apply To List" : "Apply As Founding Stylist"}
-                  <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                </Link>
-                <Link
-                  href="/pro/join"
-                  className="inline-flex items-center rounded-full border border-border px-7 py-3.5 text-sm font-semibold text-body transition-all hover:bg-white hover:-translate-y-0.5"
-                >
-                  Learn More
-                </Link>
-              </div>
-            </div>
-
-            {/* Right: image */}
-            <div className="order-1 md:order-2 relative aspect-[4/3] rounded-2xl overflow-hidden">
-              <Image
-                src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80&auto=format&fit=crop"
-                alt="Professional hairstylist at work"
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 }
