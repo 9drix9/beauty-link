@@ -199,10 +199,9 @@ export default async function JoinPage() {
       <section className="py-10 px-4 bg-background border-y border-border/40">
         <div className="max-w-3xl mx-auto">
           {/* Stats row */}
-          <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mb-8">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
             {[
               { value: `${displayCount}+`, label: IS_LAUNCHED ? "Stylists Applied" : "Founding Stylists Applied", icon: Users },
-              { value: "3,000+", label: "LA Clients on the Waitlist", icon: Users },
               { value: "8", label: "Service Categories", icon: Layers },
               { value: "100%", label: "Earnings Kept", icon: DollarSign },
               { value: "$0", label: "Monthly Fees", icon: Ban },
