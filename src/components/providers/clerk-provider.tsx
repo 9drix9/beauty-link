@@ -5,8 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 export function AppClerkProvider({ children }: { children: React.ReactNode }) {
   return (
     <ClerkProvider
-      signInFallbackRedirectUrl="/auth-redirect"
-      signUpFallbackRedirectUrl="/auth-redirect"
+      fallbackRedirectUrl="/auth-redirect"
       appearance={{
         variables: {
           colorPrimary: "#6A1B9A",

@@ -8,6 +8,7 @@ const isPublicRoute = createRouteMatcher([
   "/appointment/(.*)",
   "/pro/(.*)",
   "/how-it-works",
+  "/model-calls",
   "/faq",
   "/contact",
   "/terms",
@@ -22,6 +23,11 @@ const isPublicRoute = createRouteMatcher([
   "/auth-redirect",
   "/forgot-password",
   "/reset-password",
+
+  // Generated assets (icons, manifest)
+  "/icon",
+  "/apple-icon",
+  "/manifest.webmanifest",
 
   // Public API endpoints
   "/api/appointments(.*)",
