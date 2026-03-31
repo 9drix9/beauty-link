@@ -44,8 +44,14 @@
       "Bash(which node; which npm; which git; which brew 2>/dev/null; node --version 2>/dev/null; npm --version 2>/dev/null)",
       "Bash(brew install:*)",
       "Bash(ls /Users/ashleynowell/Documents/GitHub/beauty-link/src/app/\\\\\\(marketing\\\\\\)/contact/)",
-      "Bash(ls -la /Users/ashleynowell/Documents/GitHub/beauty-link/src/app/\\\\\\(customer\\\\\\)/ 2>/dev/null || echo \"Directory does not exist\")",
-      "Bash(git checkout:*)"
+      "Bash(dotenv:*)",
+      "Bash(set -a)",
+      "Bash(source .env.migration)",
+      "Bash(set +a)",
+      "Bash(find /Users/drix/Documents/GitHub/beauty-link/src -type f -name *nav* -o -name *header* -o -name *logo*)",
+      "Bash(git commit:*)",
+      "Bash(specializing in Hair.\" = 42 chars. Lowered minimum to 10 chars:*)",
+      "Bash(find /Users/drix/Documents/GitHub/beauty-link -maxdepth 2 -name .env* -o -name *.env*)"
     ]
   }
 }

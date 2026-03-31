@@ -2,6 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import Image from "next/image";
+import { upload } from "@vercel/blob/client";
 import { ImagePlus, X, Loader2, AlertTriangle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -51,22 +52,23 @@ export function ImageUpload({
 
   const uploadFile = useCallback(
     async (file: File) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("folder", folder);
-
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error || "Upload failed");
+      // Validate file size client-side before uploading
+      if (file.size > 10 * 1024 * 1024) {
+        throw new Error("File too large. Maximum size is 10MB.");
       }
 
-      const data = await res.json();
-      return data.url as string;
+      const ext = file.name.split(".").pop() || "jpg";
+      const timestamp = Date.now();
+      const random = Math.random().toString(36).substring(2, 8);
+      const pathname = `${folder}/${timestamp}-${random}.${ext}`;
+
+      // Upload directly to Vercel Blob from the browser
+      const blob = await upload(pathname, file, {
+        access: "public",
+        handleUploadUrl: "/api/upload/client-token",
+      });
+
+      return blob.url;
     },
     [folder]
   );
