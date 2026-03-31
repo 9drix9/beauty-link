@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { logger } from "@/lib/logger";
+import { sendApprovalEmail } from "@/lib/email";
 
 export const dynamic = "force-dynamic";
 
@@ -71,6 +72,12 @@ export async function PATCH(
           link: "/pro/dashboard",
         },
       });
+
+      // Send approval email (non-blocking)
+      sendApprovalEmail(
+        profile.user.email,
+        profile.user.firstName || profile.displayName || ""
+      );
 
       logger.info("PROVIDER_APPROVED", {
         profileId,
