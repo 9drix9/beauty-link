@@ -189,3 +189,54 @@ export async function PATCH(
     );
   }
 }
+
+/**
+ * PUT /api/admin/applications/[id]
+ * Update portfolio photos for a professional profile.
+ * Body: { portfolioPhotos: string[] }
+ */
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { userId: clerkId } = await auth();
+    if (!clerkId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const adminUser = await db.user.findUnique({ where: { clerkId } });
+    if (!adminUser || adminUser.role !== "ADMIN") {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
+    const { portfolioPhotos } = await req.json();
+
+    if (!Array.isArray(portfolioPhotos)) {
+      return NextResponse.json({ error: "portfolioPhotos must be an array" }, { status: 400 });
+    }
+
+    if (portfolioPhotos.length > 10) {
+      return NextResponse.json({ error: "Maximum 10 photos allowed" }, { status: 400 });
+    }
+
+    const profile = await db.professionalProfile.update({
+      where: { id: params.id },
+      data: { portfolioPhotos },
+    });
+
+    logger.info("ADMIN_PHOTOS_UPDATED", {
+      profileId: params.id,
+      adminId: adminUser.id,
+      photoCount: portfolioPhotos.length,
+    });
+
+    return NextResponse.json({ profile });
+  } catch (error) {
+    logger.error("ADMIN_PHOTOS_UPDATE_FAILED", {
+      profileId: params.id,
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}

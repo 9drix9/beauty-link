@@ -22,7 +22,10 @@ import {
   Image,
   Loader2,
   ChevronDown,
+  Pencil,
+  Save,
 } from "lucide-react";
+import { ImageUpload } from "@/components/shared/image-upload";
 
 interface Application {
   id: string;
@@ -97,6 +100,9 @@ export default function ApplicationsContent({
     {}
   );
   const [expandedApps, setExpandedApps] = useState<Set<string>>(new Set());
+  const [editingPhotosId, setEditingPhotosId] = useState<string | null>(null);
+  const [editPhotos, setEditPhotos] = useState<string[]>([]);
+  const [savingPhotos, setSavingPhotos] = useState(false);
 
   function toggleExpanded(id: string) {
     setExpandedApps(prev => {
@@ -139,6 +145,28 @@ export default function ApplicationsContent({
       alert("Something went wrong");
     } finally {
       setLoadingId(null);
+    }
+  }
+
+  async function handleSavePhotos(profileId: string) {
+    setSavingPhotos(true);
+    try {
+      const res = await fetch(`/api/admin/applications/${profileId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ portfolioPhotos: editPhotos }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data.error || "Failed to update photos");
+        return;
+      }
+      setEditingPhotosId(null);
+      router.refresh();
+    } catch {
+      alert("Something went wrong");
+    } finally {
+      setSavingPhotos(false);
     }
   }
 
@@ -391,18 +419,68 @@ export default function ApplicationsContent({
                 )}
 
                 {/* Portfolio Photos */}
-                {app.portfolioPhotos.length > 0 && (
-                  <div className="sm:col-span-2">
+                <div className="sm:col-span-2">
+                  <div className="flex items-center justify-between mb-2">
                     <span className="font-medium text-body">Portfolio ({app.portfolioPhotos.length} photos):</span>
-                    <div className="mt-2 grid grid-cols-3 sm:grid-cols-4 gap-2">
+                    {editingPhotosId !== app.id ? (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          setEditingPhotosId(app.id);
+                          setEditPhotos([...app.portfolioPhotos]);
+                        }}
+                      >
+                        <Pencil className="mr-1 h-3.5 w-3.5" />
+                        Edit Photos
+                      </Button>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          disabled={savingPhotos}
+                          onClick={() => handleSavePhotos(app.id)}
+                        >
+                          {savingPhotos ? (
+                            <Loader2 className="mr-1 h-3.5 w-3.5 animate-spin" />
+                          ) : (
+                            <Save className="mr-1 h-3.5 w-3.5" />
+                          )}
+                          Save
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setEditingPhotosId(null)}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+
+                  {editingPhotosId === app.id ? (
+                    <ImageUpload
+                      value={editPhotos}
+                      onChange={(val) => setEditPhotos(val as string[])}
+                      multiple
+                      maxImages={10}
+                      folder="portfolio"
+                      placeholder="Add portfolio photos"
+                    />
+                  ) : app.portfolioPhotos.length > 0 ? (
+                    <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                       {app.portfolioPhotos.map((url, i) => (
                         <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="aspect-square relative rounded-lg overflow-hidden border border-border hover:opacity-80 transition-opacity">
                           <img src={url} alt={`Portfolio ${i + 1}`} className="w-full h-full object-cover" />
                         </a>
                       ))}
                     </div>
-                  </div>
-                )}
+                  ) : (
+                    <p className="text-sm text-muted">No portfolio photos uploaded.</p>
+                  )}
+                </div>
               </div>
             )}
           </div>
